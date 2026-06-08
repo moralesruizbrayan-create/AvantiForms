@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acta de Entrega de Equipos Informáticos - Agrícola Avanti</title>
+  <style>
+    /* --- PALETA DE COLORES CORPORATIVA ---
+       Verde Oscuro Principal: #0E5A32
+       Verde Limón Acento: #92C840
+       Texto Oscuro Logo: #332B47
+       Fondo Subtítulos: #EAF2E8
+    --- */
+
+    * { box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    
+    body {
+      background-color: #F4F7F5;
+      color: #332B47;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Contenedor optimizado para emular una hoja A4 en pantalla */
+    .page-container {
+      background: #FFFFFF;
+      max-width: 820px;
+      margin: 0 auto 40px auto;
+      padding: 25px 40px;
+      border: 1px solid #CBD5E0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      position: relative;
+    }
+
+    /* Botón de acción flotante (No se imprimirá) */
+    .action-bar {
+      max-width: 820px;
+      margin: 0 auto 10px auto;
+      text-align: right;
+    }
+    .btn-print {
+      background-color: #0E5A32;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background 0.2s;
+    }
+    .btn-print:hover {
+      background-color: #0A3F23;
+    }
+
+    /* Encabezado */
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      border-bottom: 3px solid #92C840;
+      padding-bottom: 8px;
+    }
+    .header-logo { width: 70px; vertical-align: middle; }
+    .header-logo img { width: 60px; height: 60px; object-fit: contain; }
+    .header-titles { vertical-align: middle; padding-left: 10px; }
+    .header-titles h1 { font-size: 18px; color: #0E5A32; margin: 0 0 2px 0; letter-spacing: 0.5px; }
+    .header-titles h2 { font-size: 12px; color: #332B47; margin: 0; font-weight: 600; }
+
+    /* Secciones y Títulos */
+    h3 {
+      font-size: 10px;
+      color: #0E5A32;
+      text-transform: uppercase;
+      margin: 12px 0 5px 0;
+      letter-spacing: 0.3px;
+    }
+
+    /* Estructura de Tablas de Datos */
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+    .form-table td {
+      border: 1px solid #CBD5E0;
+      padding: 4px 8px;
+      vertical-align: middle;
+    }
+    .lbl {
+      background-color: #F8FAF7;
+      font-weight: bold;
+      color: #332B47;
+      width: 18%;
+    }
+    .subhead {
+      background-color: #EAF2E8;
+      color: #0E5A32;
+      font-weight: bold;
+      font-size: 9.5px;
+      text-transform: uppercase;
+    }
+
+    /* Estilos de Campos Editables */
+    input[type="text"], textarea {
+      width: 100%;
+      border: 1px solid transparent;
+      background-color: #FAFAFA;
+      padding: 3px 5px;
+      font-size: 11px;
+      color: #000000;
+      border-radius: 2px;
+      transition: all 0.15s;
+    }
+    textarea {
+      resize: none;
+      display: block;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      background-color: #FFFFFF;
+      border-color: #92C840;
+      box-shadow: 0 0 2px rgba(146, 200, 64, 0.4);
+    }
+
+    /* Checkboxes */
+    .inline-flex {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 15px;
+      margin-bottom: 2px;
+    }
+    input[type="checkbox"] {
+      accent-color: #0E5A32;
+      margin-right: 5px;
+      cursor: pointer;
+      width: 13px;
+      height: 13px;
+    }
+
+    /* Caja de Compromiso de Responsabilidad */
+    .compromiso-box {
+      border: 1px solid #0E5A32;
+      background-color: #F8FAF7;
+      padding: 10px;
+      font-size: 10px;
+      text-align: justify;
+      line-height: 1.35;
+      color: #4A5568;
+      margin-top: 5px;
+      border-radius: 3px;
+    }
+
+    /* Bloque de Firmas */
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      margin-bottom: 15px;
+    }
+    .signature-block {
+      width: 44%;
+      text-align: center;
+      font-size: 10.5px;
+    }
+    .signature-line {
+      border-top: 1.5px solid #332B47;
+      margin-bottom: 6px;
+      width: 100%;
+    }
+    .signature-field-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 4px;
+      gap: 4px;
+    }
+    .signature-field-group span {
+      font-weight: bold;
+      color: #332B47;
+    }
+    .signature-field-group input[type="text"] {
+      width: 110px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed #A0AEC0;
+      border-radius: 0;
+      padding: 0;
+    }
+
+    /* Sección de Devolución */
+    .dev-section {
+      margin-top: 15px;
+      border-top: 2px dashed #92C840;
+      padding-top: 10px;
+    }
+
+    /* --- CONFIGURACIÓN DE IMPRESIÓN REGLAMENTARIA (A4) --- */
+    @media print {
+      body { background-color: #FFFFFF; padding: 0; margin: 0; }
+      .page-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+      }
+      .no-print { display: none !important; }
+      input[type="text"], textarea {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        padding: 0;
+      }
+      .signature-field-group input[type="text"] {
+        border-bottom: 1px dashed #A0AEC0 !important;
+      }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="action-bar no-print">
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+  </div>
+
+  <div class="page-container">
+    
+    <table class="header-table">
+      <tr>
+        <td class="header-logo">
+          <img id="logo-corporativo" src="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1" alt="Logo Avanti">
+        </td>
+        <td class="header-titles">
+          <h1 id="doc-empresa">AGRÍCOLA AVANTI S.A.C.</h1>
+          <h2 id="doc-titulo">ACTA DE ENTREGA DE EQUIPOS INFORMÁTICOS</h2>
+        </td>
+      </tr>
+    </table>
+
+    <h3>1. Datos Generales del Responsable:</h3>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">Nombre Empleado:</td>
+        <td colspan="3"><input type="text" id="dg_nombre"></td>
+      </tr>
+      <tr>
+        <td class="lbl">DNI:</td>
+        <td style="width: 32%;"><input type="text" id="dg_dni"></td>
+        <td class="lbl">Cargo:</td>
+        <td><input type="text" id="dg_cargo"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Área:</td>
+        <td><input type="text" id="dg_area"></td>
+        <td class="lbl">Centro Costo:</td>
+        <td><input type="text" id="dg_cc"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Usuario PC:</td>
+        <td><input type="text" id="dg_user"></td>
+        <td class="lbl">Fecha Entrega:</td>
+        <td><input type="text" id="dg_fecha" placeholder="DD / MM / AAAA"></td>
+      </tr>
+    </table>
+
+    <h3>2. Detalle del Equipo Informático:</h3>
+    <table class="form-table">
+      <tr>
+        <td class="lbl">Tipo de Equipo:</td>
+        <td style="width: 32%;"><input type="text" id="eq_tipo"></td>
+        <td class="lbl">Nº de Serie:</td>
+        <td><input type="text" id="eq_serie"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Marca / Modelo:</td>
+        <td><input type="text" id="eq_marca"></td>
+        <td class="lbl">Computador:</td>
+        <td><input type="text" id="eq_comp_name"></td>
+      </tr>
+      
+      <tr>
+        <td colspan="4" class="subhead">Especificaciones de Hardware</td>
+      </tr>
+      <tr>
+        <td class="lbl">Procesador:</td>
+        <td style="width: 32%;"><input type="text" id="hw_proc"></td>
+        <td class="lbl">Memoria RAM:</td>
+        <td><input type="text" id="hw_ram"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Disco Duro:</td>
+        <td><input type="text" id="hw_disco"></td>
+        <td class="lbl">Tarjeta de Red:</td>
+        <td><input type="text" id="hw_red"></td>
+      </tr>
+
+      <tr>
+        <td colspan="4" class="subhead">Software Installed e Identificadores</td>
+      </tr>
+      <tr>
+        <td class="lbl">S.O. Windows:</td>
+        <td>
+          <label class="inline-flex"><input type="checkbox" id="chk_win_si"> Sí</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_win_no"> No</label>
+          Ver: <input type="text" id="txt_win_ver" style="width: 50px; display: inline-block;">
+        </td>
+        <td class="lbl">Microsoft Office:</td>
+        <td>
+          <label class="inline-flex"><input type="checkbox" id="chk_off_si"> Sí</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_off_no"> No</label>
+          Ver: <input type="text" id="txt_off_ver" style="width: 50px; display: inline-block;">
+        </td>
+      </tr>
+      <tr>
+        <td class="lbl">Antivirus:</td>
+        <td>
+          <label class="inline-flex"><input type="checkbox" id="chk_ant_si"> Sí</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_ant_no"> No</label>
+          Det: <input type="text" id="txt_ant_det" style="width: 50px; display: inline-block;">
+        </td>
+        <td class="lbl">Correo Corp.:</td>
+        <td>
+          <label class="inline-flex"><input type="checkbox" id="chk_corr_si"> Sí</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_corr_no"> No</label>
+        </td>
+      </tr>
+      <tr>
+        <td class="lbl">TSPU:</td>
+        <td colspan="3">
+          <label class="inline-flex"><input type="checkbox" id="chk_tspu_si"> Sí</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td>
+      </tr>
+      <tr>
+        <td colspan="4" style="padding: 6px 8px 4px 8px;">
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_tec"> Teclado</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_mou"> Mouse</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_par"> Parlantes</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_mic"> Micrófono</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_lec"> Lector de Discos</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_ups"> UPS</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_moc"> Mochila</label>
+          <label class="inline-flex"><input type="checkbox" id="chk_acc_mon"> Monitor</label>
+          <div style="margin-top: 4px; display: flex; align-items: center;">
+            <span style="font-weight: bold; margin-right: 5px;">Otros Accesorios:</span>
+            <input type="text" id="txt_acc_otros" style="flex-grow: 1;">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <h3>3. Condiciones de Entrega:</h3>
+    <table class="form-table">
+      <tr>
+        <td class="lbl" style="width: 18%;">Observaciones:</td>
+        <td><input type="text" id="txt_cond_obs" placeholder="Anotaciones sobre el estado de entrega del activo..."></td>
+      </tr>
+    </table>
+
+    <h3>4. Compromiso de Responsabilidad:</h3>
+    <div class="compromiso-box" id="doc-legal">
+      El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.
+    </div>
+
+    <div class="signature-section">
+      <div class="signature-block">
+        <div class="signature-line"></div>
+        <strong>FIRMA DEL ENCARGADO (TI)</strong>
+        <div class="signature-field-group">
+          <span>DNI:</span>
+          <input type="text" id="txt_f1_dni">
+        </div>
+      </div>
+      <div class="signature-block">
+        <div class="signature-line"></div>
+        <strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+        <div class="signature-field-group">
+          <span>DNI:</span>
+          <input type="text" id="txt_f2_dni">
+        </div>
+        <div class="signature-field-group">
+          <span>TEL:</span>
+          <input type="text" id="txt_f2_tel">
+        </div>
+      </div>
+    </div>
+
+    <div class="dev-section">
+      <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+      <table class="form-table">
+        <tr>
+          <td class="lbl">Fecha Dev.:</td>
+          <td colspan="3"><input type="text" id="txt_dev_fecha" placeholder="DD / MM / AAAA" style="width: 200px;"></td>
+        </tr>
+        <tr>
+          <td class="lbl">Observación:</td>
+          <td colspan="3">
+            <textarea id="txt_dev_obs" rows="3" placeholder="Detalle exhaustivo del estado físico y funcional en el que retorna el hardware..."></textarea>
+          </td>
+        </tr>
+      </table>
+
+      <div class="signature-section" style="margin-top: 50px;">
+        <div class="signature-block">
+          <div class="signature-line"></div>
+          <strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+        </div>
+        <div class="signature-block">
+          <div class="signature-line"></div>
+          <strong>FIRMA EMPLEADO (ENTREGA)</strong>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="application/json" id="form-manifest">
+    {
+      "documento": {
+        "tipo": "Acta de Entrega de Equipos Informáticos",
+        "empresa": "Agrícola Avanti S.A.C.",
+        "assets": {
+          "logo_principal": {
+            "ruta_archivo": "https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1",
+            "dimensiones": { "ancho_px": 60, "alto_px": 60 }
+          }
+        },
+        "paleta_colores_corporativa": {
+          "primario_verde_oscuro": "#0E5A32",
+          "secundario_verde_limon": "#92C840",
+          "texto_tipografia_logo": "#332B47"
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
