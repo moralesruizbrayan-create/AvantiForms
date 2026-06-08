@@ -152,22 +152,55 @@
       border-radius: 3px;
     }
 
-    /* Bloque de Firmas */
+    /* --- BLOQUE DE FIRMAS DIGITALES OPTIMIZADO --- */
     .signature-section {
       display: flex;
       justify-content: space-between;
-      margin-top: 50px;
+      margin-top: 25px;
       margin-bottom: 15px;
     }
     .signature-block {
       width: 44%;
       text-align: center;
       font-size: 10.5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      background-color: #FAFAFA;
+      border: 1px dashed #A0AEC0;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    .sig-canvas {
+      display: block;
+      width: 100%;
+      height: 110px;
+      cursor: crosshair;
+      touch-action: none; /* Evita que la pantalla se mueva al firmar en móviles */
+    }
+    .btn-clear {
+      background-color: #E2E8F0;
+      color: #4A5568;
+      border: none;
+      padding: 3px 8px;
+      font-size: 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: background 0.15s;
+    }
+    .btn-clear:hover {
+      background-color: #CBD5E0;
     }
     .signature-line {
       border-top: 1.5px solid #332B47;
-      margin-bottom: 6px;
       width: 100%;
+      margin-top: 2px;
+      margin-bottom: 4px;
     }
     .signature-field-group {
       display: flex;
@@ -175,6 +208,7 @@
       justify-content: center;
       margin-top: 4px;
       gap: 4px;
+      width: 100%;
     }
     .signature-field-group span {
       font-weight: bold;
@@ -208,6 +242,10 @@
         width: 100%;
       }
       .no-print { display: none !important; }
+      .canvas-container {
+        border: none !important;
+        background-color: transparent !important;
+      }
       input[type="text"], textarea {
         background-color: transparent !important;
         border-color: transparent !important;
@@ -222,12 +260,14 @@
 </head>
 <body>
 
+  <!-- Barra superior con acción de impresión (Se oculta al imprimir) -->
   <div class="action-bar no-print">
     <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
   </div>
 
   <div class="page-container">
     
+    <!-- 1. ENCABEZADO CON ENLACE DE TRANSMISIÓN DIRECTA FORZADA -->
     <table class="header-table">
       <tr>
         <td class="header-logo">
@@ -240,6 +280,7 @@
       </tr>
     </table>
 
+    <!-- 2. DATOS GENERALES -->
     <h3>1. Datos Generales del Responsable:</h3>
     <table class="form-table">
       <tr>
@@ -266,6 +307,7 @@
       </tr>
     </table>
 
+    <!-- 3. DETALLE DEL EQUIPO -->
     <h3>2. Detalle del Equipo Informático:</h3>
     <table class="form-table">
       <tr>
@@ -281,6 +323,7 @@
         <td><input type="text" id="eq_comp_name"></td>
       </tr>
       
+      <!-- Especificaciones de Hardware -->
       <tr>
         <td colspan="4" class="subhead">Especificaciones de Hardware</td>
       </tr>
@@ -297,8 +340,9 @@
         <td><input type="text" id="hw_red"></td>
       </tr>
 
+      <!-- Software Instalado -->
       <tr>
-        <td colspan="4" class="subhead">Software Installed e Identificadores</td>
+        <td colspan="4" class="subhead">Software Instalado e Identificadores</td>
       </tr>
       <tr>
         <td class="lbl">S.O. Windows:</td>
@@ -334,6 +378,7 @@
         </td>
       </tr>
 
+      <!-- Periféricos y Accesorios Adicionales -->
       <tr>
         <td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td>
       </tr>
@@ -355,6 +400,7 @@
       </tr>
     </table>
 
+    <!-- 4. CONDICIONES DE ENTREGA -->
     <h3>3. Condiciones de Entrega:</h3>
     <table class="form-table">
       <tr>
@@ -363,13 +409,19 @@
       </tr>
     </table>
 
+    <!-- 5. COMPROMISO DE RESPONSABILIDAD -->
     <h3>4. Compromiso de Responsabilidad:</h3>
     <div class="compromiso-box" id="doc-legal">
       El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.
     </div>
 
+    <!-- FIRMAS DE ENTREGA DE EQUIPO CON CASILLEROS INTERACTIVOS -->
     <div class="signature-section">
       <div class="signature-block">
+        <div class="canvas-container">
+          <canvas id="sig_ti_entrega" class="sig-canvas" width="320" height="110"></canvas>
+        </div>
+        <button id="clear_ti_entrega" class="btn-clear no-print">Limpiar Firma</button>
         <div class="signature-line"></div>
         <strong>FIRMA DEL ENCARGADO (TI)</strong>
         <div class="signature-field-group">
@@ -377,7 +429,12 @@
           <input type="text" id="txt_f1_dni">
         </div>
       </div>
+      
       <div class="signature-block">
+        <div class="canvas-container">
+          <canvas id="sig_emp_entrega" class="sig-canvas" width="320" height="110"></canvas>
+        </div>
+        <button id="clear_emp_entrega" class="btn-clear no-print">Limpiar Firma</button>
         <div class="signature-line"></div>
         <strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
         <div class="signature-field-group">
@@ -391,6 +448,7 @@
       </div>
     </div>
 
+    <!-- 6. CONTROL DE DEVOLUCIÓN -->
     <div class="dev-section">
       <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
       <table class="form-table">
@@ -406,12 +464,22 @@
         </tr>
       </table>
 
-      <div class="signature-section" style="margin-top: 50px;">
+      <!-- FIRMAS DE DEVOLUCIÓN CON CASILLEROS INTERACTIVOS -->
+      <div class="signature-section">
         <div class="signature-block">
+          <div class="canvas-container">
+            <canvas id="sig_ti_dev" class="sig-canvas" width="320" height="110"></canvas>
+          </div>
+          <button id="clear_ti_dev" class="btn-clear no-print">Limpiar Firma</button>
           <div class="signature-line"></div>
           <strong>FIRMA ENCARGADO TI (RETORNO)</strong>
         </div>
+        
         <div class="signature-block">
+          <div class="canvas-container">
+            <canvas id="sig_emp_dev" class="sig-canvas" width="320" height="110"></canvas>
+          </div>
+          <button id="clear_emp_dev" class="btn-clear no-print">Limpiar Firma</button>
           <div class="signature-line"></div>
           <strong>FIRMA EMPLEADO (ENTREGA)</strong>
         </div>
@@ -420,6 +488,81 @@
 
   </div>
 
+  <!-- --- SCRIPT DE CONTROL PARA PANELES DE FIRMA DIGITAL --- -->
+  <script>
+    function inicializarPanelFirma(canvasId, botonLimpiarId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      const botonLimpiar = document.getElementById(botonLimpiarId);
+      
+      // Configuración estética del trazo (Color coincidente con tipografía corporativa oscura)
+      ctx.strokeStyle = '#332B47';
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      let dibujando = false;
+
+      // Obtener posición exacta del cursor/dedo respecto al cuadro del Canvas
+      function obtenerPosicion(e) {
+        const rect = canvas.getBoundingClientRect();
+        // Soporte nativo para pantallas táctiles y mouse
+        const clienteX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clienteY = e.touches ? e.touches[0].clientY : e.clientY;
+        
+        // Ajuste de escala por si el contenedor CSS difiere del ancho nativo del canvas
+        return {
+          x: (clienteX - rect.left) * (canvas.width / rect.width),
+          y: (clienteY - rect.top) * (canvas.height / rect.height)
+        };
+      }
+
+      function iniciarTrazo(e) {
+        dibujando = true;
+        const pos = obtenerPosicion(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+      }
+
+      function dibujar(e) {
+        if (!dibujando) return;
+        const pos = obtenerPosicion(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        e.preventDefault();
+      }
+
+      function detenerTrazo() {
+        dibujando = false;
+      }
+
+      // Eventos de Mouse (Escritorio)
+      canvas.addEventListener('mousedown', iniciarTrazo);
+      canvas.addEventListener('mousemove', dibujar);
+      window.addEventListener('mouseup', detenerTrazo);
+
+      // Eventos Táctiles (Celulares / Tablets)
+      canvas.addEventListener('touchstart', iniciarTrazo, { passive: false });
+      canvas.addEventListener('touchmove', dibujar, { passive: false });
+      window.addEventListener('touchend', detenerTrazo);
+
+      // Acción de limpiar el recuadro
+      botonLimpiar.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    // Inicializar los 4 paneles de firma de forma independiente
+    document.addEventListener('DOMContentLoaded', () => {
+      inicializarPanelFirma('sig_ti_entrega', 'clear_ti_entrega');
+      inicializarPanelFirma('sig_emp_entrega', 'clear_emp_entrega');
+      inicializarPanelFirma('sig_ti_dev', 'clear_ti_dev');
+      inicializarPanelFirma('sig_emp_dev', 'clear_emp_dev');
+    });
+  </script>
+
+  <!-- --- MAPEO METADATA JSON INTEGRADO --- -->
   <script type="application/json" id="form-manifest">
     {
       "documento": {
