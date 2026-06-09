@@ -278,7 +278,7 @@
       width: 110px; text-align: center; background: transparent; border: none; border-bottom: 1px dashed #A19F9D; border-radius: 0; padding: 0;
     }
 
-    /* Modales emergentes */
+    /* Modales emergentes de firma */
     .sig-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -302,19 +302,38 @@
 
     .dev-section { margin-top: 10px; border-top: 1.5px dashed #92C840; padding-top: 6px; width: 100%; }
 
-    /* =========================================================================
-       --- REGLAS DE OPTIMIZACIÓN RESPONSIVA EN PANTALLAS MÓVILES (SMARTPHONES) ---
-       ========================================================================= */
+    /* --- 📦 SISTEMA DE NOTIFICACIONES TOAST (ESTILO MICROSOFT OFFICE) --- */
+    .custom-toast {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1);
+      padding: 12px 24px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10000;
+      font-size: 13px;
+      font-weight: 600;
+      transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .custom-toast.success { border-left: 4px solid #107C41; color: #107C41; }
+    .custom-toast.error { border-left: 4px solid #A80000; color: #A80000; }
+    .custom-toast.show { top: 24px; }
+    .toast-msg-text { color: #242424; font-weight: 500; margin-left: 4px; }
+
+    /* --- REGLAS DE OPTIMIZACIÓN RESPONSIVA EN MÓVILES --- */
     @media (max-width: 768px) {
       body { padding: 12px; background-color: #FFFFFF; }
       .dashboard-menu { margin: 20px auto; }
-      .grid-options { grid-template-columns: 1fr; gap: 14px; } /* Tarjetas apiladas para fácil pulsación */
+      .grid-options { grid-template-columns: 1fr; gap: 14px; }
       .page-container { padding: 15px 10px; border: none; box-shadow: none; }
       .action-bar { flex-direction: column; gap: 8px; align-items: stretch; }
       .action-group-right { flex-direction: column; gap: 8px; }
-      .btn-action { width: 100%; padding: 12px; text-align: center; font-size: 14px; } /* Mejor tamaño de target táctil */
-      
-      /* Incrementar tamaño de fuentes e inputs en móviles para evitar auto-zoom molesto de iOS */
+      .btn-action { width: 100%; padding: 12px; text-align: center; font-size: 14px; }
       input[type="text"], textarea { padding: 8px; font-size: 14px; background-color: #F1F1F1; }
       .form-table { font-size: 12px; }
       .signature-section { flex-direction: column; gap: 16px; }
@@ -323,9 +342,7 @@
       .sig-canvas-popup { height: 180px; }
     }
 
-    /* =========================================================================
-       --- PRINT REGULATION SYSTEM (ULTRA COMPACT CONSTRAINED TO 1 PAGE) ---
-       ========================================================================= */
+    /* --- PRINT REGULATION SYSTEM (A4) --- */
     @media print {
       @page { size: A4 portrait; margin: 5mm 15mm 4mm 15mm; }
       html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; width: 100% !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -351,6 +368,11 @@
   </style>
 </head>
 <body>
+
+  <div id="custom_toast" class="custom-toast no-print">
+    <span id="toast_icon">✅</span>
+    <span id="toast_message" class="toast-msg-text">Operación procesada con éxito</span>
+  </div>
 
   <div id="main_dashboard" class="dashboard-menu no-print">
     <div class="dashboard-header">
@@ -642,7 +664,7 @@
         <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador" placeholder="Ej. Entel, Movistar, Claro"></td></tr>
         <tr><td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td><td class="lbl">Serie SIM:</td><td><input type="text" data-spec="serie_sim"></td></tr>
       </table>
-      <h3>3. Conditions de Entrega:</h3>
+      <h3>3. Condiciones de Entrega:</h3>
       <table class="form-table">
         <tr>
           <td class="lbl">Variante Línea:</td>
@@ -723,6 +745,22 @@
 
 
   <script>
+    // Inyección de Toast no nativo Fluent
+    function mostrarNotificacionToast(mensaje, esExito) {
+      const toast = document.getElementById('custom_toast');
+      const icon = document.getElementById('toast_icon');
+      const msg = document.getElementById('toast_message');
+      
+      msg.innerText = mensaje;
+      icon.innerText = esExito ? "✅" : "❌";
+      
+      toast.className = "custom-toast " + (esExito ? "success" : "error") + " show";
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
     function navegarA(idVista) {
       document.getElementById('main_dashboard').style.display = 'none';
       const vistas = document.querySelectorAll('.form-view');
@@ -805,7 +843,6 @@
       const pos = obtenerPosicion(e);
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
-      // Solo previene el scroll si se está firmando en el canvas
       if (e.target === canvas) {
         e.preventDefault();
       }
@@ -831,9 +868,7 @@
     canvas.addEventListener('touchmove', dibujar, { passive: false });
     window.addEventListener('touchend', detenerTrazo);
 
-    // ==========================================
-    // EXTRAEDOR AUTOMÁTICO DE DATOS PARA POSTGRES
-    // ==========================================
+    // Extraedor y persistencia con reemplazo de alert por Toasts
     async function procesarGuardadoBaseDatos(btnElement) {
       const activeForm = document.querySelector('.form-view.active');
       if (!activeForm) return;
@@ -886,13 +921,13 @@
         const result = await response.json();
 
         if (response.ok && result.success) {
-          alert("✅ ¡Perfecto! El acta se ha almacenado correctamente en la base de datos de Neon.");
+          mostrarNotificacionToast("Se ha guardado correctamente", true);
         } else {
-          alert("❌ Error al guardar: " + (result.error || "Error desconocido"));
+          mostrarNotificacionToast("No se ha guardado correctamente", false);
         }
       } catch (err) {
         console.error(err);
-        alert("❌ Error de red al intentar conectar con el servidor backend de Vercel.");
+        mostrarNotificacionToast("No se ha guardado correctamente", false);
       } finally {
         btnElement.innerText = originalText;
         btnElement.disabled = false;
