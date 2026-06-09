@@ -12,22 +12,60 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    /* --- DESIGN SYSTEM: MICROSOFT FLUENT + AVANTI BRANDING ---
-       Verde Principal Avanti: #0E5A32
-       Verde Acento Limón:     #92C840
-       Texto Primario Office:  #242424
-       Bordes / Separadores:   #EDEBE9
-       Fondo Gris Office Apps: #F3F3F3
-    --- */
+    /* --- VARIABLES GLOBALES DE DISEÑO (MODO CLARO POR DEFECTO) --- */
+    :root {
+      --bg-color: #F3F3F3;
+      --text-color: #242424;
+      --text-secondary: #605E5C;
+      --card-bg: #FFFFFF;
+      --border-color: #EDEBE9;
+      --input-bg: #F3F3F3;
+      --lbl-bg: #FAF9F8;
+      --subhead-bg: #F3F2F1;
+      --modal-overlay: rgba(36, 36, 36, 0.55);
+      --watermark-opacity: 0.04;
+    }
+
+    /* --- DETECCIÓN Y ADAPTACIÓN AUTOMÁTICA A MODO OSCURO (DARK MODE) --- */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #1F1F1F;
+        --text-color: #F3F3F3;
+        --text-secondary: #A19F9D;
+        --card-bg: #292929;
+        --border-color: #323130;
+        --input-bg: #1B1B1B;
+        --lbl-bg: #323130;
+        --subhead-bg: #3B3A39;
+        --modal-overlay: rgba(0, 0, 0, 0.75);
+        --watermark-opacity: 0.02;
+      }
+    }
 
     * { box-sizing: border-box; }
     
     body {
-      background-color: #F3F3F3;
-      color: #242424;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       margin: 0;
       padding: 24px;
       font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      position: relative;
+    }
+
+    /* --- FONDO BASADO EN EL LOGO CON TRANSPARENCIA OSCURA/CLARA --- */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('/AVANTI%20LOGO%20(1).jpeg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 450px;
+      opacity: var(--watermark-opacity);
+      z-index: -1;
+      pointer-events: none;
     }
 
     /* --- DASHBOARD SELECCIÓN PREVIO --- */
@@ -43,7 +81,7 @@
       margin-bottom: 6px;
     }
     .dashboard-header p {
-      color: #605E5C;
+      color: var(--text-secondary);
       font-size: 13px;
       margin-top: 0;
       margin-bottom: 30px;
@@ -54,8 +92,8 @@
       gap: 20px;
     }
     .option-card {
-      background: #FFFFFF;
-      border: 1px solid #EDEBE9;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-radius: 6px;
       padding: 24px;
       text-align: left;
@@ -80,7 +118,7 @@
     }
     .option-card p {
       font-size: 11.5px;
-      color: #605E5C;
+      color: var(--text-secondary);
       margin: 0;
       line-height: 1.4;
     }
@@ -95,11 +133,11 @@
 
     /* Contenedor emulado A4 */
     .page-container {
-      background: #FFFFFF;
+      background: var(--card-bg);
       max-width: 820px;
       margin: 0 auto 40px auto;
       padding: 25px 40px;
-      border: 1px solid #D2D2D2;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
       position: relative;
@@ -178,18 +216,18 @@
       font-size: 11px;
     }
     .form-table td {
-      border: 1px solid #EDEBE9;
+      border: 1px solid var(--border-color);
       padding: 4px 10px;
       vertical-align: middle;
     }
     .lbl {
-      background-color: #FAF9F8;
+      background-color: var(--lbl-bg);
       font-weight: 600;
-      color: #323130;
+      color: var(--text-color);
       width: 18%;
     }
     .subhead {
-      background-color: #F3F2F1;
+      background-color: var(--subhead-bg);
       color: #0E5A32;
       font-weight: 700;
       font-size: 9.5px;
@@ -200,17 +238,17 @@
     input[type="text"], textarea {
       width: 100%;
       border: 1px solid transparent;
-      background-color: #F3F3F3;
+      background-color: var(--input-bg);
       padding: 5px 6px;
       font-size: 11px;
-      color: #242424;
+      color: var(--text-color);
       border-radius: 2px;
       transition: all 0.15s ease;
     }
     textarea { resize: none; display: block; }
     input[type="text"]:focus, textarea:focus {
       outline: none;
-      background-color: #FFFFFF;
+      background-color: var(--card-bg);
       border-color: #0E5A32;
       box-shadow: 0 0 0 1px #0E5A32;
     }
@@ -232,19 +270,19 @@
     }
 
     .compromiso-box {
-      border: 1px solid #EDEBE9;
+      border: 1px solid var(--border-color);
       border-left: 3.5px solid #0E5A32;
-      background-color: #FAF9F8;
+      background-color: var(--lbl-bg);
       padding: 8px 12px;
       font-size: 10px;
       text-align: justify;
       line-height: 1.35;
-      color: #323130;
+      color: var(--text-color);
       margin-top: 4px;
       border-radius: 2px;
     }
 
-    /* --- FIRMAS DIGITALES (POINTER EVENTS) --- */
+    /* --- FIRMAS DIGITALES --- */
     .signature-section {
       display: flex;
       justify-content: space-between;
@@ -263,8 +301,8 @@
     .signature-trigger-box {
       width: 100%;
       height: 65px;
-      background-color: #FAF9F8;
-      border: 1px dashed #C8C6C4;
+      background-color: var(--lbl-bg);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -273,28 +311,28 @@
       position: relative;
       overflow: hidden;
     }
-    .signature-trigger-box span { font-size: 10px; color: #605E5C; font-weight: 600; }
+    .signature-trigger-box span { font-size: 10px; color: var(--text-secondary); font-weight: 600; }
     .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; pointer-events: none; }
-    .signature-line { border-top: 1.5px solid #323130; width: 100%; margin-top: 6px; margin-bottom: 4px; }
+    .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 6px; margin-bottom: 4px; }
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 2px; gap: 4px; width: 100%; }
-    .signature-field-group span { font-weight: 600; color: #323130; }
+    .signature-field-group span { font-weight: 600; color: var(--text-color); }
     .signature-field-group input[type="text"] {
-      width: 110px; text-align: center; background: transparent; border: none; border-bottom: 1px dashed #A19F9D; border-radius: 0; padding: 0;
+      width: 110px; text-align: center; background: transparent; border: none; border-bottom: 1px dashed var(--text-secondary); border-radius: 0; padding: 0; color: var(--text-color);
     }
 
     /* Modales emergentes de firma */
     .sig-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background-color: rgba(36, 36, 36, 0.55); backdrop-filter: blur(2px);
+      background-color: var(--modal-overlay); backdrop-filter: blur(2px);
       z-index: 9999; display: none; align-items: center; justify-content: center; padding: 16px;
     }
-    .sig-modal-card { background-color: #FFFFFF; width: 100%; max-width: 600px; border-radius: 6px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); border: 1px solid #D2D2D2; overflow: hidden; }
+    .sig-modal-card { background-color: var(--card-bg); width: 100%; max-width: 600px; border-radius: 6px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); border: 1px solid var(--border-color); overflow: hidden; }
     .sig-modal-header { background-color: #0E5A32; color: #FFFFFF; padding: 14px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
-    .sig-modal-body { padding: 20px; background-color: #FAF9F8; }
+    .sig-modal-body { padding: 20px; background-color: var(--bg-color); }
     .canvas-wrapper { width: 100%; background-color: #FFFFFF; border: 1.5px dashed #92C840; border-radius: 4px; }
     .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; touch-action: none; }
-    .sig-modal-footer { padding: 12px 20px; background-color: #F3F2F1; display: flex; justify-content: flex-end; gap: 8px; }
+    .sig-modal-footer { padding: 12px 20px; background-color: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 8px; }
     
     .btn-modal { border: none; padding: 7px 16px; font-size: 11.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
     .btn-modal-cancel { background-color: #E1DFDD; color: #323130; }
@@ -306,9 +344,30 @@
 
     .dev-section { margin-top: 10px; border-top: 1.5px dashed #92C840; padding-top: 6px; width: 100%; }
 
-    /* =========================================================================
-       --- 📈 ELEMENTOS DEL CORE ANALÍTICO (ESTILOS FLUENT DASHBOARD) ---
-       ========================================================================= */
+    /* --- 📦 SISTEMA DE NOTIFICACIONES TOAST (FLUENT TOAST) --- */
+    .custom-toast {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1);
+      padding: 12px 24px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10000;
+      font-size: 13px;
+      font-weight: 600;
+      transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .custom-toast.success { border-left: 4px solid #107C41; color: #107C41; }
+    .custom-toast.error { border-left: 4px solid #A80000; color: #A80000; }
+    .custom-toast.show { top: 24px; }
+    .toast-msg-text { color: var(--text-color); font-weight: 500; margin-left: 4px; }
+
+    /* --- 📈 ELEMENTOS DEL CORE ANALÍTICO (ESTILOS FLUENT DASHBOARD) --- */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -316,8 +375,8 @@
       margin-bottom: 24px;
     }
     .kpi-card {
-      background: #FFFFFF;
-      border: 1px solid #EDEBE9;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       border-left: 4px solid #0078D4;
       padding: 16px;
       border-radius: 4px;
@@ -327,7 +386,7 @@
     .kpi-card h4 {
       font-size: 11px;
       text-transform: uppercase;
-      color: #605E5C;
+      color: var(--text-secondary);
       margin: 0 0 6px 0;
       letter-spacing: 0.5px;
       font-weight: 600;
@@ -335,7 +394,7 @@
     .kpi-card p {
       font-size: 22px;
       font-weight: 700;
-      color: #242424;
+      color: var(--text-color);
       margin: 0;
     }
     .charts-grid {
@@ -344,8 +403,8 @@
       gap: 20px;
     }
     .chart-card {
-      background: #FFFFFF;
-      border: 1px solid #EDEBE9;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       padding: 20px;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
@@ -353,7 +412,7 @@
     .chart-card h5 {
       font-size: 13px;
       font-weight: 600;
-      color: #323130;
+      color: var(--text-color);
       margin: 0 0 16px 0;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -361,14 +420,14 @@
 
     /* --- REGLAS DE OPTIMIZACIÓN RESPONSIVA EN MÓVILES --- */
     @media (max-width: 768px) {
-      body { padding: 12px; background-color: #FFFFFF; }
+      body { padding: 12px; }
       .dashboard-menu { margin: 20px auto; }
       .grid-options { grid-template-columns: 1fr; gap: 14px; }
       .page-container { padding: 15px 10px; border: none; box-shadow: none; }
       .action-bar { flex-direction: column; gap: 8px; align-items: stretch; }
       .action-group-right { flex-direction: column; gap: 8px; }
       .btn-action { width: 100%; padding: 12px; text-align: center; font-size: 14px; }
-      input[type="text"], textarea { padding: 8px; font-size: 14px; background-color: #F1F1F1; }
+      input[type="text"], textarea { padding: 8px; font-size: 14px; }
       .form-table { font-size: 12px; }
       .signature-section { flex-direction: column; gap: 16px; }
       .signature-block { width: 100%; }
@@ -379,27 +438,43 @@
       .charts-grid { grid-template-columns: 1fr; gap: 16px; }
     }
 
-    /* --- PRINT REGULATION SYSTEM (A4) --- */
+    /* =========================================================================
+       --- BLINDAJE DE IMPRESIÓN (FORZADO MONOCROMÁTICO HOJA BLANCA A4) ---
+       ========================================================================= */
     @media print {
       @page { size: A4 portrait; margin: 5mm 15mm 4mm 15mm; }
+      
+      /* Reset de variables a contraste puro e inyección de fondo blanco absoluto */
+      :root {
+        --bg-color: #FFFFFF !important;
+        --text-color: #000000 !important;
+        --card-bg: #FFFFFF !important;
+        --border-color: #D2D2D2 !important;
+        --input-bg: transparent !important;
+        --lbl-bg: #FAF9F8 !important;
+        --subhead-bg: #F3F2F1 !important;
+      }
+      
+      body::before { display: none !important; } /* Destruye la marca de agua al imprimir */
       html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; width: 100% !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      
       .dashboard-menu { display: none !important; }
       .no-print { display: none !important; }
       .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; }
       .header-table, .form-table, .signature-section, .dev-section { width: 100% !important; table-layout: fixed !important; }
       h3 { margin: 4px 0 1px 0 !important; font-size: 8.5px !important; }
       .form-table { margin-bottom: 2px !important; font-size: 9.5px !important; }
-      .form-table td { padding: 2px 5px !important; border-color: #D2D2D2 !important; }
-      .lbl { background-color: #FAF9F8 !important; }
+      .form-table td { padding: 2px 5px !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      .lbl { background-color: #FAF9F8 !important; color: #000000 !important; }
       .subhead { background-color: #F3F2F1 !important; }
-      .compromiso-box { font-size: 7.5px !important; padding: 3px 8px !important; margin-top: 1px !important; line-height: 1.18 !important; background-color: #FAF9F8 !important; border-color: #D2D2D2 !important; }
+      .compromiso-box { font-size: 7.5px !important; padding: 3px 8px !important; margin-top: 1px !important; line-height: 1.18 !important; background-color: #FAF9F8 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
       .signature-section { margin-top: 6px !important; margin-bottom: 1px !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 32px !important; }
       .signature-trigger-box span { display: none !important; }
-      .signature-line { margin-top: 1px !important; }
+      .signature-line { margin-top: 1px !important; border-top-color: #000000 !important; }
       .dev-section { margin-top: 4px !important; padding-top: 1px !important; }
       textarea { height: 30px !important; }
-      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 11px !important; }
+      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 11px !important; color: #000000 !important; }
       .signature-field-group input[type="text"] { border-bottom: 1px dashed #A19F9D !important; }
     }
   </style>
@@ -438,7 +513,7 @@
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
       
-      <!-- NUEVA OPCIÓN: DASHBOARD ANALÍTICO GERENCIAL -->
+      <!-- OPCIÓN ANALÍTICA: DASHBOARD GERENCIAL -->
       <div class="option-card" onclick="navegarADashboardGerencial()" style="border-left-color: #0078D4;">
         <h2>📈 Dashboard Gerencial</h2>
         <p>Análisis de costos logísticos, control patrimonial e inventario en tiempo real.</p>
@@ -457,7 +532,7 @@
     <div class="page-container" style="max-width: 1000px;">
       <div style="border-bottom: 2.5px solid #0078D4; padding-bottom: 8px; margin-bottom: 20px;">
         <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700;">CUADRO DE MANDO INTEGRADO DE TI</h1>
-        <p style="font-size: 11.5px; color: #605E5C; margin: 0;">Métricas consolidadas de infraestructura — Sincronizado con Neon Postgres</p>
+        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Métricas consolidadas de infraestructura — Sincronizado con Neon Postgres</p>
       </div>
 
       <!-- KPI Summary Cards -->
@@ -840,7 +915,6 @@
 
   <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
-    // Variables globales persistentes para instancias de gráficos (Evita superposición de canvas)
     let chartHwInstance = null;
     let chartCostosInstance = null;
     let chartLeasingInstance = null;
@@ -873,7 +947,7 @@
     }
 
     // =========================================================================
-    // --- 📊 MOTOR DE CONSUMO DE METRICAS Y RENDERIZADO GRÁFICO (CHART.JS) ---
+    // --- 📊 MOTOR ANALÍTICO GRÁFICO AUTOCALIBRADO (CLARO / OSCURO) ---
     // =========================================================================
     async function navegarADashboardGerencial() {
       navegarA('view_dashboard_gerencial');
@@ -886,6 +960,14 @@
           mostrarNotificacionToast("Error al compilar métricas analíticas", false);
           return;
         }
+
+        // Calibración de color en Chart.js según el modo actual del OS
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const themeTextColor = isDarkMode ? '#F3F3F3' : '#242424';
+        const themeGridColor = isDarkMode ? '#323130' : '#EDEBE9';
+
+        Chart.defaults.color = themeTextColor;
+        Chart.defaults.borderColor = themeGridColor;
 
         // 1. Inyección de KPIs en Tarjetas Resumen
         document.getElementById('kpi_asignados').innerText = data.summaryCards.activosAsignados;
@@ -914,7 +996,7 @@
           options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
         });
 
-        // 3. Gráfico 2: Inversión por Área (Barras Horizontales Analíticas)
+        // 3. Gráfico 2: Inversión por Área (Barras Horizontales)
         const labelsAreas = data.financialCostByArea.map(i => i.area);
         const dataCostos = data.financialCostByArea.map(i => i.costoTotal);
 
@@ -928,7 +1010,7 @@
           options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
         });
 
-        // 4. Gráfico 3: Contratos de Arrendamiento / Leasing (Gráfico de Torta)
+        // 4. Gráfico 3: Contratos de Arrendamiento (Gráfico de Torta)
         const labelsLeasing = data.leasingContractsOverview.map(i => i.arrendadora + " (" + i.estado + ")");
         const dataLeasing = data.leasingContractsOverview.map(i => i.total);
 
@@ -937,12 +1019,12 @@
           type: 'pie',
           data: {
             labels: labelsLeasing,
-            datasets: [{ data: dataLeasing, backgroundColor: ['#0E5A32', '#0078D4', '#92C840', '#EDEBE9'] }]
+            datasets: [{ data: dataLeasing, backgroundColor: ['#0E5A32', '#0078D4', '#92C840', '#A19F9D'] }]
           },
           options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
         });
 
-        // 5. Gráfico 4: Estado de SIM Cards / Líneas (Dona Office Fluent)
+        // 5. Gráfico 4: Estado de SIM Cards / Líneas (Dona)
         const labelsLines = data.mobileLinesStatus.map(i => i.estado);
         const dataLines = data.mobileLinesStatus.map(i => i.total);
 
@@ -963,7 +1045,7 @@
     }
 
     // =========================================================================
-    // --- MOTOR BIOMÉTRICO BASADO EN POINTER EVENTS (STYLUS / TOUCHPAD) ---
+    // --- MOTOR BIOMÉTRICO BASADO EN POINTER EVENTS (APPLE PENCIL / TRACKPAD) ---
     // =========================================================================
     let targetImgId = null; 
     let dibujando = false;
