@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Actas de Entrega - Agrícola Avanti</title>
   
+  <!-- Icono oficial (Favicon) usando el logo local del repositorio -->
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+
+  <!-- Motor de Renderizado Estadístico e Inteligencia de Negocios de Alta Velocidad -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     /* --- DESIGN SYSTEM: MICROSOFT FLUENT + AVANTI BRANDING ---
@@ -240,7 +244,7 @@
       border-radius: 2px;
     }
 
-    /* --- FIRMAS DIGITALES --- */
+    /* --- FIRMAS DIGITALES (POINTER EVENTS) --- */
     .signature-section {
       display: flex;
       justify-content: space-between;
@@ -289,15 +293,7 @@
     .sig-modal-header { background-color: #0E5A32; color: #FFFFFF; padding: 14px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
     .sig-modal-body { padding: 20px; background-color: #FAF9F8; }
     .canvas-wrapper { width: 100%; background-color: #FFFFFF; border: 1.5px dashed #92C840; border-radius: 4px; }
-    
-    /* touch-action none bloquea interrupciones o scrolls del OS mientras se gesticula */
-    .sig-canvas-popup { 
-      display: block; 
-      width: 100%; 
-      height: 220px; 
-      cursor: crosshair; 
-      touch-action: none; 
-    }
+    .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; touch-action: none; }
     .sig-modal-footer { padding: 12px 20px; background-color: #F3F2F1; display: flex; justify-content: flex-end; gap: 8px; }
     
     .btn-modal { border: none; padding: 7px 16px; font-size: 11.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
@@ -310,28 +306,58 @@
 
     .dev-section { margin-top: 10px; border-top: 1.5px dashed #92C840; padding-top: 6px; width: 100%; }
 
-    /* --- SISTEMA DE NOTIFICACIONES TOAST (FLUENT TOAST) --- */
-    .custom-toast {
-      position: fixed;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #FFFFFF;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1);
-      padding: 12px 24px;
+    /* =========================================================================
+       --- 📈 ELEMENTOS DEL CORE ANALÍTICO (ESTILOS FLUENT DASHBOARD) ---
+       ========================================================================= */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: #FFFFFF;
+      border: 1px solid #EDEBE9;
+      border-left: 4px solid #0078D4;
+      padding: 16px;
       border-radius: 4px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 10000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      text-align: left;
+    }
+    .kpi-card h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #605E5C;
+      margin: 0 0 6px 0;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .kpi-card p {
+      font-size: 22px;
+      font-weight: 700;
+      color: #242424;
+      margin: 0;
+    }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .chart-card {
+      background: #FFFFFF;
+      border: 1px solid #EDEBE9;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .chart-card h5 {
       font-size: 13px;
       font-weight: 600;
-      transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #323130;
+      margin: 0 0 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
-    .custom-toast.success { border-left: 4px solid #107C41; color: #107C41; }
-    .custom-toast.error { border-left: 4px solid #A80000; color: #A80000; }
-    .custom-toast.show { top: 24px; }
-    .toast-msg-text { color: #242424; font-weight: 500; margin-left: 4px; }
 
     /* --- REGLAS DE OPTIMIZACIÓN RESPONSIVA EN MÓVILES --- */
     @media (max-width: 768px) {
@@ -348,6 +374,9 @@
       .signature-block { width: 100%; }
       .sig-modal-card { max-width: 100%; }
       .sig-canvas-popup { height: 180px; }
+      
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .charts-grid { grid-template-columns: 1fr; gap: 16px; }
     }
 
     /* --- PRINT REGULATION SYSTEM (A4) --- */
@@ -377,11 +406,15 @@
 </head>
 <body>
 
+  <!-- Componente Flotante Global de Notificación (Toast) -->
   <div id="custom_toast" class="custom-toast no-print">
     <span id="toast_icon">✅</span>
     <span id="toast_message" class="toast-msg-text">Operación procesada con éxito</span>
   </div>
 
+  <!-- ==========================================
+     MENÚ PRINCIPAL INTERACTIVO (DASHBOARD)
+     ========================================== -->
   <div id="main_dashboard" class="dashboard-menu no-print">
     <div class="dashboard-header">
       <h1>Portal de Gestión de Actas</h1>
@@ -404,10 +437,51 @@
         <h2>Chips o Líneas Móviles</h2>
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
+      
+      <!-- NUEVA OPCIÓN: DASHBOARD ANALÍTICO GERENCIAL -->
+      <div class="option-card" onclick="navegarADashboardGerencial()" style="border-left-color: #0078D4;">
+        <h2>📈 Dashboard Gerencial</h2>
+        <p>Análisis de costos logísticos, control patrimonial e inventario en tiempo real.</p>
+      </div>
     </div>
   </div>
 
 
+  <!-- ==========================================
+     VISTA 5: 📈 PANEL ESTADÍSTICO GERENCIAL (ITAM)
+     ========================================== -->
+  <div id="view_dashboard_gerencial" class="form-view">
+    <div class="action-bar no-print" style="max-width: 1000px; margin: 0 auto 12px auto;">
+      <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
+    </div>
+    <div class="page-container" style="max-width: 1000px;">
+      <div style="border-bottom: 2.5px solid #0078D4; padding-bottom: 8px; margin-bottom: 20px;">
+        <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700;">CUADRO DE MANDO INTEGRADO DE TI</h1>
+        <p style="font-size: 11.5px; color: #605E5C; margin: 0;">Métricas consolidadas de infraestructura — Sincronizado con Neon Postgres</p>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card"><h4 style="color: #0E5A32;">Activos Operativos</h4><p id="kpi_asignados">0</p></div>
+        <div class="kpi-card"><h4 style="color: #92C840;">Stock Disponible</h4><p id="kpi_stock">0</p></div>
+        <div class="kpi-card"><h4 style="color: #0078D4;">Líneas Activas</h4><p id="kpi_lineas">0</p></div>
+        <div class="kpi-card" style="border-left-color: #107C41;"><h4>Inversión Total</h4><p id="kpi_inversion" style="color: #107C41;">US$ 0.00</p></div>
+      </div>
+
+      <!-- Grid de Componentes Gráficos -->
+      <div class="charts-grid">
+        <div class="chart-card"><h5>Distribución y Estado del Hardware</h5><canvas id="chart_hardware"></canvas></div>
+        <div class="chart-card"><h5>Inversión Acumulada por Área (USD)</h5><canvas id="chart_costos"></canvas></div>
+        <div class="chart-card"><h5>Auditoría de Contratos de Arrendamiento</h5><canvas id="chart_contratos"></canvas></div>
+        <div class="chart-card"><h5>Monitoreo de Chips y SIM Cards</h5><canvas id="chart_lineas_status"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+     FORMULARIO 1: MATERIAL INFORMÁTICO
+     ========================================== -->
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -493,6 +567,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 2: PERIFÉRICOS (MONITORES)
+     ========================================== -->
   <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -560,6 +637,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 3: TELÉFONOS MÓVILES
+     ========================================== -->
   <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -645,6 +725,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES
+     ========================================== -->
   <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -735,6 +818,9 @@
   </div>
 
 
+  <!-- ==========================================
+     SISTEMA POPUP DE CAPTURA DE FIRMAS REUTILIZABLE
+     ========================================== -->
   <div id="firma_modal" class="sig-modal-overlay no-print">
     <div class="sig-modal-card">
       <div id="modal_titulo" class="sig-modal-header">Registrar Firma Digital</div>
@@ -752,7 +838,14 @@
   </div>
 
 
+  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
+    // Variables globales persistentes para instancias de gráficos (Evita superposición de canvas)
+    let chartHwInstance = null;
+    let chartCostosInstance = null;
+    let chartLeasingInstance = null;
+    let chartLinesInstance = null;
+
     function mostrarNotificacionToast(mensaje, esExito) {
       const toast = document.getElementById('custom_toast');
       const icon = document.getElementById('toast_icon');
@@ -760,12 +853,9 @@
       
       msg.innerText = mensaje;
       icon.innerText = esExito ? "✅" : "❌";
-      
       toast.className = "custom-toast " + (esExito ? "success" : "error") + " show";
       
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3500);
+      setTimeout(() => { toast.classList.remove('show'); }, 3500);
     }
 
     function navegarA(idVista) {
@@ -782,6 +872,99 @@
       document.getElementById('main_dashboard').style.display = 'block';
     }
 
+    // =========================================================================
+    // --- 📊 MOTOR DE CONSUMO DE METRICAS Y RENDERIZADO GRÁFICO (CHART.JS) ---
+    // =========================================================================
+    async function navegarADashboardGerencial() {
+      navegarA('view_dashboard_gerencial');
+      
+      try {
+        const response = await fetch('/api/obtener-metricas');
+        const data = await response.json();
+        
+        if (!response.ok || !data.success) {
+          mostrarNotificacionToast("Error al compilar métricas analíticas", false);
+          return;
+        }
+
+        // 1. Inyección de KPIs en Tarjetas Resumen
+        document.getElementById('kpi_asignados').innerText = data.summaryCards.activosAsignados;
+        document.getElementById('kpi_stock').innerText = data.summaryCards.activosEnStock;
+        document.getElementById('kpi_lineas').innerText = data.summaryCards.lineasActivas;
+        document.getElementById('kpi_inversion').innerText = "US$ " + data.summaryCards.inversionTotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // 2. Gráfico 1: Estado del Hardware (Barras Apiladas)
+        const tiposHw = [...new Set(data.hardwareStockDistribution.map(item => item.tipo))];
+        const estadosHw = [...new Set(data.hardwareStockDistribution.map(item => item.estado))];
+        const colorsPalette = ['#0E5A32', '#92C840', '#A19F9D'];
+        
+        const datasetsHw = estadosHw.map((estado, idx) => ({
+          label: estado,
+          data: tiposHw.map(tipo => {
+            const match = data.hardwareStockDistribution.find(i => i.tipo === tipo && i.estado === estado);
+            return match ? match.cantidad : 0;
+          }),
+          backgroundColor: colorsPalette[idx % colorsPalette.length]
+        }));
+
+        if (chartHwInstance) chartHwInstance.destroy();
+        chartHwInstance = new Chart(document.getElementById('chart_hardware'), {
+          type: 'bar',
+          data: { labels: tiposHw, datasets: datasetsHw },
+          options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
+        });
+
+        // 3. Gráfico 2: Inversión por Área (Barras Horizontales Analíticas)
+        const labelsAreas = data.financialCostByArea.map(i => i.area);
+        const dataCostos = data.financialCostByArea.map(i => i.costoTotal);
+
+        if (chartCostosInstance) chartCostosInstance.destroy();
+        chartCostosInstance = new Chart(document.getElementById('chart_costos'), {
+          type: 'bar',
+          data: {
+            labels: labelsAreas,
+            datasets: [{ label: 'Inversión Acumulada ($)', data: dataCostos, backgroundColor: '#0078D4', borderRadius: 4 }]
+          },
+          options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // 4. Gráfico 3: Contratos de Arrendamiento / Leasing (Gráfico de Torta)
+        const labelsLeasing = data.leasingContractsOverview.map(i => i.arrendadora + " (" + i.estado + ")");
+        const dataLeasing = data.leasingContractsOverview.map(i => i.total);
+
+        if (chartLeasingInstance) chartLeasingInstance.destroy();
+        chartLeasingInstance = new Chart(document.getElementById('chart_contratos'), {
+          type: 'pie',
+          data: {
+            labels: labelsLeasing,
+            datasets: [{ data: dataLeasing, backgroundColor: ['#0E5A32', '#0078D4', '#92C840', '#EDEBE9'] }]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        // 5. Gráfico 4: Estado de SIM Cards / Líneas (Dona Office Fluent)
+        const labelsLines = data.mobileLinesStatus.map(i => i.estado);
+        const dataLines = data.mobileLinesStatus.map(i => i.total);
+
+        if (chartLinesInstance) chartLinesInstance.destroy();
+        chartLinesInstance = new Chart(document.getElementById('chart_lineas_status'), {
+          type: 'doughnut',
+          data: {
+            labels: labelsLines,
+            datasets: [{ data: dataLines, backgroundColor: ['#107C41', '#A19F9D', '#A80000'] }]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+      } catch (err) {
+        console.error(err);
+        mostrarNotificacionToast("Falla de enlace de datos asíncronos", false);
+      }
+    }
+
+    // =========================================================================
+    // --- MOTOR BIOMÉTRICO BASADO EN POINTER EVENTS (STYLUS / TOUCHPAD) ---
+    // =========================================================================
     let targetImgId = null; 
     let dibujando = false;
     
@@ -834,9 +1017,6 @@
       cerrarModalFirma();
     }
 
-    // =========================================================================
-    // --- NUEVO MOTOR ULTRA-PRECISO BASADO EN POINTER EVENTS (STYLUS / TRACKPAD) ---
-    // =========================================================================
     function obtenerPosicion(e) {
       const rect = canvas.getBoundingClientRect();
       return {
@@ -865,9 +1045,7 @@
     function detenerTrazo(e) {
       if (!dibujando) return;
       dibujando = false;
-      try {
-        canvas.releasePointerCapture(e.pointerId);
-      } catch (err) {}
+      try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
     }
 
     canvas.addEventListener('pointerdown', iniciarTrazo);
@@ -875,7 +1053,9 @@
     canvas.addEventListener('pointerup', detenerTrazo);
     canvas.addEventListener('pointercancel', detenerTrazo);
 
-    // Extraedor y persistencia con reemplazo de alert por Toasts
+    // =========================================================================
+    // --- INYECTOR PERSISTENTE SEGURO (POSTGRESQL RELATIONAL DISPATCHER) ---
+    // =========================================================================
     async function procesarGuardadoBaseDatos(btnElement) {
       const activeForm = document.querySelector('.form-view.active');
       if (!activeForm) return;
