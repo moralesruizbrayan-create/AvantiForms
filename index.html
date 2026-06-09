@@ -90,7 +90,7 @@
       background: #FFFFFF;
       max-width: 820px;
       margin: 0 auto 40px auto;
-      padding: 22px 40px;
+      padding: 25px 40px;
       border: 1px solid #D2D2D2;
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
@@ -104,6 +104,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
+    }
+    .action-group-right {
+      display: flex;
+      gap: 10px;
     }
     .btn-action {
       border: none;
@@ -114,21 +119,15 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
-    .btn-back {
-      background-color: #E1DFDD;
-      color: #323130;
-    }
-    .btn-back:hover {
-      background-color: #C8C6C4;
-    }
-    .btn-print {
-      background-color: #0E5A32;
-      color: #FFFFFF;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .btn-print:hover {
-      background-color: #0A3F23;
-    }
+    .btn-back { background-color: #E1DFDD; color: #323130; }
+    .btn-back:hover { background-color: #C8C6C4; }
+    
+    .btn-save-db { background-color: #0078D4; color: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .btn-save-db:hover { background-color: #106EBE; }
+    .btn-save-db:disabled { background-color: #A19F9D; cursor: not-allowed; }
+
+    .btn-print { background-color: #0E5A32; color: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .btn-print:hover { background-color: #0A3F23; }
 
     /* Estructura Interna */
     .header-table {
@@ -303,10 +302,7 @@
        --- PRINT REGULATION SYSTEM (ULTRA COMPACT CONSTRAINED TO 1 PAGE) ---
        ========================================================================= */
     @media print {
-      @page { 
-        size: A4 portrait; 
-        margin: 5mm 15mm 4mm 15mm; /* Ajustado al límite para absorber la nueva fila */
-      }
+      @page { size: A4 portrait; margin: 5mm 15mm 4mm 15mm; }
       html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; width: 100% !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
       .dashboard-menu { display: none !important; }
       .no-print { display: none !important; }
@@ -331,9 +327,6 @@
 </head>
 <body>
 
-  <!-- ==========================================
-     MENÚ PRINCIPAL INTERACTIVO (DASHBOARD)
-     ========================================== -->
   <div id="main_dashboard" class="dashboard-menu no-print">
     <div class="dashboard-header">
       <h1>Portal de Gestión de Actas</h1>
@@ -360,13 +353,13 @@
   </div>
 
 
-  <!-- ==========================================
-     FORMULARIO 1: MATERIAL INFORMÁTICO
-     ========================================== -->
-  <div id="view_material_informatico" class="form-view">
+  <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
-      <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      <div class="action-group-right">
+        <button class="btn-action btn-save-db" onclick="procesarGuardadoBaseDatos(this)">💾 Guardar en Base de Datos</button>
+        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      </div>
     </div>
     <div class="page-container">
       <table class="header-table">
@@ -377,58 +370,58 @@
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text"></td></tr>
-        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Cargo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text"></td><td class="lbl">Centro Costo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Usuario PC:</td><td><input type="text"></td><td class="lbl">Fecha Entrega:</td><td><input type="text" placeholder="DD / MM / AAAA"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
+        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
+        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Usuario PC:</td><td><input type="text" data-spec="usuario_pc"></td><td class="lbl">Fecha Entrega:</td><td><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
       </table>
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Nº de Serie:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text"></td><td class="lbl">Computador:</td><td><input type="text"></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><input type="text" data-spec="nro_serie"></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Computador:</td><td><input type="text" data-spec="nombre_computador"></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
-        <tr><td class="lbl">Procesador:</td><td><input type="text"></td><td class="lbl">Memoria RAM:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Disco Duro:</td><td><input type="text"></td><td class="lbl">Tarjeta de Red:</td><td><input type="text"></td></tr>
+        <tr><td class="lbl">Procesador:</td><td><input type="text" data-spec="procesador"></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
+        <tr><td class="lbl">Disco Duro:</td><td><input type="text" data-spec="disco_duro"></td><td class="lbl">Tarjeta de Red:</td><td><input type="text" data-spec="tarjeta_red"></td></tr>
         <tr><td colspan="4" class="subhead">Software Instalado e Identificadores</td></tr>
         <tr>
-          <td class="lbl">S.O. Windows:</td><td><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label> Ver: <input type="text" style="width:40px;"></td>
-          <td class="lbl">Microsoft Office:</td><td><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label> Ver: <input type="text" style="width:40px;"></td>
+          <td class="lbl">S.O. Windows:</td><td><label class="inline-flex"><input type="checkbox" data-spec="win_si"> Sí</label><label class="inline-flex"><input type="checkbox" data-spec="win_no"> No</label> Ver: <input type="text" data-spec="win_ver" style="width:40px;"></td>
+          <td class="lbl">Microsoft Office:</td><td><label class="inline-flex"><input type="checkbox" data-spec="office_si"> Sí</label><label class="inline-flex"><input type="checkbox" data-spec="office_no"> No</label> Ver: <input type="text" data-spec="office_ver" style="width:40px;"></td>
         </tr>
         <tr>
-          <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label> Det: <input type="text" style="width:40px;"></td>
-          <td class="lbl">Correo Corp.:</td><td><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td>
+          <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox" data-spec="antivirus_si"> Sí</label><label class="inline-flex"><input type="checkbox" data-spec="antivirus_no"> No</label> Det: <input type="text" data-spec="antivirus_det" style="width:40px;"></td>
+          <td class="lbl">Correo Corp.:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label><label class="inline-flex"><input type="checkbox" data-spec="correo_no"> No</label></td>
         </tr>
-        <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox"> Sí</label></td></tr>
+        <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox" data-spec="tspu_si"> Sí</label></td></tr>
         <tr><td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td></tr>
         <tr>
           <td colspan="4">
-            <label class="inline-flex"><input type="checkbox"> Teclado</label><label class="inline-flex"><input type="checkbox"> Mouse</label><label class="inline-flex"><input type="checkbox"> Parlantes</label><label class="inline-flex"><input type="checkbox"> Micrófono</label><label class="inline-flex"><input type="checkbox"> Lector</label><label class="inline-flex"><input type="checkbox"> UPS</label><label class="inline-flex"><input type="checkbox"> Mochila</label><label class="inline-flex"><input type="checkbox"> Monitor</label>
-            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><input type="text" style="flex-grow:1;"></div>
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_teclado"> Teclado</label><label class="inline-flex"><input type="checkbox" data-spec="acc_mouse"> Mouse</label><label class="inline-flex"><input type="checkbox" data-spec="acc_parlantes"> Parlantes</label><label class="inline-flex"><input type="checkbox" data-spec="acc_microfono"> Micrófono</label><label class="inline-flex"><input type="checkbox" data-spec="acc_lector"> Lector</label><label class="inline-flex"><input type="checkbox" data-spec="acc_ups"> UPS</label><label class="inline-flex"><input type="checkbox" data-spec="acc_mochila"> Mochila</label><label class="inline-flex"><input type="checkbox" data-spec="acc_monitor"> Monitor</label>
+            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><input type="text" data-spec="acc_otros" style="flex-grow:1;"></div>
           </td>
         </tr>
       </table>
       <h3>3. Condiciones de Entrega:</h3>
-      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" placeholder="Anotaciones sobre el estado de entrega del activo..."></textarea></td></tr></table>
+      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado de entrega del activo..."></textarea></td></tr></table>
       <h3>4. Compromiso de Responsabilidad:</h3>
       <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.</div>
       <div class="signature-section">
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1', 'Firma Encargado TI')"><span id="lbl_f1_m1">📝 Pulsar para firmar</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m1', 'Firma Empleado / Receptor')"><span id="lbl_f2_m1">📝 Pulsar para firmar</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
-          <div class="signature-field-group"><span>TEL:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+          <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
         </div>
       </div>
       <div class="dev-section">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
-          <tr><td class="lbl">Fecha Dev.:</td><td colspan="3"><input type="text" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" placeholder="Detalle exhaustivo del estado físico y funcional..."></textarea></td></tr>
+          <tr><td class="lbl">Fecha Dev.:</td><td colspan="3"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Detalle exhaustivo del estado físico y funcional..."></textarea></td></tr>
         </table>
         <div class="signature-section">
           <div class="signature-block">
@@ -445,13 +438,13 @@
   </div>
 
 
-  <!-- ==========================================
-     FORMULARIO 2: PERIFÉRICOS (MONITORES)
-     ========================================== -->
-  <div id="view_perifericos" class="form-view">
+  <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
-      <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      <div class="action-group-right">
+        <button class="btn-action btn-save-db" onclick="procesarGuardadoBaseDatos(this)">💾 Guardar en Base de Datos</button>
+        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      </div>
     </div>
     <div class="page-container">
       <table class="header-table">
@@ -462,40 +455,40 @@
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text"></td></tr>
-        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Cargo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text"></td><td class="lbl">Centro Costo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
+        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
+        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
       </table>
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" placeholder="Ej. Monitor, Proyector"></td><td class="lbl">Nº de Serie:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text"></td><td class="lbl">Código Activo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text"></td><td class="lbl">Entradas Video:</td><td><input type="text" placeholder="Ej. HDMI, VGA, DP"></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_periferico" placeholder="Ej. Monitor, Proyector"></td><td class="lbl">Nº de Serie:</td><td><input type="text" data-spec="nro_serie"></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_activo"></td></tr>
+        <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><input type="text" data-spec="entradas_video" placeholder="Ej. HDMI, VGA, DP"></td></tr>
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
-        <tr><td colspan="4"><label class="inline-flex"><input type="checkbox"> Cable de Poder</label><label class="inline-flex"><input type="checkbox"> Cable HDMI</label><label class="inline-flex"><input type="checkbox"> Cable VGA</label><label class="inline-flex"><input type="checkbox"> Cable DisplayPort</label><label class="inline-flex"><input type="checkbox"> Adaptador de Voltaje</label></td></tr>
+        <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="cable_poder"> Cable de Poder</label><label class="inline-flex"><input type="checkbox" data-spec="cable_hdmi"> Cable HDMI</label><label class="inline-flex"><input type="checkbox" data-spec="cable_vga"> Cable VGA</label><label class="inline-flex"><input type="checkbox" data-spec="cable_dp"> Cable DisplayPort</label><label class="inline-flex"><input type="checkbox" data-spec="adaptador_voltaje"> Adaptador de Voltaje</label></td></tr>
       </table>
-      <h3>3. Conditions de Entrega:</h3>
-      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr></table>
+      <h3>3. Condiciones de Entrega:</h3>
+      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr></table>
       <h3>4. Compromiso de Responsabilidad:</h3>
       <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
       <div class="signature-section">
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m2', 'Firma Empleado / Receptor')"><span id="lbl_f2_m2">📝 Pulsar para firmar</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
         </div>
       </div>
       <div class="dev-section">
         <h3>5. Control de Devolución:</h3>
         <table class="form-table">
-          <tr><td class="lbl">Fecha Dev.:</td><td colspan="3"><input type="text" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" placeholder="Diagnóstico de pantalla y pixeles al retornar..."></textarea></td></tr>
+          <tr><td class="lbl">Fecha Dev.:</td><td colspan="3"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Diagnóstico de pantalla y pixeles al retornar..."></textarea></td></tr>
         </table>
         <div class="signature-section">
           <div class="signature-block">
@@ -512,13 +505,13 @@
   </div>
 
 
-  <!-- ==========================================
-     FORMULARIO 3: TELÉFONOS MÓVILES (RECTIFICADO)
-     ========================================== -->
-  <div id="view_telefonos" class="form-view">
+  <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
-      <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      <div class="action-group-right">
+        <button class="btn-action btn-save-db" onclick="procesarGuardadoBaseDatos(this)">💾 Guardar en Base de Datos</button>
+        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      </div>
     </div>
     <div class="page-container">
       <table class="header-table">
@@ -529,21 +522,21 @@
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text"></td></tr>
-        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Cargo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text"></td><td class="lbl">Centro Costo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
+        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
+        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
       </table>
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
       <table class="form-table">
-        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Nº de Serie:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">IMEI 1:</td><td><input type="text"></td><td class="lbl">IMEI 2:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Color Terminal:</td><td><input type="text"></td><td class="lbl">Capacidad:</td><td><input type="text" placeholder="Ej. 64GB, 128GB"></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><input type="text" data-spec="marca_modelo"></td><td class="lbl">Nº de Serie:</td><td><input type="text" data-spec="nro_serie"></td></tr>
+        <tr><td class="lbl">IMEI 1:</td><td><input type="text" data-spec="imei_1"></td><td class="lbl">IMEI 2:</td><td><input type="text" data-spec="imei_2"></td></tr>
+        <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad" placeholder="Ej. 64GB, 128GB"></td></tr>
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
-        <tr><td colspan="4"><label class="inline-flex"><input type="checkbox"> Cargador de Pared</label><label class="inline-flex"><input type="checkbox"> Cable USB</label><label class="inline-flex"><input type="checkbox"> Funda Protectora (Case)</label><label class="inline-flex"><input type="checkbox"> Lámina de Vidrio</label></td></tr>
+        <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="acc_cargador"> Cargador de Pared</label><label class="inline-flex"><input type="checkbox" data-spec="acc_cable"> Cable USB</label><label class="inline-flex"><input type="checkbox" data-spec="acc_case"> Funda Protectora (Case)</label><label class="inline-flex"><input type="checkbox" data-spec="acc_lamina"> Lámina de Vidrio</label></td></tr>
       </table>
       <h3>3. Condiciones de Entrega:</h3>
-      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" placeholder="Estado estético del teléfono (carcasa, cámara, botones)..."></textarea></td></tr></table>
+      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Estado estético del teléfono (carcasa, cámara, botones)..."></textarea></td></tr></table>
       <h3>4. Compromiso de Responsabilidad:</h3>
       <div class="compromiso-box">El dispositivo inteligente asignado constituye una herramienta estratégica laboral. Queda estrictamente restringida la alteración del sistema operativo o el uso del hardware en fines personales que degraden el rendimiento o comprometan datos sensibles de Agrícola Avanti S.A.C.</div>
       
@@ -551,34 +544,33 @@
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m3', 'Firma Encargado TI')"><span id="lbl_f1_m3">📝 Pulsar para firmar</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m3', 'Firma Empleado / Receptor')"><span id="lbl_f2_m3">📝 Pulsar para firmar</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
         </div>
       </div>
 
-      <!-- 5. CONTROL DE DEVOLUCIÓN REORGANIZADO -->
       <div class="dev-section">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr>
             <td class="lbl">¿Mismo titular?:</td>
-            <td colspan="3"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td>
+            <td colspan="3"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
           </tr>
           <tr>
             <td class="lbl">Quien devuelve:</td>
-            <td colspan="3"><input type="text" placeholder="Nombre completo"></td>
+            <td colspan="3"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
           </tr>
           <tr>
             <td class="lbl">DNI Devolución:</td>
-            <td style="width:32%;"><input type="text"></td>
+            <td style="width:32%;"><input type="text" data-field="quien_devuelve_dni"></td>
             <td class="lbl">Fecha Dev.:</td>
-            <td><input type="text" placeholder="DD / MM / AAAA"></td>
+            <td><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td>
           </tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" placeholder="Inspección final de batería y display de cristal líquido..."></textarea></td></tr>
+          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Inspección final de batería y display de cristal líquido..."></textarea></td></tr>
         </table>
         
         <div class="signature-section">
@@ -589,8 +581,8 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m3', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m3">📝 Pulsar para firmar</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
-            <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
-            <div class="signature-field-group"><span>TEL:</span><input type="text"></div>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
+            <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
           </div>
         </div>
       </div>
@@ -598,13 +590,13 @@
   </div>
 
 
-  <!-- ==========================================
-     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES (RECTIFICADO)
-     ========================================== -->
-  <div id="view_lineas" class="form-view">
+  <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
-      <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      <div class="action-group-right">
+        <button class="btn-action btn-save-db" onclick="procesarGuardadoBaseDatos(this)">💾 Guardar en Base de Datos</button>
+        <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+      </div>
     </div>
     <div class="page-container">
       <table class="header-table">
@@ -615,23 +607,23 @@
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text"></td></tr>
-        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Fecha Entrega:</td><td><input type="text" placeholder="DD / MM / AAAA"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text"></td><td class="lbl">C. De Costo:</td><td><input type="text"></td></tr>
-        <tr><td class="lbl">Cargo:</td><td><input type="text"></td><td class="lbl">Zona/Sede:</td><td><input type="text"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
+        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Fecha Entrega:</td><td><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
+        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">C. De Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td><td class="lbl">Zona/Sede:</td><td><input type="text" data-spec="zona_sede"></td></tr>
       </table>
       <h3>2. Detalle de la Línea Móvil:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" placeholder="Ej. Entel, Movistar, Claro"></td></tr>
-        <tr><td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text"></td><td class="lbl">Serie SIM:</td><td><input type="text"></td></tr>
+        <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador" placeholder="Ej. Entel, Movistar, Claro"></td></tr>
+        <tr><td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td><td class="lbl">Serie SIM:</td><td><input type="text" data-spec="serie_sim"></td></tr>
       </table>
       <h3>3. Condiciones de Entrega:</h3>
       <table class="form-table">
         <tr>
           <td class="lbl">Variante Línea:</td>
-          <td><label class="inline-flex"><input type="checkbox"> Reasignación</label><label class="inline-flex"><input type="checkbox"> Línea Nueva</label><label class="inline-flex"><input type="checkbox"> Reposición por Falla</label></td>
+          <td><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label><label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label><label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td>
         </tr>
-        <tr><td class="lbl">Observaciones:</td><td><textarea rows="3" placeholder="Notas sobre el estado del aprovisionamiento de la línea..."></textarea></td></tr>
+        <tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Notas sobre el estado del aprovisionamiento de la línea..."></textarea></td></tr>
       </table>
       <h3>4. Compromiso de Responsabilidad:</h3>
       <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
@@ -640,35 +632,34 @@
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4', 'Firma Encargado TI')"><span id="lbl_f1_m4">📝 Pulsar para firmar</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m4', 'Firma Empleado / Receptor')"><span id="lbl_f2_m4">📝 Pulsar para firmar</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
-          <div class="signature-field-group"><span>TEL:</span><input type="text"></div>
+          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+          <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
         </div>
       </div>
 
-      <!-- 5. CONTROL DE DEVOLUCIÓN DE LÍNEA REORGANIZADO -->
       <div class="dev-section">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr>
             <td class="lbl">¿Mismo titular?:</td>
-            <td colspan="3"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td>
+            <td colspan="3"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
           </tr>
           <tr>
             <td class="lbl">Quien devuelve:</td>
-            <td colspan="3"><input type="text" placeholder="Nombre completo"></td>
+            <td colspan="3"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
           </tr>
           <tr>
             <td class="lbl">DNI Devolución:</td>
-            <td style="width:32%;"><input type="text"></td>
+            <td style="width:32%;"><input type="text" data-field="quien_devuelve_dni"></td>
             <td class="lbl">Fecha Dev.:</td>
-            <td><input type="text" placeholder="DD / MM / AAAA"></td>
+            <td><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td>
           </tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" placeholder="Estado de baja, suspensión o corte de tráfico..."></textarea></td></tr>
+          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Estado de baja, suspensión o corte de tráfico..."></textarea></td></tr>
         </table>
         
         <div class="signature-section">
@@ -679,8 +670,8 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m4', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m4">📝 Pulsar para firmar</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
-            <div class="signature-field-group"><span>DNI:</span><input type="text"></div>
-            <div class="signature-field-group"><span>TEL:</span><input type="text"></div>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
+            <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
           </div>
         </div>
       </div>
@@ -689,9 +680,6 @@
   </div>
 
 
-  <!-- ==========================================
-     SISTEMA POPUP DE CAPTURA DE FIRMAS REUTILIZABLE
-     ========================================== -->
   <div id="firma_modal" class="sig-modal-overlay no-print">
     <div class="sig-modal-card">
       <div id="modal_titulo" class="sig-modal-header">Registrar Firma Digital</div>
@@ -709,7 +697,6 @@
   </div>
 
 
-  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC --- -->
   <script>
     function navegarA(idVista) {
       document.getElementById('main_dashboard').style.display = 'none';
@@ -764,56 +751,4 @@
         const labelElement = document.getElementById(labelId);
 
         if (tieneTrazos) {
-          const base64String = canvas.toDataURL('image/png');
-          imgElement.src = base64String;
-          imgElement.style.display = 'block';
-          if (labelElement) labelElement.style.display = 'none';
-        } else {
-          imgElement.src = "";
-          imgElement.style.display = 'none';
-          if (labelElement) labelElement.style.display = 'block';
-        }
-      }
-      cerrarModalFirma();
-    }
-
-    function obtenerPosicion(e) {
-      const rect = canvas.getBoundingClientRect();
-      const clienteX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clienteY = e.touches ? e.touches[0].clientY : e.clientY;
-      
-      return {
-        x: (clienteX - rect.left) * (canvas.width / rect.width),
-        y: (clienteY - rect.top) * (canvas.height / rect.height)
-      };
-    }
-
-    function iniciarTrazo(e) {
-      dibujando = true;
-      const pos = obtenerPosicion(e);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
-      e.preventDefault();
-    }
-
-    function dibujar(e) {
-      if (!dibujando) return;
-      const pos = obtenerPosicion(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-      e.preventDefault();
-    }
-
-    function detenerTrazo() { dibujando = false; }
-
-    canvas.addEventListener('mousedown', iniciarTrazo);
-    canvas.addEventListener('mousemove', dibujar);
-    window.addEventListener('mouseup', detenerTrazo);
-
-    canvas.addEventListener('touchstart', iniciarTrazo, { passive: false });
-    canvas.addEventListener('touchmove', dibujar, { passive: false });
-    window.addEventListener('touchend', detenerTrazo);
-  </script>
-
-</body>
-</html>
+          const base6
