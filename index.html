@@ -532,19 +532,19 @@
     <div class="grid-options">
       <div class="option-card" onclick="navegarA('view_material_informatico')">
         <h2>Material Informático</h2>
-        <p>PCs, Laptops y especificaciones avanzadas de hardware y software corporativo asignado.</p>
+        <p>PCs, Laptops y asignaciones avanzadas de hardware corporativo.</p>
       </div>
       <div class="option-card" onclick="navegarA('view_perifericos')">
         <h2>Periféricos (Monitores)</h2>
-        <p>Monitores, pantallas adicionales, proyectores y equipamiento visual de oficina.</p>
+        <p>Monitores, pantallas adicionales, proyectores y equipamiento visual.</p>
       </div>
       <div class="option-card" onclick="navegarA('view_telefonos')">
         <h2>Teléfonos Móviles</h2>
-        <p>Smartphones corporativos, terminales móviles físicos y control de retorno independiente.</p>
+        <p>Smartphones corporativos, terminales móviles físicos y control de retorno.</p>
       </div>
       <div class="option-card" onclick="navegarA('view_lineas')">
         <h2>Chips o Líneas Móviles</h2>
-        <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
+        <p>Actas de asignación de números telefónicos y SIM Cards.</p>
       </div>
       
       <!-- NOMBRE ACTUALIZADO: DASHBOARD -->
@@ -585,7 +585,7 @@
         <div class="chart-card"><h5>Monitoreo de Chips y SIM Cards</h5><canvas id="chart_lineas_status"></canvas></div>
       </div>
 
-      <!-- INFORMACIÓN EXPANDIDA: GRILLA DE AUDITORÍA LOGÍSTICA DE CONTRATOS CRÍTICOS -->
+      <!-- GRILLA DE AUDITORÍA LOGÍSTICA DE CONTRATOS CRÍTICOS -->
       <div class="audit-table-wrapper">
         <h5 style="font-size: 13px; font-weight: 600; color: var(--text-color); margin: 0 0 14px 0; text-transform: uppercase; letter-spacing: 0.5px;">Auditoría de Flotas y Proveedores Críticos</h5>
         <table class="audit-table">
@@ -669,12 +669,12 @@
       <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.</div>
       <div class="signature-section">
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1', 'Firma Encargado TI')"><span id="lbl_f1_m1">📝 Pulsar para firmar</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f1_m1', 'Firma Encargado TI')"><span id="lbl_f1_m1">📝 Pulsar para firmar</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m1', 'Firma Empleado / Receptor')"><span id="lbl_f2_m1">📝 Pulsar para firmar</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f2_m1', 'Firma Empleado / Receptor')"><span id="lbl_f2_m1">📝 Pulsar para firmar</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
           <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
@@ -688,11 +688,11 @@
         </table>
         <div class="signature-section">
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m1', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m1">📝 Pulsar para firmar</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f3_m1', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m1">📝 Pulsar para firmar</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
           </div>
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m1', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m1">📝 Pulsar para firmar</span><img id="f4_m1" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f4_m1', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m1">📝 Pulsar para firmar</span><img id="f4_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA EMPLEADO (ENTREGA)</strong>
           </div>
         </div>
@@ -739,12 +739,12 @@
       <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
       <div class="signature-section">
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m2', 'Firma Empleado / Receptor')"><span id="lbl_f2_m2">📝 Pulsar para firmar</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f2_m2', 'Firma Empleado / Receptor')"><span id="lbl_f2_m2">📝 Pulsar para firmar</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
         </div>
@@ -757,11 +757,11 @@
         </table>
         <div class="signature-section">
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m2', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m2">📝 Pulsar para firmar</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f3_m2', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m2">📝 Pulsar para firmar</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
           </div>
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m2', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m2">📝 Pulsar para firmar</span><img id="f4_m2" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f4_m2', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m2">📝 Pulsar para firmar</span><img id="f4_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA EMPLEADO (ENTREGA)</strong>
           </div>
         </div>
@@ -809,12 +809,12 @@
       
       <div class="signature-section">
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m3', 'Firma Encargado TI')"><span id="lbl_f1_m3">📝 Pulsar para firmar</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f1_m3', 'Firma Encargado TI')"><span id="lbl_f1_m3">📝 Pulsar para firmar</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m3', 'Firma Empleado / Receptor')"><span id="lbl_f2_m3">📝 Pulsar para firmar</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f2_m3', 'Firma Empleado / Receptor')"><span id="lbl_f2_m3">📝 Pulsar para firmar</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
         </div>
@@ -842,11 +842,11 @@
         
         <div class="signature-section">
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m3', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m3">📝 Pulsar para firmar</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f3_m3', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m3">📝 Pulsar para firmar</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
           </div>
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m3', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m3">📝 Pulsar para firmar</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f4_m3', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m3">📝 Pulsar para firmar</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
             <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
             <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
@@ -899,12 +899,12 @@
       
       <div class="signature-section">
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4', 'Firma Encargado TI')"><span id="lbl_f1_m4">📝 Pulsar para firmar</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f1_m4', 'Firma Encargado TI')"><span id="lbl_f1_m4">📝 Pulsar para firmar</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
         </div>
         <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m4', 'Firma Empleado / Receptor')"><span id="lbl_f2_m4">📝 Pulsar para firmar</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
+          <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f2_m4', 'Firma Empleado / Receptor')"><span id="lbl_f2_m4">📝 Pulsar para firmar</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
           <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
           <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
           <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
@@ -933,11 +933,11 @@
         
         <div class="signature-section">
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m4', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m4">📝 Pulsar para firmar</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f3_m4', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m4">📝 Pulsar para firmar</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
           </div>
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m4', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m4">📝 Pulsar para firmar</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-trigger-box" onclick="abrirModalFirma(event, 'f4_m4', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m4">📝 Pulsar para firmar</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
             <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
             <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
@@ -1080,12 +1080,68 @@
       }
     }
 
+    // =========================================================================
+    // --- 🖋️ ARQUITECTURA DE FIRMA ELECTRÓNICA CORREGIDA (CERO BLOQUEOS / LAG) ---
+    // =========================================================================
     let targetImgId = null; 
     let dibujando = false;
     const modal = document.getElementById('firma_modal');
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
     const modalTitulo = document.getElementById('modal_titulo');
+
+    // APERTURA DE MODAL SEGURA CON CONTENCIÓN DE INTERRUPCIÓN (INP RESOLVED)
+    function abrirModalFirma(event, imgId, titulo) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation(); // Evita que los eventos táctiles globales colisionen
+      }
+      
+      targetImgId = imgId;
+      modalTitulo.innerText = titulo;
+      modal.style.display = 'flex';
+      limpiarCanvasPopup();
+
+      // Forzar calibración asíncrona delegada al siguiente ciclo de refresco de pantalla
+      window.requestAnimationFrame(() => {
+        ctx.strokeStyle = '#242424';
+        ctx.lineWidth = 3.0;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      });
+    }
+
+    function cerrarModalFirma() {
+      modal.style.display = 'none';
+      targetImgId = null;
+    }
+
+    function limpiarCanvasPopup() { 
+      ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    }
+
+    function guardarFirmaPopup() {
+      if (targetImgId) {
+        const buffer = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+        const tieneTrazos = buffer.some(color => color !== 0);
+
+        const imgElement = document.getElementById(targetImgId);
+        const labelId = 'lbl_' + targetImgId;
+        const labelElement = document.getElementById(labelId);
+
+        if (tieneTrazos) {
+          const base64String = canvas.toDataURL('image/png');
+          imgElement.src = base64String;
+          imgElement.style.display = 'block';
+          if (labelElement) labelElement.style.display = 'none';
+        } else {
+          imgElement.src = "";
+          imgElement.style.display = 'none';
+          if (labelElement) labelElement.style.display = 'block';
+        }
+      }
+      cerrarModalFirma();
+    }
 
     function obtenerPosicion(e) {
       const rect = canvas.getBoundingClientRect();
@@ -1096,18 +1152,13 @@
     }
 
     function iniciarTrazo(e) {
+      if (e.target !== canvas) return;
+      
       try {
         canvas.setPointerCapture(e.pointerId);
-      } catch (err) {
-        console.warn("Bypass de captura en contexto escritorio:", err);
-      }
+      } catch (err) {}
+      
       dibujando = true;
-
-      ctx.strokeStyle = '#242424';
-      ctx.lineWidth = 3.0;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
       const pos = obtenerPosicion(e);
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
@@ -1120,15 +1171,11 @@
       ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
       
-      // SOLUCIÓN AL BLOQUEO: Segmentación instantánea por fotograma comprometido
+      // SEGMENTACIÓN INTERACTIVA: Libera buffer por cada pixel recorrido
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
       
       e.preventDefault();
-    }
-
-    function mantenerFocoFirmaFueraCanvas(e) {
-      if (dibujando) detenerTrazo(e);
     }
 
     function detenerTrazo(e) {
@@ -1137,13 +1184,16 @@
       try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
     }
 
+    // Vinculación unificada directa al canvas únicamente
     canvas.addEventListener('pointerdown', iniciarTrazo);
     canvas.addEventListener('pointermove', dibujar);
     canvas.addEventListener('pointerup', detenerTrazo);
     canvas.addEventListener('pointercancel', detenerTrazo);
 
-    // Escuchador global de seguridad para escritorio (evita trazos congelados al arrastrar fuera)
-    window.addEventListener('pointerup', mantenerFocoFirmaFueraCanvas);
+    // Salvaguarda global para mouses en entorno de escritorio
+    window.addEventListener('pointerup', (e) => {
+      if (dibujando) detenerTrazo(e);
+    });
 
     async function procesarGuardadoBaseDatos(btnElement) {
       const activeForm = document.querySelector('.form-view.active');
