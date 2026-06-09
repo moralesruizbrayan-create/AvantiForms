@@ -948,26 +948,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     SISTEMA POPUP DE CAPTURA DE FIRMAS REUTILIZABLE
-     ========================================== -->
-  <div id="firma_modal" class="sig-modal-overlay no-print">
-    <div class="sig-modal-card">
-      <div id="modal_titulo" class="sig-modal-header">Registrar Firma Digital</div>
-      <div class="sig-modal-body">
-        <div class="canvas-wrapper">
-          <canvas id="popup_canvas" class="sig-canvas-popup" width="600" height="220"></canvas>
-        </div>
-      </div>
-      <div class="sig-modal-footer">
-        <button class="btn-modal btn-modal-cancel" onclick="cerrarModalFirma()">Cancelar</button>
-        <button class="btn-modal btn-modal-clear" onclick="limpiarCanvasPopup()">Limpiar</button>
-        <button class="btn-modal btn-modal-save" onclick="guardarFirmaPopup()">Guardar Firma</button>
-      </div>
-    </div>
-  </div>
-
-
   <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
     function alternarModoManual() {
@@ -1119,11 +1099,10 @@
       try {
         canvas.setPointerCapture(e.pointerId);
       } catch (err) {
-        console.warn("Pointer capture injection block bypass on desktop context:", err);
+        console.warn("Bypass de captura en contexto escritorio:", err);
       }
       dibujando = true;
 
-      // Blindaje e inicialización forzada de pincel para fondo blanco invariable
       ctx.strokeStyle = '#242424';
       ctx.lineWidth = 3.0;
       ctx.lineCap = 'round';
@@ -1140,7 +1119,16 @@
       const pos = obtenerPosicion(e);
       ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
+      
+      // SOLUCIÓN AL BLOQUEO: Segmentación instantánea por fotograma comprometido
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      
       e.preventDefault();
+    }
+
+    function mantenerFocoFirmaFueraCanvas(e) {
+      if (dibujando) detenerTrazo(e);
     }
 
     function detenerTrazo(e) {
@@ -1154,10 +1142,8 @@
     canvas.addEventListener('pointerup', detenerTrazo);
     canvas.addEventListener('pointercancel', detenerTrazo);
 
-    // Alivio global para asegurar la interrupción del dibujo al salirse del canvas en escritorio
-    window.addEventListener('pointerup', (e) => {
-      if (dibujando) detenerTrazo(e);
-    });
+    // Escuchador global de seguridad para escritorio (evita trazos congelados al arrastrar fuera)
+    window.addEventListener('pointerup', mantenerFocoFirmaFueraCanvas);
 
     async function procesarGuardadoBaseDatos(btnElement) {
       const activeForm = document.querySelector('.form-view.active');
