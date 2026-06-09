@@ -2,7 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Actas de Entrega - Agrícola Avanti</title>
+  
+  <link rel="icon" type="image/jpeg" href="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1">
+
   <style>
     /* --- DESIGN SYSTEM: MICROSOFT FLUENT + AVANTI BRANDING ---
        Verde Principal Avanti: #0E5A32
@@ -193,7 +197,7 @@
       width: 100%;
       border: 1px solid transparent;
       background-color: #F3F3F3;
-      padding: 4px 6px;
+      padding: 5px 6px;
       font-size: 11px;
       color: #242424;
       border-radius: 2px;
@@ -299,6 +303,27 @@
     .dev-section { margin-top: 10px; border-top: 1.5px dashed #92C840; padding-top: 6px; width: 100%; }
 
     /* =========================================================================
+       --- REGLAS DE OPTIMIZACIÓN RESPONSIVA EN PANTALLAS MÓVILES (SMARTPHONES) ---
+       ========================================================================= */
+    @media (max-width: 768px) {
+      body { padding: 12px; background-color: #FFFFFF; }
+      .dashboard-menu { margin: 20px auto; }
+      .grid-options { grid-template-columns: 1fr; gap: 14px; } /* Tarjetas apiladas para fácil pulsación */
+      .page-container { padding: 15px 10px; border: none; box-shadow: none; }
+      .action-bar { flex-direction: column; gap: 8px; align-items: stretch; }
+      .action-group-right { flex-direction: column; gap: 8px; }
+      .btn-action { width: 100%; padding: 12px; text-align: center; font-size: 14px; } /* Mejor tamaño de target táctil */
+      
+      /* Incrementar tamaño de fuentes e inputs en móviles para evitar auto-zoom molesto de iOS */
+      input[type="text"], textarea { padding: 8px; font-size: 14px; background-color: #F1F1F1; }
+      .form-table { font-size: 12px; }
+      .signature-section { flex-direction: column; gap: 16px; }
+      .signature-block { width: 100%; }
+      .sig-modal-card { max-width: 100%; }
+      .sig-canvas-popup { height: 180px; }
+    }
+
+    /* =========================================================================
        --- PRINT REGULATION SYSTEM (ULTRA COMPACT CONSTRAINED TO 1 PAGE) ---
        ========================================================================= */
     @media print {
@@ -320,7 +345,7 @@
       .signature-line { margin-top: 1px !important; }
       .dev-section { margin-top: 4px !important; padding-top: 1px !important; }
       textarea { height: 30px !important; }
-      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; }
+      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 11px !important; }
       .signature-field-group input[type="text"] { border-bottom: 1px dashed #A19F9D !important; }
     }
   </style>
@@ -617,7 +642,7 @@
         <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador" placeholder="Ej. Entel, Movistar, Claro"></td></tr>
         <tr><td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td><td class="lbl">Serie SIM:</td><td><input type="text" data-spec="serie_sim"></td></tr>
       </table>
-      <h3>3. Condiciones de Entrega:</h3>
+      <h3>3. Conditions de Entrega:</h3>
       <table class="form-table">
         <tr>
           <td class="lbl">Variante Línea:</td>
@@ -751,4 +776,129 @@
         const labelElement = document.getElementById(labelId);
 
         if (tieneTrazos) {
-          const base6
+          const base64String = canvas.toDataURL('image/png');
+          imgElement.src = base64String;
+          imgElement.style.display = 'block';
+          if (labelElement) labelElement.style.display = 'none';
+        } else {
+          imgElement.src = "";
+          imgElement.style.display = 'none';
+          if (labelElement) labelElement.style.display = 'block';
+        }
+      }
+      cerrarModalFirma();
+    }
+
+    function obtenerPosicion(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clienteX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clienteY = e.touches ? e.touches[0].clientY : e.clientY;
+      
+      return {
+        x: (clienteX - rect.left) * (canvas.width / rect.width),
+        y: (clienteY - rect.top) * (canvas.height / rect.height)
+      };
+    }
+
+    function iniciarTrazo(e) {
+      dibujando = true;
+      const pos = obtenerPosicion(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      // Solo previene el scroll si se está firmando en el canvas
+      if (e.target === canvas) {
+        e.preventDefault();
+      }
+    }
+
+    function dibujar(e) {
+      if (!dibujando) return;
+      const pos = obtenerPosicion(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      if (e.target === canvas) {
+        e.preventDefault();
+      }
+    }
+
+    function detenerTrazo() { dibujando = false; }
+
+    canvas.addEventListener('mousedown', iniciarTrazo);
+    canvas.addEventListener('mousemove', dibujar);
+    window.addEventListener('mouseup', detenerTrazo);
+
+    canvas.addEventListener('touchstart', iniciarTrazo, { passive: false });
+    canvas.addEventListener('touchmove', dibujar, { passive: false });
+    window.addEventListener('touchend', detenerTrazo);
+
+    // ==========================================
+    // EXTRAEDOR AUTOMÁTICO DE DATOS PARA POSTGRES
+    // ==========================================
+    async function procesarGuardadoBaseDatos(btnElement) {
+      const activeForm = document.querySelector('.form-view.active');
+      if (!activeForm) return;
+
+      const originalText = btnElement.innerText;
+      btnElement.innerText = "⏳ Guardando en Neon...";
+      btnElement.disabled = true;
+
+      const payload = {
+        tipo_acta: activeForm.getAttribute('data-tipo'),
+        datos_activo: {}
+      };
+
+      const fields = activeForm.querySelectorAll('[data-field]');
+      fields.forEach(el => {
+        if (el.type === 'checkbox') {
+          if (el.checked) payload[el.getAttribute('data-field')] = el.value;
+        } else {
+          payload[el.getAttribute('data-field')] = el.value || null;
+        }
+      });
+
+      const specs = activeForm.querySelectorAll('[data-spec]');
+      specs.forEach(el => {
+        if (el.type === 'checkbox') {
+          payload.datos_activo[el.getAttribute('data-spec')] = el.checked;
+        } else {
+          payload.datos_activo[el.getAttribute('data-spec')] = el.value || null;
+        }
+      });
+
+      const imgs = activeForm.querySelectorAll('.signature-runtime-img');
+      imgs.forEach(img => {
+        const idImg = img.getAttribute('id');
+        const base64Src = img.src || null;
+        
+        if (idImg.startsWith('f1_')) payload.firma_ti_entrega = base64Src;
+        if (idImg.startsWith('f2_')) payload.firma_emp_entrega = base64Src;
+        if (idImg.startsWith('f3_')) payload.firma_ti_dev = base64Src;
+        if (idImg.startsWith('f4_')) payload.firma_emp_dev = base64Src;
+      });
+
+      try {
+        const response = await fetch('/api/guardar-acta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          alert("✅ ¡Perfecto! El acta se ha almacenado correctamente en la base de datos de Neon.");
+        } else {
+          alert("❌ Error al guardar: " + (result.error || "Error desconocido"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("❌ Error de red al intentar conectar con el servidor backend de Vercel.");
+      } finally {
+        btnElement.innerText = originalText;
+        btnElement.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
