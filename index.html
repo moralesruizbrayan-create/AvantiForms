@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Actas de Entrega - Agrícola Avanti</title>
   
-  <link rel="icon" type="image/jpeg" href="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1">
+  <!-- Icono oficial (Favicon) usando el logo local del repositorio -->
+  <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
 
   <style>
     /* --- DESIGN SYSTEM: MICROSOFT FLUENT + AVANTI BRANDING ---
@@ -302,7 +303,7 @@
 
     .dev-section { margin-top: 10px; border-top: 1.5px dashed #92C840; padding-top: 6px; width: 100%; }
 
-    /* --- 📦 SISTEMA DE NOTIFICACIONES TOAST (ESTILO MICROSOFT OFFICE) --- */
+    /* --- SISTEMA DE NOTIFICACIONES TOAST (ESTILO MICROSOFT OFFICE) --- */
     .custom-toast {
       position: fixed;
       top: -100px;
@@ -369,11 +370,15 @@
 </head>
 <body>
 
+  <!-- Componente Flotante Global de Notificación (Toast) -->
   <div id="custom_toast" class="custom-toast no-print">
     <span id="toast_icon">✅</span>
     <span id="toast_message" class="toast-msg-text">Operación procesada con éxito</span>
   </div>
 
+  <!-- ==========================================
+     MENÚ PRINCIPAL INTERACTIVO (DASHBOARD)
+     ========================================== -->
   <div id="main_dashboard" class="dashboard-menu no-print">
     <div class="dashboard-header">
       <h1>Portal de Gestión de Actas</h1>
@@ -400,6 +405,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 1: MATERIAL INFORMÁTICO
+     ========================================== -->
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -411,7 +419,7 @@
     <div class="page-container">
       <table class="header-table">
         <tr>
-          <td class="header-logo"><img src="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1" alt="Logo"></td>
+          <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
           <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE EQUIPOS INFORMÁTICOS</h2></td>
         </tr>
       </table>
@@ -485,6 +493,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 2: PERIFÉRICOS (MONITORES)
+     ========================================== -->
   <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -496,7 +507,7 @@
     <div class="page-container">
       <table class="header-table">
         <tr>
-          <td class="header-logo"><img src="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1" alt="Logo"></td>
+          <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
           <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE PERIFÉRICOS Y MONITORES</h2></td>
         </tr>
       </table>
@@ -552,6 +563,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 3: TELÉFONOS MÓVILES
+     ========================================== -->
   <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -563,7 +577,7 @@
     <div class="page-container">
       <table class="header-table">
         <tr>
-          <td class="header-logo"><img src="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1" alt="Logo"></td>
+          <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
           <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE EQUIPOS MÓVILES</h2></td>
         </tr>
       </table>
@@ -637,6 +651,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES
+     ========================================== -->
   <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -648,7 +665,7 @@
     <div class="page-container">
       <table class="header-table">
         <tr>
-          <td class="header-logo"><img src="https://rvdgroupcl-my.sharepoint.com/:i:/g/personal/soporte_agricolaavanti_pe/IQBtZ5WeFlkmQLmpg-tm-LTXAQQggHXkFVDcrobk56UYuSM?download=1" alt="Logo"></td>
+          <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
           <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE LÍNEAS MÓVILES</h2></td>
         </tr>
       </table>
@@ -727,6 +744,9 @@
   </div>
 
 
+  <!-- ==========================================
+     SISTEMA POPUP DE CAPTURA DE FIRMAS REUTILIZABLE
+     ========================================== -->
   <div id="firma_modal" class="sig-modal-overlay no-print">
     <div class="sig-modal-card">
       <div id="modal_titulo" class="sig-modal-header">Registrar Firma Digital</div>
@@ -744,8 +764,8 @@
   </div>
 
 
+  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC --- -->
   <script>
-    // Inyección de Toast no nativo Fluent
     function mostrarNotificacionToast(mensaje, esExito) {
       const toast = document.getElementById('custom_toast');
       const icon = document.getElementById('toast_icon');
