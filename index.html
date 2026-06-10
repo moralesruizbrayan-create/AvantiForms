@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Actas de Entrega - Agrícola Avanti</title>
   
+  <!-- Icono oficial (Favicon) usando el logo local del repositorio -->
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
 
+  <!-- Motor de Renderizado Estadístico e Inteligencia de Negocios de Alta Velocidad -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -355,13 +357,10 @@
     .sig-modal-card { background-color: var(--card-bg); width: 100%; max-width: 600px; border-radius: 4px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); overflow: hidden; }
     .sig-modal-header { background-color: #0E5A32; color: #FFFFFF; padding: 14px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
     .sig-modal-body { padding: 20px; background-color: var(--bg-color); }
-    
-    /* El contenedor del canvas se mantiene blanco para asegurar visibilidad del trazo negro */
     .canvas-wrapper { width: 100%; background-color: #FFFFFF; border: 1.5px dashed #92C840; border-radius: 4px; }
     .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; touch-action: none; }
-    
     .sig-modal-footer { padding: 12px 20px; background-color: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 8px; }
-    
+
     .btn-modal { border: none; padding: 7px 16px; font-size: 11.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
     .btn-modal-cancel { background-color: #E1DFDD; color: #323130; }
     .btn-modal-cancel:hover { background-color: #C8C6C4; }
@@ -523,13 +522,18 @@
 </head>
 <body class="light-mode">
 
+  <!-- Botón manual para cambiar entre modo Claro y Oscuro -->
   <button class="theme-toggle-btn no-print" onclick="alternarModoManual()" title="Cambiar de modo">🌓</button>
 
+  <!-- Componente Flotante Global de Notificación (Toast) -->
   <div id="custom_toast" class="custom-toast no-print">
     <span id="toast_icon">✅</span>
     <span id="toast_message" class="toast-msg-text">Operación procesada con éxito</span>
   </div>
 
+  <!-- ==========================================
+     MENÚ PRINCIPAL INTERACTIVO (DASHBOARD)
+     ========================================== -->
   <div id="main_dashboard" class="dashboard-menu no-print">
     <div class="dashboard-header">
       <h1>Portal de Gestión de Actas</h1>
@@ -553,14 +557,19 @@
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
       
+      <!-- OPCIÓN ANALÍTICA OCULTA POR SOLICITUD DEL USUARIO
       <div class="option-card" onclick="navegarADashboard()" style="border-left-color: #0078D4;">
         <h2>📊 Dashboard</h2>
         <p>Análisis de costos logísticos, control patrimonial e inventario en tiempo real.</p>
       </div>
+      -->
     </div>
   </div>
 
 
+  <!-- ==========================================
+     VISTA 5: 📊 PANEL ESTADÍSTICO EXPANDIDO (DASHBOARD)
+     ========================================== -->
   <div id="view_dashboard" class="form-view">
     <div class="action-bar no-print" style="max-width: 1000px; margin: 0 auto 12px auto;">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -571,6 +580,7 @@
         <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Análisis en tiempo real sincronizado con Neon Postgres</p>
       </div>
 
+      <!-- KPI Summary Cards -->
       <div class="kpi-grid">
         <div class="kpi-card"><h4 style="color: #0E5A32;">Activos Operativos</h4><p id="kpi_asignados">0</p></div>
         <div class="kpi-card"><h4 style="color: #92C840;">Stock Disponible</h4><p id="kpi_stock">0</p></div>
@@ -578,6 +588,7 @@
         <div class="kpi-card" style="border-left-color: #107C41;"><h4>Inversión Total</h4><p id="kpi_inversion" style="color: #107C41;">US$ 0.00</p></div>
       </div>
 
+      <!-- Grid de Gráficos -->
       <div class="charts-grid">
         <div class="chart-card"><h5>Distribución y Estado del Hardware</h5><canvas id="chart_hardware"></canvas></div>
         <div class="chart-card"><h5>Inversión Acumulada por Área (USD)</h5><canvas id="chart_costos"></canvas></div>
@@ -585,6 +596,7 @@
         <div class="chart-card"><h5>Monitoreo de Chips y SIM Cards</h5><canvas id="chart_lineas_status"></canvas></div>
       </div>
 
+      <!-- INFORMACIÓN EXPANDIDA: GRILLA DE AUDITORÍA LOGÍSTICA DE CONTRATOS CRÍTICOS -->
       <div class="audit-table-wrapper">
         <h5 style="font-size: 13px; font-weight: 600; color: var(--text-color); margin: 0 0 14px 0; text-transform: uppercase; letter-spacing: 0.5px;">Auditoría de Flotas y Proveedores Críticos</h5>
         <table class="audit-table">
@@ -612,6 +624,9 @@
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 1: MATERIAL INFORMÁTICO
+     ========================================== -->
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -696,6 +711,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     FORMULARIO 2: PERIFÉRICOS (MONITORES)
+     ========================================== -->
   <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -729,7 +747,7 @@
       <h3>3. Condiciones de Entrega:</h3>
       <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr></table>
       <h3>4. Compromiso de Responsabilidad:</h3>
-      <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organization.</div>
+      <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
       <div class="signature-section">
         <div class="signature-block">
           <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
@@ -762,6 +780,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     FORMULARIO 3: TELÉFONOS MÓVILES
+     ========================================== -->
   <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -846,6 +867,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES
+     ========================================== -->
   <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -935,6 +959,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     SISTEMA POPUP DE CAPTURA DE FIRMAS REUTILIZABLE
+     ========================================== -->
   <div id="firma_modal" class="sig-modal-overlay no-print">
     <div class="sig-modal-card">
       <div id="modal_titulo" class="sig-modal-header">Registrar Firma Digital</div>
@@ -951,6 +978,8 @@
     </div>
   </div>
 
+
+  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
     function alternarModoManual() {
       const b = document.body;
@@ -979,6 +1008,18 @@
     let chartLeasingInstance = null;
     let chartLinesInstance = null;
 
+    function mostrarNotificacionToast(mensaje, esExito) {
+      const toast = document.getElementById('custom_toast');
+      const icon = document.getElementById('toast_icon');
+      const msg = document.getElementById('toast_message');
+      
+      msg.innerText = mensaje;
+      icon.innerText = esExito ? "✅" : "❌";
+      toast.className = "custom-toast " + (esExito ? "success" : "error") + " show";
+      
+      setTimeout(() => { toast.classList.remove('show'); }, 3500);
+    }
+
     function navegarA(idVista) {
       document.getElementById('main_dashboard').style.display = 'none';
       const vistas = document.querySelectorAll('.form-view');
@@ -993,6 +1034,9 @@
       document.getElementById('main_dashboard').style.display = 'block';
     }
 
+    // =========================================================================
+    // --- 📊 MOTOR DE CONSUMO DE METRICAS Y RENDERIZADO GRÁFICO (CHART.JS) ---
+    // =========================================================================
     async function navegarADashboard() {
       navegarA('view_dashboard');
       
@@ -1012,11 +1056,13 @@
         Chart.defaults.color = themeTextColor;
         Chart.defaults.borderColor = themeGridColor;
 
+        // 1. Inyección de KPIs en Tarjetas Resumen
         document.getElementById('kpi_asignados').innerText = data.summaryCards.activosAsignados;
         document.getElementById('kpi_stock').innerText = data.summaryCards.activosEnStock;
         document.getElementById('kpi_lineas').innerText = data.summaryCards.lineasActivas;
         document.getElementById('kpi_inversion').innerText = "US$ " + data.summaryCards.inversionTotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+        // 2. Gráfico 1: Estado del Hardware (Barras Apiladas)
         const tiposHw = [...new Set(data.hardwareStockDistribution.map(item => item.tipo))];
         const estadosHw = [...new Set(data.hardwareStockDistribution.map(item => item.estado))];
         const colorsPalette = ['#0E5A32', '#92C840', '#64748B'];
@@ -1037,6 +1083,7 @@
           options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
         });
 
+        // 3. Gráfico 2: Inversión por Área (Barras Horizontales Analíticas)
         const labelsAreas = data.financialCostByArea.map(i => i.area);
         const dataCostos = data.financialCostByArea.map(i => i.costoTotal);
 
@@ -1045,11 +1092,12 @@
           type: 'bar',
           data: {
             labels: labelsAreas,
-            datasets: [{ label: 'Inversión Acumulada ($)', data: dataCostos, backgroundColor: '#0078D4', borderRadius: 2 }]
+            datasets: [{ label: 'Inversión Acumulada ($)', data: dataCostos, backgroundColor: '#0078D4', borderRadius: 4 }]
           },
           options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
         });
 
+        // 4. Gráfico 3: Contratos de Arrendamiento / Leasing (Gráfico de Torta)
         const labelsLeasing = data.leasingContractsOverview.map(i => i.arrendadora + " (" + i.estado + ")");
         const dataLeasing = data.leasingContractsOverview.map(i => i.total);
 
@@ -1063,6 +1111,7 @@
           options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
         });
 
+        // 5. Gráfico 4: Estado de SIM Cards / Líneas (Dona Office Fluent)
         const labelsLines = data.mobileLinesStatus.map(i => i.estado);
         const dataLines = data.mobileLinesStatus.map(i => i.total);
 
@@ -1083,7 +1132,7 @@
     }
 
     // =========================================================================
-    // --- LÓGICA DE FIRMAS (100% RESTAURADA A LA VERSIÓN FUNCIONAL EXACTA) ---
+    // --- MOTOR DE FIRMAS DIGITALES RESTAURADO (ESTABLE Y SIN BLOQUEOS) ---
     // =========================================================================
     let targetImgId = null; 
     let dibujando = false;
@@ -1139,19 +1188,23 @@
 
     function obtenerPosicion(e) {
       const rect = canvas.getBoundingClientRect();
+      const clienteX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clienteY = e.touches ? e.touches[0].clientY : e.clientY;
+      
       return {
-        x: (e.clientX - rect.left) * (canvas.width / rect.width),
-        y: (e.clientY - rect.top) * (canvas.height / rect.height)
+        x: (clienteX - rect.left) * (canvas.width / rect.width),
+        y: (clienteY - rect.top) * (canvas.height / rect.height)
       };
     }
 
     function iniciarTrazo(e) {
-      canvas.setPointerCapture(e.pointerId);
       dibujando = true;
       const pos = obtenerPosicion(e);
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
-      e.preventDefault();
+      if (e.target === canvas) {
+        e.preventDefault();
+      }
     }
 
     function dibujar(e) {
@@ -1159,32 +1212,26 @@
       const pos = obtenerPosicion(e);
       ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
-      e.preventDefault();
+      if (e.target === canvas) {
+        e.preventDefault();
+      }
     }
 
-    function detenerTrazo(e) {
-      if (!dibujando) return;
-      dibujando = false;
-      try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
-    }
+    function detenerTrazo() { dibujando = false; }
 
-    canvas.addEventListener('pointerdown', iniciarTrazo);
-    canvas.addEventListener('pointermove', dibujar);
-    canvas.addEventListener('pointerup', detenerTrazo);
-    canvas.addEventListener('pointercancel', detenerTrazo);
+    // Eventos Mouse y Touchpad nativos (Estables para Windows/macOS)
+    canvas.addEventListener('mousedown', iniciarTrazo);
+    canvas.addEventListener('mousemove', dibujar);
+    window.addEventListener('mouseup', detenerTrazo);
 
-    function mostrarNotificacionToast(mensaje, esExito) {
-      const toast = document.getElementById('custom_toast');
-      const icon = document.getElementById('toast_icon');
-      const msg = document.getElementById('toast_message');
-      
-      msg.innerText = mensaje;
-      icon.innerText = esExito ? "✅" : "❌";
-      toast.className = "custom-toast " + (esExito ? "success" : "error") + " show";
-      
-      setTimeout(() => { toast.classList.remove('show'); }, 3500);
-    }
+    // Eventos Táctiles (Estables para iOS, Android y Apple Pencil)
+    canvas.addEventListener('touchstart', iniciarTrazo, { passive: false });
+    canvas.addEventListener('touchmove', dibujar, { passive: false });
+    window.addEventListener('touchend', detenerTrazo);
 
+    // =========================================================================
+    // --- INYECTOR PERSISTENTE SEGURO (POSTGRESQL RELATIONAL DISPATCHER) ---
+    // =========================================================================
     async function procesarGuardadoBaseDatos(btnElement) {
       const activeForm = document.querySelector('.form-view.active');
       if (!activeForm) return;
