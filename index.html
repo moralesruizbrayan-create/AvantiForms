@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Actas de Entrega - Agrícola Avanti</title>
   
-  <!-- Icono oficial (Favicon) usando el logo local del repositorio -->
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <link rel="apple-touch-icon" href="/AVANTI%20LOGO%20(1).jpeg">
+  <meta name="theme-color" content="#0E5A32">
 
-  <!-- Motor de Renderizado Estadístico e Inteligencia de Negocios de Alta Velocidad -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
   <style>
     /* --- VARIABLES GLOBALES DE DISEÑO (ESTILO PREMIUM PORTAL DE INCIDENCIAS) --- */
@@ -263,6 +265,13 @@
       letter-spacing: 0.3px;
     }
 
+    /* --- ESTILOS PARA INPUTS Y BOTONES DE ESCANEO --- */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
     input[type="text"], textarea {
       width: 100%;
       border: 1px solid var(--input-border);
@@ -272,6 +281,27 @@
       color: var(--text-color);
       border-radius: 4px;
       transition: all 0.15s ease;
+    }
+    .input-with-scan {
+      padding-right: 36px; /* Espacio para el botón de cámara */
+    }
+    .btn-scan {
+      position: absolute;
+      right: 4px;
+      background: transparent;
+      border: none;
+      color: #0E5A32;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    .btn-scan:hover {
+      background-color: rgba(14, 90, 50, 0.1);
     }
     textarea { resize: none; display: block; }
     input[type="text"]:focus, textarea:focus {
@@ -348,6 +378,7 @@
       width: 110px; text-align: center; background: transparent; border: none; border-bottom: 1px dashed var(--text-secondary); border-radius: 0; padding: 0; color: var(--text-color);
     }
 
+    /* Modales compartidos (Firma y Escáner) */
     .sig-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -357,10 +388,23 @@
     .sig-modal-card { background-color: var(--card-bg); width: 100%; max-width: 600px; border-radius: 4px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); overflow: hidden; }
     .sig-modal-header { background-color: #0E5A32; color: #FFFFFF; padding: 14px 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
     .sig-modal-body { padding: 20px; background-color: var(--bg-color); }
+    
     .canvas-wrapper { width: 100%; background-color: #FFFFFF; border: 1.5px dashed #92C840; border-radius: 4px; }
     .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; touch-action: none; }
+    
+    /* Contenedor del escáner de cámara */
+    #qr-reader {
+      width: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #qr-reader video {
+      object-fit: cover;
+    }
+    
     .sig-modal-footer { padding: 12px 20px; background-color: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 8px; }
-
+    
     .btn-modal { border: none; padding: 7px 16px; font-size: 11.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
     .btn-modal-cancel { background-color: #E1DFDD; color: #323130; }
     .btn-modal-cancel:hover { background-color: #C8C6C4; }
@@ -497,9 +541,13 @@
       .charts-grid { grid-template-columns: 1fr; gap: 16px; }
     }
 
-    /* --- REGLAS DE IMPRESIÓN FORZADA EN A4 BLANCO --- */
+    /* =========================================================================
+       --- REGLAS DE IMPRESIÓN FORZADA (SHRINK-TO-FIT 1 SOLA CARA A4) ---
+       ========================================================================= */
     @media print {
-      @page { size: A4 portrait; margin: 5mm 15mm 4mm 15mm; }
+      /* Forza el tamaño estricto de A4 y retira el escalado forzado móvil */
+      @page { size: A4 portrait; margin: 3mm 10mm 3mm 10mm; }
+      
       :root {
         --bg-color: #FFFFFF !important;
         --text-color: #000000 !important;
@@ -509,31 +557,71 @@
         --lbl-bg: #FAF9F8 !important;
         --subhead-bg: #F1F5F9 !important;
       }
+
       body::before { display: none !important; }
-      html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; }
+      html, body { 
+        background-color: #FFFFFF !important; 
+        padding: 0 !important; 
+        margin: 0 !important;
+        width: 100% !important;
+        /* La clave para forzar la compresión del PDF en móviles a 1 sola página: */
+        height: 100% !important; 
+        overflow: hidden !important; 
+        box-sizing: border-box !important;
+      }
+      
       .dashboard-menu { display: none !important; }
       .no-print { display: none !important; }
       .theme-toggle-btn { display: none !important; }
-      .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
-      .form-table td { border-color: #D2D2D2 !important; color: #000000 !important; }
-      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; color: #000000 !important; }
+      .btn-scan { display: none !important; }
+      
+      .page-container { 
+        border: none !important; 
+        box-shadow: none !important; 
+        padding: 0 !important; 
+        margin: 0 !important; 
+        width: 100% !important; 
+        max-width: 100% !important; 
+        height: auto !important;
+        /* Escalado proporcional para asegurar que los elementos no revienten los límites */
+        transform-origin: top left;
+        page-break-inside: avoid !important;
+      }
+      
+      /* Reducción micrométrica de espacios para empaquetado seguro en A4 */
+      .header-table, .form-table, .signature-section, .dev-section { width: 100% !important; table-layout: fixed !important; }
+      .header-logo { padding-bottom: 2px !important; }
+      .header-logo img { width: 45px !important; height: 45px !important; }
+      .header-titles h1 { font-size: 16px !important; margin-bottom: 0 !important; }
+      .header-titles h2 { font-size: 10px !important; }
+      
+      h3 { margin: 2px 0 1px 0 !important; font-size: 9px !important; }
+      .form-table { margin-bottom: 1px !important; font-size: 9.5px !important; }
+      .form-table td { padding: 1.5px 5px !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 10px !important; color: #000000 !important; }
+      textarea { height: 26px !important; }
+      
+      .compromiso-box { font-size: 8px !important; padding: 3px 8px !important; margin-top: 1px !important; line-height: 1.15 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      
+      .signature-section { margin-top: 4px !important; margin-bottom: 1px !important; }
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
+      .signature-trigger-box span { display: none !important; }
+      .signature-line { margin-top: 1px !important; border-top-color: #000000 !important; }
+      .dev-section { margin-top: 2px !important; padding-top: 1px !important; }
     }
   </style>
 </head>
 <body class="light-mode">
 
-  <!-- Botón manual para cambiar entre modo Claro y Oscuro -->
   <button class="theme-toggle-btn no-print" onclick="alternarModoManual()" title="Cambiar de modo">🌓</button>
 
-  <!-- Componente Flotante Global de Notificación (Toast) -->
   <div id="custom_toast" class="custom-toast no-print">
     <span id="toast_icon">✅</span>
     <span id="toast_message" class="toast-msg-text">Operación procesada con éxito</span>
   </div>
 
-  <!-- ==========================================
-     MENÚ PRINCIPAL INTERACTIVO (DASHBOARD)
-     ========================================== -->
+  <audio id="scan-beep" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
+
   <div id="main_dashboard" class="dashboard-menu no-print">
     <div class="dashboard-header">
       <h1>Portal de Gestión de Actas</h1>
@@ -557,19 +645,10 @@
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
       
-      <!-- OPCIÓN ANALÍTICA OCULTA POR SOLICITUD DEL USUARIO
-      <div class="option-card" onclick="navegarADashboard()" style="border-left-color: #0078D4;">
-        <h2>📊 Dashboard</h2>
-        <p>Análisis de costos logísticos, control patrimonial e inventario en tiempo real.</p>
       </div>
-      -->
-    </div>
   </div>
 
 
-  <!-- ==========================================
-     VISTA 5: 📊 PANEL ESTADÍSTICO EXPANDIDO (DASHBOARD)
-     ========================================== -->
   <div id="view_dashboard" class="form-view">
     <div class="action-bar no-print" style="max-width: 1000px; margin: 0 auto 12px auto;">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -580,7 +659,6 @@
         <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Análisis en tiempo real sincronizado con Neon Postgres</p>
       </div>
 
-      <!-- KPI Summary Cards -->
       <div class="kpi-grid">
         <div class="kpi-card"><h4 style="color: #0E5A32;">Activos Operativos</h4><p id="kpi_asignados">0</p></div>
         <div class="kpi-card"><h4 style="color: #92C840;">Stock Disponible</h4><p id="kpi_stock">0</p></div>
@@ -588,7 +666,6 @@
         <div class="kpi-card" style="border-left-color: #107C41;"><h4>Inversión Total</h4><p id="kpi_inversion" style="color: #107C41;">US$ 0.00</p></div>
       </div>
 
-      <!-- Grid de Gráficos -->
       <div class="charts-grid">
         <div class="chart-card"><h5>Distribución y Estado del Hardware</h5><canvas id="chart_hardware"></canvas></div>
         <div class="chart-card"><h5>Inversión Acumulada por Área (USD)</h5><canvas id="chart_costos"></canvas></div>
@@ -596,7 +673,6 @@
         <div class="chart-card"><h5>Monitoreo de Chips y SIM Cards</h5><canvas id="chart_lineas_status"></canvas></div>
       </div>
 
-      <!-- INFORMACIÓN EXPANDIDA: GRILLA DE AUDITORÍA LOGÍSTICA DE CONTRATOS CRÍTICOS -->
       <div class="audit-table-wrapper">
         <h5 style="font-size: 13px; font-weight: 600; color: var(--text-color); margin: 0 0 14px 0; text-transform: uppercase; letter-spacing: 0.5px;">Auditoría de Flotas y Proveedores Críticos</h5>
         <table class="audit-table">
@@ -624,9 +700,6 @@
   </div>
 
 
-  <!-- ==========================================
-     FORMULARIO 1: MATERIAL INFORMÁTICO
-     ========================================== -->
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -651,7 +724,16 @@
       </table>
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><input type="text" data-spec="nro_serie"></td></tr>
+        <tr>
+          <td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m1_nro_serie" data-spec="nro_serie" class="input-with-scan">
+              <button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')" title="Escanear Código de Barras">📷</button>
+            </div>
+          </td>
+        </tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Computador:</td><td><input type="text" data-spec="nombre_computador"></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><input type="text" data-spec="procesador"></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
@@ -711,9 +793,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     FORMULARIO 2: PERIFÉRICOS (MONITORES)
-     ========================================== -->
   <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -738,7 +817,16 @@
       </table>
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_periferico" placeholder="Ej. Monitor, Proyector"></td><td class="lbl">Nº de Serie:</td><td><input type="text" data-spec="nro_serie"></td></tr>
+        <tr>
+          <td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_periferico" placeholder="Ej. Monitor, Proyector"></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m2_nro_serie" data-spec="nro_serie" class="input-with-scan">
+              <button class="btn-scan no-print" onclick="abrirEscaner('m2_nro_serie')" title="Escanear Código de Barras">📷</button>
+            </div>
+          </td>
+        </tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_activo"></td></tr>
         <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><input type="text" data-spec="entradas_video" placeholder="Ej. HDMI, VGA, DP"></td></tr>
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
@@ -780,9 +868,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     FORMULARIO 3: TELÉFONOS MÓVILES
-     ========================================== -->
   <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -807,8 +892,32 @@
       </table>
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
       <table class="form-table">
-        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><input type="text" data-spec="marca_modelo"></td><td class="lbl">Nº de Serie:</td><td><input type="text" data-spec="nro_serie"></td></tr>
-        <tr><td class="lbl">IMEI 1:</td><td><input type="text" data-spec="imei_1"></td><td class="lbl">IMEI 2:</td><td><input type="text" data-spec="imei_2"></td></tr>
+        <tr>
+          <td class="lbl">Marca / Modelo:</td><td style="width:32%;"><input type="text" data-spec="marca_modelo"></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_nro_serie" data-spec="nro_serie" class="input-with-scan">
+              <button class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')" title="Escanear S/N">📷</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">IMEI 1:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_imei1" data-spec="imei_1" class="input-with-scan">
+              <button class="btn-scan no-print" onclick="abrirEscaner('m3_imei1')" title="Escanear IMEI">📷</button>
+            </div>
+          </td>
+          <td class="lbl">IMEI 2:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_imei2" data-spec="imei_2" class="input-with-scan">
+              <button class="btn-scan no-print" onclick="abrirEscaner('m3_imei2')" title="Escanear IMEI 2">📷</button>
+            </div>
+          </td>
+        </tr>
         <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad" placeholder="Ej. 64GB, 128GB"></td></tr>
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="acc_cargador"> Cargador de Pared</label><label class="inline-flex"><input type="checkbox" data-spec="acc_cable"> Cable USB</label><label class="inline-flex"><input type="checkbox" data-spec="acc_case"> Funda Protectora (Case)</label><label class="inline-flex"><input type="checkbox" data-spec="acc_lamina"> Lámina de Vidrio</label></td></tr>
@@ -867,9 +976,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES
-     ========================================== -->
   <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -895,7 +1001,16 @@
       <h3>2. Detalle de la Línea Móvil:</h3>
       <table class="form-table">
         <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador" placeholder="Ej. Entel, Movistar, Claro"></td></tr>
-        <tr><td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td><td class="lbl">Serie SIM:</td><td><input type="text" data-spec="serie_sim"></td></tr>
+        <tr>
+          <td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td>
+          <td class="lbl">Serie SIM:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m4_serie_sim" data-spec="serie_sim" class="input-with-scan">
+              <button class="btn-scan no-print" onclick="abrirEscaner('m4_serie_sim')" title="Escanear Código de Barras SIM">📷</button>
+            </div>
+          </td>
+        </tr>
       </table>
       <h3>3. Condiciones de Entrega:</h3>
       <table class="form-table">
@@ -959,9 +1074,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     SISTEMA POPUP DE CAPTURA DE FIRMAS REUTILIZABLE
-     ========================================== -->
   <div id="firma_modal" class="sig-modal-overlay no-print">
     <div class="sig-modal-card">
       <div id="modal_titulo" class="sig-modal-header">Registrar Firma Digital</div>
@@ -978,8 +1090,18 @@
     </div>
   </div>
 
+  <div id="scanner_modal" class="sig-modal-overlay no-print">
+    <div class="sig-modal-card">
+      <div class="sig-modal-header">Escanear Código de Barras / QR</div>
+      <div class="sig-modal-body" style="padding: 10px;">
+        <div id="qr-reader"></div>
+      </div>
+      <div class="sig-modal-footer">
+        <button class="btn-modal btn-modal-cancel" onclick="cerrarEscaner()">Cancelar Escaneo</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
     function alternarModoManual() {
       const b = document.body;
@@ -1034,9 +1156,6 @@
       document.getElementById('main_dashboard').style.display = 'block';
     }
 
-    // =========================================================================
-    // --- 📊 MOTOR DE CONSUMO DE METRICAS Y RENDERIZADO GRÁFICO (CHART.JS) ---
-    // =========================================================================
     async function navegarADashboard() {
       navegarA('view_dashboard');
       
@@ -1056,13 +1175,11 @@
         Chart.defaults.color = themeTextColor;
         Chart.defaults.borderColor = themeGridColor;
 
-        // 1. Inyección de KPIs en Tarjetas Resumen
         document.getElementById('kpi_asignados').innerText = data.summaryCards.activosAsignados;
         document.getElementById('kpi_stock').innerText = data.summaryCards.activosEnStock;
         document.getElementById('kpi_lineas').innerText = data.summaryCards.lineasActivas;
         document.getElementById('kpi_inversion').innerText = "US$ " + data.summaryCards.inversionTotalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-        // 2. Gráfico 1: Estado del Hardware (Barras Apiladas)
         const tiposHw = [...new Set(data.hardwareStockDistribution.map(item => item.tipo))];
         const estadosHw = [...new Set(data.hardwareStockDistribution.map(item => item.estado))];
         const colorsPalette = ['#0E5A32', '#92C840', '#64748B'];
@@ -1083,7 +1200,6 @@
           options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
         });
 
-        // 3. Gráfico 2: Inversión por Área (Barras Horizontales Analíticas)
         const labelsAreas = data.financialCostByArea.map(i => i.area);
         const dataCostos = data.financialCostByArea.map(i => i.costoTotal);
 
@@ -1092,12 +1208,11 @@
           type: 'bar',
           data: {
             labels: labelsAreas,
-            datasets: [{ label: 'Inversión Acumulada ($)', data: dataCostos, backgroundColor: '#0078D4', borderRadius: 4 }]
+            datasets: [{ label: 'Inversión Acumulada ($)', data: dataCostos, backgroundColor: '#0078D4', borderRadius: 2 }]
           },
           options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
         });
 
-        // 4. Gráfico 3: Contratos de Arrendamiento / Leasing (Gráfico de Torta)
         const labelsLeasing = data.leasingContractsOverview.map(i => i.arrendadora + " (" + i.estado + ")");
         const dataLeasing = data.leasingContractsOverview.map(i => i.total);
 
@@ -1111,7 +1226,6 @@
           options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
         });
 
-        // 5. Gráfico 4: Estado de SIM Cards / Líneas (Dona Office Fluent)
         const labelsLines = data.mobileLinesStatus.map(i => i.estado);
         const dataLines = data.mobileLinesStatus.map(i => i.total);
 
@@ -1132,12 +1246,12 @@
     }
 
     // =========================================================================
-    // --- MOTOR DE FIRMAS DIGITALES RESTAURADO (ESTABLE Y SIN BLOQUEOS) ---
+    // --- LÓGICA DE FIRMAS NATIVA ---
     // =========================================================================
     let targetImgId = null; 
     let dibujando = false;
     
-    const modal = document.getElementById('firma_modal');
+    const modalFirma = document.getElementById('firma_modal');
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
     const modalTitulo = document.getElementById('modal_titulo');
@@ -1150,12 +1264,12 @@
     function abrirModalFirma(imgId, titulo) {
       targetImgId = imgId;
       modalTitulo.innerText = titulo;
-      modal.style.display = 'flex';
+      modalFirma.style.display = 'flex';
       limpiarCanvasPopup();
     }
 
     function cerrarModalFirma() {
-      modal.style.display = 'none';
+      modalFirma.style.display = 'none';
       targetImgId = null;
     }
 
@@ -1219,18 +1333,72 @@
 
     function detenerTrazo() { dibujando = false; }
 
-    // Eventos Mouse y Touchpad nativos (Estables para Windows/macOS)
     canvas.addEventListener('mousedown', iniciarTrazo);
     canvas.addEventListener('mousemove', dibujar);
     window.addEventListener('mouseup', detenerTrazo);
 
-    // Eventos Táctiles (Estables para iOS, Android y Apple Pencil)
     canvas.addEventListener('touchstart', iniciarTrazo, { passive: false });
     canvas.addEventListener('touchmove', dibujar, { passive: false });
     window.addEventListener('touchend', detenerTrazo);
 
     // =========================================================================
-    // --- INYECTOR PERSISTENTE SEGURO (POSTGRESQL RELATIONAL DISPATCHER) ---
+    // --- LÓGICA DE ESCÁNER DE CÓDIGOS DE BARRAS (HTML5-QRCODE) ---
+    // =========================================================================
+    let html5QrCode = null;
+    let currentInputTarget = null;
+    const scannerModal = document.getElementById('scanner_modal');
+    const beepAudio = document.getElementById('scan-beep');
+
+    function abrirEscaner(inputId) {
+      currentInputTarget = document.getElementById(inputId);
+      scannerModal.style.display = 'flex';
+      
+      // Inicializar el escáner si no existe
+      if (!html5QrCode) {
+        html5QrCode = new Html5Qrcode("qr-reader");
+      }
+      
+      // Configuración de cámara trasera optimizada para códigos de barras
+      const config = { fps: 10, qrbox: { width: 250, height: 100 } };
+      
+      html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess)
+      .catch((err) => {
+        console.error("Error iniciando la cámara", err);
+        mostrarNotificacionToast("Por favor, permite el acceso a la cámara.", false);
+        cerrarEscaner();
+      });
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+      // Reproducir sonido de confirmación al estilo de lector de supermercado
+      if (beepAudio) beepAudio.play().catch(e => console.log(e));
+      
+      // Detener escáner e insertar valor limpio en el input correspondiente
+      if (currentInputTarget) {
+        currentInputTarget.value = decodedText.trim();
+        // Disparar efecto visual de foco para confirmar inserción
+        currentInputTarget.focus();
+        setTimeout(() => currentInputTarget.blur(), 500);
+      }
+      
+      cerrarEscaner();
+      mostrarNotificacionToast("Código capturado exitosamente", true);
+    }
+
+    function cerrarEscaner() {
+      scannerModal.style.display = 'none';
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+          // Cámara detenida exitosamente
+        }).catch((err) => {
+          console.error("Error al detener la cámara", err);
+        });
+      }
+      currentInputTarget = null;
+    }
+
+    // =========================================================================
+    // --- INYECTOR PERSISTENTE SEGURO ---
     // =========================================================================
     async function procesarGuardadoBaseDatos(btnElement) {
       const activeForm = document.querySelector('.form-view.active');
