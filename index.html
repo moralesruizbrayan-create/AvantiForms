@@ -105,11 +105,21 @@
     .btn-print { background-color: #0E5A32; color: #FFFFFF; }
     .btn-print:hover { background-color: #0A3F23; }
 
+    /* --- SELECTOR DE MODO DE REPORTE (UI) --- */
+    .mode-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
+    .mode-btn { padding: 8px 16px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-secondary); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+    .mode-btn:hover { background: var(--border-color); }
+    .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; box-shadow: 0 2px 6px rgba(14,90,50,0.3); }
+
+    /* --- ESTRUCTURA FLEXIBLE (PARA LLENAR HOJA A4) --- */
+    .flex-col-expand { display: flex; flex-direction: column; flex-grow: 1; }
+    .mt-auto { margin-top: auto !important; }
+
     .header-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; border-bottom: 2.5px solid #92C840; }
     .header-logo { width: 70px; vertical-align: middle; padding-bottom: 8px; }
     .header-logo img { width: 60px; height: 60px; object-fit: contain; }
     .header-titles { vertical-align: middle; padding-left: 14px; padding-bottom: 8px; }
-    .header-titles h1 { font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; letter-spacing: 0.3px; }
+    .header-titles h1 { font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; }
     .header-titles h2 { font-size: 12px; color: var(--text-secondary); margin: 0; font-weight: 600; }
 
     h3 { font-size: 11px; color: #0E5A32; font-weight: 700; text-transform: uppercase; margin: 16px 0 6px 0; display: flex; align-items: center; }
@@ -131,7 +141,7 @@
       cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px;
     }
     .btn-scan:hover { background-color: rgba(14, 90, 50, 0.1); }
-    textarea { resize: none; display: block; }
+    textarea { resize: none; display: block; flex-grow: 1; min-height: 45px; }
     input[type="text"]:focus, textarea:focus { outline: none; background-color: var(--card-bg); border-color: #0E5A32; box-shadow: 0 0 0 1px #0E5A32; }
 
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; margin-bottom: 2px; font-weight: 500; cursor: pointer; }
@@ -148,6 +158,8 @@
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 2px; gap: 4px; width: 100%; }
     .signature-field-group span { font-weight: 600; color: var(--text-color); }
     .signature-field-group input[type="text"] { width: 110px; text-align: center; background: transparent; border: none; border-bottom: 1px dashed var(--text-secondary); border-radius: 0; padding: 0; color: var(--text-color); }
+
+    .dev-section { width: 100%; display: flex; flex-direction: column; flex-grow: 1; }
 
     /* --- SISTEMA DE MODALES Y DIÁLOGOS CUSTOM --- */
     .custom-modal-overlay {
@@ -200,29 +212,43 @@
       .action-bar { flex-direction: column; gap: 8px; align-items: stretch; }
       .action-group-right { flex-direction: column; gap: 8px; }
       .btn-action { width: 100%; padding: 12px; text-align: center; }
+      .mode-selector { flex-direction: column; gap: 8px; }
     }
 
+    /* --- REGLAS DE IMPRESIÓN DINÁMICA (A4 PERFECTO) --- */
     @media print {
-      @page { size: A4 portrait; margin: 3mm 10mm 3mm 10mm; }
+      @page { size: A4 portrait; margin: 8mm 12mm 8mm 12mm; }
+      
       :root { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #D2D2D2 !important; --input-bg: transparent !important; --lbl-bg: #FAF9F8 !important; --subhead-bg: #F1F5F9 !important; }
       body::before { display: none !important; }
-      html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; width: 100% !important; height: 100% !important; overflow: hidden !important; box-sizing: border-box !important; }
-      .dashboard-menu, .no-print, .theme-toggle-btn, .btn-scan, .custom-modal-overlay { display: none !important; }
-      .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; height: auto !important; transform-origin: top left; page-break-inside: avoid !important; }
+      
+      html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; height: auto !important; }
+      
+      .dashboard-menu, .no-print, .theme-toggle-btn, .btn-scan, .custom-modal-overlay, .mode-selector { display: none !important; }
+      
+      .page-container { 
+        border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; 
+        width: 100% !important; max-width: 100% !important; 
+        min-height: 275mm; /* Obliga a la hoja a estirarse a tamaño A4 */
+        display: flex; flex-direction: column;
+      }
+      
       .header-table, .form-table, .signature-section, .dev-section { width: 100% !important; table-layout: fixed !important; }
-      .header-logo { padding-bottom: 2px !important; } .header-logo img { width: 45px !important; height: 45px !important; }
-      .header-titles h1 { font-size: 16px !important; margin-bottom: 0 !important; } .header-titles h2 { font-size: 10px !important; }
-      h3 { margin: 2px 0 1px 0 !important; font-size: 9px !important; }
-      .form-table { margin-bottom: 1px !important; font-size: 9.5px !important; }
-      .form-table td { padding: 1.5px 5px !important; border-color: #D2D2D2 !important; color: #000000 !important; }
-      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 10px !important; color: #000000 !important; }
-      textarea { height: 26px !important; }
-      .compromiso-box { font-size: 8px !important; padding: 3px 8px !important; margin-top: 1px !important; line-height: 1.15 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
-      .signature-section { margin-top: 4px !important; margin-bottom: 1px !important; }
-      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
+      .header-logo { padding-bottom: 2px !important; } .header-logo img { width: 50px !important; height: 50px !important; }
+      .header-titles h1 { font-size: 18px !important; margin-bottom: 0 !important; } .header-titles h2 { font-size: 11px !important; }
+      h3 { margin: 12px 0 4px 0 !important; font-size: 11px !important; }
+      
+      .form-table { margin-bottom: 4px !important; }
+      .form-table td { padding: 8px 10px !important; border-color: #D2D2D2 !important; color: #000000 !important; font-size: 11.5px !important; }
+      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 11.5px !important; color: #000000 !important; }
+      
+      textarea { min-height: 55px !important; flex-grow: 1; }
+      .compromiso-box { font-size: 10px !important; padding: 12px !important; margin-top: 4px !important; line-height: 1.3 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      
+      .signature-section { margin-top: auto !important; padding-top: 15px; margin-bottom: 5px !important; }
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 75px !important; }
       .signature-trigger-box span { display: none !important; }
       .signature-line { margin-top: 1px !important; border-top-color: #000000 !important; }
-      .dev-section { margin-top: 2px !important; padding-top: 1px !important; }
     }
   </style>
 </head>
@@ -238,14 +264,12 @@
   <audio id="scan-beep" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
 
   <!-- ==========================================
-     SISTEMA DE DIÁLOGO CONFIRMATION (REEMPLAZO NATIVO)
+     SISTEMA DE DIÁLOGO CONFIRMATION
      ========================================== -->
   <div id="system_dialog" class="custom-modal-overlay no-print">
     <div class="custom-modal-card">
       <div id="dialog_title" class="custom-modal-header">Confirmación del Sistema</div>
-      <div id="dialog_message" class="custom-modal-body">
-        ¿Está seguro que desea procesar esta solicitud?
-      </div>
+      <div id="dialog_message" class="custom-modal-body">¿Está seguro que desea procesar esta solicitud?</div>
       <div class="custom-modal-footer">
         <button class="btn-modal btn-modal-cancel" onclick="cerrarDialogo()">Cancelar</button>
         <button class="btn-modal btn-modal-confirm" id="btn_dialog_confirm">Aceptar</button>
@@ -290,13 +314,25 @@
         <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
       </div>
     </div>
+    
     <div class="page-container">
+      
+      <!-- CONTROLES DE REPORTE -->
+      <div class="mode-selector no-print">
+        <button class="mode-btn" onclick="cambiarModo('view_material_informatico', 'entrega', this)">Solo Entrega</button>
+        <button class="mode-btn" onclick="cambiarModo('view_material_informatico', 'devolucion', this)">Solo Devolución</button>
+        <button class="mode-btn active" onclick="cambiarModo('view_material_informatico', 'completo', this)">Reporte Completo</button>
+      </div>
+
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
-          <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE EQUIPOS INFORMÁTICOS</h2></td>
+          <td class="header-titles">
+            <h1 id="title_material_informatico">ACTA DE ENTREGA Y DEVOLUCIÓN DE EQUIPOS INFORMÁTICOS</h1>
+          </td>
         </tr>
       </table>
+
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado" placeholder="Apellidos y Nombres"></td></tr>
@@ -304,6 +340,7 @@
         <tr><td class="lbl">Área / Régimen:</td><td><input type="text" data-field="area_empleado" placeholder="Ej. Empleados Agrarios"></td><td class="lbl">Correo Corp.:</td><td><input type="text" data-field="correo_empleado"></td></tr>
         <tr><td class="lbl">Usuario PC:</td><td><input type="text" data-spec="usuario_pc"></td><td class="lbl">Fecha Ingreso:</td><td><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
       </table>
+
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
         <tr>
@@ -338,40 +375,53 @@
           </td>
         </tr>
       </table>
-      <h3>3. Condiciones de Entrega:</h3>
-      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado de entrega del activo..."></textarea></td></tr></table>
-      <h3>4. Compromiso de Responsabilidad:</h3>
-      <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.</div>
-      <div class="signature-section">
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1', 'Firma Encargado TI')"><span id="lbl_f1_m1">📝 Pulsar para firmar</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
-        </div>
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m1', 'Firma Empleado / Receptor')"><span id="lbl_f2_m1">📝 Pulsar para firmar</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
-          <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
-        </div>
-      </div>
-      <div class="dev-section">
-        <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
-        <table class="form-table">
-          <tr><td class="lbl">Fecha Dev.:</td><td colspan="3"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Detalle exhaustivo del estado físico y funcional..."></textarea></td></tr>
+
+      <!-- ZONA EXCLUSIVA: ENTREGA -->
+      <div class="sec-entrega flex-col-expand">
+        <h3>3. Condiciones de Entrega:</h3>
+        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado de entrega del activo..."></textarea></td></tr>
         </table>
-        <div class="signature-section">
+        
+        <h3>4. Compromiso de Responsabilidad:</h3>
+        <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.</div>
+        
+        <div class="signature-section mt-auto">
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m1', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m1">📝 Pulsar para firmar</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1', 'Firma Encargado TI')"><span id="lbl_f1_m1">📝 Pulsar para firmar</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
           </div>
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m1', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m1">📝 Pulsar para firmar</span><img id="f4_m1" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA EMPLEADO (ENTREGA)</strong>
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m1', 'Firma Empleado / Receptor')"><span id="lbl_f2_m1">📝 Pulsar para firmar</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+            <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
           </div>
         </div>
       </div>
+
+      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
+      <div class="sec-devolucion flex-col-expand">
+        <div class="dev-section">
+          <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+            <tr style="display: flex;"><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td></tr>
+            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Detalle exhaustivo del estado físico y funcional..."></textarea></td></tr>
+          </table>
+          <div class="signature-section mt-auto">
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m1', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m1">📝 Pulsar para firmar</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            </div>
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m1', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m1">📝 Pulsar para firmar</span><img id="f4_m1" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA EMPLEADO (ENTREGA)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -387,10 +437,19 @@
       </div>
     </div>
     <div class="page-container">
+      
+      <div class="mode-selector no-print">
+        <button class="mode-btn" onclick="cambiarModo('view_perifericos', 'entrega', this)">Solo Entrega</button>
+        <button class="mode-btn" onclick="cambiarModo('view_perifericos', 'devolucion', this)">Solo Devolución</button>
+        <button class="mode-btn active" onclick="cambiarModo('view_perifericos', 'completo', this)">Reporte Completo</button>
+      </div>
+
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
-          <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE PERIFÉRICOS Y MONITORES</h2></td>
+          <td class="header-titles">
+            <h1 id="title_perifericos">ACTA DE ENTREGA Y DEVOLUCIÓN DE PERIFÉRICOS Y MONITORES</h1>
+          </td>
         </tr>
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
@@ -398,7 +457,7 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado" placeholder="Apellidos y Nombres"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
       </table>
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
@@ -417,39 +476,52 @@
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="cable_poder"> Cable de Poder</label><label class="inline-flex"><input type="checkbox" data-spec="cable_hdmi"> Cable HDMI</label><label class="inline-flex"><input type="checkbox" data-spec="cable_vga"> Cable VGA</label><label class="inline-flex"><input type="checkbox" data-spec="cable_dp"> Cable DisplayPort</label><label class="inline-flex"><input type="checkbox" data-spec="adaptador_voltaje"> Adaptador de Voltaje</label></td></tr>
       </table>
-      <h3>3. Condiciones de Entrega:</h3>
-      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr></table>
-      <h3>4. Compromiso de Responsabilidad:</h3>
-      <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
-      <div class="signature-section">
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
-        </div>
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m2', 'Firma Empleado / Receptor')"><span id="lbl_f2_m2">📝 Pulsar para firmar</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
-        </div>
-      </div>
-      <div class="dev-section">
-        <h3>5. Control de Devolución:</h3>
-        <table class="form-table">
-          <tr><td class="lbl">Fecha Dev.:</td><td colspan="3"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Diagnóstico de pantalla y pixeles al retornar..."></textarea></td></tr>
+
+      <!-- ZONA EXCLUSIVA: ENTREGA -->
+      <div class="sec-entrega flex-col-expand">
+        <h3>3. Condiciones de Entrega:</h3>
+        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr>
         </table>
-        <div class="signature-section">
+        
+        <h3>4. Compromiso de Responsabilidad:</h3>
+        <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
+        
+        <div class="signature-section mt-auto">
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m2', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m2">📝 Pulsar para firmar</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
           </div>
           <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m2', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m2">📝 Pulsar para firmar</span><img id="f4_m2" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA EMPLEADO (ENTREGA)</strong>
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m2', 'Firma Empleado / Receptor')"><span id="lbl_f2_m2">📝 Pulsar para firmar</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
           </div>
         </div>
       </div>
+
+      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
+      <div class="sec-devolucion flex-col-expand">
+        <div class="dev-section">
+          <h3>5. Control de Devolución:</h3>
+          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+            <tr style="display: flex;"><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td></tr>
+            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Diagnóstico de pantalla y pixeles al retornar..."></textarea></td></tr>
+          </table>
+          <div class="signature-section mt-auto">
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m2', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m2">📝 Pulsar para firmar</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            </div>
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m2', 'Firma Empleado (Entrega)')"><span id="lbl_f4_m2">📝 Pulsar para firmar</span><img id="f4_m2" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA EMPLEADO (ENTREGA)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -465,10 +537,19 @@
       </div>
     </div>
     <div class="page-container">
+      
+      <div class="mode-selector no-print">
+        <button class="mode-btn" onclick="cambiarModo('view_telefonos', 'entrega', this)">Solo Entrega</button>
+        <button class="mode-btn" onclick="cambiarModo('view_telefonos', 'devolucion', this)">Solo Devolución</button>
+        <button class="mode-btn active" onclick="cambiarModo('view_telefonos', 'completo', this)">Reporte Completo</button>
+      </div>
+
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
-          <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE EQUIPOS MÓVILES</h2></td>
+          <td class="header-titles">
+            <h1 id="title_telefonos">ACTA DE ENTREGA Y DEVOLUCIÓN DE EQUIPOS MÓVILES</h1>
+          </td>
         </tr>
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
@@ -476,7 +557,7 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado" placeholder="Apellidos y Nombres"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
       </table>
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
       <table class="form-table">
@@ -510,57 +591,69 @@
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="acc_cargador"> Cargador de Pared</label><label class="inline-flex"><input type="checkbox" data-spec="acc_cable"> Cable USB</label><label class="inline-flex"><input type="checkbox" data-spec="acc_case"> Funda Protectora (Case)</label><label class="inline-flex"><input type="checkbox" data-spec="acc_lamina"> Lámina de Vidrio</label></td></tr>
       </table>
-      <h3>3. Condiciones de Entrega:</h3>
-      <table class="form-table"><tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Estado estético del teléfono (carcasa, cámara, botones)..."></textarea></td></tr></table>
-      <h3>4. Compromiso de Responsabilidad:</h3>
-      <div class="compromiso-box">El dispositivo inteligente asignado constituye una herramienta estratégica laboral. Queda estrictamente restringida la alteración del sistema operativo o el uso del hardware en fines personales que degraden el rendimiento o comprometan datos sensibles de Agrícola Avanti S.A.C.</div>
-      
-      <div class="signature-section">
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m3', 'Firma Encargado TI')"><span id="lbl_f1_m3">📝 Pulsar para firmar</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
-        </div>
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m3', 'Firma Empleado / Receptor')"><span id="lbl_f2_m3">📝 Pulsar para firmar</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+
+      <!-- ZONA EXCLUSIVA: ENTREGA -->
+      <div class="sec-entrega flex-col-expand">
+        <h3>3. Condiciones de Entrega:</h3>
+        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Estado estético del teléfono (carcasa, cámara, botones)..."></textarea></td></tr>
+        </table>
+        
+        <h3>4. Compromiso de Responsabilidad:</h3>
+        <div class="compromiso-box">El dispositivo inteligente asignado constituye una herramienta estratégica laboral. Queda estrictamente restringida la alteración del sistema operativo o el uso del hardware en fines personales que degraden el rendimiento o comprometan datos sensibles de Agrícola Avanti S.A.C.</div>
+        
+        <div class="signature-section mt-auto">
+          <div class="signature-block">
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m3', 'Firma Encargado TI')"><span id="lbl_f1_m3">📝 Pulsar para firmar</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
+          </div>
+          <div class="signature-block">
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m3', 'Firma Empleado / Receptor')"><span id="lbl_f2_m3">📝 Pulsar para firmar</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+          </div>
         </div>
       </div>
 
-      <div class="dev-section">
-        <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
-        <table class="form-table">
-          <tr>
-            <td class="lbl">¿Mismo titular?:</td>
-            <td colspan="3"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
-          </tr>
-          <tr>
-            <td class="lbl">Quien devuelve:</td>
-            <td colspan="3"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
-          </tr>
-          <tr>
-            <td class="lbl">DNI Devolución:</td>
-            <td style="width:32%;"><input type="text" data-field="quien_devuelve_dni"></td>
-            <td class="lbl">Fecha Dev.:</td>
-            <td><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td>
-          </tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Inspección final de batería y display de cristal líquido..."></textarea></td></tr>
-        </table>
-        
-        <div class="signature-section">
-          <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m3', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m3">📝 Pulsar para firmar</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
-          </div>
-          <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m3', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m3">📝 Pulsar para firmar</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
-            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
-            <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
+      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
+      <div class="sec-devolucion flex-col-expand">
+        <div class="dev-section">
+          <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+            <tr style="display: flex;">
+              <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
+              <td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
+            </tr>
+            <tr style="display: flex;">
+              <td class="lbl" style="width: 18%;">Quien devuelve:</td>
+              <td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
+            </tr>
+            <tr style="display: flex;">
+              <td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td>
+              <td style="width: 82%; display: flex; gap: 10px;">
+                <input type="text" data-field="quien_devuelve_dni" placeholder="DNI">
+                <input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA">
+              </td>
+            </tr>
+            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Inspección final de batería y display..."></textarea></td></tr>
+          </table>
+          
+          <div class="signature-section mt-auto">
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m3', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m3">📝 Pulsar para firmar</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            </div>
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m3', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m3">📝 Pulsar para firmar</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
+              <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
+              <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -576,16 +669,25 @@
       </div>
     </div>
     <div class="page-container">
+      
+      <div class="mode-selector no-print">
+        <button class="mode-btn" onclick="cambiarModo('view_lineas', 'entrega', this)">Solo Entrega</button>
+        <button class="mode-btn" onclick="cambiarModo('view_lineas', 'devolucion', this)">Solo Devolución</button>
+        <button class="mode-btn active" onclick="cambiarModo('view_lineas', 'completo', this)">Reporte Completo</button>
+      </div>
+
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Corporativo"></td>
-          <td class="header-titles"><h1>AGRÍCOLA AVANTI S.A.C.</h1><h2>ACTA DE ENTREGA DE LÍNEAS MÓVILES</h2></td>
+          <td class="header-titles">
+            <h1 id="title_lineas">ACTA DE ENTREGA Y DEVOLUCIÓN DE LÍNEAS MÓVILES</h1>
+          </td>
         </tr>
       </table>
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado" placeholder="Apellidos y Nombres"></td></tr>
-        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Fecha Entrega:</td><td><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
+        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Fecha Operación:</td><td><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
         <tr><td class="lbl">Área / Régimen:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">C. De Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
         <tr><td class="lbl">Oficio/Cargo:</td><td><input type="text" data-field="cargo_empleado"></td><td class="lbl">Zona/Sede:</td><td><input type="text" data-spec="zona_sede"></td></tr>
       </table>
@@ -603,61 +705,70 @@
           </td>
         </tr>
       </table>
-      <h3>3. Condiciones de Entrega:</h3>
-      <table class="form-table">
-        <tr>
-          <td class="lbl">Variante Línea:</td>
-          <td><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label><label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label><label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td>
-        </tr>
-        <tr><td class="lbl">Observaciones:</td><td><textarea rows="3" data-field="observaciones_entrega" placeholder="Notas sobre el estado del aprovisionamiento de la línea..."></textarea></td></tr>
-      </table>
-      <h3>4. Compromiso de Responsabilidad:</h3>
-      <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
-      
-      <div class="signature-section">
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4', 'Firma Encargado TI')"><span id="lbl_f1_m4">📝 Pulsar para firmar</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
-        </div>
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m4', 'Firma Empleado / Receptor')"><span id="lbl_f2_m4">📝 Pulsar para firmar</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
-          <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-          <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
-          <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
+
+      <!-- ZONA EXCLUSIVA: ENTREGA -->
+      <div class="sec-entrega flex-col-expand">
+        <h3>3. Condiciones de Entrega:</h3>
+        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+          <tr style="display: flex;">
+            <td class="lbl" style="width: 18%;">Variante Línea:</td>
+            <td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label><label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label><label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td>
+          </tr>
+          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Notas sobre el estado del aprovisionamiento de la línea..."></textarea></td></tr>
+        </table>
+        
+        <h3>4. Compromiso de Responsabilidad:</h3>
+        <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
+        
+        <div class="signature-section mt-auto">
+          <div class="signature-block">
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4', 'Firma Encargado TI')"><span id="lbl_f1_m4">📝 Pulsar para firmar</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f1_dni"></div>
+          </div>
+          <div class="signature-block">
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m4', 'Firma Empleado / Receptor')"><span id="lbl_f2_m4">📝 Pulsar para firmar</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+            <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
+          </div>
         </div>
       </div>
 
-      <div class="dev-section">
-        <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
-        <table class="form-table">
-          <tr>
-            <td class="lbl">¿Mismo titular?:</td>
-            <td colspan="3"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
-          </tr>
-          <tr>
-            <td class="lbl">Quien devuelve:</td>
-            <td colspan="3"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
-          </tr>
-          <tr>
-            <td class="lbl">DNI Devolución:</td>
-            <td style="width:32%;"><input type="text" data-field="quien_devuelve_dni"></td>
-            <td class="lbl">Fecha Dev.:</td>
-            <td><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td>
-          </tr>
-          <tr><td class="lbl">Observaciones:</td><td colspan="3"><textarea rows="3" data-field="observaciones_devolucion" placeholder="Estado de baja, suspensión o corte de tráfico..."></textarea></td></tr>
-        </table>
-        
-        <div class="signature-section">
-          <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m4', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m4">📝 Pulsar para firmar</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
-          </div>
-          <div class="signature-block">
-            <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m4', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m4">📝 Pulsar para firmar</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
-            <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
-            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
-            <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
+      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
+      <div class="sec-devolucion flex-col-expand">
+        <div class="dev-section">
+          <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
+            <tr style="display: flex;">
+              <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
+              <td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
+            </tr>
+            <tr style="display: flex;">
+              <td class="lbl" style="width: 18%;">Quien devuelve:</td>
+              <td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
+            </tr>
+            <tr style="display: flex;">
+              <td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td>
+              <td style="width: 82%; display: flex; gap: 10px;">
+                <input type="text" data-field="quien_devuelve_dni" placeholder="DNI">
+                <input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA">
+              </td>
+            </tr>
+            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Estado de baja, suspensión o corte de tráfico..."></textarea></td></tr>
+          </table>
+          
+          <div class="signature-section mt-auto">
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m4', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m4">📝 Pulsar para firmar</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            </div>
+            <div class="signature-block">
+              <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m4', 'Firma Persona que Entrega/Devuelve')"><span id="lbl_f4_m4">📝 Pulsar para firmar</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
+              <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
+              <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f4_dni"></div>
+              <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f4_tel"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -741,7 +852,42 @@
     }
 
     // =========================================================================
-    // --- DIÁLOGOS CUSTOMIZADOS (REEMPLAZO DE ALERTS/CONFIRMS NATIVOS) ---
+    // --- LÓGICA DEL SELECTOR DE MODO DE REPORTE (NUEVO) ---
+    // =========================================================================
+    function cambiarModo(viewId, modo, btnElement) {
+      const view = document.getElementById(viewId);
+      const secEntrega = view.querySelector('.sec-entrega');
+      const secDevolucion = view.querySelector('.sec-devolucion');
+      const title = view.querySelector('.header-titles h1'); // Ajustado al h1
+      
+      // Actualizar estado de los botones UI
+      const buttons = view.querySelectorAll('.mode-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      let baseTitle = "";
+      if(viewId === 'view_material_informatico') baseTitle = "DE EQUIPOS INFORMÁTICOS";
+      if(viewId === 'view_perifericos') baseTitle = "DE PERIFÉRICOS Y MONITORES";
+      if(viewId === 'view_telefonos') baseTitle = "DE EQUIPOS MÓVILES";
+      if(viewId === 'view_lineas') baseTitle = "DE LÍNEAS MÓVILES";
+
+      if (modo === 'entrega') {
+        secEntrega.style.display = 'flex';
+        secDevolucion.style.display = 'none';
+        title.innerText = "ACTA DE ENTREGA " + baseTitle;
+      } else if (modo === 'devolucion') {
+        secEntrega.style.display = 'none';
+        secDevolucion.style.display = 'flex';
+        title.innerText = "ACTA DE DEVOLUCIÓN " + baseTitle;
+      } else {
+        secEntrega.style.display = 'flex';
+        secDevolucion.style.display = 'flex';
+        title.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓN " + baseTitle;
+      }
+    }
+
+    // =========================================================================
+    // --- DIÁLOGOS CUSTOMIZADOS ---
     // =========================================================================
     let confirmCallback = null;
     let btnPendienteContexto = null;
@@ -769,7 +915,7 @@
 
     function solicitarGuardadoSeguro(btnElement) {
       btnPendienteContexto = btnElement;
-      btnElement.disabled = true; // Previene doble clic accidental
+      btnElement.disabled = true;
       abrirDialogo(
         "¿Está completamente seguro de guardar esta acta en la base de datos?\nAsegúrese de que el código de empleado y las firmas estén correctas.",
         "Confirmación de Base de Datos",
