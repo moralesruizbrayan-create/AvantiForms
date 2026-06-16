@@ -11,6 +11,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  
+  <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
 
   <style>
     /* --- VARIABLES GLOBALES DE DISEÑO --- */
@@ -94,7 +97,6 @@
       border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow-md); position: relative;
     }
     
-    /* Expansión del contendor solo para el Data Grid */
     .page-container.full-width { max-width: 95%; padding: 20px; }
 
     .action-bar { max-width: 820px; margin: 0 auto 12px auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
@@ -109,13 +111,11 @@
     .btn-print { background-color: #0E5A32; color: #FFFFFF; }
     .btn-print:hover { background-color: #0A3F23; }
 
-    /* --- SELECTOR DE MODO DE REPORTE (UI) --- */
     .mode-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
     .mode-btn { padding: 8px 16px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-secondary); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; box-shadow: 0 2px 6px rgba(14,90,50,0.3); }
 
-    /* --- ESTRUCTURA FLEXIBLE (PARA LLENAR HOJA A4) --- */
     .flex-col-expand { display: flex; flex-direction: column; flex-grow: 1; }
     .mt-auto { margin-top: auto !important; }
 
@@ -133,53 +133,6 @@
     .form-table td { border: 1px solid var(--border-color); padding: 6px 12px; vertical-align: middle; }
     .lbl { background-color: var(--lbl-bg); font-weight: 600; color: var(--text-color); width: 18%; }
     .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; }
-
-    /* --- SISTEMA DATA GRID (TABLA DE CONTROL READ-ONLY) --- */
-    .table-responsive-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background-color: var(--card-bg);
-      max-height: 600px;
-      overflow-y: auto;
-    }
-    .data-grid {
-      width: max-content;
-      min-width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-      text-align: left;
-      white-space: nowrap;
-    }
-    .data-grid th {
-      background-color: #0E5A32;
-      color: #FFFFFF;
-      padding: 10px 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .data-grid td {
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border-color);
-      border-right: 1px dotted var(--border-color);
-      color: var(--text-color);
-    }
-    .data-grid tr:hover td {
-      background-color: var(--subhead-bg);
-    }
-    .badge-status {
-      padding: 3px 8px;
-      border-radius: 2px;
-      font-size: 9.5px;
-      font-weight: 700;
-    }
-    .badge-op { background-color: #DCFCE7; color: #15803D; }
-    .badge-ret { background-color: #FEE2E2; color: #B91C1C; }
 
     .input-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
     input[type="text"], textarea {
@@ -255,6 +208,26 @@
     .custom-toast.show { top: 24px; }
     .toast-msg-text { color: var(--text-color); font-weight: 500; margin-left: 4px; }
 
+    /* --- ESTILOS INYECTADOS PARA GRID.JS (DATATABLE) --- */
+    .gridjs-container { font-family: 'Segoe UI', sans-serif !important; color: var(--text-color) !important; }
+    .gridjs-wrapper { border-radius: 4px !important; border: 1px solid var(--border-color) !important; background: var(--card-bg) !important; }
+    .gridjs-head { padding-bottom: 16px !important; display: flex; justify-content: flex-end; }
+    .gridjs-search { width: 300px; }
+    .gridjs-search-input { width: 100% !important; border: 1px solid var(--input-border) !important; background-color: var(--input-bg) !important; color: var(--text-color) !important; font-size: 13px !important; padding: 8px 12px !important; border-radius: 4px !important; outline: none; }
+    .gridjs-search-input:focus { border-color: #0E5A32 !important; box-shadow: 0 0 0 1px #0E5A32 !important; }
+    .gridjs-table { border-collapse: collapse !important; width: 100% !important; }
+    .gridjs-th { background-color: #0E5A32 !important; color: #FFFFFF !important; font-size: 11px !important; font-weight: 600 !important; text-transform: uppercase; padding: 10px 14px !important; border: 1px solid #0A3F23 !important; white-space: nowrap; }
+    .gridjs-td { background-color: var(--card-bg) !important; border: 1px solid var(--border-color) !important; padding: 8px 14px !important; font-size: 12px !important; color: var(--text-color) !important; white-space: nowrap; }
+    .gridjs-tr:hover .gridjs-td { background-color: var(--subhead-bg) !important; }
+    .gridjs-footer { background-color: var(--card-bg) !important; border: none !important; border-top: 1px solid var(--border-color) !important; padding: 12px 0 0 0 !important; }
+    .gridjs-pagination .gridjs-pages button { background-color: var(--lbl-bg) !important; color: var(--text-color) !important; border: 1px solid var(--border-color) !important; border-radius: 4px !important; padding: 5px 10px !important; font-size: 12px !important; transition: all 0.2s; }
+    .gridjs-pagination .gridjs-pages button:hover { background-color: var(--border-color) !important; }
+    .gridjs-pagination .gridjs-pages button.gridjs-currentPage { background-color: #0E5A32 !important; color: #FFFFFF !important; border-color: #0E5A32 !important; }
+    
+    .badge-status { padding: 3px 8px; border-radius: 2px; font-size: 9.5px; font-weight: 700; text-transform: uppercase; }
+    .badge-op { background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .badge-ret { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+
     @media (max-width: 768px) {
       body { padding: 12px; }
       .dashboard-menu { margin: 20px auto; }
@@ -264,55 +237,34 @@
       .action-group-right { flex-direction: column; gap: 8px; }
       .btn-action { width: 100%; padding: 12px; text-align: center; }
       .mode-selector { flex-direction: column; gap: 8px; }
+      .gridjs-search { width: 100%; }
+      .page-container.full-width { padding: 10px; max-width: 100%; border: none; }
     }
 
-    /* --- REGLAS DE IMPRESIÓN DINÁMICA (A4 PERFECTO Y COMPRESIÓN) --- */
+    /* --- REGLAS DE IMPRESIÓN DINÁMICA --- */
     @media print {
       @page { size: A4 portrait; margin: 2mm 5mm 2mm 5mm; }
-      
       :root { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #D2D2D2 !important; --input-bg: transparent !important; --lbl-bg: #FAF9F8 !important; --subhead-bg: #F1F5F9 !important; }
       body::before { display: none !important; }
-      
       html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; height: 100% !important; overflow: hidden !important; }
-      
       .dashboard-menu, .no-print, .theme-toggle-btn, .btn-scan, .custom-modal-overlay, .mode-selector { display: none !important; }
-      
-      .page-container { 
-        border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; 
-        width: 100% !important; max-width: 100% !important; 
-        height: 290mm !important; 
-        max-height: 290mm !important;
-        display: flex; flex-direction: column;
-        overflow: hidden !important;
-        page-break-inside: avoid !important;
-      }
-      
+      .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; height: 290mm !important; max-height: 290mm !important; display: flex; flex-direction: column; overflow: hidden !important; page-break-inside: avoid !important; }
       .header-table { width: 100% !important; table-layout: fixed !important; margin-bottom: 2px !important; border-bottom: 1.5px solid #92C840 !important; }
-      .header-logo { padding-bottom: 1px !important; width: 50px !important; } 
-      .header-logo img { width: 40px !important; height: 40px !important; }
-      .header-titles { padding-left: 5px !important; }
-      .header-titles h1 { font-size: 14px !important; margin-bottom: 0 !important; } 
-      .header-titles h2 { font-size: 9px !important; }
-      
+      .header-logo { padding-bottom: 1px !important; width: 50px !important; } .header-logo img { width: 40px !important; height: 40px !important; }
+      .header-titles { padding-left: 5px !important; } .header-titles h1 { font-size: 14px !important; margin-bottom: 0 !important; } .header-titles h2 { font-size: 9px !important; }
       h3 { margin: 4px 0 2px 0 !important; font-size: 9px !important; }
-      
       .form-table { margin-bottom: 2px !important; width: 100% !important; table-layout: fixed !important; }
       .form-table td { padding: 2px 4px !important; border-color: #D2D2D2 !important; color: #000000 !important; font-size: 9px !important; }
       .subhead { font-size: 8.5px !important; }
-      
       input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 8.5px !important; color: #000000 !important; }
-      
       textarea { min-height: 18px !important; flex-grow: 1; }
-      
       .compromiso-box { font-size: 7.5px !important; padding: 4px 6px !important; margin-top: 2px !important; line-height: 1.1 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
-      
       .signature-section { margin-top: auto !important; padding-top: 5px; margin-bottom: 2px !important; }
       .signature-block { font-size: 8.5px !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
       .signature-trigger-box span { display: none !important; }
       .signature-line { margin-top: 1px !important; margin-bottom: 1px !important; border-top-color: #000000 !important; border-width: 1px !important; }
       .signature-field-group input[type="text"] { font-size: 8.5px !important; }
-      
       .inline-flex { margin-right: 8px !important; margin-bottom: 0 !important; font-size: 8.5px !important; }
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 2px !important; }
     }
@@ -363,9 +315,9 @@
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
       
-      <div class="option-card" onclick="navegarA('view_control_inventario')" style="border-left-color: #64748B;">
-        <h2>📋 Control de Inventario</h2>
-        <p>Base de datos read-only del inventario físico, equipos, costos y asignaciones actuales.</p>
+      <div class="option-card" onclick="navegarAReporteria()" style="border-left-color: #64748B;">
+        <h2>📋 Pruebas de reportería</h2>
+        <p>Base de datos editable y filtrable del inventario físico, equipos, costos y asignaciones.</p>
       </div>
     </div>
   </div>
@@ -377,112 +329,12 @@
     </div>
     <div class="page-container full-width">
       <div style="border-bottom: 2.5px solid #64748B; padding-bottom: 8px; margin-bottom: 20px;">
-        <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700;">BASE DE DATOS MAESTRA: CONTROL DE INVENTARIO TI</h1>
-        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Registro histórico de asignaciones, hardware y auditoría financiera.</p>
+        <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; text-transform: uppercase;">CONTROL DE INVENTARIO TI</h1>
+        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Registro de asignaciones.</p>
       </div>
 
-      <div class="table-responsive-wrapper">
-        <table class="data-grid">
-          <thead>
-            <tr>
-              <th>ID Equipo (CPU)</th>
-              <th>DNI Resp.</th>
-              <th>Usuario Red</th>
-              <th>Apellidos y Nombres</th>
-              <th>Cargo</th>
-              <th>Empresa</th>
-              <th>Estado</th>
-              <th>Modalidad</th>
-              <th>Fabricante y Modelo</th>
-              <th>Marca</th>
-              <th>Modelo Exacto</th>
-              <th>Arrendadora</th>
-              <th>Nº de Serie (S/N)</th>
-              <th>Procesador (CPU)</th>
-              <th>Memoria RAM</th>
-              <th>Storage (Disco)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>VPE 254</td><td>40404196</td><td>RRAMOS</td><td>Ramos Moran, Ronald Roggers</td><td>Coordinador HSE</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-ret">RETIRADO</span></td><td>PRESTAMO-ARRENDADA</td><td>LENOVO - ThinkPad L480</td><td>LENOVO</td><td>L480</td><td>RAPEL</td><td>PF1H4BTX</td><td>INTEL</td><td>8 GB</td><td>512 GB SSD</td>
-            </tr>
-            <tr>
-              <td>VPE 254</td><td>75730679</td><td>JNEYRA</td><td>Neyra Cañote, Jair Sebastián</td><td>Jefe De Seguridad Industrial</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-ret">RETIRADO</span></td><td>PRESTAMO-ARRENDADA</td><td>LENOVO - ThinkPad L480</td><td>LENOVO</td><td>L480</td><td>RAPEL</td><td>PF1H4BTX</td><td>INTEL</td><td>8 GB</td><td>512 GB SSD</td>
-            </tr>
-            <tr>
-              <td>VPE205</td><td>001875270</td><td>AVALENZUELA</td><td>Valenzuela Pinochet, Angelica</td><td>Encargado De Adquisiciones</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-ret">RETIRADO</span></td><td>PRESTAMO-ARRENDADA</td><td>LENOVO - ThinkPad L480</td><td>LENOVO</td><td>L480</td><td>RAPEL</td><td>PF1H4DYH</td><td>INTEL</td><td>8 GB</td><td>512 GB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE001</td><td>001875270</td><td>AVALENZUELA</td><td>Valenzuela Pinochet, Angelica</td><td>Encargado De Adquisiciones</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54T</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE002</td><td>46201437</td><td>YHUERTAS</td><td>Huertas Mauricio, Yolanda</td><td>Analista De Gestión</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53R</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE003</td><td>72892044</td><td>JSANTOS</td><td>Santos Sanchez, Jose Martin</td><td>Jefe Riego</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0HG53Q</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE004</td><td>77017046</td><td>JROSAS</td><td>Rosas Becerra, Juan Francisco</td><td>Jefe de Sanidad Vegetal</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54C</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE005</td><td>74201588</td><td>RVARILLAS</td><td>Varillas Salinas, Rocio</td><td>Jefe de Control de Calidad</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54J</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE006</td><td>48494324</td><td>MSUAREZ</td><td>Suarez Ramirez, Marlon Antonio</td><td>Jefe de Campo</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54B</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE007</td><td>43656311</td><td>ALVIERA</td><td>Viera Pulache, Alexis Jeanpierre</td><td>Digitador</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53V</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE008</td><td>46025096</td><td>HJULIAN</td><td>Julian Domínguez, Henry Estewar</td><td>Analista De Gestión</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53Z</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE009</td><td>42766246</td><td>CMIRANDA</td><td>Miranda Bayona, Christian Gabriel</td><td>Administrador de Fundo</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG547</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE010</td><td>44586101</td><td>JTIMANA</td><td>Timana Huiman, Jorge Edilberto</td><td>Jefe de Almacen</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG540</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE011</td><td>45355093</td><td>WHERNANDEZ</td><td>Hernandez Espinoza, Wilmer</td><td>Ayudante de Almacen</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG541</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE012</td><td>75706904</td><td>ASULLON</td><td>Sullon Saucedo, Julio Andres</td><td>Encargado de Almacen</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54A</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE013</td><td>47957908</td><td>MKSILVA</td><td>Silva Sandoval, Mercedes Katherina</td><td>Supervisor de Faena</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53S</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>AVPE014</td><td>75730679</td><td>JNEYRA</td><td>Neyra Cañote, Jair Sebastián</td><td>Jefe De Seguridad Industrial</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG543</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
-            </tr>
-            <tr>
-              <td>VPE336</td><td>47563134</td><td>COLAYA</td><td>Olaya Alamo, Cindy Elizbeth</td><td>Enfermera</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>PRESTAMO-ARRENDADA</td><td>Dell Latitude 3520</td><td>DELL</td><td>Latitude 3520</td><td>PALERMO</td><td>7DHMCL3</td><td>INTEL</td><td>16 GB</td><td>512 GB SSD</td>
-            </tr>
-            <tr>
-              <td>VPE335</td><td>74939528</td><td>FAQUINO</td><td>Aquino Chavez, Flor María</td><td>Analista De Gestión</td><td>AVANTI</td>
-              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>PRESTAMO-ARRENDADA</td><td>Dell Latitude 5520</td><td>DELL</td><td>Latitude 5520</td><td>PALERMO</td><td>4N4XMG3</td><td>INTEL</td><td>16 GB</td><td>512 GB SSD</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <div id="inventario-grid"></div>
+
     </div>
   </div>
 
@@ -632,7 +484,7 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado" placeholder="Apellidos y Nombres"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
+        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
       </table>
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
@@ -893,7 +745,7 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m4', 'Firma Empleado / Receptor')"><span id="lbl_f2_m4">📝 Pulsar para firmar</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
-            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_dni"></div>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-spec="f2_m4"></div>
             <div class="signature-field-group"><span>TEL:</span><input type="text" data-spec="f2_tel"></div>
           </div>
         </div>
@@ -1007,9 +859,6 @@
       document.getElementById('main_dashboard').style.display = 'block';
     }
 
-    // =========================================================================
-    // --- LÓGICA DEL SELECTOR DE MODO DE REPORTE ---
-    // =========================================================================
     function cambiarModo(viewId, modo, btnElement) {
       const view = document.getElementById(viewId);
       const secEntrega = view.querySelector('.sec-entrega');
@@ -1038,6 +887,57 @@
         secEntrega.style.display = 'flex';
         secDevolucion.style.display = 'flex';
         title.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓN " + baseTitle;
+      }
+    }
+
+    // =========================================================================
+    // --- LÓGICA DE DATAGRID (TABLA DINÁMICA GRID.JS) ---
+    // =========================================================================
+    let gridIniciado = false;
+    
+    function navegarAReporteria() {
+      navegarA('view_control_inventario');
+      
+      if (!gridIniciado) {
+        new gridjs.Grid({
+          columns: [
+            "ID Equipo (CPU)", "DNI Resp.", "Usuario Red", "Apellidos y Nombres", 
+            "Cargo", "Empresa", 
+            { name: "Estado", formatter: (cell) => gridjs.html(cell) }, 
+            "Modalidad", "Fabricante y Modelo", "Marca", "Modelo Exacto", 
+            "Arrendadora", "Nº de Serie (S/N)", "Procesador (CPU)", "Memoria RAM", "Storage (Disco)"
+          ],
+          data: [
+            ["VPE 254", "40404196", "RRAMOS", "Ramos Moran, Ronald Roggers", "Coordinador HSE", "AVANTI", "<span class='badge badge-status badge-ret'>RETIRADO</span>", "PRESTAMO-ARRENDADA", "LENOVO - ThinkPad L480", "LENOVO", "L480", "RAPEL", "PF1H4BTX", "INTEL", "8 GB", "512 GB SSD"],
+            ["VPE 254", "75730679", "JNEYRA", "Neyra Cañote, Jair Sebastián", "Jefe De Seguridad Industrial", "AVANTI", "<span class='badge badge-status badge-ret'>RETIRADO</span>", "PRESTAMO-ARRENDADA", "LENOVO - ThinkPad L480", "LENOVO", "L480", "RAPEL", "PF1H4BTX", "INTEL", "8 GB", "512 GB SSD"],
+            ["VPE205", "001875270", "AVALENZUELA", "Valenzuela Pinochet, Angelica", "Encargado De Adquisiciones", "AVANTI", "<span class='badge badge-status badge-ret'>RETIRADO</span>", "PRESTAMO-ARRENDADA", "LENOVO - ThinkPad L480", "LENOVO", "L480", "RAPEL", "PF1H4DYH", "INTEL", "8 GB", "512 GB SSD"],
+            ["AVPE001", "001875270", "AVALENZUELA", "Valenzuela Pinochet, Angelica", "Encargado De Adquisiciones", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54T", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE002", "46201437", "YHUERTAS", "Huertas Mauricio, Yolanda", "Analista De Gestión", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53R", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE003", "72892044", "JSANTOS", "Santos Sanchez, Jose Martin", "Jefe Riego", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0HG53Q", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE004", "77017046", "JROSAS", "Rosas Becerra, Juan Francisco", "Jefe de Sanidad Vegetal", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54C", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE005", "74201588", "RVARILLAS", "Varillas Salinas, Rocio", "Jefe de Control de Calidad", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54J", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE006", "48494324", "MSUAREZ", "Suarez Ramirez, Marlon Antonio", "Jefe de Campo", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54B", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE007", "43656311", "ALVIERA", "Viera Pulache, Alexis Jeanpierre", "Digitador", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53V", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE008", "46025096", "HJULIAN", "Julian Domínguez, Henry Estewar", "Analista De Gestión", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53Z", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE009", "42766246", "CMIRANDA", "Miranda Bayona, Christian Gabriel", "Administrador de Fundo", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG547", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE010", "44586101", "JTIMANA", "Timana Huiman, Jorge Edilberto", "Jefe de Almacen", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG540", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE011", "45355093", "WHERNANDEZ", "Hernandez Espinoza, Wilmer", "Ayudante de Almacen", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG541", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE012", "75706904", "ASULLON", "Sullon Saucedo, Julio Andres", "Encargado de Almacen", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54A", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE013", "47957908", "MKSILVA", "Silva Sandoval, Mercedes Katherina", "Supervisor de Faena", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53S", "INTEL", "16 GB", "1 TB SSD"],
+            ["AVPE014", "75730679", "JNEYRA", "Neyra Cañote, Jair Sebastián", "Jefe De Seguridad Industrial", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG543", "INTEL", "16 GB", "1 TB SSD"],
+            ["VPE336", "47563134", "COLAYA", "Olaya Alamo, Cindy Elizbeth", "Enfermera", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "PRESTAMO-ARRENDADA", "Dell Latitude 3520", "DELL", "Latitude 3520", "PALERMO", "7DHMCL3", "INTEL", "16 GB", "512 GB SSD"],
+            ["VPE335", "74939528", "FAQUINO", "Aquino Chavez, Flor María", "Analista De Gestión", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "PRESTAMO-ARRENDADA", "Dell Latitude 5520", "DELL", "Latitude 5520", "PALERMO", "4N4XMG3", "INTEL", "16 GB", "512 GB SSD"]
+          ],
+          search: { enabled: true },
+          sort: true,
+          pagination: { enabled: true, limit: 12 },
+          language: {
+            search: { placeholder: '🔍 Buscar DNI, equipo, serial...' },
+            pagination: { previous: 'Anterior', next: 'Siguiente', showing: 'Mostrando', of: 'de', to: 'a', results: 'registros' }
+          }
+        }).render(document.getElementById("inventario-grid"));
+        
+        gridIniciado = true;
       }
     }
 
