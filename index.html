@@ -93,8 +93,12 @@
       background: var(--card-bg); max-width: 820px; margin: 0 auto 40px auto; padding: 30px 40px;
       border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow-md); position: relative;
     }
+    
+    /* Expansión del contendor solo para el Data Grid */
+    .page-container.full-width { max-width: 95%; padding: 20px; }
 
     .action-bar { max-width: 820px; margin: 0 auto 12px auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .action-bar.full-width { max-width: 95%; }
     .action-group-right { display: flex; gap: 10px; }
     
     .btn-action { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; }
@@ -111,7 +115,7 @@
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; box-shadow: 0 2px 6px rgba(14,90,50,0.3); }
 
-    /* --- ESTRUCTURA FLEXIBLE --- */
+    /* --- ESTRUCTURA FLEXIBLE (PARA LLENAR HOJA A4) --- */
     .flex-col-expand { display: flex; flex-direction: column; flex-grow: 1; }
     .mt-auto { margin-top: auto !important; }
 
@@ -129,6 +133,53 @@
     .form-table td { border: 1px solid var(--border-color); padding: 6px 12px; vertical-align: middle; }
     .lbl { background-color: var(--lbl-bg); font-weight: 600; color: var(--text-color); width: 18%; }
     .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; }
+
+    /* --- SISTEMA DATA GRID (TABLA DE CONTROL READ-ONLY) --- */
+    .table-responsive-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--card-bg);
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .data-grid {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .data-grid th {
+      background-color: #0E5A32;
+      color: #FFFFFF;
+      padding: 10px 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .data-grid td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px dotted var(--border-color);
+      color: var(--text-color);
+    }
+    .data-grid tr:hover td {
+      background-color: var(--subhead-bg);
+    }
+    .badge-status {
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+    .badge-op { background-color: #DCFCE7; color: #15803D; }
+    .badge-ret { background-color: #FEE2E2; color: #B91C1C; }
 
     .input-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
     input[type="text"], textarea {
@@ -215,11 +266,9 @@
       .mode-selector { flex-direction: column; gap: 8px; }
     }
 
-    /* =========================================================================
-       --- REGLAS DE IMPRESIÓN DINÁMICA (A4 PERFECTO Y COMPRESIÓN) ---
-       ========================================================================= */
+    /* --- REGLAS DE IMPRESIÓN DINÁMICA (A4 PERFECTO Y COMPRESIÓN) --- */
     @media print {
-      @page { size: A4 portrait; margin: 2mm 5mm 2mm 5mm; } /* Márgenes mínimos de impresión */
+      @page { size: A4 portrait; margin: 2mm 5mm 2mm 5mm; }
       
       :root { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #D2D2D2 !important; --input-bg: transparent !important; --lbl-bg: #FAF9F8 !important; --subhead-bg: #F1F5F9 !important; }
       body::before { display: none !important; }
@@ -231,14 +280,13 @@
       .page-container { 
         border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; 
         width: 100% !important; max-width: 100% !important; 
-        height: 290mm !important; /* Altura estricta para evitar salto de página */
+        height: 290mm !important; 
         max-height: 290mm !important;
         display: flex; flex-direction: column;
         overflow: hidden !important;
         page-break-inside: avoid !important;
       }
       
-      /* Reducción micrométrica de espacios y fuentes para compresión */
       .header-table { width: 100% !important; table-layout: fixed !important; margin-bottom: 2px !important; border-bottom: 1.5px solid #92C840 !important; }
       .header-logo { padding-bottom: 1px !important; width: 50px !important; } 
       .header-logo img { width: 40px !important; height: 40px !important; }
@@ -265,7 +313,6 @@
       .signature-line { margin-top: 1px !important; margin-bottom: 1px !important; border-top-color: #000000 !important; border-width: 1px !important; }
       .signature-field-group input[type="text"] { font-size: 8.5px !important; }
       
-      /* Compresión forzada de las grillas de checkboxes */
       .inline-flex { margin-right: 8px !important; margin-bottom: 0 !important; font-size: 8.5px !important; }
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 2px !important; }
     }
@@ -282,9 +329,6 @@
 
   <audio id="scan-beep" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
 
-  <!-- ==========================================
-     SISTEMA DE DIÁLOGO CONFIRMATION
-     ========================================== -->
   <div id="system_dialog" class="custom-modal-overlay no-print">
     <div class="custom-modal-card">
       <div id="dialog_title" class="custom-modal-header">Confirmación del Sistema</div>
@@ -318,13 +362,131 @@
         <h2>Chips o Líneas Móviles</h2>
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
+      
+      <div class="option-card" onclick="navegarA('view_control_inventario')" style="border-left-color: #64748B;">
+        <h2>📋 Control de Inventario</h2>
+        <p>Base de datos read-only del inventario físico, equipos, costos y asignaciones actuales.</p>
+      </div>
     </div>
   </div>
 
 
-  <!-- ==========================================
-     FORMULARIO 1: MATERIAL INFORMÁTICO
-     ========================================== -->
+  <div id="view_control_inventario" class="form-view">
+    <div class="action-bar full-width no-print" style="margin: 0 auto 12px auto;">
+      <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
+    </div>
+    <div class="page-container full-width">
+      <div style="border-bottom: 2.5px solid #64748B; padding-bottom: 8px; margin-bottom: 20px;">
+        <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700;">BASE DE DATOS MAESTRA: CONTROL DE INVENTARIO TI</h1>
+        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Registro histórico de asignaciones, hardware y auditoría financiera.</p>
+      </div>
+
+      <div class="table-responsive-wrapper">
+        <table class="data-grid">
+          <thead>
+            <tr>
+              <th>ID Equipo (CPU)</th>
+              <th>DNI Resp.</th>
+              <th>Usuario Red</th>
+              <th>Apellidos y Nombres</th>
+              <th>Cargo</th>
+              <th>Empresa</th>
+              <th>Estado</th>
+              <th>Modalidad</th>
+              <th>Fabricante y Modelo</th>
+              <th>Marca</th>
+              <th>Modelo Exacto</th>
+              <th>Arrendadora</th>
+              <th>Nº de Serie (S/N)</th>
+              <th>Procesador (CPU)</th>
+              <th>Memoria RAM</th>
+              <th>Storage (Disco)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>VPE 254</td><td>40404196</td><td>RRAMOS</td><td>Ramos Moran, Ronald Roggers</td><td>Coordinador HSE</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-ret">RETIRADO</span></td><td>PRESTAMO-ARRENDADA</td><td>LENOVO - ThinkPad L480</td><td>LENOVO</td><td>L480</td><td>RAPEL</td><td>PF1H4BTX</td><td>INTEL</td><td>8 GB</td><td>512 GB SSD</td>
+            </tr>
+            <tr>
+              <td>VPE 254</td><td>75730679</td><td>JNEYRA</td><td>Neyra Cañote, Jair Sebastián</td><td>Jefe De Seguridad Industrial</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-ret">RETIRADO</span></td><td>PRESTAMO-ARRENDADA</td><td>LENOVO - ThinkPad L480</td><td>LENOVO</td><td>L480</td><td>RAPEL</td><td>PF1H4BTX</td><td>INTEL</td><td>8 GB</td><td>512 GB SSD</td>
+            </tr>
+            <tr>
+              <td>VPE205</td><td>001875270</td><td>AVALENZUELA</td><td>Valenzuela Pinochet, Angelica</td><td>Encargado De Adquisiciones</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-ret">RETIRADO</span></td><td>PRESTAMO-ARRENDADA</td><td>LENOVO - ThinkPad L480</td><td>LENOVO</td><td>L480</td><td>RAPEL</td><td>PF1H4DYH</td><td>INTEL</td><td>8 GB</td><td>512 GB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE001</td><td>001875270</td><td>AVALENZUELA</td><td>Valenzuela Pinochet, Angelica</td><td>Encargado De Adquisiciones</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54T</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE002</td><td>46201437</td><td>YHUERTAS</td><td>Huertas Mauricio, Yolanda</td><td>Analista De Gestión</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53R</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE003</td><td>72892044</td><td>JSANTOS</td><td>Santos Sanchez, Jose Martin</td><td>Jefe Riego</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0HG53Q</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE004</td><td>77017046</td><td>JROSAS</td><td>Rosas Becerra, Juan Francisco</td><td>Jefe de Sanidad Vegetal</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54C</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE005</td><td>74201588</td><td>RVARILLAS</td><td>Varillas Salinas, Rocio</td><td>Jefe de Control de Calidad</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54J</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE006</td><td>48494324</td><td>MSUAREZ</td><td>Suarez Ramirez, Marlon Antonio</td><td>Jefe de Campo</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54B</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE007</td><td>43656311</td><td>ALVIERA</td><td>Viera Pulache, Alexis Jeanpierre</td><td>Digitador</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53V</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE008</td><td>46025096</td><td>HJULIAN</td><td>Julian Domínguez, Henry Estewar</td><td>Analista De Gestión</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53Z</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE009</td><td>42766246</td><td>CMIRANDA</td><td>Miranda Bayona, Christian Gabriel</td><td>Administrador de Fundo</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG547</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE010</td><td>44586101</td><td>JTIMANA</td><td>Timana Huiman, Jorge Edilberto</td><td>Jefe de Almacen</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG540</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE011</td><td>45355093</td><td>WHERNANDEZ</td><td>Hernandez Espinoza, Wilmer</td><td>Ayudante de Almacen</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG541</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE012</td><td>75706904</td><td>ASULLON</td><td>Sullon Saucedo, Julio Andres</td><td>Encargado de Almacen</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG54A</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE013</td><td>47957908</td><td>MKSILVA</td><td>Silva Sandoval, Mercedes Katherina</td><td>Supervisor de Faena</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG53S</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>AVPE014</td><td>75730679</td><td>JNEYRA</td><td>Neyra Cañote, Jair Sebastián</td><td>Jefe De Seguridad Industrial</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>ARRENDADA</td><td>LENOVO - ThinkPad L16 Gen 2</td><td>LENOVO</td><td>L16</td><td>FG</td><td>PW0MG543</td><td>INTEL</td><td>16 GB</td><td>1 TB SSD</td>
+            </tr>
+            <tr>
+              <td>VPE336</td><td>47563134</td><td>COLAYA</td><td>Olaya Alamo, Cindy Elizbeth</td><td>Enfermera</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>PRESTAMO-ARRENDADA</td><td>Dell Latitude 3520</td><td>DELL</td><td>Latitude 3520</td><td>PALERMO</td><td>7DHMCL3</td><td>INTEL</td><td>16 GB</td><td>512 GB SSD</td>
+            </tr>
+            <tr>
+              <td>VPE335</td><td>74939528</td><td>FAQUINO</td><td>Aquino Chavez, Flor María</td><td>Analista De Gestión</td><td>AVANTI</td>
+              <td><span class="badge badge-status badge-op">OPERATIVO</span></td><td>PRESTAMO-ARRENDADA</td><td>Dell Latitude 5520</td><td>DELL</td><td>Latitude 5520</td><td>PALERMO</td><td>4N4XMG3</td><td>INTEL</td><td>16 GB</td><td>512 GB SSD</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -336,7 +498,6 @@
     
     <div class="page-container">
       
-      <!-- CONTROLES DE REPORTE -->
       <div class="mode-selector no-print">
         <button class="mode-btn" onclick="cambiarModo('view_material_informatico', 'entrega', this)">Solo Entrega</button>
         <button class="mode-btn" onclick="cambiarModo('view_material_informatico', 'devolucion', this)">Solo Devolución</button>
@@ -395,7 +556,6 @@
         </tr>
       </table>
 
-      <!-- ZONA EXCLUSIVA: ENTREGA -->
       <div class="sec-entrega flex-col-expand">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
@@ -420,7 +580,6 @@
         </div>
       </div>
 
-      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
       <div class="sec-devolucion flex-col-expand">
         <div class="dev-section">
           <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
@@ -444,9 +603,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     FORMULARIO 2: PERIFÉRICOS (MONITORES)
-     ========================================== -->
   <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -476,7 +632,7 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado" placeholder="Apellidos y Nombres"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA"></td></tr>
+        <tr><td class="lbl">Fecha Entrega:</td><td colspan="3"><input type="text" data-field="fecha_entrega" placeholder="DD / MM / AAAA" style="width:200px;"></td></tr>
       </table>
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
@@ -496,7 +652,6 @@
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="cable_poder"> Cable de Poder</label><label class="inline-flex"><input type="checkbox" data-spec="cable_hdmi"> Cable HDMI</label><label class="inline-flex"><input type="checkbox" data-spec="cable_vga"> Cable VGA</label><label class="inline-flex"><input type="checkbox" data-spec="cable_dp"> Cable DisplayPort</label><label class="inline-flex"><input type="checkbox" data-spec="adaptador_voltaje"> Adaptador de Voltaje</label></td></tr>
       </table>
 
-      <!-- ZONA EXCLUSIVA: ENTREGA -->
       <div class="sec-entrega flex-col-expand">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
@@ -520,7 +675,6 @@
         </div>
       </div>
 
-      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
       <div class="sec-devolucion flex-col-expand">
         <div class="dev-section">
           <h3>5. Control de Devolución:</h3>
@@ -544,9 +698,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     FORMULARIO 3: TELÉFONOS MÓVILES
-     ========================================== -->
   <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -611,7 +762,6 @@
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="acc_cargador"> Cargador de Pared</label><label class="inline-flex"><input type="checkbox" data-spec="acc_cable"> Cable USB</label><label class="inline-flex"><input type="checkbox" data-spec="acc_case"> Funda Protectora (Case)</label><label class="inline-flex"><input type="checkbox" data-spec="acc_lamina"> Lámina de Vidrio</label></td></tr>
       </table>
 
-      <!-- ZONA EXCLUSIVA: ENTREGA -->
       <div class="sec-entrega flex-col-expand">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
@@ -635,7 +785,6 @@
         </div>
       </div>
 
-      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
       <div class="sec-devolucion flex-col-expand">
         <div class="dev-section">
           <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
@@ -676,9 +825,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES
-     ========================================== -->
   <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -725,7 +871,6 @@
         </tr>
       </table>
 
-      <!-- ZONA EXCLUSIVA: ENTREGA -->
       <div class="sec-entrega flex-col-expand">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
@@ -754,7 +899,6 @@
         </div>
       </div>
 
-      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
       <div class="sec-devolucion flex-col-expand">
         <div class="dev-section">
           <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
@@ -795,9 +939,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     SISTEMA POPUP COMPARTIDO: FIRMAS
-     ========================================== -->
   <div id="firma_modal" class="custom-modal-overlay no-print">
     <div class="custom-modal-card large">
       <div id="modal_titulo" class="custom-modal-header">Registrar Firma Digital</div>
@@ -814,9 +955,6 @@
     </div>
   </div>
 
-  <!-- ==========================================
-     SISTEMA POPUP COMPARTIDO: LECTOR DE BARRAS
-     ========================================== -->
   <div id="scanner_modal" class="custom-modal-overlay no-print">
     <div class="custom-modal-card">
       <div class="custom-modal-header">Escanear Código de Barras / QR</div>
@@ -829,7 +967,6 @@
     </div>
   </div>
 
-  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
     function alternarModoManual() {
       const b = document.body;
@@ -871,7 +1008,7 @@
     }
 
     // =========================================================================
-    // --- LÓGICA DEL SELECTOR DE MODO DE REPORTE (NUEVO) ---
+    // --- LÓGICA DEL SELECTOR DE MODO DE REPORTE ---
     // =========================================================================
     function cambiarModo(viewId, modo, btnElement) {
       const view = document.getElementById(viewId);
@@ -879,7 +1016,6 @@
       const secDevolucion = view.querySelector('.sec-devolucion');
       const title = view.querySelector('.header-titles h1');
       
-      // Actualizar estado de los botones UI
       const buttons = view.querySelectorAll('.mode-btn');
       buttons.forEach(b => b.classList.remove('active'));
       btnElement.classList.add('active');
