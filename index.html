@@ -111,7 +111,7 @@
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; box-shadow: 0 2px 6px rgba(14,90,50,0.3); }
 
-    /* --- ESTRUCTURA FLEXIBLE (PARA LLENAR HOJA A4) --- */
+    /* --- ESTRUCTURA FLEXIBLE --- */
     .flex-col-expand { display: flex; flex-direction: column; flex-grow: 1; }
     .mt-auto { margin-top: auto !important; }
 
@@ -215,40 +215,59 @@
       .mode-selector { flex-direction: column; gap: 8px; }
     }
 
-    /* --- REGLAS DE IMPRESIÓN DINÁMICA (A4 PERFECTO) --- */
+    /* =========================================================================
+       --- REGLAS DE IMPRESIÓN DINÁMICA (A4 PERFECTO Y COMPRESIÓN) ---
+       ========================================================================= */
     @media print {
-      @page { size: A4 portrait; margin: 8mm 12mm 8mm 12mm; }
+      @page { size: A4 portrait; margin: 2mm 5mm 2mm 5mm; } /* Márgenes mínimos de impresión */
       
       :root { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #D2D2D2 !important; --input-bg: transparent !important; --lbl-bg: #FAF9F8 !important; --subhead-bg: #F1F5F9 !important; }
       body::before { display: none !important; }
       
-      html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; height: auto !important; }
+      html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; height: 100% !important; overflow: hidden !important; }
       
       .dashboard-menu, .no-print, .theme-toggle-btn, .btn-scan, .custom-modal-overlay, .mode-selector { display: none !important; }
       
       .page-container { 
         border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; 
         width: 100% !important; max-width: 100% !important; 
-        min-height: 275mm; /* Obliga a la hoja a estirarse a tamaño A4 */
+        height: 290mm !important; /* Altura estricta para evitar salto de página */
+        max-height: 290mm !important;
         display: flex; flex-direction: column;
+        overflow: hidden !important;
+        page-break-inside: avoid !important;
       }
       
-      .header-table, .form-table, .signature-section, .dev-section { width: 100% !important; table-layout: fixed !important; }
-      .header-logo { padding-bottom: 2px !important; } .header-logo img { width: 50px !important; height: 50px !important; }
-      .header-titles h1 { font-size: 18px !important; margin-bottom: 0 !important; } .header-titles h2 { font-size: 11px !important; }
-      h3 { margin: 12px 0 4px 0 !important; font-size: 11px !important; }
+      /* Reducción micrométrica de espacios y fuentes para compresión */
+      .header-table { width: 100% !important; table-layout: fixed !important; margin-bottom: 2px !important; border-bottom: 1.5px solid #92C840 !important; }
+      .header-logo { padding-bottom: 1px !important; width: 50px !important; } 
+      .header-logo img { width: 40px !important; height: 40px !important; }
+      .header-titles { padding-left: 5px !important; }
+      .header-titles h1 { font-size: 14px !important; margin-bottom: 0 !important; } 
+      .header-titles h2 { font-size: 9px !important; }
       
-      .form-table { margin-bottom: 4px !important; }
-      .form-table td { padding: 8px 10px !important; border-color: #D2D2D2 !important; color: #000000 !important; font-size: 11.5px !important; }
-      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 11.5px !important; color: #000000 !important; }
+      h3 { margin: 4px 0 2px 0 !important; font-size: 9px !important; }
       
-      textarea { min-height: 55px !important; flex-grow: 1; }
-      .compromiso-box { font-size: 10px !important; padding: 12px !important; margin-top: 4px !important; line-height: 1.3 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      .form-table { margin-bottom: 2px !important; width: 100% !important; table-layout: fixed !important; }
+      .form-table td { padding: 2px 4px !important; border-color: #D2D2D2 !important; color: #000000 !important; font-size: 9px !important; }
+      .subhead { font-size: 8.5px !important; }
       
-      .signature-section { margin-top: auto !important; padding-top: 15px; margin-bottom: 5px !important; }
-      .signature-trigger-box { border: none !important; background: transparent !important; height: 75px !important; }
+      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 8.5px !important; color: #000000 !important; }
+      
+      textarea { min-height: 18px !important; flex-grow: 1; }
+      
+      .compromiso-box { font-size: 7.5px !important; padding: 4px 6px !important; margin-top: 2px !important; line-height: 1.1 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      
+      .signature-section { margin-top: auto !important; padding-top: 5px; margin-bottom: 2px !important; }
+      .signature-block { font-size: 8.5px !important; }
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
       .signature-trigger-box span { display: none !important; }
-      .signature-line { margin-top: 1px !important; border-top-color: #000000 !important; }
+      .signature-line { margin-top: 1px !important; margin-bottom: 1px !important; border-top-color: #000000 !important; border-width: 1px !important; }
+      .signature-field-group input[type="text"] { font-size: 8.5px !important; }
+      
+      /* Compresión forzada de las grillas de checkboxes */
+      .inline-flex { margin-right: 8px !important; margin-bottom: 0 !important; font-size: 8.5px !important; }
+      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 2px !important; }
     }
   </style>
 </head>
@@ -858,7 +877,7 @@
       const view = document.getElementById(viewId);
       const secEntrega = view.querySelector('.sec-entrega');
       const secDevolucion = view.querySelector('.sec-devolucion');
-      const title = view.querySelector('.header-titles h1'); // Ajustado al h1
+      const title = view.querySelector('.header-titles h1');
       
       // Actualizar estado de los botones UI
       const buttons = view.querySelectorAll('.mode-btn');
