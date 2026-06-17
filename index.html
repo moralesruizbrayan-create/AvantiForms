@@ -12,6 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   
+  <!-- LIBRERÍA DE DATAGRID AVANZADO (TABULATOR - ESTILO EXCEL) -->
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
 
@@ -39,7 +40,7 @@
       --text-secondary: #94A3B8;
       --card-bg: #1E1E1E;
       --border-color: #2D2D2D;
-      --input-bg: #151515;
+      --input-bg: #1A1A1A;
       --input-border: #3A3A3A;
       --lbl-bg: #262626;
       --subhead-bg: #2D2D2D;
@@ -122,9 +123,6 @@
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; box-shadow: 0 2px 6px rgba(14,90,50,0.3); }
 
-    .flex-col-expand { display: flex; flex-direction: column; flex-grow: 1; }
-    .mt-auto { margin-top: auto !important; }
-
     .header-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; border-bottom: 2.5px solid #92C840; }
     .header-logo { width: 70px; vertical-align: middle; padding-bottom: 8px; }
     .header-logo img { width: 60px; height: 60px; object-fit: contain; }
@@ -151,7 +149,7 @@
       cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px;
     }
     .btn-scan:hover { background-color: rgba(14, 90, 50, 0.1); }
-    textarea { resize: none; display: block; flex-grow: 1; min-height: 45px; }
+    textarea { resize: none; display: block; min-height: 45px; }
     input[type="text"]:focus, textarea:focus { outline: none; background-color: var(--card-bg); border-color: #0E5A32; box-shadow: 0 0 0 1px #0E5A32; }
 
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; margin-bottom: 2px; font-weight: 500; cursor: pointer; }
@@ -159,7 +157,7 @@
 
     .compromiso-box { border: 1px solid var(--border-color); border-left: 3.5px solid #0E5A32; background-color: var(--lbl-bg); padding: 10px 14px; font-size: 10.5px; text-align: justify; line-height: 1.4; color: var(--text-color); margin-top: 6px; border-radius: 4px; }
 
-    .signature-section { display: flex; justify-content: space-between; margin-top: 14px; margin-bottom: 6px; width: 100%; }
+    .signature-section { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 6px; width: 100%; }
     .signature-block { width: 46%; text-align: center; font-size: 11px; display: flex; flex-direction: column; align-items: center; }
     .signature-trigger-box { width: 100%; height: 65px; background-color: var(--lbl-bg); border: 1px dashed var(--input-border); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden; }
     .signature-trigger-box span { font-size: 10.5px; color: var(--text-secondary); font-weight: 600; }
@@ -168,8 +166,6 @@
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 2px; gap: 4px; width: 100%; }
     .signature-field-group span { font-weight: 600; color: var(--text-color); }
     .signature-field-group input[type="text"] { width: 110px; text-align: center; background: transparent; border: none; border-bottom: 1px dashed var(--text-secondary); border-radius: 0; padding: 0; color: var(--text-color); }
-
-    .dev-section { width: 100%; display: flex; flex-direction: column; flex-grow: 1; }
 
     /* --- SISTEMA DE MODALES Y DIÁLOGOS CUSTOM --- */
     .custom-modal-overlay {
@@ -214,7 +210,7 @@
     .custom-toast.show { top: 24px; }
     .toast-msg-text { color: var(--text-color); font-weight: 500; margin-left: 4px; }
 
-    /* --- ESTILOS INYECTADOS PARA TABULATOR (EXCEL-LIKE GRID) --- */
+    /* --- ESTILOS OPTIMIZADOS PARA TABULATOR (MODO OSCURO NATIVO) --- */
     .tabulator { 
       background-color: var(--card-bg) !important; 
       border: 1px solid var(--border-color) !important; 
@@ -226,11 +222,25 @@
     .tabulator-header { background-color: #0E5A32 !important; color: #FFFFFF !important; border-bottom: 2px solid #0A3F23 !important; }
     .tabulator-col { background-color: #0E5A32 !important; border-right: 1px solid #0A3F23 !important; }
     .tabulator-col-title { padding: 10px !important; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+    
     .tabulator-row { background-color: var(--card-bg) !important; border-bottom: 1px solid var(--border-color) !important; min-height: 38px !important; }
     .tabulator-row:nth-child(even) { background-color: var(--lbl-bg) !important; }
     .tabulator-row:hover { background-color: var(--subhead-bg) !important; }
+    
     .tabulator-cell { padding: 8px 10px !important; border-right: 1px dotted var(--border-color) !important; display: flex; align-items: center; }
-    .tabulator-cell input, .tabulator-cell select { color: #000 !important; font-size: 12px; padding: 4px; border: 1px solid #0078D4; outline: none; background: #fff; width: 100%; height: 100%; }
+    
+    /* Input/Editores dentro del Grid ajustados a Modo Oscuro */
+    .tabulator-cell input, .tabulator-cell select { 
+      color: var(--text-color) !important; 
+      font-size: 12px; 
+      padding: 4px; 
+      border: 1px solid #0078D4 !important; 
+      outline: none; 
+      background-color: var(--input-bg) !important; 
+      width: 100%; 
+      height: 100%; 
+    }
+    
     .tabulator-footer { background-color: var(--lbl-bg) !important; border-top: 1px solid var(--border-color) !important; color: var(--text-color) !important; padding: 8px !important; }
     .tabulator-page { border: 1px solid var(--border-color) !important; background: var(--card-bg) !important; color: var(--text-color) !important; border-radius: 4px !important; margin: 0 4px !important; }
     .tabulator-page.active { background: #0E5A32 !important; color: #FFF !important; border-color: #0E5A32 !important; }
@@ -255,32 +265,56 @@
       .page-container.full-width { padding: 10px; max-width: 100%; border: none; }
     }
 
-    /* --- REGLAS DE IMPRESIÓN DINÁMICA --- */
+    /* --- REGLAS DE IMPRESIÓN DINÁMICA ORDENADA (FORMATO A4 SIN SALTOS) --- */
     @media print {
-      @page { size: A4 portrait; margin: 2mm 5mm 2mm 5mm; }
+      @page { size: A4 portrait; margin: 3mm 8mm 3mm 8mm; }
+      
       :root { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #D2D2D2 !important; --input-bg: transparent !important; --lbl-bg: #FAF9F8 !important; --subhead-bg: #F1F5F9 !important; }
       body::before { display: none !important; }
-      html, body { background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; height: 100% !important; overflow: hidden !important; }
+      
+      html, body { 
+        background-color: #FFFFFF !important; padding: 0 !important; margin: 0 !important; 
+        /* Eliminamos el height: 100% que causaba estiramiento flexible */
+      }
+      
       .dashboard-menu, .no-print, .theme-toggle-btn, .btn-scan, .custom-modal-overlay, .mode-selector { display: none !important; }
-      .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; height: 290mm !important; max-height: 290mm !important; display: flex; flex-direction: column; overflow: hidden !important; page-break-inside: avoid !important; }
-      .header-table { width: 100% !important; table-layout: fixed !important; margin-bottom: 2px !important; border-bottom: 1.5px solid #92C840 !important; }
-      .header-logo { padding-bottom: 1px !important; width: 50px !important; } .header-logo img { width: 40px !important; height: 40px !important; }
-      .header-titles { padding-left: 5px !important; } .header-titles h1 { font-size: 14px !important; margin-bottom: 0 !important; } .header-titles h2 { font-size: 9px !important; }
-      h3 { margin: 4px 0 2px 0 !important; font-size: 9px !important; }
-      .form-table { margin-bottom: 2px !important; width: 100% !important; table-layout: fixed !important; }
-      .form-table td { padding: 2px 4px !important; border-color: #D2D2D2 !important; color: #000000 !important; font-size: 9px !important; }
-      .subhead { font-size: 8.5px !important; }
-      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 8.5px !important; color: #000000 !important; }
-      textarea { min-height: 18px !important; flex-grow: 1; }
-      .compromiso-box { font-size: 7.5px !important; padding: 4px 6px !important; margin-top: 2px !important; line-height: 1.1 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
-      .signature-section { margin-top: auto !important; padding-top: 5px; margin-bottom: 2px !important; }
-      .signature-block { font-size: 8.5px !important; }
-      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
+      
+      .page-container { 
+        border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; 
+        width: 100% !important; max-width: 100% !important; 
+        display: block !important; /* Block elimina los vacíos gigantes de flexbox */
+        page-break-inside: avoid !important;
+      }
+      
+      /* Secciones ahora en formato Block natural */
+      .sec-entrega, .sec-devolucion, .dev-section { display: block !important; }
+      
+      .header-table { width: 100% !important; table-layout: fixed !important; margin-bottom: 8px !important; border-bottom: 1.5px solid #92C840 !important; }
+      .header-logo { padding-bottom: 1px !important; width: 50px !important; } .header-logo img { width: 45px !important; height: 45px !important; }
+      .header-titles { padding-left: 5px !important; } .header-titles h1 { font-size: 15px !important; margin-bottom: 0 !important; } .header-titles h2 { font-size: 10px !important; }
+      
+      h3 { margin: 8px 0 3px 0 !important; font-size: 10px !important; }
+      
+      .form-table { margin-bottom: 4px !important; width: 100% !important; table-layout: fixed !important; }
+      .form-table td { padding: 4px 6px !important; border-color: #D2D2D2 !important; color: #000000 !important; font-size: 10px !important; }
+      .subhead { font-size: 9px !important; }
+      
+      input[type="text"], textarea { background-color: transparent !important; border-color: transparent !important; padding: 0 !important; font-size: 10px !important; color: #000000 !important; }
+      
+      textarea { min-height: 25px !important; height: 25px !important; }
+      
+      .compromiso-box { font-size: 8px !important; padding: 6px 8px !important; margin-top: 4px !important; margin-bottom: 10px !important; line-height: 1.2 !important; border-color: #D2D2D2 !important; color: #000000 !important; }
+      
+      /* Firmas posicionadas naturalmente sin margin-top: auto */
+      .signature-section { margin-top: 15px !important; margin-bottom: 5px !important; padding-top: 0 !important; page-break-inside: avoid; }
+      .signature-block { font-size: 9px !important; }
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 40px !important; }
       .signature-trigger-box span { display: none !important; }
-      .signature-line { margin-top: 1px !important; margin-bottom: 1px !important; border-top-color: #000000 !important; border-width: 1px !important; }
-      .signature-field-group input[type="text"] { font-size: 8.5px !important; }
-      .inline-flex { margin-right: 8px !important; margin-bottom: 0 !important; font-size: 8.5px !important; }
-      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 2px !important; }
+      .signature-line { margin-top: 1px !important; margin-bottom: 1px !important; border-top-color: #000000 !important; border-width: 1.5px !important; }
+      .signature-field-group input[type="text"] { font-size: 9px !important; }
+      
+      .inline-flex { margin-right: 8px !important; margin-bottom: 0 !important; font-size: 9px !important; }
+      input[type="checkbox"] { width: 11px !important; height: 11px !important; margin-right: 3px !important; }
     }
   </style>
 </head>
@@ -295,6 +329,9 @@
 
   <audio id="scan-beep" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" preload="auto"></audio>
 
+  <!-- ==========================================
+     SISTEMA DE DIÁLOGO CONFIRMATION
+     ========================================== -->
   <div id="system_dialog" class="custom-modal-overlay no-print">
     <div class="custom-modal-card">
       <div id="dialog_title" class="custom-modal-header">Confirmación del Sistema</div>
@@ -329,6 +366,7 @@
         <p>Actas de asignación de números telefónicos, SIM Cards y control de retorno independiente.</p>
       </div>
       
+      <!-- ACTUALIZADO: PRUEBAS DE REPORTERÍA -->
       <div class="option-card" onclick="navegarAReporteria()" style="border-left-color: #64748B;">
         <h2>📋 Pruebas de reportería</h2>
         <p>Base de datos editable y filtrable del inventario físico, equipos, costos y asignaciones.</p>
@@ -337,10 +375,14 @@
   </div>
 
 
+  <!-- ==========================================
+     NUEVA VISTA: 📋 PRUEBAS DE REPORTERÍA (TABULATOR CRUD)
+     ========================================== -->
   <div id="view_control_inventario" class="form-view">
     <div class="action-bar full-width no-print" style="margin: 0 auto 12px auto;">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
       
+      <!-- BARRA DE HERRAMIENTAS CRUD EXCEL -->
       <div class="action-group-right">
         <button class="btn-action btn-add" onclick="añadirFilaTabla()">➕ Añadir Registro</button>
         <button class="btn-action btn-undo" onclick="deshacerCambioTabla()">↩ Deshacer</button>
@@ -354,12 +396,16 @@
         <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Motor de edición en celda. Haz doble clic en cualquier campo para editar. Usa filtros en las cabeceras.</p>
       </div>
 
+      <!-- CONTENEDOR DONDE TABULATOR RENDERIZARÁ LA HOJA DE CÁLCULO -->
       <div id="inventario-grid"></div>
 
     </div>
   </div>
 
 
+  <!-- ==========================================
+     FORMULARIO 1: MATERIAL INFORMÁTICO
+     ========================================== -->
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -371,6 +417,7 @@
     
     <div class="page-container">
       
+      <!-- CONTROLES DE REPORTE -->
       <div class="mode-selector no-print">
         <button class="mode-btn" onclick="cambiarModo('view_material_informatico', 'entrega', this)">Solo Entrega</button>
         <button class="mode-btn" onclick="cambiarModo('view_material_informatico', 'devolucion', this)">Solo Devolución</button>
@@ -429,16 +476,17 @@
         </tr>
       </table>
 
-      <div class="sec-entrega flex-col-expand">
+      <!-- ZONA EXCLUSIVA: ENTREGA -->
+      <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado de entrega del activo..."></textarea></td></tr>
+        <table class="form-table">
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado de entrega del activo..."></textarea></td></tr>
         </table>
         
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo, así como también del servicio técnico en caso de desperfecto por mala manipulación. Las líneas, equipos móviles, de cómputo y licencias asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño o robo, notificar inmediatamente al área de TI.</div>
         
-        <div class="signature-section mt-auto">
+        <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1', 'Firma Encargado TI')"><span id="lbl_f1_m1">📝 Pulsar para firmar</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
@@ -453,14 +501,15 @@
         </div>
       </div>
 
-      <div class="sec-devolucion flex-col-expand">
+      <!-- ZONA EXCLUSIVA: DEVOLUCIÓN -->
+      <div class="sec-devolucion">
         <div class="dev-section">
           <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
-          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-            <tr style="display: flex;"><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td></tr>
-            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Detalle exhaustivo del estado físico y funcional..."></textarea></td></tr>
+          <table class="form-table">
+            <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td></tr>
+            <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" placeholder="Detalle exhaustivo del estado físico y funcional..."></textarea></td></tr>
           </table>
-          <div class="signature-section mt-auto">
+          <div class="signature-section">
             <div class="signature-block">
               <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m1', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m1">📝 Pulsar para firmar</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
               <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
@@ -476,6 +525,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     FORMULARIO 2: PERIFÉRICOS (MONITORES)
+     ========================================== -->
   <div id="view_perifericos" class="form-view" data-tipo="perifericos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -525,16 +577,16 @@
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="cable_poder"> Cable de Poder</label><label class="inline-flex"><input type="checkbox" data-spec="cable_hdmi"> Cable HDMI</label><label class="inline-flex"><input type="checkbox" data-spec="cable_vga"> Cable VGA</label><label class="inline-flex"><input type="checkbox" data-spec="cable_dp"> Cable DisplayPort</label><label class="inline-flex"><input type="checkbox" data-spec="adaptador_voltaje"> Adaptador de Voltaje</label></td></tr>
       </table>
 
-      <div class="sec-entrega flex-col-expand">
+      <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr>
+        <table class="form-table">
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" placeholder="Anotaciones sobre el estado físico del monitor..."></textarea></td></tr>
         </table>
         
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
         
-        <div class="signature-section mt-auto">
+        <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2', 'Firma Encargado TI')"><span id="lbl_f1_m2">📝 Pulsar para firmar</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
@@ -548,14 +600,14 @@
         </div>
       </div>
 
-      <div class="sec-devolucion flex-col-expand">
+      <div class="sec-devolucion">
         <div class="dev-section">
           <h3>5. Control de Devolución:</h3>
-          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-            <tr style="display: flex;"><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td></tr>
-            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Diagnóstico de pantalla y pixeles al retornar..."></textarea></td></tr>
+          <table class="form-table">
+            <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA"></td></tr>
+            <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" placeholder="Diagnóstico de pantalla y pixeles al retornar..."></textarea></td></tr>
           </table>
-          <div class="signature-section mt-auto">
+          <div class="signature-section">
             <div class="signature-block">
               <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m2', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m2">📝 Pulsar para firmar</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
               <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
@@ -571,6 +623,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     FORMULARIO 3: TELÉFONOS MÓVILES
+     ========================================== -->
   <div id="view_telefonos" class="form-view" data-tipo="telefonos">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -635,16 +690,16 @@
         <tr><td colspan="4"><label class="inline-flex"><input type="checkbox" data-spec="acc_cargador"> Cargador de Pared</label><label class="inline-flex"><input type="checkbox" data-spec="acc_cable"> Cable USB</label><label class="inline-flex"><input type="checkbox" data-spec="acc_case"> Funda Protectora (Case)</label><label class="inline-flex"><input type="checkbox" data-spec="acc_lamina"> Lámina de Vidrio</label></td></tr>
       </table>
 
-      <div class="sec-entrega flex-col-expand">
+      <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Estado estético del teléfono (carcasa, cámara, botones)..."></textarea></td></tr>
+        <table class="form-table">
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" placeholder="Estado estético del teléfono (carcasa, cámara, botones)..."></textarea></td></tr>
         </table>
         
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El dispositivo inteligente asignado constituye una herramienta estratégica laboral. Queda estrictamente restringida la alteración del sistema operativo o el uso del hardware en fines personales que degraden el rendimiento o comprometan datos sensibles de Agrícola Avanti S.A.C.</div>
         
-        <div class="signature-section mt-auto">
+        <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m3', 'Firma Encargado TI')"><span id="lbl_f1_m3">📝 Pulsar para firmar</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
@@ -658,29 +713,29 @@
         </div>
       </div>
 
-      <div class="sec-devolucion flex-col-expand">
+      <div class="sec-devolucion">
         <div class="dev-section">
           <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
-          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-            <tr style="display: flex;">
+          <table class="form-table">
+            <tr>
               <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
               <td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
             </tr>
-            <tr style="display: flex;">
+            <tr>
               <td class="lbl" style="width: 18%;">Quien devuelve:</td>
               <td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
             </tr>
-            <tr style="display: flex;">
+            <tr>
               <td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td>
               <td style="width: 82%; display: flex; gap: 10px;">
                 <input type="text" data-field="quien_devuelve_dni" placeholder="DNI">
                 <input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA">
               </td>
             </tr>
-            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Inspección final de batería y display..."></textarea></td></tr>
+            <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" placeholder="Inspección final de batería y display..."></textarea></td></tr>
           </table>
           
-          <div class="signature-section mt-auto">
+          <div class="signature-section">
             <div class="signature-block">
               <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m3', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m3">📝 Pulsar para firmar</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
               <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
@@ -698,6 +753,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     FORMULARIO 4: CHIPS O LÍNEAS MÓVILES
+     ========================================== -->
   <div id="view_lineas" class="form-view" data-tipo="lineas">
     <div class="action-bar no-print">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
@@ -744,20 +802,20 @@
         </tr>
       </table>
 
-      <div class="sec-entrega flex-col-expand">
+      <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-          <tr style="display: flex;">
+        <table class="form-table">
+          <tr>
             <td class="lbl" style="width: 18%;">Variante Línea:</td>
             <td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label><label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label><label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td>
           </tr>
-          <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_entrega" placeholder="Notas sobre el estado del aprovisionamiento de la línea..."></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" placeholder="Notas sobre el estado del aprovisionamiento de la línea..."></textarea></td></tr>
         </table>
         
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
         
-        <div class="signature-section mt-auto">
+        <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4', 'Firma Encargado TI')"><span id="lbl_f1_m4">📝 Pulsar para firmar</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
@@ -772,29 +830,29 @@
         </div>
       </div>
 
-      <div class="sec-devolucion flex-col-expand">
+      <div class="sec-devolucion">
         <div class="dev-section">
           <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
-          <table class="form-table" style="flex-grow: 1; display: flex; flex-direction: column;">
-            <tr style="display: flex;">
+          <table class="form-table">
+            <tr>
               <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
               <td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="si"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="mismo_titular" value="no"> No</label></td>
             </tr>
-            <tr style="display: flex;">
+            <tr>
               <td class="lbl" style="width: 18%;">Quien devuelve:</td>
               <td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre" placeholder="Nombre completo"></td>
             </tr>
-            <tr style="display: flex;">
+            <tr>
               <td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td>
               <td style="width: 82%; display: flex; gap: 10px;">
                 <input type="text" data-field="quien_devuelve_dni" placeholder="DNI">
                 <input type="text" data-field="fecha_devolucion" placeholder="DD / MM / AAAA">
               </td>
             </tr>
-            <tr style="display: flex; flex-grow: 1;"><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%; display: flex;"><textarea data-field="observaciones_devolucion" placeholder="Estado de baja, suspensión o corte de tráfico..."></textarea></td></tr>
+            <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" placeholder="Estado de baja, suspensión o corte de tráfico..."></textarea></td></tr>
           </table>
           
-          <div class="signature-section mt-auto">
+          <div class="signature-section">
             <div class="signature-block">
               <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m4', 'Firma Encargado TI (Retorno)')"><span id="lbl_f3_m4">📝 Pulsar para firmar</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
               <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
@@ -812,6 +870,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     SISTEMA POPUP COMPARTIDO: FIRMAS
+     ========================================== -->
   <div id="firma_modal" class="custom-modal-overlay no-print">
     <div class="custom-modal-card large">
       <div id="modal_titulo" class="custom-modal-header">Registrar Firma Digital</div>
@@ -828,6 +889,9 @@
     </div>
   </div>
 
+  <!-- ==========================================
+     SISTEMA POPUP COMPARTIDO: LECTOR DE BARRAS
+     ========================================== -->
   <div id="scanner_modal" class="custom-modal-overlay no-print">
     <div class="custom-modal-card">
       <div class="custom-modal-header">Escanear Código de Barras / QR</div>
@@ -840,6 +904,7 @@
     </div>
   </div>
 
+  <!-- --- ENRUTADOR INTERACTIVO Y LOGIC MOTOR --- -->
   <script>
     function alternarModoManual() {
       const b = document.body;
@@ -897,16 +962,16 @@
       if(viewId === 'view_lineas') baseTitle = "DE LÍNEAS MÓVILES";
 
       if (modo === 'entrega') {
-        secEntrega.style.display = 'flex';
+        secEntrega.style.display = 'block';
         secDevolucion.style.display = 'none';
         title.innerText = "ACTA DE ENTREGA " + baseTitle;
       } else if (modo === 'devolucion') {
         secEntrega.style.display = 'none';
-        secDevolucion.style.display = 'flex';
+        secDevolucion.style.display = 'block';
         title.innerText = "ACTA DE DEVOLUCIÓN " + baseTitle;
       } else {
-        secEntrega.style.display = 'flex';
-        secDevolucion.style.display = 'flex';
+        secEntrega.style.display = 'block';
+        secDevolucion.style.display = 'block';
         title.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓN " + baseTitle;
       }
     }
@@ -921,7 +986,6 @@
       
       if (!tabulatorTable) {
         
-        // Función para renderizar el badge de estado automáticamente
         const badgeFormatter = function(cell) {
           const val = cell.getValue() || '';
           if(val === 'OPERATIVO') return `<span class="tab-badge t-op">OPERATIVO</span>`;
@@ -959,7 +1023,7 @@
         tabulatorTable = new Tabulator("#inventario-grid", {
           data: initialData,
           layout: "fitDataFill",
-          history: true, // Activa Control+Z
+          history: true,
           pagination: "local",
           paginationSize: 12,
           movableColumns: true,
@@ -989,7 +1053,6 @@
 
     function añadirFilaTabla() {
       if(tabulatorTable) {
-        // Agrega una fila en blanco al inicio de la tabla
         tabulatorTable.addRow({id: Date.now(), estado: "STOCK", empresa: "AVANTI"}, true);
       }
     }
@@ -1002,7 +1065,6 @@
 
     function sincronizarInventario() {
       if(tabulatorTable) {
-        // Simulación de envío del array de objetos modificado al backend
         const allData = tabulatorTable.getData();
         console.log("Datos listos para enviar por POST a la BD:", allData);
         mostrarNotificacionToast("Sincronización simulada exitosa. (Revisa la consola)", true);
