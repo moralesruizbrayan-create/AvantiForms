@@ -12,8 +12,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   
-  <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
-  <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+  <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
 
   <style>
     /* --- VARIABLES GLOBALES DE DISEÑO --- */
@@ -103,13 +103,19 @@
     .action-bar.full-width { max-width: 95%; }
     .action-group-right { display: flex; gap: 10px; }
     
-    .btn-action { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; }
+    .btn-action { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; display: flex; align-items: center; gap: 6px; }
     .btn-back { background-color: #E2E8F0; color: #334155; }
     .btn-back:hover { background-color: #CBD5E1; }
     .btn-save-db { background-color: #0078D4; color: #FFFFFF; }
     .btn-save-db:hover { background-color: #106EBE; }
     .btn-print { background-color: #0E5A32; color: #FFFFFF; }
     .btn-print:hover { background-color: #0A3F23; }
+    
+    /* Botones específicos CRUD */
+    .btn-add { background-color: #107C41; color: white; }
+    .btn-add:hover { background-color: #0B5C30; }
+    .btn-undo { background-color: #F59E0B; color: #78350F; }
+    .btn-undo:hover { background-color: #FCD34D; }
 
     .mode-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
     .mode-btn { padding: 8px 16px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-secondary); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
@@ -208,25 +214,34 @@
     .custom-toast.show { top: 24px; }
     .toast-msg-text { color: var(--text-color); font-weight: 500; margin-left: 4px; }
 
-    /* --- ESTILOS INYECTADOS PARA GRID.JS (DATATABLE) --- */
-    .gridjs-container { font-family: 'Segoe UI', sans-serif !important; color: var(--text-color) !important; }
-    .gridjs-wrapper { border-radius: 4px !important; border: 1px solid var(--border-color) !important; background: var(--card-bg) !important; }
-    .gridjs-head { padding-bottom: 16px !important; display: flex; justify-content: flex-end; }
-    .gridjs-search { width: 300px; }
-    .gridjs-search-input { width: 100% !important; border: 1px solid var(--input-border) !important; background-color: var(--input-bg) !important; color: var(--text-color) !important; font-size: 13px !important; padding: 8px 12px !important; border-radius: 4px !important; outline: none; }
-    .gridjs-search-input:focus { border-color: #0E5A32 !important; box-shadow: 0 0 0 1px #0E5A32 !important; }
-    .gridjs-table { border-collapse: collapse !important; width: 100% !important; }
-    .gridjs-th { background-color: #0E5A32 !important; color: #FFFFFF !important; font-size: 11px !important; font-weight: 600 !important; text-transform: uppercase; padding: 10px 14px !important; border: 1px solid #0A3F23 !important; white-space: nowrap; }
-    .gridjs-td { background-color: var(--card-bg) !important; border: 1px solid var(--border-color) !important; padding: 8px 14px !important; font-size: 12px !important; color: var(--text-color) !important; white-space: nowrap; }
-    .gridjs-tr:hover .gridjs-td { background-color: var(--subhead-bg) !important; }
-    .gridjs-footer { background-color: var(--card-bg) !important; border: none !important; border-top: 1px solid var(--border-color) !important; padding: 12px 0 0 0 !important; }
-    .gridjs-pagination .gridjs-pages button { background-color: var(--lbl-bg) !important; color: var(--text-color) !important; border: 1px solid var(--border-color) !important; border-radius: 4px !important; padding: 5px 10px !important; font-size: 12px !important; transition: all 0.2s; }
-    .gridjs-pagination .gridjs-pages button:hover { background-color: var(--border-color) !important; }
-    .gridjs-pagination .gridjs-pages button.gridjs-currentPage { background-color: #0E5A32 !important; color: #FFFFFF !important; border-color: #0E5A32 !important; }
-    
-    .badge-status { padding: 3px 8px; border-radius: 2px; font-size: 9.5px; font-weight: 700; text-transform: uppercase; }
-    .badge-op { background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
-    .badge-ret { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+    /* --- ESTILOS INYECTADOS PARA TABULATOR (EXCEL-LIKE GRID) --- */
+    .tabulator { 
+      background-color: var(--card-bg) !important; 
+      border: 1px solid var(--border-color) !important; 
+      border-radius: 4px; 
+      color: var(--text-color) !important;
+      font-size: 12px;
+      font-family: 'Segoe UI', sans-serif !important;
+    }
+    .tabulator-header { background-color: #0E5A32 !important; color: #FFFFFF !important; border-bottom: 2px solid #0A3F23 !important; }
+    .tabulator-col { background-color: #0E5A32 !important; border-right: 1px solid #0A3F23 !important; }
+    .tabulator-col-title { padding: 10px !important; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+    .tabulator-row { background-color: var(--card-bg) !important; border-bottom: 1px solid var(--border-color) !important; min-height: 38px !important; }
+    .tabulator-row:nth-child(even) { background-color: var(--lbl-bg) !important; }
+    .tabulator-row:hover { background-color: var(--subhead-bg) !important; }
+    .tabulator-cell { padding: 8px 10px !important; border-right: 1px dotted var(--border-color) !important; display: flex; align-items: center; }
+    .tabulator-cell input, .tabulator-cell select { color: #000 !important; font-size: 12px; padding: 4px; border: 1px solid #0078D4; outline: none; background: #fff; width: 100%; height: 100%; }
+    .tabulator-footer { background-color: var(--lbl-bg) !important; border-top: 1px solid var(--border-color) !important; color: var(--text-color) !important; padding: 8px !important; }
+    .tabulator-page { border: 1px solid var(--border-color) !important; background: var(--card-bg) !important; color: var(--text-color) !important; border-radius: 4px !important; margin: 0 4px !important; }
+    .tabulator-page.active { background: #0E5A32 !important; color: #FFF !important; border-color: #0E5A32 !important; }
+
+    /* Indicadores Visuales para Tabulator */
+    .tab-badge { padding: 3px 8px; border-radius: 2px; font-size: 9.5px; font-weight: 700; text-transform: uppercase; display: inline-block; }
+    .t-op { background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .t-ret { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+    .t-stk { background-color: #E0F2FE; color: #0369A1; border: 1px solid #BAE6FD; }
+    .btn-del-row { background: #DC2626; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 11px; width: 100%; }
+    .btn-del-row:hover { background: #991B1B; }
 
     @media (max-width: 768px) {
       body { padding: 12px; }
@@ -235,9 +250,8 @@
       .page-container { padding: 20px 15px; border: none; box-shadow: none; }
       .action-bar { flex-direction: column; gap: 8px; align-items: stretch; }
       .action-group-right { flex-direction: column; gap: 8px; }
-      .btn-action { width: 100%; padding: 12px; text-align: center; }
+      .btn-action { width: 100%; padding: 12px; text-align: center; justify-content: center; }
       .mode-selector { flex-direction: column; gap: 8px; }
-      .gridjs-search { width: 100%; }
       .page-container.full-width { padding: 10px; max-width: 100%; border: none; }
     }
 
@@ -326,11 +340,18 @@
   <div id="view_control_inventario" class="form-view">
     <div class="action-bar full-width no-print" style="margin: 0 auto 12px auto;">
       <button class="btn-action btn-back" onclick="volverAlMenu()">← Volver al menú</button>
+      
+      <div class="action-group-right">
+        <button class="btn-action btn-add" onclick="añadirFilaTabla()">➕ Añadir Registro</button>
+        <button class="btn-action btn-undo" onclick="deshacerCambioTabla()">↩ Deshacer</button>
+        <button class="btn-action btn-save-db" onclick="sincronizarInventario()">💾 Sincronizar Cambios</button>
+      </div>
     </div>
+    
     <div class="page-container full-width">
-      <div style="border-bottom: 2.5px solid #64748B; padding-bottom: 8px; margin-bottom: 20px;">
-        <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; text-transform: uppercase;">CONTROL DE INVENTARIO TI</h1>
-        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Registro de asignaciones.</p>
+      <div style="border-bottom: 2.5px solid #64748B; padding-bottom: 8px; margin-bottom: 16px;">
+        <h1 style="font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; text-transform: uppercase;">CONTROL DE INVENTARIO TI: Registro de asignaciones</h1>
+        <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Motor de edición en celda. Haz doble clic en cualquier campo para editar. Usa filtros en las cabeceras.</p>
       </div>
 
       <div id="inventario-grid"></div>
@@ -891,53 +912,100 @@
     }
 
     // =========================================================================
-    // --- LÓGICA DE DATAGRID (TABLA DINÁMICA GRID.JS) ---
+    // --- LÓGICA DE EXCEL GRID (TABULATOR CRUD) ---
     // =========================================================================
-    let gridIniciado = false;
-    
+    let tabulatorTable = null;
+
     function navegarAReporteria() {
       navegarA('view_control_inventario');
       
-      if (!gridIniciado) {
-        new gridjs.Grid({
-          columns: [
-            "ID Equipo (CPU)", "DNI Resp.", "Usuario Red", "Apellidos y Nombres", 
-            "Cargo", "Empresa", 
-            { name: "Estado", formatter: (cell) => gridjs.html(cell) }, 
-            "Modalidad", "Fabricante y Modelo", "Marca", "Modelo Exacto", 
-            "Arrendadora", "Nº de Serie (S/N)", "Procesador (CPU)", "Memoria RAM", "Storage (Disco)"
-          ],
-          data: [
-            ["VPE 254", "40404196", "RRAMOS", "Ramos Moran, Ronald Roggers", "Coordinador HSE", "AVANTI", "<span class='badge badge-status badge-ret'>RETIRADO</span>", "PRESTAMO-ARRENDADA", "LENOVO - ThinkPad L480", "LENOVO", "L480", "RAPEL", "PF1H4BTX", "INTEL", "8 GB", "512 GB SSD"],
-            ["VPE 254", "75730679", "JNEYRA", "Neyra Cañote, Jair Sebastián", "Jefe De Seguridad Industrial", "AVANTI", "<span class='badge badge-status badge-ret'>RETIRADO</span>", "PRESTAMO-ARRENDADA", "LENOVO - ThinkPad L480", "LENOVO", "L480", "RAPEL", "PF1H4BTX", "INTEL", "8 GB", "512 GB SSD"],
-            ["VPE205", "001875270", "AVALENZUELA", "Valenzuela Pinochet, Angelica", "Encargado De Adquisiciones", "AVANTI", "<span class='badge badge-status badge-ret'>RETIRADO</span>", "PRESTAMO-ARRENDADA", "LENOVO - ThinkPad L480", "LENOVO", "L480", "RAPEL", "PF1H4DYH", "INTEL", "8 GB", "512 GB SSD"],
-            ["AVPE001", "001875270", "AVALENZUELA", "Valenzuela Pinochet, Angelica", "Encargado De Adquisiciones", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54T", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE002", "46201437", "YHUERTAS", "Huertas Mauricio, Yolanda", "Analista De Gestión", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53R", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE003", "72892044", "JSANTOS", "Santos Sanchez, Jose Martin", "Jefe Riego", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0HG53Q", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE004", "77017046", "JROSAS", "Rosas Becerra, Juan Francisco", "Jefe de Sanidad Vegetal", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54C", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE005", "74201588", "RVARILLAS", "Varillas Salinas, Rocio", "Jefe de Control de Calidad", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54J", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE006", "48494324", "MSUAREZ", "Suarez Ramirez, Marlon Antonio", "Jefe de Campo", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54B", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE007", "43656311", "ALVIERA", "Viera Pulache, Alexis Jeanpierre", "Digitador", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53V", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE008", "46025096", "HJULIAN", "Julian Domínguez, Henry Estewar", "Analista De Gestión", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53Z", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE009", "42766246", "CMIRANDA", "Miranda Bayona, Christian Gabriel", "Administrador de Fundo", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG547", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE010", "44586101", "JTIMANA", "Timana Huiman, Jorge Edilberto", "Jefe de Almacen", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG540", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE011", "45355093", "WHERNANDEZ", "Hernandez Espinoza, Wilmer", "Ayudante de Almacen", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG541", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE012", "75706904", "ASULLON", "Sullon Saucedo, Julio Andres", "Encargado de Almacen", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG54A", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE013", "47957908", "MKSILVA", "Silva Sandoval, Mercedes Katherina", "Supervisor de Faena", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG53S", "INTEL", "16 GB", "1 TB SSD"],
-            ["AVPE014", "75730679", "JNEYRA", "Neyra Cañote, Jair Sebastián", "Jefe De Seguridad Industrial", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "ARRENDADA", "LENOVO - ThinkPad L16 Gen 2", "LENOVO", "L16", "FG", "PW0MG543", "INTEL", "16 GB", "1 TB SSD"],
-            ["VPE336", "47563134", "COLAYA", "Olaya Alamo, Cindy Elizbeth", "Enfermera", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "PRESTAMO-ARRENDADA", "Dell Latitude 3520", "DELL", "Latitude 3520", "PALERMO", "7DHMCL3", "INTEL", "16 GB", "512 GB SSD"],
-            ["VPE335", "74939528", "FAQUINO", "Aquino Chavez, Flor María", "Analista De Gestión", "AVANTI", "<span class='badge badge-status badge-op'>OPERATIVO</span>", "PRESTAMO-ARRENDADA", "Dell Latitude 5520", "DELL", "Latitude 5520", "PALERMO", "4N4XMG3", "INTEL", "16 GB", "512 GB SSD"]
-          ],
-          search: { enabled: true },
-          sort: true,
-          pagination: { enabled: true, limit: 12 },
-          language: {
-            search: { placeholder: '🔍 Buscar DNI, equipo, serial...' },
-            pagination: { previous: 'Anterior', next: 'Siguiente', showing: 'Mostrando', of: 'de', to: 'a', results: 'registros' }
-          }
-        }).render(document.getElementById("inventario-grid"));
+      if (!tabulatorTable) {
         
-        gridIniciado = true;
+        // Función para renderizar el badge de estado automáticamente
+        const badgeFormatter = function(cell) {
+          const val = cell.getValue() || '';
+          if(val === 'OPERATIVO') return `<span class="tab-badge t-op">OPERATIVO</span>`;
+          if(val === 'RETIRADO') return `<span class="tab-badge t-ret">RETIRADO</span>`;
+          if(val === 'STOCK') return `<span class="tab-badge t-stk">STOCK</span>`;
+          return val;
+        };
+
+        const deleteIcon = function(cell, formatterParams){
+           return "<button class='btn-del-row'>🗑️</button>";
+        };
+
+        const initialData = [
+          { id: 1, cpu: "VPE 254", dni: "40404196", usuario: "RRAMOS", nombre: "Ramos Moran, Ronald Roggers", cargo: "Coordinador HSE", empresa: "AVANTI", estado: "RETIRADO", modalidad: "PRESTAMO-ARRENDADA", equipo: "LENOVO - ThinkPad L480", marca: "LENOVO", modelo: "L480", arrendadora: "RAPEL", sn: "PF1H4BTX", proc: "INTEL", ram: "8 GB", disco: "512 GB SSD" },
+          { id: 2, cpu: "VPE 254", dni: "75730679", usuario: "JNEYRA", nombre: "Neyra Cañote, Jair Sebastián", cargo: "Jefe De Seguridad Industrial", empresa: "AVANTI", estado: "RETIRADO", modalidad: "PRESTAMO-ARRENDADA", equipo: "LENOVO - ThinkPad L480", marca: "LENOVO", modelo: "L480", arrendadora: "RAPEL", sn: "PF1H4BTX", proc: "INTEL", ram: "8 GB", disco: "512 GB SSD" },
+          { id: 3, cpu: "VPE205", dni: "001875270", usuario: "AVALENZUELA", nombre: "Valenzuela Pinochet, Angelica", cargo: "Encargado De Adquisiciones", empresa: "AVANTI", estado: "RETIRADO", modalidad: "PRESTAMO-ARRENDADA", equipo: "LENOVO - ThinkPad L480", marca: "LENOVO", modelo: "L480", arrendadora: "RAPEL", sn: "PF1H4DYH", proc: "INTEL", ram: "8 GB", disco: "512 GB SSD" },
+          { id: 4, cpu: "AVPE001", dni: "001875270", usuario: "AVALENZUELA", nombre: "Valenzuela Pinochet, Angelica", cargo: "Encargado De Adquisiciones", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG54T", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 5, cpu: "AVPE002", dni: "46201437", usuario: "YHUERTAS", nombre: "Huertas Mauricio, Yolanda", cargo: "Analista De Gestión", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG53R", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 6, cpu: "AVPE003", dni: "72892044", usuario: "JSANTOS", nombre: "Santos Sanchez, Jose Martin", cargo: "Jefe Riego", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0HG53Q", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 7, cpu: "AVPE004", dni: "77017046", usuario: "JROSAS", nombre: "Rosas Becerra, Juan Francisco", cargo: "Jefe de Sanidad Vegetal", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG54C", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 8, cpu: "AVPE005", dni: "74201588", usuario: "RVARILLAS", nombre: "Varillas Salinas, Rocio", cargo: "Jefe de Control de Calidad", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG54J", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 9, cpu: "AVPE006", dni: "48494324", usuario: "MSUAREZ", nombre: "Suarez Ramirez, Marlon Antonio", cargo: "Jefe de Campo", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG54B", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 10, cpu: "AVPE007", dni: "43656311", usuario: "ALVIERA", nombre: "Viera Pulache, Alexis Jeanpierre", cargo: "Digitador", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG53V", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 11, cpu: "AVPE008", dni: "46025096", usuario: "HJULIAN", nombre: "Julian Domínguez, Henry Estewar", cargo: "Analista De Gestión", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG53Z", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 12, cpu: "AVPE009", dni: "42766246", usuario: "CMIRANDA", nombre: "Miranda Bayona, Christian Gabriel", cargo: "Administrador de Fundo", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG547", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 13, cpu: "AVPE010", dni: "44586101", usuario: "JTIMANA", nombre: "Timana Huiman, Jorge Edilberto", cargo: "Jefe de Almacen", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG540", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 14, cpu: "AVPE011", dni: "45355093", usuario: "WHERNANDEZ", nombre: "Hernandez Espinoza, Wilmer", cargo: "Ayudante de Almacen", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG541", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 15, cpu: "AVPE012", dni: "75706904", usuario: "ASULLON", nombre: "Sullon Saucedo, Julio Andres", cargo: "Encargado de Almacen", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG54A", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 16, cpu: "AVPE013", dni: "47957908", usuario: "MKSILVA", nombre: "Silva Sandoval, Mercedes Katherina", cargo: "Supervisor de Faena", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG53S", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 17, cpu: "AVPE014", dni: "75730679", usuario: "JNEYRA", nombre: "Neyra Cañote, Jair Sebastián", cargo: "Jefe De Seguridad Industrial", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "ARRENDADA", equipo: "LENOVO - ThinkPad L16 Gen 2", marca: "LENOVO", modelo: "L16", arrendadora: "FG", sn: "PW0MG543", proc: "INTEL", ram: "16 GB", disco: "1 TB SSD" },
+          { id: 18, cpu: "VPE336", dni: "47563134", usuario: "COLAYA", nombre: "Olaya Alamo, Cindy Elizbeth", cargo: "Enfermera", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "PRESTAMO-ARRENDADA", equipo: "Dell Latitude 3520", marca: "DELL", modelo: "Latitude 3520", arrendadora: "PALERMO", sn: "7DHMCL3", proc: "INTEL", ram: "16 GB", disco: "512 GB SSD" },
+          { id: 19, cpu: "VPE335", dni: "74939528", usuario: "FAQUINO", nombre: "Aquino Chavez, Flor María", cargo: "Analista De Gestión", empresa: "AVANTI", estado: "OPERATIVO", modalidad: "PRESTAMO-ARRENDADA", equipo: "Dell Latitude 5520", marca: "DELL", modelo: "Latitude 5520", arrendadora: "PALERMO", sn: "4N4XMG3", proc: "INTEL", ram: "16 GB", disco: "512 GB SSD" }
+        ];
+
+        tabulatorTable = new Tabulator("#inventario-grid", {
+          data: initialData,
+          layout: "fitDataFill",
+          history: true, // Activa Control+Z
+          pagination: "local",
+          paginationSize: 12,
+          movableColumns: true,
+          columns: [
+            {title: "Borrar", formatter: deleteIcon, width: 70, align: "center", cellClick: function(e, cell){ cell.getRow().delete(); }},
+            {title: "ID", field: "id", visible: false},
+            {title: "ID Equipo (CPU)", field: "cpu", editor: "input", headerFilter: "input"},
+            {title: "DNI Resp.", field: "dni", editor: "input", headerFilter: "input"},
+            {title: "Usuario Red", field: "usuario", editor: "input"},
+            {title: "Apellidos y Nombres", field: "nombre", editor: "input", headerFilter: "input"},
+            {title: "Cargo", field: "cargo", editor: "input"},
+            {title: "Empresa", field: "empresa", editor: "input"},
+            {title: "Estado", field: "estado", formatter: badgeFormatter, editor: "list", editorParams: {values: {"OPERATIVO":"OPERATIVO", "STOCK":"STOCK", "RETIRADO":"RETIRADO"}}, headerFilter: "list", headerFilterParams:{values:{"OPERATIVO":"OPERATIVO", "STOCK":"STOCK", "RETIRADO":"RETIRADO", "":"TODOS"}}},
+            {title: "Modalidad", field: "modalidad", editor: "input"},
+            {title: "Fabricante y Modelo", field: "equipo", editor: "input"},
+            {title: "Marca", field: "marca", editor: "input"},
+            {title: "Modelo Exacto", field: "modelo", editor: "input"},
+            {title: "Arrendadora", field: "arrendadora", editor: "input"},
+            {title: "Nº de Serie (S/N)", field: "sn", editor: "input", headerFilter: "input"},
+            {title: "CPU", field: "proc", editor: "input"},
+            {title: "RAM", field: "ram", editor: "input"},
+            {title: "Storage", field: "disco", editor: "input"}
+          ],
+        });
+      }
+    }
+
+    function añadirFilaTabla() {
+      if(tabulatorTable) {
+        // Agrega una fila en blanco al inicio de la tabla
+        tabulatorTable.addRow({id: Date.now(), estado: "STOCK", empresa: "AVANTI"}, true);
+      }
+    }
+
+    function deshacerCambioTabla() {
+      if(tabulatorTable) {
+        tabulatorTable.undo();
+      }
+    }
+
+    function sincronizarInventario() {
+      if(tabulatorTable) {
+        // Simulación de envío del array de objetos modificado al backend
+        const allData = tabulatorTable.getData();
+        console.log("Datos listos para enviar por POST a la BD:", allData);
+        mostrarNotificacionToast("Sincronización simulada exitosa. (Revisa la consola)", true);
       }
     }
 
