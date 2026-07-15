@@ -65,10 +65,10 @@
     .custom-toast.show { top: 24px; }
     
     /* ==========================================
-       OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4
+       OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 (COMPACTADA)
        ========================================== */
     @media print {
-      @page { size: A4 portrait; margin: 18mm 15mm; } /* Márgenes formales A4 */
+      @page { size: A4 portrait; margin: 10mm 15mm; } /* Márgenes verticales ajustados */
       body { background: #FFFFFF !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar { display: none !important; }
@@ -83,35 +83,35 @@
       }
 
       /* Cabecera y Títulos */
-      .header-table { margin-bottom: 25px !important; border-bottom: 2.5px solid #0E5A32 !important; }
-      .header-logo img { width: 65px !important; height: 65px !important; }
-      .header-titles h1 { font-size: 16px !important; color: #0E5A32 !important; }
+      .header-table { margin-bottom: 8px !important; border-bottom: 2px solid #0E5A32 !important; }
+      .header-logo img { width: 50px !important; height: 50px !important; }
+      .header-titles h1 { font-size: 14px !important; color: #0E5A32 !important; margin:0 !important; padding:0 !important;}
       
-      h3 { font-size: 12px !important; margin: 22px 0 8px 0 !important; color: #0E5A32 !important; page-break-after: avoid; }
+      h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #0E5A32 !important; page-break-after: avoid; }
       
-      /* Tablas: Mayor espaciado para llenar la hoja elegantemente */
-      .form-table { margin-bottom: 15px !important; page-break-inside: avoid; }
-      .form-table td { padding: 9px 12px !important; font-size: 11px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; }
+      /* Tablas: Espaciado ultra-compacto para formato A4 Completo */
+      .form-table { margin-bottom: 6px !important; page-break-inside: avoid; }
+      .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.1 !important;}
       .lbl { background-color: #F8FAFC !important; font-weight: 700 !important; }
-      .subhead { background-color: #F1F5F9 !important; font-size: 10px !important; }
+      .subhead { background-color: #F1F5F9 !important; font-size: 8.5px !important; padding: 2px 6px !important; }
 
       /* Inputs y Textareas */
-      input[type="text"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 11px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
-      textarea { min-height: 55px !important; resize: none !important; }
+      input[type="text"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
+      textarea { min-height: 25px !important; height: 25px !important; resize: none !important; } /* Altura reducida */
 
       /* Checkboxes más visibles en impresión */
-      input[type="checkbox"] { width: 12px !important; height: 12px !important; margin-right: 4px !important; accent-color: #0E5A32 !important; }
-      .inline-flex { font-size: 11px !important; margin-right: 12px !important; }
+      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
+      .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
 
       /* Compromiso de Responsabilidad */
-      .compromiso-box { font-size: 10.5px !important; padding: 15px !important; border: 1px solid #CBD5E1 !important; border-left: 4px solid #0E5A32 !important; margin-top: 10px !important; page-break-inside: avoid; }
+      .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
 
-      /* Firmas: Espaciadas hacia abajo para balancear el documento */
-      .signature-section { margin-top: 50px !important; margin-bottom: 20px !important; page-break-inside: avoid; }
-      .signature-block { font-size: 11px !important; }
-      .signature-trigger-box { border: none !important; background: transparent !important; height: 50px !important; }
+      /* Firmas: Eliminados los grandes márgenes para evitar salto de página */
+      .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
+      .signature-block { font-size: 9px !important; }
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; } /* Cajas de firma reducidas */
       .signature-trigger-box span { display: none !important; }
-      .signature-line { border-top: 1px solid #000 !important; margin-bottom: 4px !important; width: 80% !important; margin-left: auto !important; margin-right: auto !important; }
+      .signature-line { border-top: 1px solid #000 !important; margin-bottom: 3px !important; width: 85% !important; margin-left: auto !important; margin-right: auto !important; }
     }
   </style>
 </head>
