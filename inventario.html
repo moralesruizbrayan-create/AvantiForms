@@ -11,83 +11,151 @@
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
 
   <style>
-    body { background-color: #121212; color: #E2E8F0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: #F4F6F9; font-family: 'Segoe UI', system-ui, sans-serif; color: #334155; }
     
-    .tabulator { background-color: #1E1E1E !important; border: 1px solid #2D2D2D !important; border-radius: 4px; color: #E2E8F0 !important; font-size: 13px; }
-    .tabulator-header { background-color: #0E5A32 !important; color: #FFFFFF !important; border-bottom: 2px solid #0A3F23 !important; }
-    .tabulator-col { background-color: #0E5A32 !important; border-right: 1px solid #0A3F23 !important; }
-    .tabulator-row { background-color: #1E1E1E !important; border-bottom: 1px solid #2D2D2D !important; }
-    .tabulator-row:nth-child(even) { background-color: #262626 !important; }
-    .tabulator-row:hover { background-color: #2D2D2D !important; }
+    /* ESTILOS CORPORATIVOS TABULATOR (THEME LIGHT/CLEAN) */
+    .tabulator { background-color: #FFFFFF !important; border: 1px solid #E2E8F0 !important; border-radius: 6px; font-size: 13px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .tabulator-header { background-color: #0E5A32 !important; color: #FFFFFF !important; font-weight: 600; border-bottom: 2px solid #0A3F23 !important; }
+    .tabulator-col { background-color: #0E5A32 !important; border-right: 1px solid #107c41 !important; }
+    .tabulator-col-title { padding: 12px 10px !important; }
+    .tabulator-row { background-color: #FFFFFF !important; border-bottom: 1px solid #E2E8F0 !important; }
+    .tabulator-row:nth-child(even) { background-color: #F8FAFC !important; }
+    .tabulator-row:hover { background-color: #F1F5F9 !important; }
+    .tabulator-cell { padding: 10px !important; }
     
-    .tab-badge { padding: 4px 8px; border-radius: 2px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-    .t-op { background-color: #064e3b; color: #34d399; border: 1px solid #059669; }
-    .t-ret { background-color: #7f1d1d; color: #f87171; border: 1px solid #dc2626; }
-    .t-stk { background-color: #0c4a6e; color: #38bdf8; border: 1px solid #0284c7; }
+    .tab-badge { padding: 4px 10px; border-radius: 4px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .t-op { background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .t-ret { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+    .t-stk { background-color: #E0F2FE; color: #0369A1; border: 1px solid #BAE6FD; }
   </style>
 </head>
 <body class="p-6">
 
-  <div class="max-w-[95%] mx-auto">
-    <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
-      <div>
-        <h1 class="text-2xl font-bold text-green-500 uppercase tracking-wide">Control de Inventario TI</h1>
-        <p class="text-sm text-gray-400">Motor de edición en celda conectado a Neon DB. Use los filtros en las cabeceras.</p>
+  <div class="max-w-[98%] mx-auto">
+    <!-- CABECERA -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+      <div class="flex items-center gap-4">
+        <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo" class="w-12 h-12 rounded-full border border-gray-100 shadow-sm">
+        <div>
+          <h1 class="text-2xl font-bold text-green-900 tracking-tight">Control de Inventario TI</h1>
+          <p class="text-sm text-gray-500">Gestión patrimonial y generación de actas en PDF</p>
+        </div>
       </div>
-      <button class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded shadow" onclick="location.href='index.html'">
+      <button class="mt-4 md:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 font-semibold py-2 px-4 rounded transition duration-200" onclick="location.href='index.html'">
         ← Volver al Dashboard
       </button>
     </div>
 
+    <!-- PANEL DE BÚSQUEDA -->
+    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 items-end">
+      <div class="flex-1 w-full">
+        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">🔍 Buscar por Computador / Código</label>
+        <input type="text" id="filtro-computador" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="Ej: AVPE001, PW0MG54T...">
+      </div>
+      <div class="flex-1 w-full">
+        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">👤 Buscar por Usuario</label>
+        <input type="text" id="filtro-usuario" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="Ej: Juan Perez...">
+      </div>
+      <div>
+        <button id="btn-limpiar" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-semibold py-2 px-4 rounded-md text-sm transition duration-200">
+          Limpiar Filtros
+        </button>
+      </div>
+    </div>
+
     <!-- CONTENEDOR DEL GRID -->
-    <div id="inventario-grid" class="shadow-lg"></div>
+    <div id="inventario-grid" class="w-full"></div>
   </div>
 
   <script>
+    let tablaInventario;
+
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('inventario-grid').innerHTML = "<p class='p-4 text-gray-400'>Consultando a la Base de Datos Neon...</p>";
+      document.getElementById('inventario-grid').innerHTML = "<div class='text-center p-10'><p class='text-gray-500 font-semibold'>Sincronizando con la Base de Datos Neon...</p></div>";
 
       try {
         const response = await fetch('/api/obtener-metricas');
         if (!response.ok) throw new Error('Error de red al consultar a la API');
         const data = await response.json();
 
-        new Tabulator("#inventario-grid", {
+        tablaInventario = new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
-          layout: "fitDataFill", /* Permite scroll horizontal dinámico para muchas columnas */
+          layout: "fitDataFill", 
           pagination: "local",
           paginationSize: 15,
           columns: [
-            { title: "Categoría", field: "categoria", headerFilter: "input", width: 140 },
-            { title: "Computador (Cód.)", field: "computador", editor: "input", headerFilter: "input", width: 140 },
-            { title: "Nº Serie / Teléfono", field: "numero_serie", editor: "input", headerFilter: "input", width: 140 },
-            { title: "Fabricante y Modelo", field: "marca_modelo", editor: "input", headerFilter: "input", width: 160 },
-            { title: "DNI", field: "dni", headerFilter: "input", width: 100 },
-            { title: "Nombre Empleado", field: "nombre_empleado", headerFilter: "input", width: 180 },
-            { title: "Usuario PC", field: "usuario_pc", headerFilter: "input", width: 120 },
-            { title: "Oficio/Cargo", field: "oficio_cargo", headerFilter: "input", width: 140 },
-            { title: "Área", field: "area", headerFilter: "input", width: 130 },
-            { title: "Procesador", field: "procesador", headerFilter: "input", width: 120 },
-            { title: "Memoria RAM", field: "ram", headerFilter: "input", width: 110 },
-            { title: "Disco Duro", field: "disco_duro", headerFilter: "input", width: 110 },
+            {
+              title: "Acta PDF", 
+              formatter: function(cell) {
+                const row = cell.getRow().getData();
+                if(row.id_acta) {
+                  return `<button class='bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-xs font-bold w-full transition duration-150 flex items-center justify-center gap-1'><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> PDF</button>`;
+                }
+                return "<span class='text-gray-400 text-xs text-center block w-full'>Sin Acta</span>";
+              }, 
+              width: 100, 
+              hozAlign: "center",
+              headerSort: false,
+              cellClick: function(e, cell) {
+                const rowData = cell.getRow().getData();
+                if(rowData.id_acta) {
+                  // Guardar los datos temporalmente y abrir la página de impresión en una nueva pestaña
+                  sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
+                  window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
+                }
+              }
+            },
+            { title: "Categoría", field: "categoria", width: 140 },
+            { title: "Computador (Cód.)", field: "computador", width: 140 },
+            { title: "Nº Serie / Teléfono", field: "numero_serie", width: 140 },
+            { title: "Fabricante y Modelo", field: "marca_modelo", width: 180 },
+            { title: "DNI", field: "dni", width: 90 },
+            { title: "Nombre Empleado", field: "nombre_empleado", width: 180 },
+            { title: "Usuario PC", field: "usuario_pc", width: 120 },
+            { title: "Oficio/Cargo", field: "oficio_cargo", width: 140 },
+            { title: "Área", field: "area", width: 130 },
+            { title: "Procesador", field: "procesador", width: 120 },
+            { title: "Memoria RAM", field: "ram", width: 100 },
+            { title: "Disco Duro", field: "disco_duro", width: 100 },
             { 
-              title: "Estado", 
+              title: "Estado Operativo", 
               field: "estado_operativo", 
-              editor: "list", 
-              editorParams: { values: {"STOCK":"STOCK", "OPERATIVO":"OPERATIVO", "REPARACION":"REPARACION"} },
+              width: 130,
+              hozAlign: "center",
               formatter: function(cell) {
                 const val = cell.getValue();
                 if(!val) return "";
                 if(val === 'OPERATIVO' || val === 'ACTIVA') return `<span class="tab-badge t-op">${val}</span>`;
-                if(val === 'REPARACION' || val === 'SUSPENDIDA') return `<span class="tab-badge t-ret">${val}</span>`;
+                if(val === 'RETIRADO' || val === 'SUSPENDIDA') return `<span class="tab-badge t-ret">${val}</span>`;
                 return `<span class="tab-badge t-stk">${val}</span>`;
               }
             }
           ]
         });
+
       } catch (error) {
-        document.getElementById('inventario-grid').innerHTML = `<p class='p-4 text-red-500 font-bold'>Error al cargar inventario: ${error.message}</p>`;
+        document.getElementById('inventario-grid').innerHTML = `<div class='bg-red-50 border border-red-200 text-red-600 p-4 rounded-md mx-auto max-w-lg mt-10 text-center font-bold'>Error al cargar inventario: ${error.message}</div>`;
       }
+    });
+
+    // LÓGICA DE FILTROS PERSONALIZADOS
+    function actualizarFiltros() {
+      const valComputador = document.getElementById("filtro-computador").value;
+      const valUsuario = document.getElementById("filtro-usuario").value;
+
+      tablaInventario.setFilter([
+        { field: "computador", type: "like", value: valComputador },
+        { field: "nombre_empleado", type: "like", value: valUsuario }
+      ]);
+    }
+
+    document.getElementById("filtro-computador").addEventListener("keyup", actualizarFiltros);
+    document.getElementById("filtro-usuario").addEventListener("keyup", actualizarFiltros);
+
+    document.getElementById("btn-limpiar").addEventListener("click", () => {
+      document.getElementById("filtro-computador").value = "";
+      document.getElementById("filtro-usuario").value = "";
+      tablaInventario.clearFilter();
     });
   </script>
 </body>
