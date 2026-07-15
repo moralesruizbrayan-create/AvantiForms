@@ -1,86 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal ITAM Avanti - Dashboard</title>
-    <!-- Tailwind CSS para un diseño corporativo rápido y limpio -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js para gráficos dinámicos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Gestión de Actas - Agrícola Avanti</title>
+  <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-color: #F4F6F9;
+      --text-color: #242424;
+      --card-bg: #FFFFFF;
+      --border-color: #E2E8F0;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('/AVANTI%20LOGO%20(1).jpeg');
+      background-repeat: no-repeat; background-position: center; background-size: 400px;
+      opacity: 0.04; z-index: -1; pointer-events: none;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-    
-    <!-- Navegación Corporativa -->
-    <nav class="bg-green-900 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider">AVANTI ITAM</h1>
-            <ul class="flex space-x-6">
-                <li><a href="index.html" class="hover:text-green-300 font-semibold">Dashboard</a></li>
-                <li><a href="gestion-actas.html" class="hover:text-green-300">Gestión de Actas</a></li>
-                <li><a href="inventario.html" class="hover:text-green-300">Inventario Global</a></li>
-            </ul>
-        </div>
-    </nav>
+<body class="p-6">
+  <div class="max-w-5xl mx-auto">
+    <!-- Encabezado -->
+    <header class="text-center mb-10">
+      <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo" class="w-20 mx-auto mb-4 rounded-full shadow-md">
+      <h1 class="text-3xl font-extrabold text-emerald-800 tracking-tight">Portal de Gestión de Actas</h1>
+      <p class="text-gray-500 text-sm">Área de Soporte TI — Agrícola Avanti S.A.C.</p>
+    </header>
 
-    <!-- Contenedor Principal del Dashboard -->
-    <main class="container mx-auto mt-8 p-4">
-        <h2 class="text-3xl font-bold mb-6 text-gray-700">Resumen de Activos TI</h2>
+    <!-- Menú de Navegación Rápida -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <a href="gestion-actas.html" class="bg-white border-l-4 border-lime-500 p-6 rounded shadow-sm hover:shadow-md hover:border-emerald-700 transition duration-200">
+        <h2 class="text-emerald-800 font-bold text-sm uppercase tracking-wider mb-2">✍️ Crear Acta</h2>
+        <p class="text-xs text-gray-500">Formularios de entrega y devolución para laptops, monitores, celulares y líneas.</p>
+      </a>
+      <a href="inventario.html" class="bg-white border-l-4 border-slate-500 p-6 rounded shadow-sm hover:shadow-md hover:border-emerald-700 transition duration-200">
+        <h2 class="text-emerald-800 font-bold text-sm uppercase tracking-wider mb-2">📋 Pruebas de Reportería</h2>
+        <p class="text-xs text-gray-500">Control de inventario editable y filtrable en tiempo real estilo Excel.</p>
+      </a>
+      <div class="bg-white border-l-4 border-blue-500 p-6 rounded shadow-sm">
+        <h2 class="text-emerald-800 font-bold text-sm uppercase tracking-wider mb-2">📊 Estado del Servidor</h2>
+        <p class="text-xs text-gray-500">Conectado exitosamente a Neon PostgreSQL Serverless.</p>
+      </div>
+    </div>
+
+    <!-- Sección de Analítica -->
+    <section class="bg-white p-6 rounded shadow-md border">
+      <h3 class="text-lg font-bold text-emerald-800 mb-6 flex items-center gap-2">
+        <span class="w-1 h-5 bg-lime-500 rounded-full inline-block"></span>
+        Métricas de Control Patrimonial (Live)
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <!-- Gráfico -->
+        <div class="max-w-xs mx-auto">
+          <canvas id="chartMetricas"></canvas>
+        </div>
+        <!-- KPIs Listados -->
+        <div class="space-y-4">
+          <div class="border-b pb-2 flex justify-between">
+            <span class="text-sm font-semibold text-gray-600">Equipos en Stock:</span>
+            <span id="kpi-stock" class="text-sm font-bold text-blue-600">...</span>
+          </div>
+          <div class="border-b pb-2 flex justify-between">
+            <span class="text-sm font-semibold text-gray-600">Equipos Asignados:</span>
+            <span id="kpi-operativo" class="text-sm font-bold text-green-600">...</span>
+          </div>
+          <div class="border-b pb-2 flex justify-between">
+            <span class="text-sm font-semibold text-gray-600">Equipos en Mantenimiento:</span>
+            <span id="kpi-mantenimiento" class="text-sm font-bold text-red-600">...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/obtener-metricas');
+        const data = await res.json();
         
-        <!-- Tarjetas de Métricas (KPIs) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow border-l-4 border-blue-500">
-                <h3 class="text-gray-500 text-sm font-bold uppercase">Equipos Asignados</h3>
-                <p id="kpi-asignados" class="text-3xl font-bold text-gray-800">Cargando...</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow border-l-4 border-green-500">
-                <h3 class="text-gray-500 text-sm font-bold uppercase">Equipos en Stock</h3>
-                <p id="kpi-stock" class="text-3xl font-bold text-gray-800">Cargando...</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow border-l-4 border-red-500">
-                <h3 class="text-gray-500 text-sm font-bold uppercase">Equipos en Reparación</h3>
-                <p id="kpi-reparacion" class="text-3xl font-bold text-gray-800">Cargando...</p>
-            </div>
-        </div>
+        document.getElementById('kpi-stock').innerText = data.kpis.stock;
+        document.getElementById('kpi-operativo').innerText = data.kpis.operativo;
+        document.getElementById('kpi-mantenimiento').innerText = data.kpis.reparacion;
 
-        <!-- Contenedor del Gráfico -->
-        <div class="bg-white p-6 rounded-lg shadow w-full md:w-2/3 mx-auto">
-            <h3 class="text-xl font-bold mb-4 text-gray-700">Distribución de Hardware por Tipo</h3>
-            <canvas id="hardwareChart"></canvas>
-        </div>
-    </main>
-
-    <!-- Lógica de conexión con la API -->
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Hacemos la petición al backend para obtener la reportería en tiempo real
-                const response = await fetch('/api/obtener-metricas');
-                const data = await response.json();
-
-                // 1. Actualizar las tarjetas KPI dinámicamente
-                document.getElementById('kpi-asignados').innerText = data.kpis.asignados;
-                document.getElementById('kpi-stock').innerText = data.kpis.stock;
-                document.getElementById('kpi-reparacion').innerText = data.kpis.reparacion;
-
-                // 2. Renderizar el gráfico con Chart.js usando los datos de la base de datos
-                const ctx = document.getElementById('hardwareChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: data.grafico.etiquetas, // Ej: ['Laptops', 'Monitores', 'Teléfonos']
-                        datasets: [{
-                            data: data.grafico.valores, // Ej: [45, 20, 30]
-                            backgroundColor: ['#1e40af', '#166534', '#b91c1c', '#ca8a04'],
-                        }]
-                    },
-                    options: { responsive: true }
-                });
-            } catch (error) {
-                console.error("Error cargando el dashboard:", error);
-                document.getElementById('kpi-asignados').innerText = "Error";
-            }
+        const ctx = document.getElementById('chartMetricas').getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Stock', 'Operativo', 'Mantenimiento'],
+            datasets: [{
+              data: [data.kpis.stock, data.kpis.operativo, data.kpis.reparacion],
+              backgroundColor: ['#3b82f6', '#22c55e', '#ef4444'],
+              borderWidth: 1
+            }]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
         });
-    </script>
+      } catch (err) {
+        console.error("Error al cargar métricas:", err);
+      }
+    });
+  </script>
 </body>
 </html>
