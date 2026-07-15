@@ -62,7 +62,7 @@
         <div class="w-full md:w-2/3 space-y-3">
           <div class="flex justify-between border-b pb-2"><span class="text-sm font-semibold">Equipos en Stock:</span><span id="kpi-stock" class="font-bold text-blue-600">Cargando...</span></div>
           <div class="flex justify-between border-b pb-2"><span class="text-sm font-semibold">Equipos Asignados:</span><span id="kpi-operativo" class="font-bold text-green-600">Cargando...</span></div>
-          <div class="flex justify-between border-b pb-2"><span class="text-sm font-semibold">Equipos en Reparación:</span><span id="kpi-reparacion" class="font-bold text-red-600">Cargando...</span></div>
+          <div class="flex justify-between border-b pb-2"><span class="text-sm font-semibold">Equipos Retirados:</span><span id="kpi-retirados" class="font-bold text-red-600">Cargando...</span></div>
         </div>
       </div>
     </section>
@@ -77,13 +77,13 @@
         
         document.getElementById('kpi-stock').innerText = data.kpis.stock || 0;
         document.getElementById('kpi-operativo').innerText = data.kpis.operativo || 0;
-        document.getElementById('kpi-reparacion').innerText = data.kpis.reparacion || 0;
+        document.getElementById('kpi-retirados').innerText = data.kpis.retirados || 0;
 
         new Chart(document.getElementById('kpiChart').getContext('2d'), {
           type: 'doughnut',
           data: {
-            labels: ['Stock', 'Asignados', 'Reparación'],
-            datasets: [{ data: [data.kpis.stock, data.kpis.operativo, data.kpis.reparacion], backgroundColor: ['#2563eb', '#16a34a', '#dc2626'] }]
+            labels: ['Stock', 'Asignados', 'Retirados'],
+            datasets: [{ data: [data.kpis.stock, data.kpis.operativo, data.kpis.retirados], backgroundColor: ['#2563eb', '#16a34a', '#dc2626'] }]
           },
           options: { plugins: { legend: { position: 'right' } } }
         });
