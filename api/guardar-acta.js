@@ -1,82 +1,80 @@
 import { Pool } from '@neondatabase/serverless';
 
-// Vercel inyectará automáticamente process.env.DATABASE_URL desde tus Secrets
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export default async function handler(req, res) {
-  // 1. Blindaje de Método CORS
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método no permitido. Use POST.' });
+    return res.status(405).json({ success: false, error: 'Método no permitido.' });
   }
 
-  // Estructura esperada desde el CRUD del index.html
-  const { idEmpleado, tipoActa, equiposAsignados } = req.body; 
-  
-  // Solicitamos un cliente dedicado del Pool para la transacción
+  const {
+    dni_empleado, nombre_completo, area, cargo,
+    codigo_patrimonial, tipo_hardware, marca, modelo, numero_serie,
+    firma_ti_entrega, firma_emp_entrega
+  } = req.body;
+
   const client = await pool.connect();
 
   try {
-    // 2. INICIO DE LA TRANSACCIÓN ATÓMICA
-    await client.query('BEGIN'); 
+    // 1. Iniciar Transacción Atómica
+    await client.query('BEGIN');
 
-    // 3. Crear el Acta Maestra
-    const insertActaQuery = `
-      INSERT INTO actas (id_empleado, tipo_acta, fecha_asignacion, estado_acta)
-      VALUES ($1, $2, NOW(), 'VIGENTE')
-      RETURNING id_acta; -- Retornamos el ID autogenerado para usarlo en el detalle
+    // 2. Insertar o actualizar los datos del Empleado
+    const upsertEmpleadoQuery = `
+      INSERT INTO empleados (documento_identidad, nombre_completo, cargo, area, estado)
+      VALUES ($1, $2, $3, $4, 'ACTIVO')
+      ON CONFLICT (documento_identidad) 
+      DO UPDATE SET nombre_completo = $2, cargo = $3, area = $4
+      RETURNING id_empleado;
     `;
-    const resActa = await client.query(insertActaQuery, [idEmpleado, tipoActa]);
-    const idActaGenerada = resActa.rows[0].id_acta;
+    const resEmpleado = await client.query(upsertEmpleadoQuery, [
+      dni_empleado, nombre_completo, cargo, area
+    ]);
+    const idEmpleado = resEmpleado.rows[0].id_empleado;
 
-    // 4. Registrar los movimientos y actualizar el estado del hardware
-    if (equiposAsignados && equiposAsignados.length > 0) {
-      for (const equipo of equiposAsignados) {
-        
-        // A. Insertar el detalle de la asignación
-        const insertAsignacionQuery = `
-          INSERT INTO asignaciones_movimientos (id_acta, id_activo, estado_asignacion)
-          VALUES ($1, $2, 'ACTIVO');
-        `;
-        await client.query(insertAsignacionQuery, [idActaGenerada, equipo.idActivo]);
+    // 3. Registrar o actualizar el hardware en el maestro
+    const upsertHardwareQuery = `
+      INSERT INTO activos_hardware (codigo_patrimonial, tipo_hardware, marca, modelo, numero_serie, estado_operativo)
+      VALUES ($1, $2, $3, $4, $5, 'OPERATIVO')
+      ON CONFLICT (numero_serie) 
+      DO UPDATE SET estado_operativo = 'OPERATIVO', codigo_patrimonial = $1
+      RETURNING id_activo;
+    `;
+    const resHardware = await client.query(upsertHardwareQuery, [
+      codigo_patrimonial, tipo_hardware, marca, modelo, numero_serie
+    ]);
+    const idActivo = resHardware.rows[0].id_activo;
 
-        // B. Actualizar el estado del equipo en el inventario general
-        const updateHardwareQuery = `
-          UPDATE activos_hardware 
-          SET estado_operativo = 'OPERATIVO' 
-          WHERE id_activo = $1 AND estado_operativo = 'STOCK';
-        `;
-        const resUpdate = await client.query(updateHardwareQuery, [equipo.idActivo]);
-        
-        // Validación estricta: Si el equipo no estaba en STOCK, abortamos toda el acta.
-        if (resUpdate.rowCount === 0) {
-            throw new Error(`El equipo con ID ${equipo.idActivo} no está disponible en STOCK.`);
-        }
-      }
-    }
+    // 4. Crear el Acta de Asignación con Firmas Base64
+    const insertActaQuery = `
+      INSERT INTO actas (id_empleado, tipo_acta, fecha_asignacion, estado_acta, firma_ti_entrega, firma_emp_entrega)
+      VALUES ($1, 'ENTREGA_MATERIAL_INFORMATICO', NOW(), 'VIGENTE', $2, $3)
+      RETURNING id_acta;
+    `;
+    const resActa = await client.query(insertActaQuery, [
+      idEmpleado, firma_ti_entrega, firma_emp_entrega
+    ]);
+    const idActa = resActa.rows[0].id_acta;
 
-    // 5. CONFIRMACIÓN DE LA TRANSACCIÓN
-    // Si todo el bloque anterior funcionó perfectamente, guardamos los cambios en Neon.
-    await client.query('COMMIT'); 
+    // 5. Vincular el activo al detalle del acta generada
+    const insertDetalleQuery = `
+      INSERT INTO detalle_computo (id_acta, id_activo)
+      VALUES ($1, $2);
+    `;
+    await client.query(insertDetalleQuery, [idActa, idActivo]);
 
-    return res.status(200).json({ 
-      success: true, 
-      message: 'Acta registrada y equipos descontados del stock exitosamente.', 
-      idActa: idActaGenerada 
-    });
+    // 6. Confirmación de Transacción
+    await client.query('COMMIT');
+
+    res.status(200).json({ success: true, message: 'Acta y firmas guardadas correctamente.', idActa });
 
   } catch (error) {
-    // 6. REVERSIÓN EN CASO DE FALLO (ROLLBACK)
-    // Si cualquier Query falla o se lanza un error, deshacemos todos los INSERTs y UPDATEs.
-    await client.query('ROLLBACK'); 
-    console.error('Transacción abortada. Error en DB:', error.message);
-    
-    return res.status(500).json({ 
-        success: false, 
-        error: 'Error al procesar el acta. Ningún cambio fue guardado.',
-        detalle: error.message 
-    });
+    // Reversión total si algo falla en la cadena de ejecución
+    await client.query('ROLLBACK');
+    console.error('Transacción Abortada:', error);
+    res.status(500).json({ success: false, error: 'La base de datos rechazó la solicitud. Transacción cancelada.', detail: error.message });
   } finally {
-    // 7. LIBERACIÓN DEL CLIENTE (Crítico para que el Serverless no tumbe la BD)
-    client.release(); 
+    // Liberación estricta de conexiones para prevenir fugas
+    client.release();
   }
 }
