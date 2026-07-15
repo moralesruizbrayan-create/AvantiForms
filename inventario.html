@@ -3,55 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control de Inventario TI - Agrícola Avanti</title>
+  <title>Reportería e Inventario - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Tabulator CDN -->
+  
+  <!-- LIBRERÍA TABULATOR -->
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+
   <style>
-    .tabulator { font-size: 12px; }
-    .tabulator-header { background-color: #0E5A32 !important; color: white !important; }
+    body { background-color: #121212; color: #E2E8F0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    /* ESTILOS OPTIMIZADOS PARA TABULATOR MODO OSCURO */
+    .tabulator { background-color: #1E1E1E !important; border: 1px solid #2D2D2D !important; border-radius: 4px; color: #E2E8F0 !important; font-size: 13px; }
+    .tabulator-header { background-color: #0E5A32 !important; color: #FFFFFF !important; border-bottom: 2px solid #0A3F23 !important; }
+    .tabulator-col { background-color: #0E5A32 !important; border-right: 1px solid #0A3F23 !important; }
+    .tabulator-row { background-color: #1E1E1E !important; border-bottom: 1px solid #2D2D2D !important; }
+    .tabulator-row:nth-child(even) { background-color: #262626 !important; }
+    .tabulator-row:hover { background-color: #2D2D2D !important; }
+    
+    .tab-badge { padding: 4px 8px; border-radius: 2px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .t-op { background-color: #064e3b; color: #34d399; border: 1px solid #059669; }
+    .t-ret { background-color: #7f1d1d; color: #f87171; border: 1px solid #dc2626; }
+    .t-stk { background-color: #0c4a6e; color: #38bdf8; border: 1px solid #0284c7; }
   </style>
 </head>
-<body class="p-6 bg-gray-50">
-  <div class="max-w-6xl mx-auto">
-    <header class="flex justify-between items-center mb-6">
-      <div>
-        <h1 class="text-2xl font-bold text-emerald-800 uppercase">Control de Inventario TI</h1>
-        <p class="text-xs text-gray-500">Haz doble clic en cualquier celda para editar el inventario patrimonial.</p>
-      </div>
-      <button class="bg-emerald-800 hover:bg-emerald-950 text-white font-bold px-4 py-2 rounded text-xs" onclick="location.href='index.html'">
-        ← Volver al Menú
-      </button>
-    </header>
+<body class="p-6">
 
-    <div id="tabla-inventario" class="shadow rounded-lg overflow-hidden border bg-white"></div>
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
+      <div>
+        <h1 class="text-2xl font-bold text-green-500 uppercase tracking-wide">Control de Inventario TI</h1>
+        <p class="text-sm text-gray-400">Motor de edición en celda conectado a Neon DB. Use los filtros en las cabeceras.</p>
+      </div>
+      <button class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded shadow" onclick="location.href='index.html'">
+        ← Volver al Dashboard
+      </button>
+    </div>
+
+    <!-- CONTENEDOR DEL GRID -->
+    <div id="inventario-grid" class="shadow-lg"></div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const res = await fetch('/api/obtener-metricas'); // Reutilizamos tu endpoint analítico que mapea el inventario o creamos uno de carga simple
-        const responseData = await fetch('/api/obtener-metricas?modo=completo');
-        const data = await responseData.json();
+      document.getElementById('inventario-grid').innerHTML = "<p class='p-4 text-gray-400'>Consultando a la Base de Datos Neon...</p>";
 
-        const table = new Tabulator("#tabla-inventario", {
-          data: data.inventario_total,
+      try {
+        const response = await fetch('/api/obtener-metricas');
+        if (!response.ok) throw new Error('Error de red');
+        const data = await response.json();
+
+        new Tabulator("#inventario-grid", {
+          data: data.inventario_total, 
           layout: "fitColumns",
           pagination: "local",
-          paginationSize: 10,
+          paginationSize: 15,
           columns: [
-            {title: "Cód. Patrimonial", field: "codigo_patrimonial", sorter: "string"},
-            {title: "Tipo", field: "tipo_hardware", sorter: "string"},
-            {title: "Marca", field: "marca"},
-            {title: "Modelo", field: "modelo"},
-            {title: "Nº Serie", field: "numero_serie"},
-            {title: "Estado Operativo", field: "estado_operativo", editor: "select", editorParams: {values: ["STOCK", "OPERATIVO", "REPARACION"]}}
+            { title: "Categoría", field: "categoria", headerFilter: "input", width: 150 },
+            { title: "ID", field: "id_activo", width: 70, sorter: "number" },
+            { title: "Cód. Patrimonial / ICCID", field: "codigo_patrimonial", editor: "input", headerFilter: "input" },
+            { title: "Marca & Modelo / Operador", field: "marca_modelo", editor: "input", headerFilter: "input" },
+            { title: "Nº Serie / Teléfono", field: "numero_serie", editor: "input", headerFilter: "input" },
+            { 
+              title: "Estado", 
+              field: "estado_operativo", 
+              editor: "list", 
+              editorParams: { values: {"STOCK":"STOCK", "OPERATIVO":"OPERATIVO", "REPARACION":"REPARACION"} },
+              formatter: function(cell) {
+                const val = cell.getValue();
+                if(val === 'OPERATIVO' || val === 'ACTIVA') return `<span class="tab-badge t-op">${val}</span>`;
+                if(val === 'REPARACION' || val === 'SUSPENDIDA') return `<span class="tab-badge t-ret">${val}</span>`;
+                return `<span class="tab-badge t-stk">${val}</span>`;
+              }
+            }
           ]
         });
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        document.getElementById('inventario-grid').innerHTML = `<p class='p-4 text-red-500 font-bold'>Error al cargar inventario: ${error.message}</p>`;
       }
     });
   </script>
