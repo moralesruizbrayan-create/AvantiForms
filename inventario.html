@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal ITAM Avanti - Inventario Global</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    
+    <!-- Navegación -->
+    <nav class="bg-green-900 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">AVANTI ITAM</h1>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="hover:text-green-300">Dashboard</a></li>
+                <li><a href="gestion-actas.html" class="hover:text-green-300">Gestión de Actas</a></li>
+                <li><a href="inventario.html" class="hover:text-green-300 font-semibold border-b-2 border-green-300 pb-1">Inventario Global</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal de Inventario -->
+    <main class="container mx-auto mt-8 p-4">
+        
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-700">Maestro de Activos TI</h2>
+            <button onclick="cargarInventario()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-semibold flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                Refrescar Datos
+            </button>
+        </div>
+
+        <!-- Tabla Responsiva -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left border-collapse">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="py-3 px-4 uppercase font-semibold text-sm">ID</th>
+                            <th class="py-3 px-4 uppercase font-semibold text-sm">Cód. Patrimonial</th>
+                            <th class="py-3 px-4 uppercase font-semibold text-sm">Tipo</th>
+                            <th class="py-3 px-4 uppercase font-semibold text-sm">Marca / Modelo</th>
+                            <th class="py-3 px-4 uppercase font-semibold text-sm">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla" class="text-gray-700">
+                        <!-- Fila de Carga Inicial -->
+                        <tr>
+                            <td colspan="5" class="py-6 px-4 text-center text-gray-500">Cargando datos desde la base de datos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Función para renderizar el color del badge de estado
+        function renderEstado(estado) {
+            estado = estado.toUpperCase();
+            let colorClase = "bg-gray-200 text-gray-800"; // Default
+            
+            if (estado === 'STOCK') colorClase = "bg-green-100 text-green-800";
+            if (estado === 'OPERATIVO') colorClase = "bg-blue-100 text-blue-800";
+            if (estado === 'REPARACION') colorClase = "bg-red-100 text-red-800";
+
+            return `<span class="px-2 py-1 rounded text-xs font-bold ${colorClase}">${estado}</span>`;
+        }
+
+        // Llamada GET a la API (Se asume la existencia de un endpoint /api/listar-inventario)
+        async function cargarInventario() {
+            const cuerpoTabla = document.getElementById('cuerpo-tabla');
+            cuerpoTabla.innerHTML = '<tr><td colspan="5" class="py-6 px-4 text-center text-gray-500">Actualizando...</td></tr>';
+
+            try {
+                // Aquí deberías apuntar a un nuevo endpoint GET (ej. en Python o Node) 
+                // que haga un: SELECT id_activo, codigo_patrimonial, tipo_hardware, marca, modelo, estado_operativo FROM activos_hardware;
+                const response = await fetch('/api/listar-inventario'); 
+                
+                if (!response.ok) throw new Error('Fallo al conectar con el servidor');
+                const activos = await response.json();
+
+                cuerpoTabla.innerHTML = ''; // Limpiar
+                
+                if (activos.length === 0) {
+                    cuerpoTabla.innerHTML = '<tr><td colspan="5" class="py-6 px-4 text-center text-gray-500">No hay activos registrados.</td></tr>';
+                    return;
+                }
+
+                // Poblar la tabla
+                activos.forEach(activo => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b hover:bg-gray-50";
+                    tr.innerHTML = `
+                        <td class="py-3 px-4 font-mono text-sm text-gray-500">#${activo.id_activo}</td>
+                        <td class="py-3 px-4 font-bold text-gray-800">${activo.codigo_patrimonial}</td>
+                        <td class="py-3 px-4">${activo.tipo_hardware}</td>
+                        <td class="py-3 px-4">${activo.marca} ${activo.modelo}</td>
+                        <td class="py-3 px-4">${renderEstado(activo.estado_operativo)}</td>
+                    `;
+                    cuerpoTabla.appendChild(tr);
+                });
+
+            } catch (error) {
+                console.error(error);
+                cuerpoTabla.innerHTML = `<tr><td colspan="5" class="py-6 px-4 text-center text-red-500 font-semibold">Error al cargar el inventario: Verifique el endpoint /api/listar-inventario</td></tr>`;
+            }
+        }
+
+        // Cargar automáticamente al abrir la página
+        document.addEventListener('DOMContentLoaded', cargarInventario);
+    </script>
+</body>
+</html>
