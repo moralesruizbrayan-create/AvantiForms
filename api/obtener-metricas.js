@@ -1,73 +1,41 @@
-import os
-import json
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from http.server import BaseHTTPRequestHandler
+import { Pool } from '@neondatabase/serverless';
 
-class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        # Configuramos los headers para CORS y tipo de respuesta JSON
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-        try:
-            # Conexión directa a Neon PostgreSQL usando la variable de entorno
-            DATABASE_URL = os.environ.get('DATABASE_URL')
-            conn = psycopg2.connect(DATABASE_URL)
-            cursor = conn.cursor(cursor_factory=RealDictCursor)
+export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ success: false, error: 'Método no permitido.' });
+  }
 
-            # --- CONSULTA 1: KPIs (Stock, Asignados, Reparación) ---
-            cursor.execute("""
-                SELECT estado_operativo, COUNT(*) as total 
-                FROM activos_hardware 
-                GROUP BY estado_operativo;
-            """)
-            resultados_kpi = cursor.fetchall()
-            
-            # Inicializamos variables
-            kpis = {'stock': 0, 'asignados': 0, 'reparacion': 0}
-            for fila in resultados_kpi:
-                estado = fila['estado_operativo'].upper()
-                if estado == 'STOCK':
-                    kpis['stock'] = fila['total']
-                elif estado == 'OPERATIVO':
-                    kpis['asignados'] = fila['total']
-                elif estado == 'REPARACION':
-                    kpis['reparacion'] = fila['total']
+  try {
+    // Conteo por estados de activos
+    const kpisQuery = `
+      SELECT 
+        SUM(CASE WHEN estado_operativo = 'STOCK' THEN 1 ELSE 0 END) as stock,
+        SUM(CASE WHEN estado_operativo = 'OPERATIVO' THEN 1 ELSE 0 END) as operativo,
+        SUM(CASE WHEN estado_operativo = 'REPARACION' THEN 1 ELSE 0 END) as reparacion
+      FROM activos_hardware;
+    `;
+    const resKpis = await pool.query(kpisQuery);
+    
+    // Obtener inventario total para la vista de reportería de Tabulator
+    const inventarioQuery = `
+      SELECT id_activo, codigo_patrimonial, tipo_hardware, marca, modelo, numero_serie, estado_operativo 
+      FROM activos_hardware;
+    `;
+    const resInventario = await pool.query(inventarioQuery);
 
-            # --- CONSULTA 2: Datos para el Gráfico (Distribución por Tipo) ---
-            cursor.execute("""
-                SELECT tipo_hardware, COUNT(*) as total 
-                FROM activos_hardware 
-                GROUP BY tipo_hardware;
-            """)
-            resultados_grafico = cursor.fetchall()
-            
-            etiquetas = []
-            valores = []
-            for fila in resultados_grafico:
-                etiquetas.append(fila['tipo_hardware'])
-                valores.append(fila['total'])
-
-            # Construimos el JSON final para que el Frontend (Chart.js) lo consuma
-            respuesta_json = {
-                "kpis": kpis,
-                "grafico": {
-                    "etiquetas": etiquetas,
-                    "valores": valores
-                }
-            }
-
-            # Cerramos conexiones
-            cursor.close()
-            conn.close()
-
-            # Enviamos la respuesta al cliente
-            self.wfile.write(json.dumps(respuesta_json).encode('utf-8'))
-
-        except Exception as e:
-            # Manejo de errores seguro
-            error_response = {"error": str(e)}
-            self.wfile.write(json.dumps(error_response).encode('utf-8'))
+    res.status(200).json({
+      success: true,
+      kpis: {
+        stock: parseInt(resKpis.rows[0].stock || 0),
+        operativo: parseInt(resKpis.rows[0].operativo || 0),
+        reparacion: parseInt(resKpis.rows[0].reparacion || 0)
+      },
+      inventario_total: resInventario.rows
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Error al consultar métricas en la base de datos.' });
+  }
+}
