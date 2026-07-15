@@ -54,6 +54,12 @@
     .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 6px; margin-bottom: 4px; }
 
+    /* ESTILOS DEL CAMPO DNI EN FIRMAS */
+    .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 6px; gap: 4px; width: 100%; }
+    .signature-field-group span { font-weight: 600; color: var(--text-color); font-size: 11px; }
+    .signature-field-group input[type="text"] { width: 100px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
+    .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #0E5A32 !important; }
+
     /* MODALES Y TOASTS */
     .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); z-index: 9999; display: none; align-items: center; justify-content: center; }
     .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 420px; border-radius: 6px; box-shadow: var(--shadow-md); overflow: hidden; }
@@ -64,54 +70,33 @@
     .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 12px 24px; border-radius: 4px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13px; font-weight: 600; transition: top 0.4s; border: 1px solid var(--border-color); border-left: 4px solid #107C41; }
     .custom-toast.show { top: 24px; }
     
-    /* ==========================================
-       OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 (COMPACTADA)
-       ========================================== */
+    /* OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 */
     @media print {
-      @page { size: A4 portrait; margin: 10mm 15mm; } /* Márgenes verticales ajustados */
+      @page { size: A4 portrait; margin: 10mm 15mm; }
       body { background: #FFFFFF !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar { display: none !important; }
-      
-      .page-container { 
-        border: none !important; 
-        box-shadow: none !important; 
-        padding: 0 !important; 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        display: block !important; 
-      }
-
-      /* Cabecera y Títulos */
+      .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; }
       .header-table { margin-bottom: 8px !important; border-bottom: 2px solid #0E5A32 !important; }
       .header-logo img { width: 50px !important; height: 50px !important; }
       .header-titles h1 { font-size: 14px !important; color: #0E5A32 !important; margin:0 !important; padding:0 !important;}
-      
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #0E5A32 !important; page-break-after: avoid; }
-      
-      /* Tablas: Espaciado ultra-compacto para formato A4 Completo */
       .form-table { margin-bottom: 6px !important; page-break-inside: avoid; }
       .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.1 !important;}
       .lbl { background-color: #F8FAFC !important; font-weight: 700 !important; }
       .subhead { background-color: #F1F5F9 !important; font-size: 8.5px !important; padding: 2px 6px !important; }
-
-      /* Inputs y Textareas */
       input[type="text"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
-      textarea { min-height: 25px !important; height: 25px !important; resize: none !important; } /* Altura reducida */
-
-      /* Checkboxes más visibles en impresión */
+      textarea { min-height: 25px !important; height: 25px !important; resize: none !important; }
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
-
-      /* Compromiso de Responsabilidad */
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
-
-      /* Firmas: Eliminados los grandes márgenes para evitar salto de página */
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; }
-      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; } /* Cajas de firma reducidas */
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
       .signature-trigger-box span { display: none !important; }
       .signature-line { border-top: 1px solid #000 !important; margin-bottom: 3px !important; width: 85% !important; margin-left: auto !important; margin-right: auto !important; }
+      /* Ajuste de DNI en impresión */
+      .signature-field-group span { font-size: 9px !important; }
+      .signature-field-group input[type="text"] { font-size: 9px !important; border-bottom: 1px dotted #000 !important; }
     }
   </style>
 </head>
@@ -199,10 +184,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1')"><span id="lbl_f1_m1">📝 Firmar Encargado TI</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_ent"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m1')"><span id="lbl_f2_m1">📝 Firmar Empleado</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_ent"></div>
           </div>
         </div>
       </div>
@@ -218,10 +205,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m1')"><span id="lbl_f3_m1">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_dev"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m1')"><span id="lbl_f4_m1">📝 Firmar Empleado (Devolución)</span><img id="f4_m1" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA EMPLEADO (DEVOLUCIÓN)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_dev"></div>
           </div>
         </div>
       </div>
@@ -280,10 +269,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m2')"><span id="lbl_f1_m2">📝 Firmar Encargado TI</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_ent"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m2')"><span id="lbl_f2_m2">📝 Firmar Empleado</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_ent"></div>
           </div>
         </div>
       </div>
@@ -298,10 +289,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m2')"><span id="lbl_f3_m2">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_dev"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m2')"><span id="lbl_f4_m2">📝 Firmar Empleado (Devolución)</span><img id="f4_m2" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA EMPLEADO (DEVOLUCIÓN)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_dev"></div>
           </div>
         </div>
       </div>
@@ -359,10 +352,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m3')"><span id="lbl_f1_m3">📝 Firmar Encargado TI</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_ent"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m3')"><span id="lbl_f2_m3">📝 Firmar Empleado</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_ent"></div>
           </div>
         </div>
       </div>
@@ -379,10 +374,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m3')"><span id="lbl_f3_m3">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_dev"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m3')"><span id="lbl_f4_m3">📝 Firmar Persona que Devuelve</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_dev"></div>
           </div>
         </div>
       </div>
@@ -438,10 +435,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4')"><span id="lbl_f1_m4">📝 Firmar Encargado TI</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_ent"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m4')"><span id="lbl_f2_m4">📝 Firmar Empleado</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_ent"></div>
           </div>
         </div>
       </div>
@@ -458,10 +457,12 @@
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m4')"><span id="lbl_f3_m4">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_dev"></div>
           </div>
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f4_m4')"><span id="lbl_f4_m4">📝 Firmar Persona que Devuelve</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
             <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_dev"></div>
           </div>
         </div>
       </div>
@@ -495,7 +496,6 @@
 
   <!-- SCRIPT DEL MOTOR FRONTEND -->
   <script>
-    // 1. Lógica de Enrutamiento (SPA)
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const vista = urlParams.get('vista') || 'material_informatico';
@@ -503,7 +503,6 @@
       if(targetView) targetView.classList.add('active');
     });
 
-    // 2. Control Dinámico de Vistas (Entrega, Devolución, Reporte Completo)
     function cambiarModo(btn, modo) {
       const view = btn.closest('.form-view');
       view.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
@@ -537,7 +536,6 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // 3. Lógica de Firmas en Canvas
     let targetImgId = null, dibujando = false;
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
@@ -562,7 +560,6 @@
       document.getElementById('firma_modal').style.display = 'none';
     }
 
-    // 4. Lógica de Escáner
     let html5QrCode = null, currentInputTarget = null;
     function abrirEscaner(inputId) {
       currentInputTarget = document.getElementById(inputId);
@@ -574,7 +571,6 @@
     }
     function cerrarEscaner() { document.getElementById('scanner_modal').style.display='none'; if(html5QrCode) html5QrCode.stop(); }
 
-    // 5. MOTOR DE EMPAQUETADO PARA NEON POSTGRESQL (Payload Jerárquico)
     async function procesarGuardadoBaseDatos(btn) {
       const form = document.querySelector('.form-view.active');
       if(!form) return;
@@ -587,7 +583,6 @@
         firmas: {}
       };
 
-      // Recolectar Atributos Generales (Empleado)
       form.querySelectorAll('[data-field]').forEach(el => {
         const key = el.getAttribute('data-field');
         const val = el.type === 'checkbox' ? el.checked : el.value;
@@ -598,7 +593,6 @@
         }
       });
 
-      // Recolectar Atributos Específicos del Hardware (Data-Spec)
       form.querySelectorAll('[data-spec]').forEach(el => {
         const key = el.getAttribute('data-spec');
         const val = el.type === 'checkbox' ? el.checked : el.value;
@@ -614,7 +608,6 @@
         }
       });
 
-      // Recolectar Firmas (Entrega y Devolución)
       form.querySelectorAll('.signature-runtime-img').forEach(img => {
         const id = img.id, src = img.src || null;
         if(id.startsWith('f1_')) payload.firmas.ti_entrega = src;
