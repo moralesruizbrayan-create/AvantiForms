@@ -627,6 +627,37 @@
         btn.innerText = "💾 Guardar en Base de Datos"; btn.disabled = false;
       }
     }
+    // 6. MOTOR DE AUTO-IMPRESIÓN DESDE INVENTARIO
+    document.addEventListener('DOMContentLoaded', () => {
+      const printMode = new URLSearchParams(window.location.search).get('print');
+      if (printMode === 'true') {
+        const rowData = JSON.parse(sessionStorage.getItem('acta_imprimir'));
+        if (rowData) {
+          const form = document.getElementById('view_' + rowData.tipo_vista);
+          if (form) {
+            // Forzar vista completa para el reporte
+            cambiarModo(form.querySelector('.mode-btn.active') || form.querySelector('.mode-btn'), 'completo');
+
+            // Auto-rellenar campos con los datos de la base de datos
+            form.querySelectorAll('[data-field], [data-spec]').forEach(el => {
+              const key = el.getAttribute('data-field') || el.getAttribute('data-spec');
+              
+              // Mapeo directo de base de datos a formulario
+              if (key === 'codigo_patrimonial') el.value = rowData.computador || '';
+              else if (key === 'nombre_computador') el.value = rowData.computador || '';
+              else if (key === 'dni_empleado') el.value = rowData.dni || '';
+              else if (key === 'cargo_empleado') el.value = rowData.oficio_cargo || '';
+              else if (rowData[key] !== undefined && rowData[key] !== null) {
+                if (el.type !== 'checkbox') el.value = rowData[key];
+              }
+            });
+
+            // Retraso de 1 segundo para renderizar el CSS y abrir diálogo de impresión
+            setTimeout(() => window.print(), 1000);
+          }
+        }
+      }
+    });
   </script>
 </body>
 </html>
