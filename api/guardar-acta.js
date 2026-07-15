@@ -1,105 +1,82 @@
-import { neon } from '@neondatabase/serverless';
+import { Pool } from '@neondatabase/serverless';
+
+// Vercel inyectará automáticamente process.env.DATABASE_URL desde tus Secrets
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export default async function handler(req, res) {
-  // Asegurar que solo se acepten peticiones POST para escritura
+  // 1. Blindaje de Método CORS
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido. Use POST.' });
   }
 
+  // Estructura esperada desde el CRUD del index.html
+  const { idEmpleado, tipoActa, equiposAsignados } = req.body; 
+  
+  // Solicitamos un cliente dedicado del Pool para la transacción
+  const client = await pool.connect();
+
   try {
-    const sql = neon(process.env.DATABASE_URL);
-    const data = req.body;
+    // 2. INICIO DE LA TRANSACCIÓN ATÓMICA
+    await client.query('BEGIN'); 
 
-    const tipo_acta = data.tipo_acta;
-    
-    // Determinación del flujo logístico de TI
-    const esDev = (data.fecha_devolucion || data.firma_ti_dev || data.firma_emp_dev) ? 'DEVOLUCION' : 'ENTREGA';
-    
-    let id_activo = null;
-    let id_linea = null;
-
-    // =========================================================================
-    // 1. UPSERT: MAESTRO DE EMPLEADOS
-    // =========================================================================
-    if (data.dni_empleado) {
-      const nombreLimpio = data.nombre_empleado || 'Usuario Genérico';
-      const cargoLimpio = data.cargo_empleado || '';
-      
-      await sql`
-        INSERT INTO empleados (dni, nombre_completo, cargo_oficio, area_asignada, centro_costo)
-        VALUES (${data.dni_empleado}, ${nombreLimpio}, ${cargoLimpio}, ${data.area_empleado}, ${data.centro_costo})
-        ON CONFLICT (dni) DO UPDATE SET
-          nombre_completo = EXCLUDED.nombre_completo,
-          cargo_oficio = EXCLUDED.cargo_oficio,
-          area_asignada = EXCLUDED.area_asignada,
-          centro_costo = EXCLUDED.centro_costo;
-      `;
-    }
-
-    // =========================================================================
-    // 2. UPSERT: INVENTARIO DE HARDWARE
-    // =========================================================================
-    if (tipo_acta !== 'lineas' && data.datos_activo.nro_serie) {
-      const s_n = data.datos_activo.nro_serie.trim();
-      const tipo_hw_mapped = tipo_acta.toUpperCase();
-      
-      const nuevo_estado = esDev === 'DEVOLUCION' ? 'STOCK' : 'OPERATIVO';
-
-      const resultHardware = await sql`
-        INSERT INTO activos_hardware (tipo_hardware, marca, modelo, nro_serie, estado_operativo)
-        VALUES (${tipo_hw_mapped}, 'S/E', ${data.datos_activo.marca_modelo || data.datos_activo.tipo_equipo || 'EQUIPO_TI'}, ${s_n}, ${nuevo_estado})
-        ON CONFLICT (nro_serie) DO UPDATE SET
-          estado_operativo = ${nuevo_estado}
-        RETURNING id_activo;
-      `;
-      if (resultHardware.length > 0) id_activo = resultHardware[0].id_activo;
-    }
-
-    // =========================================================================
-    // 3. UPSERT: LÍNEAS MÓVILES (CHIPS)
-    // =========================================================================
-    if ((tipo_acta === 'lineas' || tipo_acta === 'telefonos') && data.datos_activo.nro_telefono) {
-      const telf = data.datos_activo.nro_telefono.trim();
-      const sim = data.datos_activo.serie_sim ? data.datos_activo.serie_sim.trim() : 'S/E';
-      
-      const nuevo_estado_linea = esDev === 'DEVOLUCION' ? 'STOCK' : 'ACTIVA';
-
-      const resultLinea = await sql`
-        INSERT INTO lineas_moviles (nro_telefono, iccid_sim, operador, estado_linea)
-        VALUES (${telf}, ${sim}, ${data.datos_activo.operador || 'S/E'}, ${nuevo_estado_linea})
-        ON CONFLICT (nro_telefono) DO UPDATE SET
-          estado_linea = ${nuevo_estado_linea},
-          iccid_sim = EXCLUDED.iccid_sim
-        RETURNING id_linea;
-      `;
-      if (resultLinea.length > 0) id_linea = resultLinea[0].id_linea;
-    }
-
-    // =========================================================================
-    // 4. INSERCIÓN: HISTORIAL TRANSACCIONAL (ACTA LOGÍSTICA)
-    // =========================================================================
-    
-    // Captura de Observaciones
-    const obs_texto = esDev === 'DEVOLUCION' ? data.observaciones_devolucion : data.observaciones_entrega;
-    
-    // Captura de Firmas correspondientes al flujo
-    const firma_ti = esDev === 'DEVOLUCION' ? data.firma_ti_dev : data.firma_ti_entrega;
-    const firma_emp = esDev === 'DEVOLUCION' ? data.firma_emp_dev : data.firma_emp_entrega;
-
-    await sql`
-      INSERT INTO actas_asignacion (
-        tipo_acta, tipo_movimiento, dni_empleado, id_activo, id_linea,
-        observaciones, json_especificaciones, firma_ti_base64, firma_usuario_base64
-      ) VALUES (
-        ${tipo_acta}, ${esDev}, ${data.dni_empleado}, ${id_activo}, ${id_linea},
-        ${obs_texto}, ${JSON.stringify(data.datos_activo)}, ${firma_ti}, ${firma_emp}
-      );
+    // 3. Crear el Acta Maestra
+    const insertActaQuery = `
+      INSERT INTO actas (id_empleado, tipo_acta, fecha_asignacion, estado_acta)
+      VALUES ($1, $2, NOW(), 'VIGENTE')
+      RETURNING id_acta; -- Retornamos el ID autogenerado para usarlo en el detalle
     `;
+    const resActa = await client.query(insertActaQuery, [idEmpleado, tipoActa]);
+    const idActaGenerada = resActa.rows[0].id_acta;
 
-    return res.status(200).json({ success: true, message: 'Acta procesada y guardada bajo estándar ERP.' });
+    // 4. Registrar los movimientos y actualizar el estado del hardware
+    if (equiposAsignados && equiposAsignados.length > 0) {
+      for (const equipo of equiposAsignados) {
+        
+        // A. Insertar el detalle de la asignación
+        const insertAsignacionQuery = `
+          INSERT INTO asignaciones_movimientos (id_acta, id_activo, estado_asignacion)
+          VALUES ($1, $2, 'ACTIVO');
+        `;
+        await client.query(insertAsignacionQuery, [idActaGenerada, equipo.idActivo]);
+
+        // B. Actualizar el estado del equipo en el inventario general
+        const updateHardwareQuery = `
+          UPDATE activos_hardware 
+          SET estado_operativo = 'OPERATIVO' 
+          WHERE id_activo = $1 AND estado_operativo = 'STOCK';
+        `;
+        const resUpdate = await client.query(updateHardwareQuery, [equipo.idActivo]);
+        
+        // Validación estricta: Si el equipo no estaba en STOCK, abortamos toda el acta.
+        if (resUpdate.rowCount === 0) {
+            throw new Error(`El equipo con ID ${equipo.idActivo} no está disponible en STOCK.`);
+        }
+      }
+    }
+
+    // 5. CONFIRMACIÓN DE LA TRANSACCIÓN
+    // Si todo el bloque anterior funcionó perfectamente, guardamos los cambios en Neon.
+    await client.query('COMMIT'); 
+
+    return res.status(200).json({ 
+      success: true, 
+      message: 'Acta registrada y equipos descontados del stock exitosamente.', 
+      idActa: idActaGenerada 
+    });
 
   } catch (error) {
-    console.error('CRITICAL ERROR - Serverless DB Transaction:', error);
-    return res.status(500).json({ error: 'Fallo al procesar el acta en el servidor.', details: error.message });
+    // 6. REVERSIÓN EN CASO DE FALLO (ROLLBACK)
+    // Si cualquier Query falla o se lanza un error, deshacemos todos los INSERTs y UPDATEs.
+    await client.query('ROLLBACK'); 
+    console.error('Transacción abortada. Error en DB:', error.message);
+    
+    return res.status(500).json({ 
+        success: false, 
+        error: 'Error al procesar el acta. Ningún cambio fue guardado.',
+        detalle: error.message 
+    });
+  } finally {
+    // 7. LIBERACIÓN DEL CLIENTE (Crítico para que el Serverless no tumbe la BD)
+    client.release(); 
   }
 }
