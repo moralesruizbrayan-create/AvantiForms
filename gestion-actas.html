@@ -1,157 +1,208 @@
+<!-- Se utiliza el diseño base del usuario con las mejoras de persistencia -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal ITAM Avanti - Gestión de Actas</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generación de Actas - Agrícola Avanti</title>
+  <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <!-- Inserción del bloque de estilos CSS idéntico provisto en tu diseño -->
+  <style>
+    /* Estilos e identidades del archivo original del usuario */
+    :root {
+      --bg-color: #F4F6F9; --text-color: #242424; --text-secondary: #5D6B72;
+      --card-bg: #FFFFFF; --border-color: #E2E8F0; --input-bg: #F8FAFC;
+      --input-border: #CBD5E1; --lbl-bg: #F8FAFC; --subhead-bg: #F1F5F9;
+      --modal-overlay: rgba(15, 23, 42, 0.6); --watermark-opacity: 0.05;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    body { background-color: var(--bg-color); color: var(--text-color); font-family: system-ui; padding: 24px; }
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('/AVANTI%20LOGO%20(1).jpeg');
+      background-repeat: no-repeat; background-position: center; background-size: 500px;
+      opacity: var(--watermark-opacity); z-index: -1; pointer-events: none;
+    }
+    /* Clases de utilidad */
+    .form-view { display: none; }
+    .form-view.active { display: block; }
+    .page-container { background: var(--card-bg); max-width: 820px; margin: 0 auto 40px auto; padding: 30px 40px; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow-md); }
+    .btn-action { padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: none; }
+    .btn-back { background: #E2E8F0; color: #334155; }
+    .btn-save-db { background: #0E5A32; color: #fff; }
+    .form-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11.5px; }
+    .form-table td { border: 1px solid var(--border-color); padding: 6px 12px; }
+    .lbl { background-color: var(--lbl-bg); font-weight: 600; width: 18%; }
+    .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; }
+    input[type="text"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-color); padding: 6px 10px; font-size: 12px; border-radius: 4px; }
+    .signature-section { display: flex; justify-content: space-between; margin-top: 20px; }
+    .signature-block { width: 46%; text-align: center; font-size: 11px; }
+    .signature-trigger-box { width: 100%; height: 65px; background-color: var(--lbl-bg); border: 1px dashed var(--input-border); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    /* Estructuras Modales */
+    .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 450px; border-radius: 6px; overflow: hidden; }
+    .custom-modal-header { background: #0E5A32; color: #fff; padding: 12px; font-weight: bold; text-align: center; }
+    .sig-canvas-popup { background: #fff; width: 100%; height: 200px; display: block; border: 1.5px dashed #92C840; }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-    
-    <!-- Navegación -->
-    <nav class="bg-green-900 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider">AVANTI ITAM</h1>
-            <ul class="flex space-x-6">
-                <li><a href="index.html" class="hover:text-green-300">Dashboard</a></li>
-                <li><a href="gestion-actas.html" class="hover:text-green-300 font-semibold border-b-2 border-green-300 pb-1">Gestión de Actas</a></li>
-                <li><a href="inventario.html" class="hover:text-green-300">Inventario Global</a></li>
-            </ul>
+<body>
+
+  <!-- Barra superior -->
+  <div class="max-w-4xl mx-auto mb-6 flex justify-between items-center">
+    <button class="btn-action btn-back" onclick="location.href='index.html'">← Ir al Dashboard</button>
+    <div class="flex gap-2">
+      <button class="btn-action btn-save-db" onclick="solicitarGuardado()">💾 Guardar Acta en DB</button>
+      <button class="btn-action" style="background:#64748B; color:white;" onclick="window.print()">🖨️ Imprimir</button>
+    </div>
+  </div>
+
+  <!-- Contenedor del Formulario Activo (Material Informático de ejemplo) -->
+  <div class="page-container">
+    <form id="form-acta-datos">
+      <div class="text-center mb-6 border-b-2 border-emerald-700 pb-4">
+        <h2 class="text-xl font-bold text-emerald-800">ACTA DE ASIGNACIÓN DE MATERIAL INFORMÁTICO</h2>
+        <p class="text-xs text-gray-400">Control de Activos de TI - Agrícola Avanti S.A.C.</p>
+      </div>
+
+      <h3>1. Datos Generales del Responsable:</h3>
+      <table class="form-table">
+        <tr>
+          <td class="lbl">DNI / Código:</td>
+          <td><input type="text" id="dni_empleado" required placeholder="Ej. 76543210"></td>
+          <td class="lbl">Nombre Empleado:</td>
+          <td><input type="text" id="nombre_empleado" required></td>
+        </tr>
+        <tr>
+          <td class="lbl">Área:</td>
+          <td><input type="text" id="area_empleado"></td>
+          <td class="lbl">Cargo:</td>
+          <td><input type="text" id="cargo_empleado"></td>
+        </tr>
+      </table>
+
+      <h3>2. Detalle del Equipo Principal:</h3>
+      <table class="form-table">
+        <tr>
+          <td class="lbl">Código Patrimonial:</td>
+          <td><input type="text" id="codigo_patrimonial" placeholder="Ej. AVPE001" required></td>
+          <td class="lbl">Tipo Hardware:</td>
+          <td><input type="text" id="tipo_hardware" placeholder="Ej. LAPTOP" required></td>
+        </tr>
+        <tr>
+          <td class="lbl">Marca:</td>
+          <td><input type="text" id="marca" required></td>
+          <td class="lbl">Modelo:</td>
+          <td><input type="text" id="modelo" required></td>
+        </tr>
+        <tr>
+          <td class="lbl">Número de Serie:</td>
+          <td><input type="text" id="numero_serie" required></td>
+          <td class="lbl">Estado de Asignación:</td>
+          <td><input type="text" id="estado_operativo" value="OPERATIVO" readonly></td>
+        </tr>
+      </table>
+
+      <h3>3. Firma de Compromiso:</h3>
+      <div class="signature-section">
+        <div class="signature-block">
+          <div class="signature-trigger-box" onclick="abrirFirma('firma_ti')">
+            <span id="lbl_firma_ti">📝 Firmar Encargado TI</span>
+            <img id="img_firma_ti" class="signature-runtime-img" style="display:none;">
+          </div>
+          <div class="text-center font-bold mt-2">EN CARGADO DE TI</div>
         </div>
-    </nav>
-
-    <!-- Formulario Transaccional -->
-    <main class="container mx-auto mt-8 p-4 max-w-3xl">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Nueva Acta de Asignación</h2>
-            
-            <form id="form-acta" onsubmit="enviarActa(event)">
-                
-                <!-- Datos del Empleado y Acta -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">ID Empleado</label>
-                        <input type="number" id="idEmpleado" required class="w-full p-2 border rounded focus:ring focus:ring-green-300" placeholder="Ej: 1045">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Acta</label>
-                        <select id="tipoActa" required class="w-full p-2 border rounded focus:ring focus:ring-green-300">
-                            <option value="ENTREGA_NUEVO_INGRESO">Entrega - Nuevo Ingreso</option>
-                            <option value="RENOVACION_EQUIPO">Renovación de Equipo</option>
-                            <option value="PRESTAMO_TEMPORAL">Préstamo Temporal</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Asignación de Hardware (Dinámico) -->
-                <div class="mb-6 bg-gray-50 p-4 rounded border">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Equipos a Asignar</h3>
-                    
-                    <div id="contenedor-equipos" class="space-y-3">
-                        <div class="flex space-x-2 equipo-item">
-                            <input type="number" placeholder="ID Interno del Activo (Ej: 12)" required class="w-full p-2 border rounded id-activo">
-                            <button type="button" onclick="eliminarFila(this)" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 font-bold">X</button>
-                        </div>
-                    </div>
-                    
-                    <button type="button" onclick="agregarFila()" class="mt-4 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 text-sm font-semibold">
-                        + Agregar otro equipo
-                    </button>
-                </div>
-
-                <!-- Botón de Submit con estado de carga -->
-                <div class="flex justify-end mt-6">
-                    <button type="submit" id="btn-guardar" class="bg-green-700 text-white px-6 py-2 rounded font-bold hover:bg-green-800 transition duration-200">
-                        Procesar y Guardar Acta
-                    </button>
-                </div>
-                
-                <!-- Contenedor de Alertas -->
-                <div id="alerta-mensaje" class="mt-4 p-3 rounded hidden"></div>
-            </form>
+        <div class="signature-block">
+          <div class="signature-trigger-box" onclick="abrirFirma('firma_empleado')">
+            <span id="lbl_firma_empleado">📝 Firmar Colaborador</span>
+            <img id="img_firma_empleado" class="signature-runtime-img" style="display:none;">
+          </div>
+          <div class="text-center font-bold mt-2">COLABORADOR / RECEPTOR</div>
         </div>
-    </main>
+      </div>
+    </form>
+  </div>
 
-    <script>
-        // Lógica para agregar/eliminar inputs de equipos dinámicamente
-        function agregarFila() {
-            const contenedor = document.getElementById('contenedor-equipos');
-            const html = `
-                <div class="flex space-x-2 equipo-item mt-3">
-                    <input type="number" placeholder="ID Interno del Activo" required class="w-full p-2 border rounded id-activo">
-                    <button type="button" onclick="eliminarFila(this)" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 font-bold">X</button>
-                </div>`;
-            contenedor.insertAdjacentHTML('beforeend', html);
+  <!-- Modal Compartido de Firma -->
+  <div id="modal-firma" class="custom-modal-overlay">
+    <div class="custom-modal-card">
+      <div class="custom-modal-header">Registrar Firma Digital</div>
+      <div class="p-4 bg-white">
+        <canvas id="canvas-firma" class="sig-canvas-popup"></canvas>
+        <div class="flex justify-end gap-2 mt-4">
+          <button class="btn-action btn-back" onclick="cerrarFirma()">Cancelar</button>
+          <button class="btn-action" style="background:#F59E0B; color:white;" onclick="limpiarCanvas()">Limpiar</button>
+          <button class="btn-action btn-save-db" onclick="guardarFirma()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeFirmaId = null;
+    let drawing = false;
+    const canvas = document.getElementById('canvas-firma');
+    const ctx = canvas.getContext('2d');
+
+    // Inicialización del Canvas para firmas fluido
+    ctx.strokeStyle = "#000"; ctx.lineWidth = 2.5; ctx.lineCap = "round";
+
+    function abrirFirma(id) {
+      activeFirmaId = id;
+      document.getElementById('modal-firma').style.display = 'flex';
+      limpiarCanvas();
+    }
+    function cerrarFirma() { document.getElementById('modal-firma').style.display = 'none'; }
+    function limpiarCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    // Control de trazos táctil/mouse
+    canvas.onmousedown = (e) => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }
+    canvas.onmousemove = (e) => { if(drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } }
+    canvas.onmouseup = () => drawing = false;
+
+    function guardarFirma() {
+      const dataUrl = canvas.toDataURL();
+      document.getElementById('img_firma_' + activeFirmaId).src = dataUrl;
+      document.getElementById('img_firma_' + activeFirmaId).style.display = 'block';
+      document.getElementById('lbl_firma_' + activeFirmaId).style.display = 'none';
+      cerrarFirma();
+    }
+
+    async function solicitarGuardado() {
+      const payload = {
+        dni_empleado: document.getElementById('dni_empleado').value,
+        nombre_completo: document.getElementById('nombre_empleado').value,
+        area: document.getElementById('area_empleado').value,
+        cargo: document.getElementById('cargo_empleado').value,
+        codigo_patrimonial: document.getElementById('codigo_patrimonial').value,
+        tipo_hardware: document.getElementById('tipo_hardware').value,
+        marca: document.getElementById('marca').value,
+        modelo: document.getElementById('modelo').value,
+        numero_serie: document.getElementById('numero_serie').value,
+        firma_ti_entrega: document.getElementById('img_firma_ti').src || null,
+        firma_emp_entrega: document.getElementById('img_firma_empleado').src || null
+      };
+
+      try {
+        const res = await fetch('/api/guardar-acta', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if(result.success) {
+          alert('Acta guardada y sincronizada correctamente en Neon DB.');
+          location.href = 'index.html';
+        } else {
+          alert('Error: ' + result.error);
         }
-
-        function eliminarFila(btn) {
-            btn.parentElement.remove();
-        }
-
-        // Lógica transaccional con la API
-        async function enviarActa(event) {
-            event.preventDefault(); // Evita recargar la página
-
-            const btnGuardar = document.getElementById('btn-guardar');
-            const alerta = document.getElementById('alerta-mensaje');
-            
-            // UI: Modo de carga
-            btnGuardar.disabled = true;
-            btnGuardar.innerText = "Procesando...";
-            alerta.classList.add('hidden');
-
-            // Recolectar datos
-            const idEmpleado = document.getElementById('idEmpleado').value;
-            const tipoActa = document.getElementById('tipoActa').value;
-            
-            // Recolectar el array de equipos a asignar
-            const inputsEquipos = document.querySelectorAll('.id-activo');
-            const equiposAsignados = [];
-            inputsEquipos.forEach(input => {
-                if(input.value) {
-                    equiposAsignados.push({ idActivo: parseInt(input.value) });
-                }
-            });
-
-            const payload = {
-                idEmpleado: parseInt(idEmpleado),
-                tipoActa: tipoActa,
-                equiposAsignados: equiposAsignados
-            };
-
-            try {
-                // Conexión con Vercel Serverless
-                const response = await fetch('/api/guardar-acta', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                const data = await response.json();
-
-                alerta.classList.remove('hidden');
-                if (response.ok && data.success) {
-                    alerta.className = "mt-4 p-3 rounded bg-green-100 text-green-800 border border-green-300";
-                    alerta.innerText = `¡Éxito! Acta #${data.idActa} registrada correctamente.`;
-                    document.getElementById('form-acta').reset();
-                    document.getElementById('contenedor-equipos').innerHTML = `
-                        <div class="flex space-x-2 equipo-item">
-                            <input type="number" placeholder="ID Interno del Activo" required class="w-full p-2 border rounded id-activo">
-                            <button type="button" onclick="eliminarFila(this)" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 font-bold">X</button>
-                        </div>`;
-                } else {
-                    throw new Error(data.error || "Error desconocido del servidor");
-                }
-            } catch (error) {
-                alerta.classList.remove('hidden');
-                alerta.className = "mt-4 p-3 rounded bg-red-100 text-red-800 border border-red-300";
-                alerta.innerText = `Error: ${error.message}`;
-            } finally {
-                // UI: Restaurar botón
-                btnGuardar.disabled = false;
-                btnGuardar.innerText = "Procesar y Guardar Acta";
-            }
-        }
-    </script>
+      } catch (err) {
+        console.error(err);
+        alert('Fallo de red al intentar guardar en la base de datos.');
+      }
+    }
+  </script>
 </body>
 </html>
