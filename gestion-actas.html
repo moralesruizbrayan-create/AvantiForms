@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal ITAM Avanti - Gestión de Actas</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SweetAlert2 para notificaciones elegantes (Toasts) en lugar de 'alerts' genéricos -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
-
-    <!-- Navegación Corporativa -->
+<body class="bg-gray-100 text-gray-800 font-sans">
+    
+    <!-- Navegación -->
     <nav class="bg-green-900 text-white p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold tracking-wider">AVANTI ITAM</h1>
@@ -23,158 +20,138 @@
         </div>
     </nav>
 
-    <!-- Contenedor Principal -->
-    <main class="container mx-auto mt-8 p-4 flex-grow">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold mb-2 text-gray-800">Generar Acta de Asignación</h2>
-            <p class="text-gray-600 mb-8">Registre la entrega de activos tecnológicos a los colaboradores. Las transacciones se guardarán de forma segura en la base de datos central.</p>
-
-            <!-- Formulario CRUD -->
-            <form id="formActa" class="bg-white p-8 rounded-lg shadow border-t-4 border-green-600">
+    <!-- Formulario Transaccional -->
+    <main class="container mx-auto mt-8 p-4 max-w-3xl">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Nueva Acta de Asignación</h2>
+            
+            <form id="form-acta" onsubmit="enviarActa(event)">
                 
-                <!-- Sección 1: Datos del Colaborador -->
-                <h3 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">1. Datos del Colaborador</h3>
+                <!-- Datos del Empleado y Acta -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label for="idEmpleado" class="block text-sm font-medium text-gray-700 mb-1">ID o DNI del Empleado *</label>
-                        <input type="number" id="idEmpleado" required
-                            class="w-full border border-gray-300 rounded-md p-2 focus:ring-green-500 focus:border-green-500" 
-                            placeholder="Ej: 1045">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ID Empleado</label>
+                        <input type="number" id="idEmpleado" required class="w-full p-2 border rounded focus:ring focus:ring-green-300" placeholder="Ej: 1045">
                     </div>
                     <div>
-                        <label for="tipoActa" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Movimiento *</label>
-                        <select id="tipoActa" required
-                            class="w-full border border-gray-300 rounded-md p-2 focus:ring-green-500 focus:border-green-500 bg-white">
-                            <option value="">-- Seleccione un tipo --</option>
-                            <option value="ENTREGA_NUEVO_INGRESO">Entrega por Nuevo Ingreso</option>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Acta</label>
+                        <select id="tipoActa" required class="w-full p-2 border rounded focus:ring focus:ring-green-300">
+                            <option value="ENTREGA_NUEVO_INGRESO">Entrega - Nuevo Ingreso</option>
                             <option value="RENOVACION_EQUIPO">Renovación de Equipo</option>
                             <option value="PRESTAMO_TEMPORAL">Préstamo Temporal</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Sección 2: Asignación de Hardware -->
-                <h3 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">2. Hardware a Asignar</h3>
-                <div class="mb-6">
-                    <p class="text-sm text-gray-500 mb-3">Ingrese los IDs internos de los equipos (Pistolee el código de barras o escriba manualmente separados por comas).</p>
+                <!-- Asignación de Hardware (Dinámico) -->
+                <div class="mb-6 bg-gray-50 p-4 rounded border">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Equipos a Asignar</h3>
                     
-                    <div class="bg-gray-50 p-4 rounded border border-gray-200">
-                        <label for="equiposIds" class="block text-sm font-medium text-gray-700 mb-1">IDs de Activos (Ej: 12, 5, 89)</label>
-                        <input type="text" id="equiposIds" required
-                            class="w-full border border-gray-300 rounded-md p-3 text-lg font-mono focus:ring-green-500 focus:border-green-500" 
-                            placeholder="Escanee o escriba los IDs...">
+                    <div id="contenedor-equipos" class="space-y-3">
+                        <div class="flex space-x-2 equipo-item">
+                            <input type="number" placeholder="ID Interno del Activo (Ej: 12)" required class="w-full p-2 border rounded id-activo">
+                            <button type="button" onclick="eliminarFila(this)" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 font-bold">X</button>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Sección 3: Cumplimiento y Políticas -->
-                <div class="mb-8 bg-blue-50 p-4 rounded-md border border-blue-100 text-sm text-blue-800 flex items-start">
-                    <input type="checkbox" id="aceptaPoliticas" required class="mt-1 mr-3 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
-                    <label for="aceptaPoliticas">Confirmo que los equipos han sido inspeccionados, se encuentran operativos y el proceso cumple con los estándares corporativos (alineado a políticas de calidad e ISO 9001).</label>
-                </div>
-
-                <!-- Botones de Acción -->
-                <div class="flex justify-end space-x-4">
-                    <button type="reset" class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 font-medium transition-colors">
-                        Limpiar Formulario
-                    </button>
-                    <button type="submit" id="btnGuardar" class="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 font-medium shadow transition-colors flex items-center">
-                        <span id="btnText">Procesar Acta</span>
-                        <!-- Spinner oculto por defecto -->
-                        <svg id="btnSpinner" class="hidden animate-spin ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                    
+                    <button type="button" onclick="agregarFila()" class="mt-4 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 text-sm font-semibold">
+                        + Agregar otro equipo
                     </button>
                 </div>
+
+                <!-- Botón de Submit con estado de carga -->
+                <div class="flex justify-end mt-6">
+                    <button type="submit" id="btn-guardar" class="bg-green-700 text-white px-6 py-2 rounded font-bold hover:bg-green-800 transition duration-200">
+                        Procesar y Guardar Acta
+                    </button>
+                </div>
+                
+                <!-- Contenedor de Alertas -->
+                <div id="alerta-mensaje" class="mt-4 p-3 rounded hidden"></div>
             </form>
         </div>
     </main>
 
-    <!-- Footer Corporativo -->
-    <footer class="bg-gray-800 text-gray-400 text-center p-4 mt-auto">
-        <p class="text-sm">&copy; 2026 Agrícola Avanti S.A.C. - Área de Soporte TI. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Lógica de Conexión con el Backend -->
     <script>
-        document.getElementById('formActa').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Evitamos que la página se recargue
+        // Lógica para agregar/eliminar inputs de equipos dinámicamente
+        function agregarFila() {
+            const contenedor = document.getElementById('contenedor-equipos');
+            const html = `
+                <div class="flex space-x-2 equipo-item mt-3">
+                    <input type="number" placeholder="ID Interno del Activo" required class="w-full p-2 border rounded id-activo">
+                    <button type="button" onclick="eliminarFila(this)" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 font-bold">X</button>
+                </div>`;
+            contenedor.insertAdjacentHTML('beforeend', html);
+        }
 
-            // 1. Captura de elementos de UI para el estado de carga
-            const btnGuardar = document.getElementById('btnGuardar');
-            const btnText = document.getElementById('btnText');
-            const btnSpinner = document.getElementById('btnSpinner');
+        function eliminarFila(btn) {
+            btn.parentElement.remove();
+        }
 
-            // 2. Captura y transformación de datos del formulario
-            const idEmpleado = parseInt(document.getElementById('idEmpleado').value, 10);
+        // Lógica transaccional con la API
+        async function enviarActa(event) {
+            event.preventDefault(); // Evita recargar la página
+
+            const btnGuardar = document.getElementById('btn-guardar');
+            const alerta = document.getElementById('alerta-mensaje');
+            
+            // UI: Modo de carga
+            btnGuardar.disabled = true;
+            btnGuardar.innerText = "Procesando...";
+            alerta.classList.add('hidden');
+
+            // Recolectar datos
+            const idEmpleado = document.getElementById('idEmpleado').value;
             const tipoActa = document.getElementById('tipoActa').value;
-            const equiposInput = document.getElementById('equiposIds').value;
-
-            // Convertimos el string "12, 5, 89" en un array de objetos: [{idActivo: 12}, {idActivo: 5}]
-            const equiposAsignados = equiposInput
-                .split(',')
-                .map(id => ({ idActivo: parseInt(id.trim(), 10) }))
-                .filter(equipo => !isNaN(equipo.idActivo)); // Filtramos espacios vacíos
-
-            if (equiposAsignados.length === 0) {
-                Swal.fire('Error', 'Debe ingresar al menos un ID de equipo válido.', 'error');
-                return;
-            }
+            
+            // Recolectar el array de equipos a asignar
+            const inputsEquipos = document.querySelectorAll('.id-activo');
+            const equiposAsignados = [];
+            inputsEquipos.forEach(input => {
+                if(input.value) {
+                    equiposAsignados.push({ idActivo: parseInt(input.value) });
+                }
+            });
 
             const payload = {
-                idEmpleado: idEmpleado,
+                idEmpleado: parseInt(idEmpleado),
                 tipoActa: tipoActa,
                 equiposAsignados: equiposAsignados
             };
 
-            // 3. Bloqueamos el botón y mostramos el spinner
-            btnGuardar.disabled = true;
-            btnGuardar.classList.add('cursor-not-allowed', 'opacity-75');
-            btnText.innerText = 'Guardando...';
-            btnSpinner.classList.remove('hidden');
-
-            // 4. Petición POST al entorno Serverless de Vercel
             try {
+                // Conexión con Vercel Serverless
                 const response = await fetch('/api/guardar-acta', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
+                
                 const data = await response.json();
 
+                alerta.classList.remove('hidden');
                 if (response.ok && data.success) {
-                    // Éxito: Mostramos alerta y limpiamos el formulario
-                    Swal.fire({
-                        title: '¡Acta Registrada!',
-                        text: `El acta #${data.idActa} ha sido creada y el inventario actualizado.`,
-                        icon: 'success',
-                        confirmButtonColor: '#15803d'
-                    });
-                    document.getElementById('formActa').reset();
+                    alerta.className = "mt-4 p-3 rounded bg-green-100 text-green-800 border border-green-300";
+                    alerta.innerText = `¡Éxito! Acta #${data.idActa} registrada correctamente.`;
+                    document.getElementById('form-acta').reset();
+                    document.getElementById('contenedor-equipos').innerHTML = `
+                        <div class="flex space-x-2 equipo-item">
+                            <input type="number" placeholder="ID Interno del Activo" required class="w-full p-2 border rounded id-activo">
+                            <button type="button" onclick="eliminarFila(this)" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 font-bold">X</button>
+                        </div>`;
                 } else {
-                    // Fallo del backend (Ej: Equipo no estaba en STOCK)
-                    Swal.fire({
-                        title: 'Transacción Denegada',
-                        text: data.error || 'Ocurrió un problema al verificar el stock.',
-                        icon: 'warning',
-                        confirmButtonColor: '#b91c1c'
-                    });
+                    throw new Error(data.error || "Error desconocido del servidor");
                 }
             } catch (error) {
-                // Falla de red o de servidor crítico
-                console.error("Error en la petición:", error);
-                Swal.fire('Error de Conexión', 'No se pudo comunicar con el servidor de base de datos.', 'error');
+                alerta.classList.remove('hidden');
+                alerta.className = "mt-4 p-3 rounded bg-red-100 text-red-800 border border-red-300";
+                alerta.innerText = `Error: ${error.message}`;
             } finally {
-                // 5. Restauramos el botón a su estado original
+                // UI: Restaurar botón
                 btnGuardar.disabled = false;
-                btnGuardar.classList.remove('cursor-not-allowed', 'opacity-75');
-                btnText.innerText = 'Procesar Acta';
-                btnSpinner.classList.add('hidden');
+                btnGuardar.innerText = "Procesar y Guardar Acta";
             }
-        });
+        }
     </script>
 </body>
 </html>
