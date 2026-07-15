@@ -1,206 +1,314 @@
-<!-- Se utiliza el diseño base del usuario con las mejoras de persistencia -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generación de Actas - Agrícola Avanti</title>
+  <title>Portal de Actas de Entrega - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-  <!-- Inserción del bloque de estilos CSS idéntico provisto en tu diseño -->
+  
   <style>
-    /* Estilos e identidades del archivo original del usuario */
-    :root {
-      --bg-color: #F4F6F9; --text-color: #242424; --text-secondary: #5D6B72;
-      --card-bg: #FFFFFF; --border-color: #E2E8F0; --input-bg: #F8FAFC;
-      --input-border: #CBD5E1; --lbl-bg: #F8FAFC; --subhead-bg: #F1F5F9;
-      --modal-overlay: rgba(15, 23, 42, 0.6); --watermark-opacity: 0.05;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    body { background-color: var(--bg-color); color: var(--text-color); font-family: system-ui; padding: 24px; }
-    body::before {
-      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: url('/AVANTI%20LOGO%20(1).jpeg');
-      background-repeat: no-repeat; background-position: center; background-size: 500px;
-      opacity: var(--watermark-opacity); z-index: -1; pointer-events: none;
-    }
-    /* Clases de utilidad */
-    .form-view { display: none; }
-    .form-view.active { display: block; }
+    /* VARIABLES GLOBALES Y DISEÑO BASE (Tu CSS Original Intacto) */
+    :root { --bg-color: #F4F6F9; --text-color: #242424; --text-secondary: #5D6B72; --card-bg: #FFFFFF; --border-color: #E2E8F0; --input-bg: #F8FAFC; --input-border: #CBD5E1; --lbl-bg: #F8FAFC; --subhead-bg: #F1F5F9; --modal-overlay: rgba(15, 23, 42, 0.6); --watermark-opacity: 0.05; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    body.dark-mode { --bg-color: #121212; --text-color: #E2E8F0; --text-secondary: #94A3B8; --card-bg: #1E1E1E; --border-color: #2D2D2D; --input-bg: #1A1A1A; --input-border: #3A3A3A; --lbl-bg: #262626; --subhead-bg: #2D2D2D; --modal-overlay: rgba(0, 0, 0, 0.85); --watermark-opacity: 0.02; }
+    * { box-sizing: border-box; }
+    body { background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 24px; font-family: 'Segoe UI', system-ui, sans-serif; transition: all 0.25s ease; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('/AVANTI%20LOGO%20(1).jpeg'); background-repeat: no-repeat; background-position: center; background-size: 500px; opacity: var(--watermark-opacity); z-index: -1; pointer-events: none; }
+    
+    .theme-toggle-btn { position: fixed; bottom: 24px; right: 24px; background: #0E5A32; color: #FFF; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10001; font-size: 20px; }
+    .form-view { display: none; } .form-view.active { display: block; }
     .page-container { background: var(--card-bg); max-width: 820px; margin: 0 auto 40px auto; padding: 30px 40px; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow-md); }
-    .btn-action { padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: none; }
-    .btn-back { background: #E2E8F0; color: #334155; }
-    .btn-save-db { background: #0E5A32; color: #fff; }
+    .action-bar { max-width: 820px; margin: 0 auto 12px auto; display: flex; justify-content: space-between; align-items: center; }
+    .action-group-right { display: flex; gap: 10px; }
+    .btn-action { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
+    .btn-back { background: #E2E8F0; color: #334155; } .btn-save-db { background: #0078D4; color: #FFF; } .btn-print { background: #0E5A32; color: #FFF; }
+    
+    .mode-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
+    .mode-btn { padding: 8px 16px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-secondary); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; }
+    .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; }
+
+    .header-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; border-bottom: 2.5px solid #92C840; }
+    .header-logo img { width: 60px; height: 60px; object-fit: contain; }
+    .header-titles h1 { font-size: 20px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; text-transform: uppercase; }
+    
+    h3 { font-size: 11px; color: #0E5A32; font-weight: 700; text-transform: uppercase; margin: 16px 0 6px 0; }
     .form-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11.5px; }
-    .form-table td { border: 1px solid var(--border-color); padding: 6px 12px; }
+    .form-table td { border: 1px solid var(--border-color); padding: 6px 12px; vertical-align: middle; }
     .lbl { background-color: var(--lbl-bg); font-weight: 600; width: 18%; }
     .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; }
-    input[type="text"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-color); padding: 6px 10px; font-size: 12px; border-radius: 4px; }
-    .signature-section { display: flex; justify-content: space-between; margin-top: 20px; }
+
+    .input-wrapper { position: relative; display: flex; width: 100%; }
+    input[type="text"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; }
+    .btn-scan { position: absolute; right: 4px; background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
+    .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
+    input[type="checkbox"] { margin-right: 6px; cursor: pointer; }
+    
+    .compromiso-box { border: 1px solid var(--border-color); border-left: 3.5px solid #0E5A32; background: var(--lbl-bg); padding: 10px 14px; font-size: 10.5px; margin-top: 6px; border-radius: 4px; }
+    
+    /* FIRMAS */
+    .signature-section { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 6px; width: 100%; }
     .signature-block { width: 46%; text-align: center; font-size: 11px; }
-    .signature-trigger-box { width: 100%; height: 65px; background-color: var(--lbl-bg); border: 1px dashed var(--input-border); border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .signature-trigger-box { width: 100%; height: 65px; background: var(--lbl-bg); border: 1px dashed var(--input-border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    /* Estructuras Modales */
-    .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); display: none; align-items: center; justify-content: center; z-index: 1000; }
-    .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 450px; border-radius: 6px; overflow: hidden; }
-    .custom-modal-header { background: #0E5A32; color: #fff; padding: 12px; font-weight: bold; text-align: center; }
-    .sig-canvas-popup { background: #fff; width: 100%; height: 200px; display: block; border: 1.5px dashed #92C840; }
+    .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 6px; margin-bottom: 4px; }
+
+    /* MODALES Y TOASTS */
+    .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); z-index: 9999; display: none; align-items: center; justify-content: center; }
+    .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 420px; border-radius: 6px; box-shadow: var(--shadow-md); overflow: hidden; }
+    .custom-modal-header { background: #0E5A32; color: #FFF; padding: 14px 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+    .custom-modal-footer { padding: 14px 20px; background: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-color); }
+    .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; background: #fff; border: 1.5px dashed #92C840; }
+    .btn-modal { border: none; padding: 8px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
+    .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 12px 24px; border-radius: 4px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13px; font-weight: 600; transition: top 0.4s; border: 1px solid var(--border-color); border-left: 4px solid #107C41; }
+    .custom-toast.show { top: 24px; }
+    
+    @media print {
+      @page { size: A4 portrait; margin: 3mm 8mm; }
+      body { background: #FFF !important; padding: 0 !important; }
+      .no-print, .theme-toggle-btn, .mode-selector, .action-bar { display: none !important; }
+      .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; }
+      .sec-entrega, .sec-devolucion { display: block !important; }
+      .form-table td { padding: 4px 6px !important; font-size: 10px !important; color: #000 !important; }
+      input[type="text"], textarea { background: transparent !important; border: none !important; padding: 0 !important; }
+      .signature-trigger-box { border: none !important; background: transparent !important; height: 40px !important; }
+      .signature-trigger-box span { display: none !important; }
+    }
   </style>
 </head>
-<body>
+<body class="light-mode">
 
-  <!-- Barra superior -->
-  <div class="max-w-4xl mx-auto mb-6 flex justify-between items-center">
-    <button class="btn-action btn-back" onclick="location.href='index.html'">← Ir al Dashboard</button>
-    <div class="flex gap-2">
-      <button class="btn-action btn-save-db" onclick="solicitarGuardado()">💾 Guardar Acta en DB</button>
-      <button class="btn-action" style="background:#64748B; color:white;" onclick="window.print()">🖨️ Imprimir</button>
+  <button class="theme-toggle-btn no-print" onclick="document.body.classList.toggle('dark-mode')">🌓</button>
+  <div id="custom_toast" class="custom-toast no-print"><span id="toast_message"></span></div>
+
+  <!-- NAVEGACIÓN SUPERIOR GLOBAL -->
+  <div class="action-bar no-print">
+    <button class="btn-action btn-back" onclick="location.href='index.html'">← Volver al Menú</button>
+    <div class="action-group-right">
+      <button class="btn-action btn-save-db" onclick="procesarGuardadoBaseDatos(this)">💾 Guardar en Base de Datos</button>
+      <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
     </div>
   </div>
 
-  <!-- Contenedor del Formulario Activo (Material Informático de ejemplo) -->
-  <div class="page-container">
-    <form id="form-acta-datos">
-      <div class="text-center mb-6 border-b-2 border-emerald-700 pb-4">
-        <h2 class="text-xl font-bold text-emerald-800">ACTA DE ASIGNACIÓN DE MATERIAL INFORMÁTICO</h2>
-        <p class="text-xs text-gray-400">Control de Activos de TI - Agrícola Avanti S.A.C.</p>
+  <!-- ==========================================
+       FORMULARIO 1: MATERIAL INFORMÁTICO
+       ========================================== -->
+  <div id="view_material_informatico" class="form-view" data-tipo="material_informatico">
+    <div class="page-container">
+      <div class="mode-selector no-print">
+        <button class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
+        <button class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
+        <button class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
       </div>
+
+      <table class="header-table">
+        <tr>
+          <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg"></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE EQUIPOS INFORMÁTICOS</h1></td>
+        </tr>
+      </table>
 
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr>
-          <td class="lbl">DNI / Código:</td>
-          <td><input type="text" id="dni_empleado" required placeholder="Ej. 76543210"></td>
-          <td class="lbl">Nombre Empleado:</td>
-          <td><input type="text" id="nombre_empleado" required></td>
-        </tr>
-        <tr>
-          <td class="lbl">Área:</td>
-          <td><input type="text" id="area_empleado"></td>
-          <td class="lbl">Cargo:</td>
-          <td><input type="text" id="cargo_empleado"></td>
-        </tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
+        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Oficio/Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
+        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Usuario PC:</td><td><input type="text" data-spec="usuario_pc"></td><td class="lbl">Fecha:</td><td><input type="text" data-field="fecha_entrega"></td></tr>
       </table>
 
-      <h3>2. Detalle del Equipo Principal:</h3>
+      <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
         <tr>
-          <td class="lbl">Código Patrimonial:</td>
-          <td><input type="text" id="codigo_patrimonial" placeholder="Ej. AVPE001" required></td>
-          <td class="lbl">Tipo Hardware:</td>
-          <td><input type="text" id="tipo_hardware" placeholder="Ej. LAPTOP" required></td>
+          <td class="lbl">Cód. Patrimonial:</td><td style="width:32%;"><input type="text" data-spec="codigo_patrimonial"></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button>
+            </div>
+          </td>
         </tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Tipo de Equipo:</td><td><input type="text" data-spec="tipo_equipo" placeholder="Ej: LAPTOP"></td></tr>
+        <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
+        <tr><td class="lbl">Procesador:</td><td><input type="text" data-spec="procesador"></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
+        <tr><td colspan="4" class="subhead">Software Instalado</td></tr>
         <tr>
-          <td class="lbl">Marca:</td>
-          <td><input type="text" id="marca" required></td>
-          <td class="lbl">Modelo:</td>
-          <td><input type="text" id="modelo" required></td>
+          <td class="lbl">Windows:</td><td><label class="inline-flex"><input type="checkbox" data-spec="win_si"> Sí</label></td>
+          <td class="lbl">Office:</td><td><label class="inline-flex"><input type="checkbox" data-spec="office_si"> Sí</label></td>
         </tr>
+        <tr><td colspan="4" class="subhead">Periféricos Asignados</td></tr>
         <tr>
-          <td class="lbl">Número de Serie:</td>
-          <td><input type="text" id="numero_serie" required></td>
-          <td class="lbl">Estado de Asignación:</td>
-          <td><input type="text" id="estado_operativo" value="OPERATIVO" readonly></td>
+          <td colspan="4">
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_mouse"> Mouse</label>
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_mochila"> Mochila</label>
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_cargador"> Cargador</label>
+          </td>
         </tr>
       </table>
 
-      <h3>3. Firma de Compromiso:</h3>
-      <div class="signature-section">
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirFirma('firma_ti')">
-            <span id="lbl_firma_ti">📝 Firmar Encargado TI</span>
-            <img id="img_firma_ti" class="signature-runtime-img" style="display:none;">
+      <div class="sec-entrega">
+        <h3>3. Condiciones de Entrega:</h3>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo fuera de las instalaciones.</div>
+        <div class="signature-section">
+          <div class="signature-block">
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m1')"><span id="lbl_f1_m1">📝 Firmar Encargado TI</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
           </div>
-          <div class="text-center font-bold mt-2">EN CARGADO DE TI</div>
-        </div>
-        <div class="signature-block">
-          <div class="signature-trigger-box" onclick="abrirFirma('firma_empleado')">
-            <span id="lbl_firma_empleado">📝 Firmar Colaborador</span>
-            <img id="img_firma_empleado" class="signature-runtime-img" style="display:none;">
+          <div class="signature-block">
+            <div class="signature-trigger-box" onclick="abrirModalFirma('f2_m1')"><span id="lbl_f2_m1">📝 Firmar Empleado</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
           </div>
-          <div class="text-center font-bold mt-2">COLABORADOR / RECEPTOR</div>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <!-- Modal Compartido de Firma -->
-  <div id="modal-firma" class="custom-modal-overlay">
-    <div class="custom-modal-card">
-      <div class="custom-modal-header">Registrar Firma Digital</div>
-      <div class="p-4 bg-white">
-        <canvas id="canvas-firma" class="sig-canvas-popup"></canvas>
-        <div class="flex justify-end gap-2 mt-4">
-          <button class="btn-action btn-back" onclick="cerrarFirma()">Cancelar</button>
-          <button class="btn-action" style="background:#F59E0B; color:white;" onclick="limpiarCanvas()">Limpiar</button>
-          <button class="btn-action btn-save-db" onclick="guardarFirma()">Aceptar</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Puedes añadir aquí los contenedores para view_perifericos, view_telefonos y view_lineas siguiendo la misma estructura -->
+
+  <!-- ==========================================
+       MODALES DEL SISTEMA (FIRMA Y ESCÁNER)
+       ========================================== -->
+  <div id="firma_modal" class="custom-modal-overlay no-print">
+    <div class="custom-modal-card" style="max-width: 600px;">
+      <div class="custom-modal-header">Registrar Firma Digital</div>
+      <div style="padding: 15px; background: white;">
+        <canvas id="popup_canvas" class="sig-canvas-popup" width="560" height="220"></canvas>
+      </div>
+      <div class="custom-modal-footer">
+        <button class="btn-modal" style="background:#E2E8F0; color:#334155" onclick="document.getElementById('firma_modal').style.display='none'">Cancelar</button>
+        <button class="btn-modal" style="background:#FEF3C7; color:#92400E" onclick="ctx.clearRect(0, 0, canvas.width, canvas.height)">Limpiar</button>
+        <button class="btn-modal" style="background:#0E5A32; color:#FFF" onclick="guardarFirmaPopup()">Guardar Firma</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="scanner_modal" class="custom-modal-overlay no-print">
+    <div class="custom-modal-card">
+      <div class="custom-modal-header">Escanear Código de Barras / QR</div>
+      <div style="padding: 10px; background: black;"><div id="qr-reader" style="width: 100%;"></div></div>
+      <div class="custom-modal-footer"><button class="btn-modal" style="background:#E2E8F0;" onclick="cerrarEscaner()">Cerrar</button></div>
+    </div>
+  </div>
+
+  <!-- SCRIPT DEL MOTOR FRONTEND -->
   <script>
-    let activeFirmaId = null;
-    let drawing = false;
-    const canvas = document.getElementById('canvas-firma');
+    // 1. Lógica de Enrutamiento (SPA)
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const vista = urlParams.get('vista') || 'material_informatico';
+      const targetView = document.getElementById('view_' + vista);
+      if(targetView) targetView.classList.add('active');
+    });
+
+    // 2. Control de Vistas (Impresión)
+    function cambiarModo(btn, modo) {
+      const view = btn.closest('.form-view');
+      view.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      view.querySelector('.sec-entrega').style.display = (modo === 'entrega' || modo === 'completo') ? 'block' : 'none';
+      // Asume que la clase .sec-devolucion existe en tus otros formularios para la lógica de visualización
+    }
+
+    function mostrarNotificacionToast(mensaje, esExito) {
+      const toast = document.getElementById('custom_toast');
+      toast.innerHTML = esExito ? `✅ ${mensaje}` : `❌ ${mensaje}`;
+      toast.style.borderLeftColor = esExito ? '#107C41' : '#A80000';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // 3. Lógica de Firmas en Canvas
+    let targetImgId = null, dibujando = false;
+    const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#242424'; ctx.lineWidth = 3; ctx.lineCap = 'round';
 
-    // Inicialización del Canvas para firmas fluido
-    ctx.strokeStyle = "#000"; ctx.lineWidth = 2.5; ctx.lineCap = "round";
-
-    function abrirFirma(id) {
-      activeFirmaId = id;
-      document.getElementById('modal-firma').style.display = 'flex';
-      limpiarCanvas();
-    }
-    function cerrarFirma() { document.getElementById('modal-firma').style.display = 'none'; }
-    function limpiarCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
-
-    // Control de trazos táctil/mouse
-    canvas.onmousedown = (e) => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }
-    canvas.onmousemove = (e) => { if(drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } }
-    canvas.onmouseup = () => drawing = false;
-
-    function guardarFirma() {
-      const dataUrl = canvas.toDataURL();
-      document.getElementById('img_firma_' + activeFirmaId).src = dataUrl;
-      document.getElementById('img_firma_' + activeFirmaId).style.display = 'block';
-      document.getElementById('lbl_firma_' + activeFirmaId).style.display = 'none';
-      cerrarFirma();
+    function abrirModalFirma(imgId) {
+      targetImgId = imgId;
+      document.getElementById('firma_modal').style.display = 'flex';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    async function solicitarGuardado() {
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: (e.clientX || e.touches[0].clientX) - r.left, y: (e.clientY || e.touches[0].clientY) - r.top }; }
+    canvas.onmousedown = canvas.ontouchstart = (e) => { dibujando = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+    canvas.onmousemove = canvas.ontouchmove = (e) => { if(dibujando){ const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); } };
+    window.onmouseup = window.ontouchend = () => dibujando = false;
+
+    function guardarFirmaPopup() {
+      const img = document.getElementById(targetImgId);
+      img.src = canvas.toDataURL('image/png');
+      img.style.display = 'block';
+      document.getElementById('lbl_' + targetImgId).style.display = 'none';
+      document.getElementById('firma_modal').style.display = 'none';
+    }
+
+    // 4. Lógica de Escáner
+    let html5QrCode = null, currentInputTarget = null;
+    function abrirEscaner(inputId) {
+      currentInputTarget = document.getElementById(inputId);
+      document.getElementById('scanner_modal').style.display = 'flex';
+      if (!html5QrCode) html5QrCode = new Html5Qrcode("qr-reader");
+      html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
+        currentInputTarget.value = text; cerrarEscaner(); mostrarNotificacionToast("Código capturado", true);
+      }).catch(err => alert("Permita acceso a la cámara"));
+    }
+    function cerrarEscaner() { document.getElementById('scanner_modal').style.display='none'; if(html5QrCode) html5QrCode.stop(); }
+
+    // 5. MOTOR DE EMPAQUETADO PARA NEON POSTGRESQL (Payload Jerárquico)
+    async function procesarGuardadoBaseDatos(btn) {
+      const form = document.querySelector('.form-view.active');
+      if(!form) return;
+      btn.innerText = "⏳ Procesando..."; btn.disabled = true;
+
       const payload = {
-        dni_empleado: document.getElementById('dni_empleado').value,
-        nombre_completo: document.getElementById('nombre_empleado').value,
-        area: document.getElementById('area_empleado').value,
-        cargo: document.getElementById('cargo_empleado').value,
-        codigo_patrimonial: document.getElementById('codigo_patrimonial').value,
-        tipo_hardware: document.getElementById('tipo_hardware').value,
-        marca: document.getElementById('marca').value,
-        modelo: document.getElementById('modelo').value,
-        numero_serie: document.getElementById('numero_serie').value,
-        firma_ti_entrega: document.getElementById('img_firma_ti').src || null,
-        firma_emp_entrega: document.getElementById('img_firma_empleado').src || null
+        categoria_acta: form.getAttribute('data-tipo'),
+        empleado: {}, equipo: {},
+        detalles: { accesorios: {}, software: {}, extras: {} },
+        firmas: {}
       };
 
-      try {
-        const res = await fetch('/api/guardar-acta', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
-        });
-        const result = await res.json();
-        if(result.success) {
-          alert('Acta guardada y sincronizada correctamente en Neon DB.');
-          location.href = 'index.html';
+      // Recolectar Atributos Generales (Empleado)
+      form.querySelectorAll('[data-field]').forEach(el => {
+        const key = el.getAttribute('data-field');
+        const val = el.type === 'checkbox' ? el.checked : el.value;
+        if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo'].includes(key)) {
+          payload.empleado[key] = val;
         } else {
-          alert('Error: ' + result.error);
+          payload[key] = val;
         }
+      });
+
+      // Recolectar Atributos Específicos del Hardware (Data-Spec)
+      form.querySelectorAll('[data-spec]').forEach(el => {
+        const key = el.getAttribute('data-spec');
+        const val = el.type === 'checkbox' ? el.checked : el.value;
+        
+        if(['codigo_patrimonial', 'codigo_activo', 'tipo_equipo', 'tipo_periferico', 'marca_modelo', 'nro_serie', 'nro_telefono', 'serie_sim', 'operador'].includes(key)) {
+          payload.equipo[key] = val;
+        } else if(key.startsWith('acc_') || key.startsWith('cable_') || key === 'adaptador_voltaje') {
+          payload.detalles.accesorios[key] = val;
+        } else if(key.startsWith('win_') || key.startsWith('office_') || key.startsWith('antivirus_')) {
+          payload.detalles.software[key] = val;
+        } else {
+          payload.detalles.extras[key] = val;
+        }
+      });
+
+      // Recolectar Firmas
+      form.querySelectorAll('.signature-runtime-img').forEach(img => {
+        const id = img.id, src = img.src || null;
+        if(id.startsWith('f1_')) payload.firmas.ti_entrega = src;
+        if(id.startsWith('f2_')) payload.firmas.emp_entrega = src;
+      });
+
+      try {
+        const res = await fetch('/api/guardar-acta', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if(res.ok && data.success) mostrarNotificacionToast("Acta guardada en Base de Datos", true);
+        else mostrarNotificacionToast("Error: " + data.error, false);
       } catch (err) {
-        console.error(err);
-        alert('Fallo de red al intentar guardar en la base de datos.');
+        mostrarNotificacionToast("Error de red.", false);
+      } finally {
+        btn.innerText = "💾 Guardar en Base de Datos"; btn.disabled = false;
       }
     }
   </script>
