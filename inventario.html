@@ -7,14 +7,12 @@
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- LIBRERÍA TABULATOR -->
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
 
   <style>
     body { background-color: #121212; color: #E2E8F0; font-family: 'Segoe UI', system-ui, sans-serif; }
     
-    /* ESTILOS OPTIMIZADOS PARA TABULATOR MODO OSCURO */
     .tabulator { background-color: #1E1E1E !important; border: 1px solid #2D2D2D !important; border-radius: 4px; color: #E2E8F0 !important; font-size: 13px; }
     .tabulator-header { background-color: #0E5A32 !important; color: #FFFFFF !important; border-bottom: 2px solid #0A3F23 !important; }
     .tabulator-col { background-color: #0E5A32 !important; border-right: 1px solid #0A3F23 !important; }
@@ -30,7 +28,7 @@
 </head>
 <body class="p-6">
 
-  <div class="max-w-6xl mx-auto">
+  <div class="max-w-[95%] mx-auto">
     <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
       <div>
         <h1 class="text-2xl font-bold text-green-500 uppercase tracking-wide">Control de Inventario TI</h1>
@@ -51,20 +49,27 @@
 
       try {
         const response = await fetch('/api/obtener-metricas');
-        if (!response.ok) throw new Error('Error de red');
+        if (!response.ok) throw new Error('Error de red al consultar a la API');
         const data = await response.json();
 
         new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
-          layout: "fitColumns",
+          layout: "fitDataFill", /* Permite scroll horizontal dinámico para muchas columnas */
           pagination: "local",
           paginationSize: 15,
           columns: [
-            { title: "Categoría", field: "categoria", headerFilter: "input", width: 150 },
-            { title: "ID", field: "id_activo", width: 70, sorter: "number" },
-            { title: "Cód. Patrimonial / ICCID", field: "codigo_patrimonial", editor: "input", headerFilter: "input" },
-            { title: "Marca & Modelo / Operador", field: "marca_modelo", editor: "input", headerFilter: "input" },
-            { title: "Nº Serie / Teléfono", field: "numero_serie", editor: "input", headerFilter: "input" },
+            { title: "Categoría", field: "categoria", headerFilter: "input", width: 140 },
+            { title: "Computador (Cód.)", field: "computador", editor: "input", headerFilter: "input", width: 140 },
+            { title: "Nº Serie / Teléfono", field: "numero_serie", editor: "input", headerFilter: "input", width: 140 },
+            { title: "Fabricante y Modelo", field: "marca_modelo", editor: "input", headerFilter: "input", width: 160 },
+            { title: "DNI", field: "dni", headerFilter: "input", width: 100 },
+            { title: "Nombre Empleado", field: "nombre_empleado", headerFilter: "input", width: 180 },
+            { title: "Usuario PC", field: "usuario_pc", headerFilter: "input", width: 120 },
+            { title: "Oficio/Cargo", field: "oficio_cargo", headerFilter: "input", width: 140 },
+            { title: "Área", field: "area", headerFilter: "input", width: 130 },
+            { title: "Procesador", field: "procesador", headerFilter: "input", width: 120 },
+            { title: "Memoria RAM", field: "ram", headerFilter: "input", width: 110 },
+            { title: "Disco Duro", field: "disco_duro", headerFilter: "input", width: 110 },
             { 
               title: "Estado", 
               field: "estado_operativo", 
@@ -72,6 +77,7 @@
               editorParams: { values: {"STOCK":"STOCK", "OPERATIVO":"OPERATIVO", "REPARACION":"REPARACION"} },
               formatter: function(cell) {
                 const val = cell.getValue();
+                if(!val) return "";
                 if(val === 'OPERATIVO' || val === 'ACTIVA') return `<span class="tab-badge t-op">${val}</span>`;
                 if(val === 'REPARACION' || val === 'SUSPENDIDA') return `<span class="tab-badge t-ret">${val}</span>`;
                 return `<span class="tab-badge t-stk">${val}</span>`;
