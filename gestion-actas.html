@@ -94,7 +94,6 @@
       .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
       .signature-trigger-box span { display: none !important; }
       .signature-line { border-top: 1px solid #000 !important; margin-bottom: 3px !important; width: 85% !important; margin-left: auto !important; margin-right: auto !important; }
-      /* Ajuste de DNI en impresión */
       .signature-field-group span { font-size: 9px !important; }
       .signature-field-group input[type="text"] { font-size: 9px !important; border-bottom: 1px dotted #000 !important; }
     }
@@ -105,7 +104,6 @@
   <button class="theme-toggle-btn no-print" onclick="document.body.classList.toggle('dark-mode')">🌓</button>
   <div id="custom_toast" class="custom-toast no-print"><span id="toast_message"></span></div>
 
-  <!-- NAVEGACIÓN SUPERIOR GLOBAL -->
   <div class="action-bar no-print">
     <button class="btn-action btn-back" onclick="location.href='index.html'">← Volver al Dashboard</button>
     <div class="action-group-right">
@@ -143,7 +141,8 @@
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
         <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo" placeholder=""></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Computador:</td><td><input type="text" data-spec="nombre_computador"></td></tr>
+        <!-- AQUÍ SE CORRIGIÓ EL MAPE0 A "codigo_patrimonial" -->
+        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Computador:</td><td><input type="text" data-spec="codigo_patrimonial"></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><input type="text" data-spec="procesador"></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
         <tr><td class="lbl">Disco Duro:</td><td><input type="text" data-spec="disco_duro"></td><td class="lbl">Tarjeta de Red:</td><td><input type="text" data-spec="tarjeta_red"></td></tr>
@@ -154,7 +153,7 @@
         </tr>
         <tr>
           <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox" data-spec="antivirus_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label> Det: <input type="text" style="width: 40px" data-spec="antivirus_det"></td>
-          <td class="lbl">Correo:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
+          <td class="lbl">Correo App.:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
         </tr>
         <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox" data-spec="tspu_si"> Sí</label></td></tr>
         <tr><td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td></tr>
@@ -173,7 +172,6 @@
         </tr>
       </table>
 
-      <!-- ZONA DE ENTREGA -->
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
@@ -194,7 +192,6 @@
         </div>
       </div>
 
-      <!-- ZONA DE DEVOLUCIÓN -->
       <div class="sec-devolucion">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
@@ -367,7 +364,7 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni" placeholder=""><input type="text" data-field="fecha_devolucion" placeholder=""></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni" placeholder="DNI"><input type="text" data-field="fecha_devolucion" placeholder="Fecha"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         <div class="signature-section">
@@ -450,7 +447,7 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni" placeholder="DNI"><input type="text" data-field="fecha_devolucion" placeholder=""></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni" placeholder="DNI"><input type="text" data-field="fecha_devolucion" placeholder="Fecha"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         <div class="signature-section">
@@ -627,6 +624,7 @@
         btn.innerText = "💾 Guardar en Base de Datos"; btn.disabled = false;
       }
     }
+
     // 6. MOTOR DE AUTO-IMPRESIÓN DESDE INVENTARIO
     document.addEventListener('DOMContentLoaded', () => {
       const printMode = new URLSearchParams(window.location.search).get('print');
@@ -635,24 +633,22 @@
         if (rowData) {
           const form = document.getElementById('view_' + rowData.tipo_vista);
           if (form) {
-            // Forzar vista completa para el reporte
             cambiarModo(form.querySelector('.mode-btn.active') || form.querySelector('.mode-btn'), 'completo');
 
-            // Auto-rellenar campos con los datos de la base de datos
             form.querySelectorAll('[data-field], [data-spec]').forEach(el => {
               const key = el.getAttribute('data-field') || el.getAttribute('data-spec');
               
-              // Mapeo directo de base de datos a formulario
               if (key === 'codigo_patrimonial') el.value = rowData.computador || '';
               else if (key === 'nombre_computador') el.value = rowData.computador || '';
               else if (key === 'dni_empleado') el.value = rowData.dni || '';
               else if (key === 'cargo_empleado') el.value = rowData.oficio_cargo || '';
+              else if (key === 'area_empleado') el.value = rowData.area || '';
+              else if (key === 'nombre_empleado') el.value = rowData.nombre_empleado || '';
               else if (rowData[key] !== undefined && rowData[key] !== null) {
                 if (el.type !== 'checkbox') el.value = rowData[key];
               }
             });
 
-            // Retraso de 1 segundo para renderizar el CSS y abrir diálogo de impresión
             setTimeout(() => window.print(), 1000);
           }
         }
