@@ -40,7 +40,7 @@
     .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
-    input[type="text"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; }
+    input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; font-family: inherit; }
     .btn-scan { position: absolute; right: 4px; background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
     input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #0E5A32; }
@@ -84,7 +84,10 @@
       .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.1 !important;}
       .lbl { background-color: #F8FAFC !important; font-weight: 700 !important; }
       .subhead { background-color: #F1F5F9 !important; font-size: 8.5px !important; padding: 2px 6px !important; }
-      input[type="text"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
+      input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
+      /* Ocultar icono de calendario en impresión */
+      input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
+      input[type="date"]::-webkit-inner-spin-button { display: none !important; }
       textarea { min-height: 25px !important; height: 25px !important; resize: none !important; }
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
@@ -135,13 +138,12 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Oficio/Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Correo Corp.:</td><td><input type="text" data-field="correo_corp"></td></tr>
-        <tr><td class="lbl">Usuario PC:</td><td><input type="text" data-spec="usuario_pc"></td><td class="lbl">Fecha:</td><td><input type="text" data-field="fecha_entrega"></td></tr>
+        <tr><td class="lbl">Usuario PC:</td><td><input type="text" data-spec="usuario_pc"></td><td class="lbl">Fecha:</td><td><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo" placeholder=""></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
-        <!-- AQUÍ SE CORRIGIÓ EL MAPE0 A "codigo_patrimonial" -->
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Computador:</td><td><input type="text" data-spec="codigo_patrimonial"></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><input type="text" data-spec="procesador"></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
@@ -195,7 +197,7 @@
       <div class="sec-devolucion">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         <div class="signature-section">
@@ -237,7 +239,7 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="text" data-field="fecha_entrega"></td></tr>
+        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Periférico / Monitor:</h3>
@@ -279,7 +281,7 @@
       <div class="sec-devolucion">
         <h3>5. Control de Devolución:</h3>
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="text" data-field="fecha_devolucion"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         <div class="signature-section">
@@ -321,7 +323,7 @@
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td></tr>
         <tr><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="text" data-field="fecha_entrega"></td></tr>
+        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
@@ -364,7 +366,7 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni" placeholder="DNI"><input type="text" data-field="fecha_devolucion" placeholder="Fecha"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         <div class="signature-section">
@@ -404,7 +406,7 @@
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
-        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Fecha Operación:</td><td><input type="text" data-field="fecha_entrega"></td></tr>
+        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Fecha Operación:</td><td><input type="date" data-field="fecha_entrega"></td></tr>
         <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">C. De Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
         <tr><td class="lbl">Oficio/Cargo:</td><td><input type="text" data-field="cargo_empleado"></td><td class="lbl">Zona/Sede:</td><td><input type="text" data-spec="zona_sede"></td></tr>
       </table>
@@ -447,7 +449,7 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni" placeholder="DNI"><input type="text" data-field="fecha_devolucion" placeholder="Fecha"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         <div class="signature-section">
