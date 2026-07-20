@@ -104,7 +104,7 @@
         if (!response.ok) throw new Error('Error de red al consultar a la API');
         const data = await response.json();
 
-        tablaInventario = new Tabulator("#inventario-grid", {
+tablaInventario = new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
           layout: "fitDataFill", 
           pagination: "local",
@@ -120,14 +120,10 @@
                 }
                 return "<span class='text-gray-400 text-xs text-center block w-full'>-</span>";
               }, 
-              width: 100, 
-              hozAlign: "center",
-              headerSort: false,
+              width: 100, hozAlign: "center", headerSort: false,
               cellClick: function(e, cell) {
                 const val = cell.getValue();
-                if(val && val.startsWith('data:image')) {
-                  abrirModalEvidencia(val);
-                }
+                if(val && val.startsWith('data:image')) abrirModalEvidencia(val);
               }
             },
             {
@@ -139,9 +135,7 @@
                 }
                 return "<span class='text-gray-400 text-xs text-center block w-full'>Sin Acta</span>";
               }, 
-              width: 100, 
-              hozAlign: "center",
-              headerSort: false,
+              width: 100, hozAlign: "center", headerSort: false,
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
                 if(rowData.id_acta) {
@@ -152,16 +146,19 @@
             },
             { title: "Categoría", field: "categoria", width: 140 },
             { title: "Computador (Cód.)", field: "computador", width: 140 },
+            { title: "Tipo Equipo", field: "tipo_equipo", width: 120 },
             { title: "Nº Serie / Teléfono", field: "numero_serie", width: 140 },
             { title: "Fabricante y Modelo", field: "marca_modelo", width: 180 },
             { title: "DNI", field: "dni", width: 90 },
             { title: "Nombre Empleado", field: "nombre_empleado", width: 180 },
+            { title: "Correo Corp.", field: "correo_corp", width: 180 },
             { title: "Usuario PC", field: "usuario_pc", width: 120 },
             { title: "Oficio/Cargo", field: "oficio_cargo", width: 140 },
             { title: "Área", field: "area", width: 130 },
             { title: "Procesador", field: "procesador", width: 120 },
             { title: "Memoria RAM", field: "ram", width: 100 },
             { title: "Disco Duro", field: "disco_duro", width: 100 },
+            { title: "Observaciones", field: "observaciones_entrega", width: 250 },
             { 
               title: "Estado Operativo", 
               field: "estado_operativo", 
