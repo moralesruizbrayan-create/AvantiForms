@@ -16,7 +16,14 @@ export default async function handler(req, res) {
         a.id_acta, 'material_informatico' as tipo_vista,
         a.fecha_entrega, a.fecha_devolucion,
         a.evidencia_entrega, a.evidencia_devolucion,
-        a.observaciones_entrega, a.observaciones_devolucion
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM pcs p
       LEFT JOIN detalle_acta_pc d ON d.id_pc = p.id_activo AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_pc WHERE id_pc = p.id_activo)
       LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
@@ -33,7 +40,14 @@ export default async function handler(req, res) {
         a.id_acta, 'telefonos' as tipo_vista,
         a.fecha_entrega, a.fecha_devolucion,
         a.evidencia_entrega, a.evidencia_devolucion,
-        a.observaciones_entrega, a.observaciones_devolucion
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM tef t
       LEFT JOIN detalle_acta_tef d ON d.id_tef = t.id_activo AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_tef WHERE id_tef = t.id_activo)
       LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
@@ -50,7 +64,14 @@ export default async function handler(req, res) {
         a.id_acta, 'perifericos' as tipo_vista,
         a.fecha_entrega, a.fecha_devolucion,
         a.evidencia_entrega, a.evidencia_devolucion,
-        a.observaciones_entrega, a.observaciones_devolucion
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM perifericos pr
       LEFT JOIN detalle_acta_periferico d ON d.id_periferico = pr.id_activo AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_periferico WHERE id_periferico = pr.id_activo)
       LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
@@ -67,7 +88,14 @@ export default async function handler(req, res) {
         a.id_acta, 'lineas' as tipo_vista,
         a.fecha_entrega, a.fecha_devolucion,
         a.evidencia_entrega, a.evidencia_devolucion,
-        a.observaciones_entrega, a.observaciones_devolucion
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM lineas_moviles l
       LEFT JOIN detalle_acta_linea d ON d.id_linea = l.id_linea AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_linea WHERE id_linea = l.id_linea)
       LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
