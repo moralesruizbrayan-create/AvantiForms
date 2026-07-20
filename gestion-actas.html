@@ -42,7 +42,7 @@
     .input-wrapper { position: relative; display: flex; width: 100%; }
     input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; font-family: inherit; }
     
-    /* ESTILOS PARA QUE EL TEXTAREA AUTO-EXPANDIBLE SE VEA COMO INPUT */
+    /* Textareas autoexpandibles fluidos */
     textarea { resize: none; overflow: hidden; vertical-align: middle; line-height: 1.4; min-height: 28px; }
 
     .btn-scan { position: absolute; right: 4px; background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
@@ -51,17 +51,19 @@
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 3.5px solid #0E5A32; background: var(--lbl-bg); padding: 10px 14px; font-size: 10.5px; margin-top: 6px; border-radius: 4px; }
     
-    /* FIRMAS */
+    /* FIRMAS Y EVIDENCIA */
+    .evidencia-box { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; margin-top: 5px; }
+    .btn-evidencia { background: #E2E8F0; color: #334155; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; border: 1px solid #CBD5E1; }
+    .evidencia-runtime-img { height: 60px; width: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #CBD5E1; display: none; }
+
     .signature-section { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 6px; width: 100%; }
     .signature-block { width: 46%; text-align: center; font-size: 11px; }
     .signature-trigger-box { width: 100%; height: 65px; background: var(--lbl-bg); border: 1px dashed var(--input-border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 6px; margin-bottom: 4px; }
-
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 6px; gap: 4px; width: 100%; }
     .signature-field-group span { font-weight: 600; color: var(--text-color); font-size: 11px; }
     .signature-field-group input[type="text"] { width: 100px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
-    .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #0E5A32 !important; }
 
     /* MODALES Y TOASTS */
     .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); z-index: 9999; display: none; align-items: center; justify-content: center; }
@@ -89,8 +91,6 @@
       .subhead { background-color: #F1F5F9 !important; font-size: 8.5px !important; padding: 2px 6px !important; }
       
       input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
-      
-      /* PERMITE QUE EL TEXTAREA MUESTRE TODO EL TEXTO LARGO EN MÚLTIPLES LÍNEAS AL IMPRIMIR */
       textarea { min-height: 14px !important; height: auto !important; resize: none !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
       
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
@@ -149,7 +149,7 @@
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo" placeholder=""></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Computador:</td><td><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><textarea rows="1" data-spec="procesador"></textarea></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
@@ -180,10 +180,20 @@
         </tr>
       </table>
 
+      <!-- ZONA DE ENTREGA -->
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
+          </label>
+          <img id="evidencia_ent_m1" class="evidencia-runtime-img">
+        </div>
+
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo fuera de las instalaciones de la empresa, así como también del servicio técnico en caso de desperfecto por mala manipulación.</div>
         <div class="signature-section">
@@ -200,12 +210,23 @@
         </div>
       </div>
 
+      <!-- ZONA DE DEVOLUCIÓN -->
       <div class="sec-devolucion">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
+        
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
+          </label>
+          <img id="evidencia_dev_m1" class="evidencia-runtime-img">
+        </div>
+
         <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m1')"><span id="lbl_f3_m1">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
@@ -244,14 +265,14 @@
       <table class="form-table">
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td></tr>
-        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado">Sistemas</textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
         <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
         <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m2_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m2_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_activo"></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_patrimonial"></td></tr>
         <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><textarea rows="1" data-spec="entradas_video"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
         <tr>
@@ -268,6 +289,16 @@
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
+          </label>
+          <img id="evidencia_ent_m2" class="evidencia-runtime-img">
+        </div>
+
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
         <div class="signature-section">
@@ -290,6 +321,16 @@
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
+
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
+          </label>
+          <img id="evidencia_dev_m2" class="evidencia-runtime-img">
+        </div>
+
         <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m2')"><span id="lbl_f3_m2">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
@@ -337,6 +378,7 @@
         <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m3_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">IMEI 1:</td><td><div class="input-wrapper"><input type="text" id="m3_imei1" data-spec="imei_1"><button class="btn-scan no-print" onclick="abrirEscaner('m3_imei1')">📷</button></div></td><td class="lbl">IMEI 2:</td><td><div class="input-wrapper"><input type="text" id="m3_imei2" data-spec="imei_2"><button class="btn-scan no-print" onclick="abrirEscaner('m3_imei2')">📷</button></div></td></tr>
         <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad"></td></tr>
+        <tr><td class="lbl">Código Patrimonial:</td><td colspan="3"><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
         <tr>
           <td colspan="4">
@@ -351,6 +393,16 @@
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
+          </label>
+          <img id="evidencia_ent_m3" class="evidencia-runtime-img">
+        </div>
+
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo fuera de las instalaciones de la empresa, así como también del servicio técnico en caso de desperfecto por mala manipulación.</div>
         <div class="signature-section">
@@ -370,11 +422,21 @@
       <div class="sec-devolucion">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="quien_devuelve_nombre"></textarea></td></tr>
-          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
+        
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
+          </label>
+          <img id="evidencia_dev_m3" class="evidencia-runtime-img">
+        </div>
+
         <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m3')"><span id="lbl_f3_m3">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
@@ -434,6 +496,15 @@
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
+          </label>
+          <img id="evidencia_ent_m4" class="evidencia-runtime-img">
+        </div>
+
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
         <div class="signature-section">
@@ -453,11 +524,21 @@
       <div class="sec-devolucion">
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="quien_devuelve_nombre"></textarea></td></tr>
-          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
+        
+        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
+            Adjuntar / Tomar Foto
+            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
+          </label>
+          <img id="evidencia_dev_m4" class="evidencia-runtime-img">
+        </div>
+
         <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f3_m4')"><span id="lbl_f3_m4">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
@@ -501,48 +582,72 @@
 
   <!-- SCRIPT DEL MOTOR FRONTEND -->
   <script>
-// 6. MOTOR DE AUTO-IMPRESIÓN DESDE INVENTARIO
+    // 1. INICIALIZACIÓN Y ENRUTAMIENTO SPA
     document.addEventListener('DOMContentLoaded', () => {
-      const printMode = new URLSearchParams(window.location.search).get('print');
-      if (printMode === 'true') {
-        const rowData = JSON.parse(sessionStorage.getItem('acta_imprimir'));
-        if (rowData) {
-          const form = document.getElementById('view_' + rowData.tipo_vista);
-          if (form) {
-            // Forzar vista completa para el reporte
-            cambiarModo(form.querySelector('.mode-btn.active') || form.querySelector('.mode-btn'), 'completo');
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const vista = urlParams.get('vista') || 'material_informatico';
+        const targetView = document.getElementById('view_' + vista);
+        if(targetView) {
+            targetView.classList.add('active');
+            document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+        }
 
-            // Auto-rellenar campos y checkboxes con los datos planos de la BD
-            form.querySelectorAll('[data-field], [data-spec]').forEach(el => {
-              const key = el.getAttribute('data-field') || el.getAttribute('data-spec');
-              
-              let val = rowData[key];
+        // Lógica de Impresión (Recuperar Acta)
+        const printMode = urlParams.get('print');
+        if (printMode === 'true') {
+          const rowDataStr = sessionStorage.getItem('acta_imprimir');
+          if (rowDataStr) {
+            const rowData = JSON.parse(rowDataStr);
+            const form = document.getElementById('view_' + rowData.tipo_vista);
+            if (form) {
+              cambiarModo(form.querySelector('.mode-btn.active') || form.querySelector('.mode-btn'), 'completo');
 
-              // Mapeo especial de nombres discordantes
-              if (key === 'codigo_patrimonial') val = rowData.computador;
-              if (key === 'nombre_computador') val = rowData.computador;
-              if (key === 'dni_empleado') val = rowData.dni;
-              if (key === 'cargo_empleado') val = rowData.oficio_cargo;
-              if (key === 'area_empleado') val = rowData.area;
-              if (key === 'nombre_empleado') val = rowData.nombre_empleado;
-              if (key === 'nro_serie') val = rowData.numero_serie;
+              form.querySelectorAll('[data-field], [data-spec]').forEach(el => {
+                const key = el.getAttribute('data-field') || el.getAttribute('data-spec');
+                let val = rowData[key];
 
-              if (val !== undefined && val !== null) {
-                if (el.type === 'checkbox') {
-                  // Reconoce valores booleanos verdaderos o textos 'true' de la base de datos
-                  el.checked = (val === true || String(val).toLowerCase() === 'true');
-                } else {
-                  el.value = val;
+                if (key === 'codigo_patrimonial') val = rowData.computador;
+                if (key === 'nombre_computador') val = rowData.computador;
+                if (key === 'dni_empleado') val = rowData.dni;
+                if (key === 'cargo_empleado') val = rowData.oficio_cargo;
+                if (key === 'area_empleado') val = rowData.area;
+                if (key === 'nombre_empleado') val = rowData.nombre_empleado;
+                if (key === 'nro_serie') val = rowData.numero_serie;
+
+                if (val !== undefined && val !== null) {
+                  if (el.type === 'checkbox') {
+                    el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
+                  } else {
+                    el.value = val;
+                  }
                 }
-              }
+                if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
+              });
               
-              if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
-            });
+              // Evidencia
+              if (rowData.evidencia_entrega) {
+                 const imgEnt = form.querySelector('[id^="evidencia_ent_"]');
+                 if (imgEnt) { imgEnt.src = rowData.evidencia_entrega; imgEnt.style.display = 'block'; }
+              }
 
-            // Dar tiempo a cargar imágenes Base64 y abrir cuadro de impresión
-            setTimeout(() => window.print(), 1000);
+              setTimeout(() => window.print(), 1000);
+            }
           }
         }
+      } catch (e) {
+          console.error("Error inicializando interfaz: ", e);
+      }
+    });
+
+    // AUTOEXPANSIÓN DE TEXTAREA
+    function autoResizeTextarea(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    }
+    document.addEventListener('input', function(e) {
+      if(e.target.tagName.toLowerCase() === 'textarea') {
+        autoResizeTextarea(e.target);
       }
     });
 
@@ -569,6 +674,9 @@
         secDevolucion.style.display = 'block';
         titleH1.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓN DE " + baseTitle;
       }
+      
+      // Ajustar textareas al cambiar el display
+      view.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
     }
 
     function mostrarNotificacionToast(mensaje, esExito) {
@@ -579,6 +687,7 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
+    // LÓGICA DE FIRMAS EN CANVAS
     let targetImgId = null, dibujando = false;
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
@@ -603,17 +712,47 @@
       document.getElementById('firma_modal').style.display = 'none';
     }
 
+    // LÓGICA DE ESCÁNER
     let html5QrCode = null, currentInputTarget = null;
     function abrirEscaner(inputId) {
       currentInputTarget = document.getElementById(inputId);
       document.getElementById('scanner_modal').style.display = 'flex';
       if (!html5QrCode) html5QrCode = new Html5Qrcode("qr-reader");
       html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-        currentInputTarget.value = text; cerrarEscaner(); mostrarNotificacionToast("Código capturado", true);
+        currentInputTarget.value = text; autoResizeTextarea(currentInputTarget); cerrarEscaner(); mostrarNotificacionToast("Código capturado", true);
       }).catch(err => alert("Permita acceso a la cámara"));
     }
     function cerrarEscaner() { document.getElementById('scanner_modal').style.display='none'; if(html5QrCode) html5QrCode.stop(); }
 
+    // PROCESADOR DE EVIDENCIA (CANVAS COMPRESS)
+    function procesarEvidenciaFotografica(input, imgId) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvasObj = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          const scaleSize = MAX_WIDTH / img.width;
+          canvasObj.width = MAX_WIDTH;
+          canvasObj.height = img.height * scaleSize;
+          
+          const ctxObj = canvasObj.getContext('2d');
+          ctxObj.drawImage(img, 0, 0, canvasObj.width, canvasObj.height);
+          
+          const dataUrl = canvasObj.toDataURL('image/jpeg', 0.7);
+          const preview = document.getElementById(imgId);
+          preview.src = dataUrl;
+          preview.style.display = 'block';
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // GUARDADO EN NEON
     async function procesarGuardadoBaseDatos(btn) {
       const form = document.querySelector('.form-view.active');
       if(!form) return;
@@ -626,18 +765,13 @@
         firmas: {}
       };
 
-// Sustituye esta parte en tu script de gestion-actas.html
       form.querySelectorAll('[data-field]').forEach(el => {
         const key = el.getAttribute('data-field');
         let val = el.value;
-
-        // Validar checkboxes múltiples (Ej: Mismo titular Sí/No)
         if (el.type === 'checkbox') {
-          if (!el.checked) return; // Si no está marcado, saltarlo
-          val = el.nextSibling.textContent.trim(); // Obtiene "Sí" o "No"
+          if (!el.checked) return;
+          val = el.nextSibling ? el.nextSibling.textContent.trim() : 'true';
         }
-        
-        // Empaquetar correo_corp junto con el empleado
         if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo', 'correo_corp'].includes(key)) {
           payload.empleado[key] = val;
         } else {
@@ -668,6 +802,15 @@
         if(id.startsWith('f4_')) payload.firmas.emp_dev = src;
       });
 
+      payload.evidencia_entrega = null;
+      payload.evidencia_devolucion = null;
+      form.querySelectorAll('.evidencia-runtime-img').forEach(img => {
+        if(img.src && img.src.startsWith('data:image')) {
+          if(img.id.includes('_ent_')) payload.evidencia_entrega = img.src;
+          if(img.id.includes('_dev_')) payload.evidencia_devolucion = img.src;
+        }
+      });
+
       try {
         const res = await fetch('/api/guardar-acta', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         const data = await res.json();
@@ -679,38 +822,6 @@
         btn.innerText = "💾 Guardar en Base de Datos"; btn.disabled = false;
       }
     }
-
-    // 6. MOTOR DE AUTO-IMPRESIÓN DESDE INVENTARIO
-    document.addEventListener('DOMContentLoaded', () => {
-      const printMode = new URLSearchParams(window.location.search).get('print');
-      if (printMode === 'true') {
-        const rowData = JSON.parse(sessionStorage.getItem('acta_imprimir'));
-        if (rowData) {
-          const form = document.getElementById('view_' + rowData.tipo_vista);
-          if (form) {
-            cambiarModo(form.querySelector('.mode-btn.active') || form.querySelector('.mode-btn'), 'completo');
-
-            form.querySelectorAll('[data-field], [data-spec]').forEach(el => {
-              const key = el.getAttribute('data-field') || el.getAttribute('data-spec');
-              
-              if (key === 'codigo_patrimonial') el.value = rowData.computador || '';
-              else if (key === 'nombre_computador') el.value = rowData.computador || '';
-              else if (key === 'dni_empleado') el.value = rowData.dni || '';
-              else if (key === 'cargo_empleado') el.value = rowData.oficio_cargo || '';
-              else if (key === 'area_empleado') el.value = rowData.area || '';
-              else if (key === 'nombre_empleado') el.value = rowData.nombre_empleado || '';
-              else if (rowData[key] !== undefined && rowData[key] !== null) {
-                if (el.type !== 'checkbox') el.value = rowData[key];
-              }
-              
-              if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
-            });
-
-            setTimeout(() => window.print(), 1000);
-          }
-        }
-      }
-    });
   </script>
 </body>
 </html>
