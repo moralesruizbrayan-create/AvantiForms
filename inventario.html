@@ -70,14 +70,17 @@
   <!-- ==========================================
        MODAL: VISOR DE EVIDENCIA FOTOGRÁFICA
        ========================================== -->
-  <div id="evidencia_modal" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-[9999] hidden items-center justify-center p-4">
-    <div class="bg-white rounded-lg max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col">
+  <div id="evidencia_modal" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-[9999] hidden items-center justify-center p-4 transition-opacity">
+    <div class="bg-white rounded-lg max-w-4xl w-full overflow-hidden shadow-2xl flex flex-col">
       <div class="bg-green-900 text-white px-5 py-4 flex justify-between items-center">
-        <h3 class="font-bold text-lg">📸 Evidencia Fotográfica</h3>
-        <button onclick="cerrarModalEvidencia()" class="text-white hover:text-gray-300 font-bold text-2xl leading-none">&times;</button>
+        <h3 class="font-bold text-lg flex items-center gap-2">📸 Evidencia Fotográfica</h3>
+        <button onclick="cerrarModalEvidencia()" class="text-white hover:text-red-400 font-bold text-3xl leading-none">&times;</button>
       </div>
-      <div class="p-4 flex justify-center bg-gray-100 items-center min-h-[50vh]">
-        <img id="evidencia_img_full" src="" alt="Evidencia" class="max-h-[65vh] object-contain rounded border border-gray-300 shadow bg-white">
+      <div class="p-4 flex justify-center bg-gray-100 items-center" style="min-height: 50vh;">
+        <img id="evidencia_img_full" src="" alt="Evidencia" class="max-h-[70vh] object-contain rounded shadow border border-gray-300 bg-white">
+      </div>
+      <div class="bg-gray-200 px-5 py-3 flex justify-end">
+        <button onclick="cerrarModalEvidencia()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cerrar</button>
       </div>
     </div>
   </div>
@@ -85,8 +88,9 @@
   <script>
     let tablaInventario;
 
-    // Funciones del Modal de Evidencia
+    // --- FUNCIONES DEL MODAL DE EVIDENCIA ---
     function abrirModalEvidencia(base64Src) {
+      if (!base64Src) return;
       document.getElementById('evidencia_img_full').src = base64Src;
       document.getElementById('evidencia_modal').style.display = 'flex';
     }
@@ -96,6 +100,11 @@
       document.getElementById('evidencia_img_full').src = "";
     }
 
+    // Cerrar modal al hacer clic fuera de la imagen
+    document.getElementById('evidencia_modal').addEventListener('click', function(e) {
+      if(e.target === this) cerrarModalEvidencia();
+    });
+
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('inventario-grid').innerHTML = "<div class='text-center p-10'><p class='text-gray-500 font-semibold'>Sincronizando con la Base de Datos Neon...</p></div>";
 
@@ -104,7 +113,7 @@
         if (!response.ok) throw new Error('Error de red al consultar a la API');
         const data = await response.json();
 
-tablaInventario = new Tabulator("#inventario-grid", {
+        tablaInventario = new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
           layout: "fitDataFill", 
           pagination: "local",
@@ -112,18 +121,38 @@ tablaInventario = new Tabulator("#inventario-grid", {
           columns: [
             {
               title: "Evidencia", 
-              field: "evidencia_entrega",
               formatter: function(cell) {
-                const val = cell.getValue();
-                if(val && val.startsWith('data:image')) {
-                  return `<button class='bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-2 py-1.5 rounded text-xs font-bold w-full transition duration-150 flex items-center justify-center gap-1'><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Foto</button>`;
+                const row = cell.getRow().getData();
+                let html = '<div class="flex flex-col gap-1 w-full items-center">';
+                let hasEvidencia = false;
+
+                // Verificamos si existe evidencia de entrega
+                if (row.evidencia_entrega && row.evidencia_entrega.startsWith('data:image')) {
+                  html += `<button class='btn-evi-ent bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-2 py-1 rounded text-xs font-bold w-full transition'>📸 Entrega</button>`;
+                  hasEvidencia = true;
                 }
-                return "<span class='text-gray-400 text-xs text-center block w-full'>-</span>";
+                
+                // Verificamos si existe evidencia de devolución
+                if (row.evidencia_devolucion && row.evidencia_devolucion.startsWith('data:image')) {
+                  html += `<button class='btn-evi-dev bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 px-2 py-1 rounded text-xs font-bold w-full transition'>📸 Retorno</button>`;
+                  hasEvidencia = true;
+                }
+
+                html += '</div>';
+                
+                return hasEvidencia ? html : "<span class='text-gray-400 text-xs text-center block w-full'>-</span>";
               }, 
-              width: 100, hozAlign: "center", headerSort: false,
+              width: 110, 
+              hozAlign: "center",
+              headerSort: false,
               cellClick: function(e, cell) {
-                const val = cell.getValue();
-                if(val && val.startsWith('data:image')) abrirModalEvidencia(val);
+                const rowData = cell.getRow().getData();
+                // Validamos qué botón presionó el usuario
+                if (e.target.classList.contains('btn-evi-ent')) {
+                  abrirModalEvidencia(rowData.evidencia_entrega);
+                } else if (e.target.classList.contains('btn-evi-dev')) {
+                  abrirModalEvidencia(rowData.evidencia_devolucion);
+                }
               }
             },
             {
@@ -131,14 +160,17 @@ tablaInventario = new Tabulator("#inventario-grid", {
               formatter: function(cell) {
                 const row = cell.getRow().getData();
                 if(row.id_acta) {
-                  return `<button class='bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-xs font-bold w-full transition duration-150 flex items-center justify-center gap-1'><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> PDF</button>`;
+                  return `<button class='btn-pdf bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-xs font-bold w-full transition duration-150 flex items-center justify-center gap-1'><svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> PDF</button>`;
                 }
                 return "<span class='text-gray-400 text-xs text-center block w-full'>Sin Acta</span>";
               }, 
-              width: 100, hozAlign: "center", headerSort: false,
+              width: 100, 
+              hozAlign: "center",
+              headerSort: false,
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
-                if(rowData.id_acta) {
+                // Validar que presionó el botón de PDF y no el espacio en blanco de la celda
+                if(rowData.id_acta && (e.target.classList.contains('btn-pdf') || e.target.closest('.btn-pdf'))) {
                   sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
                   window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
                 }
@@ -180,7 +212,7 @@ tablaInventario = new Tabulator("#inventario-grid", {
       }
     });
 
-    // LÓGICA DE FILTROS PERSONALIZADOS
+    // --- LÓGICA DE FILTROS PERSONALIZADOS ---
     function actualizarFiltros() {
       const valComputador = document.getElementById("filtro-computador").value;
       const valUsuario = document.getElementById("filtro-usuario").value;
