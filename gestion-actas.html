@@ -603,10 +603,19 @@
         firmas: {}
       };
 
+// Sustituye esta parte en tu script de gestion-actas.html
       form.querySelectorAll('[data-field]').forEach(el => {
         const key = el.getAttribute('data-field');
-        const val = el.type === 'checkbox' ? el.checked : el.value;
-        if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo'].includes(key)) {
+        let val = el.value;
+
+        // Validar checkboxes múltiples (Ej: Mismo titular Sí/No)
+        if (el.type === 'checkbox') {
+          if (!el.checked) return; // Si no está marcado, saltarlo
+          val = el.nextSibling.textContent.trim(); // Obtiene "Sí" o "No"
+        }
+        
+        // Empaquetar correo_corp junto con el empleado
+        if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo', 'correo_corp'].includes(key)) {
           payload.empleado[key] = val;
         } else {
           payload[key] = val;
