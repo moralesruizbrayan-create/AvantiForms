@@ -41,6 +41,10 @@
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
     input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; font-family: inherit; }
+    
+    /* ESTILOS PARA QUE EL TEXTAREA AUTO-EXPANDIBLE SE VEA COMO INPUT */
+    textarea { resize: none; overflow: hidden; vertical-align: middle; line-height: 1.4; min-height: 28px; }
+
     .btn-scan { position: absolute; right: 4px; background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
     input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #0E5A32; }
@@ -54,7 +58,6 @@
     .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 6px; margin-bottom: 4px; }
 
-    /* ESTILOS DEL CAMPO DNI EN FIRMAS */
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 6px; gap: 4px; width: 100%; }
     .signature-field-group span { font-weight: 600; color: var(--text-color); font-size: 11px; }
     .signature-field-group input[type="text"] { width: 100px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
@@ -84,11 +87,14 @@
       .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.1 !important;}
       .lbl { background-color: #F8FAFC !important; font-weight: 700 !important; }
       .subhead { background-color: #F1F5F9 !important; font-size: 8.5px !important; padding: 2px 6px !important; }
+      
       input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
-      /* Ocultar icono de calendario en impresión */
+      
+      /* PERMITE QUE EL TEXTAREA MUESTRE TODO EL TEXTO LARGO EN MÚLTIPLES LÍNEAS AL IMPRIMIR */
+      textarea { min-height: 14px !important; height: auto !important; resize: none !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
+      
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
-      textarea { min-height: 25px !important; height: 25px !important; resize: none !important; }
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
@@ -135,19 +141,19 @@
 
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
-        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Oficio/Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Correo Corp.:</td><td><input type="text" data-field="correo_corp"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
+        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Oficio/Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td></tr>
+        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td><td class="lbl">Correo Corp.:</td><td><textarea rows="1" data-field="correo_corp"></textarea></td></tr>
         <tr><td class="lbl">Usuario PC:</td><td><input type="text" data-spec="usuario_pc"></td><td class="lbl">Fecha:</td><td><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
         <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Computador:</td><td><input type="text" data-spec="codigo_patrimonial"></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Computador:</td><td><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
-        <tr><td class="lbl">Procesador:</td><td><input type="text" data-spec="procesador"></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
-        <tr><td class="lbl">Disco Duro:</td><td><input type="text" data-spec="disco_duro"></td><td class="lbl">Tarjeta de Red:</td><td><input type="text" data-spec="tarjeta_red"></td></tr>
+        <tr><td class="lbl">Procesador:</td><td><textarea rows="1" data-spec="procesador"></textarea></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
+        <tr><td class="lbl">Disco Duro:</td><td><input type="text" data-spec="disco_duro"></td><td class="lbl">Tarjeta de Red:</td><td><textarea rows="1" data-spec="tarjeta_red"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Software Instalado e Identificadores</td></tr>
         <tr>
           <td class="lbl">S.O. Windows:</td><td><label class="inline-flex"><input type="checkbox" data-spec="win_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label> Ver: <input type="text" style="width: 40px" data-spec="win_ver"></td>
@@ -169,14 +175,14 @@
             <label class="inline-flex"><input type="checkbox" data-spec="acc_ups"> UPS</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_mochila"> Mochila</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_monitor"> Monitor</label>
-            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><input type="text" data-spec="acc_otros" style="flex-grow:1;"></div>
+            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><textarea rows="1" data-spec="acc_otros" style="flex-grow:1;"></textarea></div>
           </td>
         </tr>
       </table>
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo fuera de las instalaciones de la empresa, así como también del servicio técnico en caso de desperfecto por mala manipulación.</div>
@@ -198,7 +204,7 @@
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         <div class="signature-section">
           <div class="signature-block">
@@ -236,17 +242,17 @@
 
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
-        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
+        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td></tr>
+        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
         <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
         <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m2_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m2_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><input type="text" data-spec="marca_modelo"></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_activo"></td></tr>
-        <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><input type="text" data-spec="entradas_video"></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_activo"></td></tr>
+        <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><textarea rows="1" data-spec="entradas_video"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
         <tr>
           <td colspan="4">
@@ -261,7 +267,7 @@
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se compromete al cuidado óptimo del periférico asignado, respondiendo civil y administrativamente por pérdidas, roturas de pantalla o daños derivados de negligencia en el traslado o manipulación dentro y fuera de las instalaciones operativas de la organización.</div>
         <div class="signature-section">
@@ -282,7 +288,7 @@
         <h3>5. Control de Devolución:</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         <div class="signature-section">
           <div class="signature-block">
@@ -320,15 +326,15 @@
 
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
-        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td></tr>
-        <tr><td class="lbl">Cargo:</td><td><input type="text" data-field="cargo_empleado"></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
+        <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td></tr>
+        <tr><td class="lbl">Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
         <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
       <table class="form-table">
-        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><input type="text" data-spec="marca_modelo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m3_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m3_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">IMEI 1:</td><td><div class="input-wrapper"><input type="text" id="m3_imei1" data-spec="imei_1"><button class="btn-scan no-print" onclick="abrirEscaner('m3_imei1')">📷</button></div></td><td class="lbl">IMEI 2:</td><td><div class="input-wrapper"><input type="text" id="m3_imei2" data-spec="imei_2"><button class="btn-scan no-print" onclick="abrirEscaner('m3_imei2')">📷</button></div></td></tr>
         <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad"></td></tr>
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
@@ -344,7 +350,7 @@
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         <h3>4. Compromiso de Responsabilidad:</h3>
         <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo fuera de las instalaciones de la empresa, así como también del servicio técnico en caso de desperfecto por mala manipulación.</div>
         <div class="signature-section">
@@ -365,9 +371,9 @@
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="quien_devuelve_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         <div class="signature-section">
           <div class="signature-block">
@@ -405,10 +411,10 @@
 
       <h3>1. Datos Generales del Responsable:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><input type="text" data-field="nombre_empleado"></td></tr>
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Fecha Operación:</td><td><input type="date" data-field="fecha_entrega"></td></tr>
-        <tr><td class="lbl">Área:</td><td><input type="text" data-field="area_empleado"></td><td class="lbl">C. De Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
-        <tr><td class="lbl">Oficio/Cargo:</td><td><input type="text" data-field="cargo_empleado"></td><td class="lbl">Zona/Sede:</td><td><input type="text" data-spec="zona_sede"></td></tr>
+        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td><td class="lbl">C. De Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Oficio/Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td><td class="lbl">Zona/Sede:</td><td><input type="text" data-spec="zona_sede"></td></tr>
       </table>
 
       <h3>2. Detalle de la Línea Móvil:</h3>
@@ -425,7 +431,7 @@
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Variante Línea:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label> <label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label> <label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
         <h3>4. Compromiso de Responsabilidad:</h3>
@@ -448,9 +454,9 @@
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox"> Sí</label><label class="inline-flex"><input type="checkbox"> No</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><input type="text" data-field="quien_devuelve_nombre"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="quien_devuelve_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="quien_devuelve_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         <div class="signature-section">
           <div class="signature-block">
@@ -500,6 +506,21 @@
       const vista = urlParams.get('vista') || 'material_informatico';
       const targetView = document.getElementById('view_' + vista);
       if(targetView) targetView.classList.add('active');
+      
+      // Auto-redimensionar textareas al cargar
+      document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+    });
+
+    // LÓGICA DE AUTO-EXPANSIÓN PARA TEXTAREAS
+    function autoResizeTextarea(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    }
+    
+    document.addEventListener('input', function(e) {
+      if(e.target.tagName.toLowerCase() === 'textarea') {
+        autoResizeTextarea(e.target);
+      }
     });
 
     function cambiarModo(btn, modo) {
@@ -649,6 +670,8 @@
               else if (rowData[key] !== undefined && rowData[key] !== null) {
                 if (el.type !== 'checkbox') el.value = rowData[key];
               }
+              
+              if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
             });
 
             setTimeout(() => window.print(), 1000);
