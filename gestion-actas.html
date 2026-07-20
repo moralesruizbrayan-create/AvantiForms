@@ -48,10 +48,16 @@
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 3.5px solid #0E5A32; background: var(--lbl-bg); padding: 10px 14px; font-size: 10.5px; margin-top: 6px; border-radius: 4px; }
     
+    /* EVIDENCIA FOTOGRÁFICA */
     .evidencia-box { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; margin-top: 5px; }
-    .btn-evidencia { background: #E2E8F0; color: #334155; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; border: 1px solid #CBD5E1; }
-    .evidencia-runtime-img { height: 60px; width: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #CBD5E1; display: none; }
+    .btn-evidencia { background: #E2E8F0; color: #334155; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; border: 1px solid #CBD5E1; transition: background 0.2s; }
+    .btn-evidencia:hover { background: #CBD5E1; }
+    .evidencia-preview-wrapper { position: relative; display: none; }
+    .evidencia-runtime-img { height: 60px; width: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #CBD5E1; display: block; }
+    .btn-eliminar-foto { position: absolute; top: -8px; right: -8px; background: #EF4444; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .btn-eliminar-foto:hover { background: #DC2626; }
 
+    /* FIRMAS */
     .signature-section { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 6px; width: 100%; }
     .signature-block { width: 46%; text-align: center; font-size: 11px; }
     .signature-trigger-box { width: 100%; height: 65px; background: var(--lbl-bg); border: 1px dashed var(--input-border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -62,6 +68,7 @@
     .signature-field-group input[type="text"] { width: 100px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
     .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #0E5A32 !important; }
 
+    /* MODALES Y TOASTS */
     .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); z-index: 9999; display: none; align-items: center; justify-content: center; }
     .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 420px; border-radius: 6px; box-shadow: var(--shadow-md); overflow: hidden; }
     .custom-modal-header { background: #0E5A32; color: #FFF; padding: 14px 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
@@ -71,6 +78,7 @@
     .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 12px 24px; border-radius: 4px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13px; font-weight: 600; transition: top 0.4s; border: 1px solid var(--border-color); border-left: 4px solid #107C41; }
     .custom-toast.show { top: 24px; }
     
+    /* OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
       body { background: #FFFFFF !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -95,7 +103,6 @@
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
 
       /* IMPRESIÓN DE EVIDENCIA */
-      .evidencia-box label { display: none !important; }
       .evidencia-runtime-img { display: block !important; max-height: 200px !important; width: auto !important; margin-top: 10px !important; border: 1px solid #CBD5E1 !important; border-radius: 4px !important; page-break-inside: avoid; }
 
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
@@ -161,7 +168,7 @@
         </tr>
         <tr>
           <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox" data-spec="antivirus_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label> Det: <input type="text" style="width: 40px" data-spec="antivirus_det"></td>
-          <td class="lbl">Correo:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
+          <td class="lbl">Correo App.:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
         </tr>
         <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox" data-spec="tspu_si"> Sí</label></td></tr>
         <tr><td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td></tr>
@@ -175,7 +182,7 @@
             <label class="inline-flex"><input type="checkbox" data-spec="acc_ups"> UPS</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_mochila"> Mochila</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_monitor"> Monitor</label>
-            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><input type="text" data-spec="acc_otros" style="flex-grow:1;"></div>
+            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><textarea rows="1" data-spec="acc_otros" style="flex-grow:1;"></textarea></div>
           </td>
         </tr>
       </table>
@@ -183,15 +190,18 @@
       <!-- ZONA DE ENTREGA -->
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
           </label>
-          <img id="evidencia_ent_m1" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_ent_m1" class="evidencia-preview-wrapper">
+            <img id="evidencia_ent_m1" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_ent_m1', this)">✖</button>
+          </div>
         </div>
 
         <h3>4. Compromiso de Responsabilidad:</h3>
@@ -215,16 +225,19 @@
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
           </label>
-          <img id="evidencia_dev_m1" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_dev_m1" class="evidencia-preview-wrapper">
+            <img id="evidencia_dev_m1" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_dev_m1', this)">✖</button>
+          </div>
         </div>
 
         <div class="signature-section">
@@ -291,12 +304,15 @@
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
           </label>
-          <img id="evidencia_ent_m2" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_ent_m2" class="evidencia-preview-wrapper">
+            <img id="evidencia_ent_m2" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_ent_m2', this)">✖</button>
+          </div>
         </div>
 
         <h3>4. Compromiso de Responsabilidad:</h3>
@@ -323,12 +339,15 @@
         </table>
 
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
           </label>
-          <img id="evidencia_dev_m2" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_dev_m2" class="evidencia-preview-wrapper">
+            <img id="evidencia_dev_m2" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_dev_m2', this)">✖</button>
+          </div>
         </div>
 
         <div class="signature-section">
@@ -395,12 +414,15 @@
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
           </label>
-          <img id="evidencia_ent_m3" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_ent_m3" class="evidencia-preview-wrapper">
+            <img id="evidencia_ent_m3" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_ent_m3', this)">✖</button>
+          </div>
         </div>
 
         <h3>4. Compromiso de Responsabilidad:</h3>
@@ -429,12 +451,15 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
           </label>
-          <img id="evidencia_dev_m3" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_dev_m3" class="evidencia-preview-wrapper">
+            <img id="evidencia_dev_m3" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_dev_m3', this)">✖</button>
+          </div>
         </div>
 
         <div class="signature-section">
@@ -497,16 +522,19 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
           </label>
-          <img id="evidencia_ent_m4" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_ent_m4" class="evidencia-preview-wrapper">
+            <img id="evidencia_ent_m4" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_ent_m4', this)">✖</button>
+          </div>
         </div>
 
         <h3>4. Compromiso de Responsabilidad:</h3>
-        <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operation. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
+        <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
         <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4')"><span id="lbl_f1_m4">📝 Firmar Encargado TI</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
@@ -531,12 +559,15 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box no-print">
-          <label class="btn-evidencia">
+        <div class="evidencia-box">
+          <label class="btn-evidencia no-print">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
           </label>
-          <img id="evidencia_dev_m4" class="evidencia-runtime-img">
+          <div id="wrap_evidencia_dev_m4" class="evidencia-preview-wrapper">
+            <img id="evidencia_dev_m4" class="evidencia-runtime-img">
+            <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_dev_m4', this)">✖</button>
+          </div>
         </div>
 
         <div class="signature-section">
@@ -632,11 +663,17 @@
               
               if (rowData.evidencia_entrega) {
                  const imgEnt = form.querySelector('[id^="evidencia_ent_"]');
-                 if (imgEnt) { imgEnt.src = rowData.evidencia_entrega; imgEnt.style.display = 'block'; }
+                 if (imgEnt) { 
+                     imgEnt.src = rowData.evidencia_entrega; 
+                     document.getElementById('wrap_' + imgEnt.id).style.display = 'block'; 
+                 }
               }
               if (rowData.evidencia_devolucion) {
                  const imgDev = form.querySelector('[id^="evidencia_dev_"]');
-                 if (imgDev) { imgDev.src = rowData.evidencia_devolucion; imgDev.style.display = 'block'; }
+                 if (imgDev) { 
+                     imgDev.src = rowData.evidencia_devolucion; 
+                     document.getElementById('wrap_' + imgDev.id).style.display = 'block'; 
+                 }
               }
 
               setTimeout(() => window.print(), 1000);
@@ -748,11 +785,23 @@
           const dataUrl = canvasObj.toDataURL('image/jpeg', 0.7);
           const preview = document.getElementById(imgId);
           preview.src = dataUrl;
-          preview.style.display = 'block';
+          document.getElementById('wrap_' + imgId).style.display = 'block';
         };
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
+    }
+
+    function eliminarEvidencia(imgId, btn) {
+      const preview = document.getElementById(imgId);
+      preview.src = '';
+      document.getElementById('wrap_' + imgId).style.display = 'none';
+      
+      const container = btn.closest('.evidencia-box');
+      if(container) {
+         const fileInput = container.querySelector('input[type="file"]');
+         if(fileInput) fileInput.value = '';
+      }
     }
 
     async function procesarGuardadoBaseDatos(btn) {
