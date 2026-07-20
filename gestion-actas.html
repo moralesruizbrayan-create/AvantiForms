@@ -5,109 +5,128 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Actas - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   
   <style>
-    /* VARIABLES GLOBALES Y DISEÑO BASE */
-    :root { --bg-color: #F4F6F9; --text-color: #242424; --text-secondary: #5D6B72; --card-bg: #FFFFFF; --border-color: #E2E8F0; --input-bg: #F8FAFC; --input-border: #CBD5E1; --lbl-bg: #F8FAFC; --subhead-bg: #F1F5F9; --modal-overlay: rgba(15, 23, 42, 0.6); --watermark-opacity: 0.05; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-    body.dark-mode { --bg-color: #121212; --text-color: #E2E8F0; --text-secondary: #94A3B8; --card-bg: #1E1E1E; --border-color: #2D2D2D; --input-bg: #1A1A1A; --input-border: #3A3A3A; --lbl-bg: #262626; --subhead-bg: #2D2D2D; --modal-overlay: rgba(0, 0, 0, 0.85); --watermark-opacity: 0.02; }
-    * { box-sizing: border-box; }
-    body { background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 24px; font-family: 'Segoe UI', system-ui, sans-serif; transition: all 0.25s ease; }
-    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('/AVANTI%20LOGO%20(1).jpeg'); background-repeat: no-repeat; background-position: center; background-size: 500px; opacity: var(--watermark-opacity); z-index: -1; pointer-events: none; }
-    
-    .theme-toggle-btn { position: fixed; bottom: 24px; right: 24px; background: #0E5A32; color: #FFF; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10001; font-size: 20px; }
-    .form-view { display: none; } .form-view.active { display: block; }
-    .page-container { background: var(--card-bg); max-width: 820px; margin: 0 auto 40px auto; padding: 30px 40px; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow-md); }
-    .action-bar { max-width: 820px; margin: 0 auto 12px auto; display: flex; justify-content: space-between; align-items: center; }
-    .action-group-right { display: flex; gap: 10px; }
-    .btn-action { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
-    .btn-back { background: #E2E8F0; color: #334155; } .btn-save-db { background: #0078D4; color: #FFF; } .btn-print { background: #0E5A32; color: #FFF; }
-    
-    .mode-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
-    .mode-btn { padding: 8px 16px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-secondary); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; }
-    .mode-btn.active { background: #0E5A32; color: #FFF; border-color: #0E5A32; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    .header-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; border-bottom: 2.5px solid #92C840; }
-    .header-logo img { width: 60px; height: 60px; object-fit: contain; }
-    .header-titles h1 { font-size: 18px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 700; text-transform: uppercase; }
+    /* VARIABLES GLOBALES Y DISEÑO BASE */
+    :root { 
+      --bg-color: #F8FAFC; 
+      --text-color: #334155; 
+      --text-secondary: #64748B; 
+      --card-bg: #FFFFFF; 
+      --border-color: #E2E8F0; 
+      --input-bg: #F8FAFC; 
+      --input-border: #CBD5E1; 
+      --lbl-bg: #F8FAFC; 
+      --subhead-bg: #F1F5F9; 
+      --modal-overlay: rgba(15, 23, 42, 0.7); 
+      --watermark-opacity: 0.02; 
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
+    }
     
-    h3 { font-size: 11px; color: #0E5A32; font-weight: 700; text-transform: uppercase; margin: 16px 0 6px 0; display: flex; align-items: center; }
-    h3::before { content: ""; display: inline-block; width: 3px; height: 12px; background-color: #92C840; margin-right: 6px; border-radius: 1px; }
+    body.dark-mode { --bg-color: #0F172A; --text-color: #E2E8F0; --text-secondary: #94A3B8; --card-bg: #1E293B; --border-color: #334155; --input-bg: #0F172A; --input-border: #475569; --lbl-bg: #1E293B; --subhead-bg: #334155; --modal-overlay: rgba(0, 0, 0, 0.85); --watermark-opacity: 0.01; }
+    
+    * { box-sizing: border-box; }
+    body { background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 24px 16px; font-family: 'Inter', system-ui, sans-serif; transition: all 0.25s ease; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('/AVANTI%20LOGO%20(1).jpeg'); background-repeat: no-repeat; background-position: center; background-size: 600px; opacity: var(--watermark-opacity); z-index: -1; pointer-events: none; }
+    
+    .theme-toggle-btn { position: fixed; bottom: 24px; right: 24px; background: #0E5A32; color: #FFF; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 10001; font-size: 20px; transition: transform 0.2s; }
+    .theme-toggle-btn:hover { transform: scale(1.05); }
+    
+    .form-view { display: none; } .form-view.active { display: block; }
+    
+    /* Contenedor tipo Hoja A4 */
+    .page-container { background: var(--card-bg); max-width: 820px; margin: 0 auto 40px auto; padding: 40px; border: 1px solid var(--border-color); border-radius: 12px; box-shadow: var(--shadow-md); }
+    
+    .mode-selector { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px dashed var(--border-color); }
+    .mode-btn { padding: 8px 18px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-secondary); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; }
+    .mode-btn:hover { background: var(--border-color); }
+    .mode-btn.active { background: #16A34A; color: #FFF; border-color: #16A34A; box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2); }
+
+    .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border-bottom: 2.5px solid #22C55E; padding-bottom: 10px; }
+    .header-logo img { width: 60px; height: 60px; object-fit: contain; mix-blend-multiply; }
+    .header-titles h1 { font-size: 18px; color: #0E5A32; margin: 0 0 2px 0; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px;}
+    
+    h3 { font-size: 11px; color: #0E5A32; font-weight: 700; text-transform: uppercase; margin: 20px 0 8px 0; display: flex; align-items: center; letter-spacing: 0.5px; }
+    h3::before { content: ""; display: inline-block; width: 4px; height: 14px; background-color: #22C55E; margin-right: 8px; border-radius: 2px; }
     
     .form-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11.5px; }
-    .form-table td { border: 1px solid var(--border-color); padding: 6px 12px; vertical-align: middle; }
-    .lbl { background-color: var(--lbl-bg); font-weight: 600; width: 18%; }
-    .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; }
+    .form-table td { border: 1px solid var(--border-color); padding: 8px 12px; vertical-align: middle; }
+    .lbl { background-color: var(--lbl-bg); font-weight: 600; width: 18%; color: var(--text-secondary); }
+    .subhead { background-color: var(--subhead-bg); color: #0E5A32; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
-    input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; font-family: inherit; }
-    textarea { resize: none; overflow: hidden; vertical-align: middle; line-height: 1.4; min-height: 28px; }
-    .btn-scan { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
-    .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
-    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #0E5A32; }
+    input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; }
+    input[type="text"]:focus, input[type="date"]:focus, textarea:focus { outline: none; border-color: #22C55E; }
+    textarea { resize: none; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
+    .btn-scan { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; transition: transform 0.2s; }
+    .btn-scan:hover { transform: translateY(-50%) scale(1.1); }
     
-    .compromiso-box { border: 1px solid var(--border-color); border-left: 3.5px solid #0E5A32; background: var(--lbl-bg); padding: 10px 14px; font-size: 10.5px; margin-top: 6px; border-radius: 4px; }
+    .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
+    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 14px; height: 14px; }
+    
+    .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #0E5A32; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
     /* EVIDENCIA FOTOGRÁFICA */
     .evidencia-box { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; margin-top: 5px; }
-    .btn-evidencia { background: #E2E8F0; color: #334155; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; border: 1px solid #CBD5E1; transition: background 0.2s; }
+    .btn-evidencia { background: #E2E8F0; color: #334155; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #CBD5E1; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
     .btn-evidencia:hover { background: #CBD5E1; }
     .evidencia-preview-wrapper { position: relative; display: none; }
-    .evidencia-runtime-img { height: 60px; width: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #CBD5E1; display: block; }
-    .btn-eliminar-foto { position: absolute; top: -8px; right: -8px; background: #EF4444; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .evidencia-runtime-img { height: 70px; width: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #CBD5E1; display: block; }
+    .btn-eliminar-foto { position: absolute; top: -8px; right: -8px; background: #EF4444; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
     .btn-eliminar-foto:hover { background: #DC2626; }
 
     /* FIRMAS */
-    .signature-section { display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 6px; width: 100%; }
-    .signature-block { width: 46%; text-align: center; font-size: 11px; }
-    .signature-trigger-box { width: 100%; height: 65px; background: var(--lbl-bg); border: 1px dashed var(--input-border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .signature-section { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 10px; width: 100%; gap: 20px; }
+    .signature-block { width: 48%; text-align: center; font-size: 11px; }
+    .signature-trigger-box { width: 100%; height: 70px; background: var(--lbl-bg); border: 2px dashed var(--input-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-weight: 600; }
+    .signature-trigger-box:hover { background: #E2E8F0; }
     .signature-runtime-img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 6px; margin-bottom: 4px; }
+    .signature-line { border-top: 1.5px solid var(--text-color); width: 100%; margin-top: 8px; margin-bottom: 6px; }
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 6px; gap: 4px; width: 100%; }
-    .signature-field-group span { font-weight: 600; color: var(--text-color); font-size: 11px; }
-    .signature-field-group input[type="text"] { width: 100px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
-    .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #0E5A32 !important; }
+    .signature-field-group span { font-weight: 600; color: var(--text-secondary); font-size: 11px; }
+    .signature-field-group input[type="text"] { width: 110px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px 2px 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
+    .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #16A34A !important; }
 
     /* MODALES Y TOASTS */
-    .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); z-index: 9999; display: none; align-items: center; justify-content: center; }
-    .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 420px; border-radius: 6px; box-shadow: var(--shadow-md); overflow: hidden; }
-    .custom-modal-header { background: #0E5A32; color: #FFF; padding: 14px 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-    .custom-modal-footer { padding: 14px 20px; background: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-color); }
-    
-    /* El touch-action evita que la pantalla haga scroll al firmar en móvil */
-    .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; background: #fff; border: 1.5px dashed #92C840; touch-action: none; }
-    
-    .btn-modal { border: none; padding: 8px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
-    .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 12px 24px; border-radius: 4px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13px; font-weight: 600; transition: top 0.4s; border: 1px solid var(--border-color); border-left: 4px solid #107C41; }
+    .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: center; justify-content: center; }
+    .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 460px; border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); overflow: hidden; }
+    .custom-modal-header { background: #0E5A32; color: #FFF; padding: 16px 24px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .custom-modal-footer { padding: 16px 24px; background: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--border-color); }
+    .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; background: #fff; border: 2px dashed #CBD5E1; border-radius: 8px; touch-action: none; }
+    .btn-modal { border: none; padding: 10px 20px; font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 14px 28px; border-radius: 8px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13.5px; font-weight: 600; transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border-color); border-left: 4px solid #16A34A; }
     .custom-toast.show { top: 24px; }
     
     /* ==============================================
        COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
        ============================================== */
     @media screen and (max-width: 768px) {
-      body { padding: 12px; }
-      .page-container { padding: 16px 12px; border: none; box-shadow: var(--shadow-sm); }
+      body { padding: 12px 8px; }
+      .page-container { padding: 20px 16px; border: none; box-shadow: var(--shadow-sm); border-radius: 12px; }
       .header-table, .header-table tbody, .header-table tr, .header-table td { display: block; width: 100%; text-align: center; }
-      .header-logo img { margin: 0 auto 10px auto; }
-      .header-titles h1 { font-size: 16px; }
+      .header-logo img { margin: 0 auto 12px auto; width: 70px; height: 70px; }
+      .header-titles h1 { font-size: 17px; line-height: 1.3; }
       
-      .action-bar { flex-direction: column; gap: 10px; }
-      .action-group-right { flex-direction: column; width: 100%; }
-      .btn-action { width: 100%; padding: 14px; font-size: 13px; }
-      .mode-selector { display: grid; grid-template-columns: 1fr; gap: 8px; }
-      .mode-btn { width: 100%; text-align: center; }
+      .mode-selector { display: grid; grid-template-columns: 1fr; gap: 10px; }
+      .mode-btn { width: 100%; text-align: center; padding: 12px; font-size: 14px; }
 
-      /* Transforma la tabla en un diseño moderno de tarjetas apiladas */
       .form-table, .form-table tbody { display: block; width: 100%; }
-      .form-table tr { display: flex; flex-direction: column; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background-color: var(--card-bg); }
-      .form-table td { display: block; width: 100% !important; border: none; border-bottom: 1px solid var(--border-color); padding: 10px 12px; }
+      .form-table tr { display: flex; flex-direction: column; margin-bottom: 16px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; background-color: var(--card-bg); box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+      .form-table td { display: block; width: 100% !important; border: none; border-bottom: 1px solid var(--border-color); padding: 12px 14px; }
       .form-table td:last-child { border-bottom: none; }
-      .lbl { background-color: var(--subhead-bg); color: #0E5A32; font-size: 11px; padding: 8px 12px 4px 12px; border-bottom: none !important; font-weight: 700; }
-      .subhead { padding: 10px 12px !important; text-align: center; font-size: 11px; }
+      .lbl { background-color: var(--subhead-bg); color: var(--text-secondary); font-size: 11px; padding: 10px 14px 4px 14px; border-bottom: none !important; font-weight: 700; text-transform: uppercase; }
+      .subhead { padding: 12px 14px !important; text-align: center; font-size: 11px; background: #E2E8F0; }
       
       .signature-section { flex-direction: column; gap: 30px; }
       .signature-block { width: 100%; }
-      .custom-modal-card { width: 95%; margin: 0 auto; }
+      .custom-modal-card { width: 92%; margin: 0 auto; }
+      
+      input[type="text"], input[type="date"], textarea { font-size: 14px; padding: 10px 12px; }
     }
 
     /* OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 */
@@ -116,7 +135,7 @@
       body { background: #FFFFFF !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar { display: none !important; }
       .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; }
-      .header-table { margin-bottom: 8px !important; border-bottom: 2px solid #0E5A32 !important; }
+      .header-table { margin-bottom: 8px !important; border-bottom: 2px solid #0E5A32 !important; padding-bottom: 4px !important; }
       .header-logo img { width: 50px !important; height: 50px !important; }
       .header-titles h1 { font-size: 14px !important; color: #0E5A32 !important; margin:0 !important; padding:0 !important;}
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #0E5A32 !important; page-break-after: avoid; }
@@ -128,18 +147,13 @@
       input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
       textarea { min-height: 14px !important; height: auto !important; resize: none !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
       
-      /* OCULTAR CAJAS DE FECHA VACÍAS "dd/mm/aaaa" EN IMPRESIÓN */
       input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
-
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
-
-      /* OCULTAR EVIDENCIA EN IMPRESIÓN */
       .evidencia-box, .evidencia-runtime-img { display: none !important; }
-
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
@@ -152,14 +166,26 @@
 </head>
 <body class="light-mode">
 
-  <button class="theme-toggle-btn no-print" onclick="document.body.classList.toggle('dark-mode')">🌓</button>
+  <button class="theme-toggle-btn no-print" onclick="document.body.classList.toggle('dark-mode')">
+    <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+  </button>
   <div id="custom_toast" class="custom-toast no-print"><span id="toast_message"></span></div>
 
-  <div class="action-bar no-print">
-    <button class="btn-action btn-back" onclick="location.href='index.html'">← Volver al Dashboard</button>
-    <div class="action-group-right">
-      <button class="btn-action btn-save-db" onclick="procesarGuardadoBaseDatos(this)">💾 Guardar en Base de Datos</button>
-      <button class="btn-action btn-print" onclick="window.print()">🖨️ Imprimir Acta</button>
+  <!-- BARRA DE ACCIÓN SAAS RESPONSIVE -->
+  <div class="max-w-[820px] mx-auto mb-6 bg-white p-4 md:p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4 no-print">
+    <button onclick="location.href='index.html'" class="w-full md:w-auto flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium py-2.5 px-5 rounded-lg text-sm transition duration-200 shadow-sm">
+      <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+      Dashboard
+    </button>
+    <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+      <button onclick="procesarGuardadoBaseDatos(this)" class="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+        Guardar en BD
+      </button>
+      <button onclick="window.print()" class="w-full md:w-auto flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+        Imprimir Acta
+      </button>
     </div>
   </div>
 
@@ -191,7 +217,7 @@
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo" placeholder=""></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Computador:</td><td><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><textarea rows="1" data-spec="procesador"></textarea></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
@@ -203,7 +229,7 @@
         </tr>
         <tr>
           <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox" data-spec="antivirus_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label> Det: <input type="text" style="width: 40px" data-spec="antivirus_det"></td>
-          <td class="lbl">Correo:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
+          <td class="lbl">Correo App.:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
         </tr>
         <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox" data-spec="tspu_si"> Sí</label></td></tr>
         <tr><td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td></tr>
@@ -217,7 +243,7 @@
             <label class="inline-flex"><input type="checkbox" data-spec="acc_ups"> UPS</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_mochila"> Mochila</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_monitor"> Monitor</label>
-            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><textarea rows="1" data-spec="acc_otros" style="flex-grow:1;"></textarea></div>
+            <div style="margin-top:4px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:8px; color: var(--text-secondary);">Otros:</span><textarea rows="1" data-spec="acc_otros" style="flex-grow:1;"></textarea></div>
           </td>
         </tr>
       </table>
@@ -225,12 +251,13 @@
       <!-- ZONA DE ENTREGA -->
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
           </label>
           <div id="wrap_evidencia_ent_m1" class="evidencia-preview-wrapper">
@@ -257,16 +284,17 @@
 
       <!-- ZONA DE DEVOLUCIÓN -->
       <div class="sec-devolucion">
-        <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+        <h3>5. Control de Devolución (Uso Exclusivo de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
           </label>
           <div id="wrap_evidencia_dev_m1" class="evidencia-preview-wrapper">
@@ -336,12 +364,13 @@
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
           </label>
           <div id="wrap_evidencia_ent_m2" class="evidencia-preview-wrapper">
@@ -370,13 +399,14 @@
         <h3>5. Control de Devolución:</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
 
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
           </label>
           <div id="wrap_evidencia_dev_m2" class="evidencia-preview-wrapper">
@@ -446,12 +476,13 @@
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
           </label>
           <div id="wrap_evidencia_ent_m3" class="evidencia-preview-wrapper">
@@ -482,13 +513,14 @@
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
           </label>
           <div id="wrap_evidencia_dev_m3" class="evidencia-preview-wrapper">
@@ -553,13 +585,14 @@
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Variante Línea:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label> <label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label> <label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
           </label>
           <div id="wrap_evidencia_ent_m4" class="evidencia-preview-wrapper">
@@ -590,13 +623,14 @@
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
-        <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
+        <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            Adjuntar / Tomar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
           </label>
           <div id="wrap_evidencia_dev_m4" class="evidencia-preview-wrapper">
@@ -625,16 +659,15 @@
        MODALES DEL SISTEMA (FIRMA Y ESCÁNER)
        ========================================== -->
   <div id="firma_modal" class="custom-modal-overlay no-print">
-    <div class="custom-modal-card" style="max-width: 600px;">
+    <div class="custom-modal-card">
       <div class="custom-modal-header">Registrar Firma Digital</div>
-      <div style="padding: 15px; background: white; width: 100%; overflow: hidden;">
-        <!-- Optimizamos el canvas para que sea amigable con el celular y evite scrolls -->
+      <div style="padding: 16px; background: white; width: 100%; overflow: hidden;">
         <canvas id="popup_canvas" class="sig-canvas-popup"></canvas>
       </div>
       <div class="custom-modal-footer">
-        <button class="btn-modal" style="background:#E2E8F0; color:#334155" onclick="document.getElementById('firma_modal').style.display='none'">Cancelar</button>
+        <button class="btn-modal" style="background:#F1F5F9; color:#475569" onclick="document.getElementById('firma_modal').style.display='none'">Cancelar</button>
         <button class="btn-modal" style="background:#FEF3C7; color:#92400E" onclick="ctx.clearRect(0, 0, canvas.width, canvas.height)">Limpiar</button>
-        <button class="btn-modal" style="background:#0E5A32; color:#FFF" onclick="guardarFirmaPopup()">Guardar Firma</button>
+        <button class="btn-modal" style="background:#16A34A; color:#FFF" onclick="guardarFirmaPopup()">Guardar Firma</button>
       </div>
     </div>
   </div>
@@ -643,7 +676,9 @@
     <div class="custom-modal-card">
       <div class="custom-modal-header">Escanear Código de Barras / QR</div>
       <div style="padding: 10px; background: black;"><div id="qr-reader" style="width: 100%;"></div></div>
-      <div class="custom-modal-footer"><button class="btn-modal" style="background:#E2E8F0;" onclick="cerrarEscaner()">Cerrar</button></div>
+      <div class="custom-modal-footer">
+        <button class="btn-modal" style="background:#F1F5F9; color:#475569" onclick="cerrarEscaner()">Cerrar</button>
+      </div>
     </div>
   </div>
 
@@ -771,7 +806,7 @@
     function mostrarNotificacionToast(mensaje, esExito) {
       const toast = document.getElementById('custom_toast');
       toast.innerHTML = esExito ? `✅ ${mensaje}` : `❌ ${mensaje}`;
-      toast.style.borderLeftColor = esExito ? '#107C41' : '#A80000';
+      toast.style.borderLeftColor = esExito ? '#16A34A' : '#DC2626';
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
@@ -780,13 +815,11 @@
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
 
-    // CÓDIGO REESCRITO PARA SOPORTAR CANVAS PERFECTO EN MÓVILES
     function abrirModalFirma(imgId) {
       targetImgId = imgId;
       const modal = document.getElementById('firma_modal');
       modal.style.display = 'flex';
       
-      // Auto-adaptar resolución interna del canvas en dispositivos móviles
       const rect = canvas.parentElement.getBoundingClientRect();
       if(rect.width > 0) canvas.width = rect.width;
       
@@ -796,7 +829,6 @@
 
     function getPos(e) { 
       const r = canvas.getBoundingClientRect(); 
-      // Calculamos escala en caso que el CSS redimensione el canvas, previniendo trazados desviados en móviles
       const scaleX = canvas.width / r.width;
       const scaleY = canvas.height / r.height;
       return { 
@@ -875,7 +907,7 @@
     async function procesarGuardadoBaseDatos(btn) {
       const form = document.querySelector('.form-view.active');
       if(!form) return;
-      btn.innerText = "⏳ Procesando..."; btn.disabled = true;
+      btn.innerHTML = "⏳ Procesando..."; btn.disabled = true;
 
       const payload = {
         categoria_acta: form.getAttribute('data-tipo'),
@@ -938,7 +970,8 @@
       } catch (err) {
         mostrarNotificacionToast("Error de red.", false);
       } finally {
-        btn.innerText = "💾 Guardar en Base de Datos"; btn.disabled = false;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg> Guardar en BD`;
+        btn.disabled = false;
       }
     }
   </script>
