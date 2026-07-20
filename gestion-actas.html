@@ -501,25 +501,48 @@
 
   <!-- SCRIPT DEL MOTOR FRONTEND -->
   <script>
+// 6. MOTOR DE AUTO-IMPRESIÓN DESDE INVENTARIO
     document.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const vista = urlParams.get('vista') || 'material_informatico';
-      const targetView = document.getElementById('view_' + vista);
-      if(targetView) targetView.classList.add('active');
-      
-      // Auto-redimensionar textareas al cargar
-      document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
-    });
+      const printMode = new URLSearchParams(window.location.search).get('print');
+      if (printMode === 'true') {
+        const rowData = JSON.parse(sessionStorage.getItem('acta_imprimir'));
+        if (rowData) {
+          const form = document.getElementById('view_' + rowData.tipo_vista);
+          if (form) {
+            // Forzar vista completa para el reporte
+            cambiarModo(form.querySelector('.mode-btn.active') || form.querySelector('.mode-btn'), 'completo');
 
-    // LÓGICA DE AUTO-EXPANSIÓN PARA TEXTAREAS
-    function autoResizeTextarea(el) {
-      el.style.height = 'auto';
-      el.style.height = el.scrollHeight + 'px';
-    }
-    
-    document.addEventListener('input', function(e) {
-      if(e.target.tagName.toLowerCase() === 'textarea') {
-        autoResizeTextarea(e.target);
+            // Auto-rellenar campos y checkboxes con los datos planos de la BD
+            form.querySelectorAll('[data-field], [data-spec]').forEach(el => {
+              const key = el.getAttribute('data-field') || el.getAttribute('data-spec');
+              
+              let val = rowData[key];
+
+              // Mapeo especial de nombres discordantes
+              if (key === 'codigo_patrimonial') val = rowData.computador;
+              if (key === 'nombre_computador') val = rowData.computador;
+              if (key === 'dni_empleado') val = rowData.dni;
+              if (key === 'cargo_empleado') val = rowData.oficio_cargo;
+              if (key === 'area_empleado') val = rowData.area;
+              if (key === 'nombre_empleado') val = rowData.nombre_empleado;
+              if (key === 'nro_serie') val = rowData.numero_serie;
+
+              if (val !== undefined && val !== null) {
+                if (el.type === 'checkbox') {
+                  // Reconoce valores booleanos verdaderos o textos 'true' de la base de datos
+                  el.checked = (val === true || String(val).toLowerCase() === 'true');
+                } else {
+                  el.value = val;
+                }
+              }
+              
+              if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
+            });
+
+            // Dar tiempo a cargar imágenes Base64 y abrir cuadro de impresión
+            setTimeout(() => window.print(), 1000);
+          }
+        }
       }
     });
 
