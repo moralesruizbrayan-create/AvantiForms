@@ -41,17 +41,13 @@
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
     input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; font-family: inherit; }
-    
-    /* Textareas autoexpandibles fluidos */
     textarea { resize: none; overflow: hidden; vertical-align: middle; line-height: 1.4; min-height: 28px; }
-
     .btn-scan { position: absolute; right: 4px; background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
     input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #0E5A32; }
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 3.5px solid #0E5A32; background: var(--lbl-bg); padding: 10px 14px; font-size: 10.5px; margin-top: 6px; border-radius: 4px; }
     
-    /* FIRMAS Y EVIDENCIA */
     .evidencia-box { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; margin-top: 5px; }
     .btn-evidencia { background: #E2E8F0; color: #334155; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; border: 1px solid #CBD5E1; }
     .evidencia-runtime-img { height: 60px; width: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #CBD5E1; display: none; }
@@ -64,8 +60,8 @@
     .signature-field-group { display: flex; align-items: center; justify-content: center; margin-top: 6px; gap: 4px; width: 100%; }
     .signature-field-group span { font-weight: 600; color: var(--text-color); font-size: 11px; }
     .signature-field-group input[type="text"] { width: 100px !important; text-align: center; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
+    .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #0E5A32 !important; }
 
-    /* MODALES Y TOASTS */
     .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); z-index: 9999; display: none; align-items: center; justify-content: center; }
     .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 420px; border-radius: 6px; box-shadow: var(--shadow-md); overflow: hidden; }
     .custom-modal-header { background: #0E5A32; color: #FFF; padding: 14px 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
@@ -75,7 +71,6 @@
     .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 12px 24px; border-radius: 4px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13px; font-weight: 600; transition: top 0.4s; border: 1px solid var(--border-color); border-left: 4px solid #107C41; }
     .custom-toast.show { top: 24px; }
     
-    /* OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
       body { background: #FFFFFF !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -98,6 +93,11 @@
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
+
+      /* IMPRESIÓN DE EVIDENCIA */
+      .evidencia-box label { display: none !important; }
+      .evidencia-runtime-img { display: block !important; max-height: 200px !important; width: auto !important; margin-top: 10px !important; border: 1px solid #CBD5E1 !important; border-radius: 4px !important; page-break-inside: avoid; }
+
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 35px !important; }
@@ -161,7 +161,7 @@
         </tr>
         <tr>
           <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox" data-spec="antivirus_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label> Det: <input type="text" style="width: 40px" data-spec="antivirus_det"></td>
-          <td class="lbl">Correo App.:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
+          <td class="lbl">Correo:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
         </tr>
         <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox" data-spec="tspu_si"> Sí</label></td></tr>
         <tr><td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td></tr>
@@ -175,7 +175,7 @@
             <label class="inline-flex"><input type="checkbox" data-spec="acc_ups"> UPS</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_mochila"> Mochila</label>
             <label class="inline-flex"><input type="checkbox" data-spec="acc_monitor"> Monitor</label>
-            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><textarea rows="1" data-spec="acc_otros" style="flex-grow:1;"></textarea></div>
+            <div style="margin-top:2px; display:flex; align-items:center;"><span style="font-weight:bold; margin-right:5px;">Otros:</span><input type="text" data-spec="acc_otros" style="flex-grow:1;"></div>
           </td>
         </tr>
       </table>
@@ -183,7 +183,7 @@
       <!-- ZONA DE ENTREGA -->
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
@@ -215,7 +215,7 @@
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
@@ -265,7 +265,7 @@
       <table class="form-table">
         <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
         <tr><td class="lbl">DNI / Cód.:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td></tr>
-        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado">Sistemas</textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
         <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
       </table>
 
@@ -506,7 +506,7 @@
         </div>
 
         <h3>4. Compromiso de Responsabilidad:</h3>
-        <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operación. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
+        <div class="compromiso-box">Las líneas móviles y planes asignados son de propiedad exclusiva de la empresa y quedan bajo la estricta responsabilidad del receptor, quedando prohibido su uso en dispositivos personales o ajenos a la operation. En caso de pérdida, daño total o robo, notificar inmediatamente al área de TI.</div>
         <div class="signature-section">
           <div class="signature-block">
             <div class="signature-trigger-box" onclick="abrirModalFirma('f1_m4')"><span id="lbl_f1_m4">📝 Firmar Encargado TI</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
@@ -582,7 +582,6 @@
 
   <!-- SCRIPT DEL MOTOR FRONTEND -->
   <script>
-    // 1. INICIALIZACIÓN Y ENRUTAMIENTO SPA
     document.addEventListener('DOMContentLoaded', () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
@@ -593,7 +592,6 @@
             document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
         }
 
-        // Lógica de Impresión (Recuperar Acta)
         const printMode = urlParams.get('print');
         if (printMode === 'true') {
           const rowDataStr = sessionStorage.getItem('acta_imprimir');
@@ -615,6 +613,13 @@
                 if (key === 'nombre_empleado') val = rowData.nombre_empleado;
                 if (key === 'nro_serie') val = rowData.numero_serie;
 
+                if (key === 'fecha_entrega' && rowData.fecha_entrega) {
+                  val = new Date(rowData.fecha_entrega).toISOString().split('T')[0];
+                }
+                if (key === 'fecha_devolucion' && rowData.fecha_devolucion) {
+                  val = new Date(rowData.fecha_devolucion).toISOString().split('T')[0];
+                }
+
                 if (val !== undefined && val !== null) {
                   if (el.type === 'checkbox') {
                     el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
@@ -625,10 +630,13 @@
                 if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
               });
               
-              // Evidencia
               if (rowData.evidencia_entrega) {
                  const imgEnt = form.querySelector('[id^="evidencia_ent_"]');
                  if (imgEnt) { imgEnt.src = rowData.evidencia_entrega; imgEnt.style.display = 'block'; }
+              }
+              if (rowData.evidencia_devolucion) {
+                 const imgDev = form.querySelector('[id^="evidencia_dev_"]');
+                 if (imgDev) { imgDev.src = rowData.evidencia_devolucion; imgDev.style.display = 'block'; }
               }
 
               setTimeout(() => window.print(), 1000);
@@ -640,7 +648,6 @@
       }
     });
 
-    // AUTOEXPANSIÓN DE TEXTAREA
     function autoResizeTextarea(el) {
       el.style.height = 'auto';
       el.style.height = el.scrollHeight + 'px';
@@ -675,7 +682,6 @@
         titleH1.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓN DE " + baseTitle;
       }
       
-      // Ajustar textareas al cambiar el display
       view.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
     }
 
@@ -687,7 +693,6 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // LÓGICA DE FIRMAS EN CANVAS
     let targetImgId = null, dibujando = false;
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
@@ -712,7 +717,6 @@
       document.getElementById('firma_modal').style.display = 'none';
     }
 
-    // LÓGICA DE ESCÁNER
     let html5QrCode = null, currentInputTarget = null;
     function abrirEscaner(inputId) {
       currentInputTarget = document.getElementById(inputId);
@@ -724,7 +728,6 @@
     }
     function cerrarEscaner() { document.getElementById('scanner_modal').style.display='none'; if(html5QrCode) html5QrCode.stop(); }
 
-    // PROCESADOR DE EVIDENCIA (CANVAS COMPRESS)
     function procesarEvidenciaFotografica(input, imgId) {
       const file = input.files[0];
       if (!file) return;
@@ -752,7 +755,6 @@
       reader.readAsDataURL(file);
     }
 
-    // GUARDADO EN NEON
     async function procesarGuardadoBaseDatos(btn) {
       const form = document.querySelector('.form-view.active');
       if(!form) return;
