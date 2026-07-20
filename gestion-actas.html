@@ -96,14 +96,17 @@
       input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; }
       textarea { min-height: 14px !important; height: auto !important; resize: none !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; }
       
+      /* OCULTAR CAJAS DE FECHA VACÍAS "dd/mm/aaaa" EN IMPRESIÓN */
+      input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
+
       input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #0E5A32 !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; }
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #0E5A32 !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; }
 
-      /* IMPRESIÓN DE EVIDENCIA */
-      .evidencia-runtime-img { display: block !important; max-height: 200px !important; width: auto !important; margin-top: 10px !important; border: 1px solid #CBD5E1 !important; border-radius: 4px !important; page-break-inside: avoid; }
+      /* OCULTAR EVIDENCIA EN IMPRESIÓN */
+      .evidencia-box, .evidencia-runtime-img { display: none !important; }
 
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; }
@@ -168,7 +171,7 @@
         </tr>
         <tr>
           <td class="lbl">Antivirus:</td><td><label class="inline-flex"><input type="checkbox" data-spec="antivirus_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label> Det: <input type="text" style="width: 40px" data-spec="antivirus_det"></td>
-          <td class="lbl">Correo App.:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
+          <td class="lbl">Correo:</td><td><label class="inline-flex"><input type="checkbox" data-spec="correo_si"> Sí</label> <label class="inline-flex"><input type="checkbox"> No</label></td>
         </tr>
         <tr><td class="lbl">TSPU:</td><td colspan="3"><label class="inline-flex"><input type="checkbox" data-spec="tspu_si"> Sí</label></td></tr>
         <tr><td colspan="4" class="subhead">Periféricos y Accesorios Adicionales</td></tr>
@@ -193,8 +196,8 @@
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
           </label>
@@ -229,8 +232,8 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
           </label>
@@ -304,8 +307,8 @@
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
           </label>
@@ -339,8 +342,8 @@
         </table>
 
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
           </label>
@@ -414,8 +417,8 @@
         <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
           </label>
@@ -451,8 +454,8 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
           </label>
@@ -522,8 +525,8 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
           </label>
@@ -559,8 +562,8 @@
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
-        <div class="evidencia-box">
-          <label class="btn-evidencia no-print">
+        <div class="evidencia-box no-print">
+          <label class="btn-evidencia">
             Adjuntar / Tomar Foto
             <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
           </label>
@@ -618,9 +621,19 @@
         const urlParams = new URLSearchParams(window.location.search);
         const vista = urlParams.get('vista') || 'material_informatico';
         const targetView = document.getElementById('view_' + vista);
+        
         if(targetView) {
             targetView.classList.add('active');
             document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+            
+            // Evaluar los inputs de fecha iniciales
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                if (input.value) input.classList.add('has-val');
+                input.addEventListener('change', function() {
+                    if(this.value) this.classList.add('has-val');
+                    else this.classList.remove('has-val');
+                });
+            });
         }
 
         const printMode = urlParams.get('print');
@@ -656,6 +669,7 @@
                     el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
                   } else {
                     el.value = val;
+                    if(el.type === 'date') el.classList.add('has-val'); // Añadir clase explícitamente en modo impresión
                   }
                 }
                 if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
