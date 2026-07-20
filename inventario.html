@@ -50,11 +50,11 @@
     <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 items-end">
       <div class="flex-1 w-full">
         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">🔍 Buscar por Computador / Código</label>
-        <input type="text" id="filtro-computador" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="">
+        <input type="text" id="filtro-computador" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="Ej: AVPE001, PW0MG54T...">
       </div>
       <div class="flex-1 w-full">
         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">👤 Buscar por Usuario</label>
-        <input type="text" id="filtro-usuario" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="">
+        <input type="text" id="filtro-usuario" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="Ej: Juan Perez...">
       </div>
       <div>
         <button id="btn-limpiar" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-semibold py-2 px-4 rounded-md text-sm transition duration-200">
@@ -67,8 +67,34 @@
     <div id="inventario-grid" class="w-full"></div>
   </div>
 
+  <!-- ==========================================
+       MODAL: VISOR DE EVIDENCIA FOTOGRÁFICA
+       ========================================== -->
+  <div id="evidencia_modal" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col">
+      <div class="bg-green-900 text-white px-5 py-4 flex justify-between items-center">
+        <h3 class="font-bold text-lg">📸 Evidencia Fotográfica</h3>
+        <button onclick="cerrarModalEvidencia()" class="text-white hover:text-gray-300 font-bold text-2xl leading-none">&times;</button>
+      </div>
+      <div class="p-4 flex justify-center bg-gray-100 items-center min-h-[50vh]">
+        <img id="evidencia_img_full" src="" alt="Evidencia" class="max-h-[65vh] object-contain rounded border border-gray-300 shadow bg-white">
+      </div>
+    </div>
+  </div>
+
   <script>
     let tablaInventario;
+
+    // Funciones del Modal de Evidencia
+    function abrirModalEvidencia(base64Src) {
+      document.getElementById('evidencia_img_full').src = base64Src;
+      document.getElementById('evidencia_modal').style.display = 'flex';
+    }
+
+    function cerrarModalEvidencia() {
+      document.getElementById('evidencia_modal').style.display = 'none';
+      document.getElementById('evidencia_img_full').src = "";
+    }
 
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('inventario-grid').innerHTML = "<div class='text-center p-10'><p class='text-gray-500 font-semibold'>Sincronizando con la Base de Datos Neon...</p></div>";
@@ -85,6 +111,26 @@
           paginationSize: 15,
           columns: [
             {
+              title: "Evidencia", 
+              field: "evidencia_entrega",
+              formatter: function(cell) {
+                const val = cell.getValue();
+                if(val && val.startsWith('data:image')) {
+                  return `<button class='bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-2 py-1.5 rounded text-xs font-bold w-full transition duration-150 flex items-center justify-center gap-1'><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Foto</button>`;
+                }
+                return "<span class='text-gray-400 text-xs text-center block w-full'>-</span>";
+              }, 
+              width: 100, 
+              hozAlign: "center",
+              headerSort: false,
+              cellClick: function(e, cell) {
+                const val = cell.getValue();
+                if(val && val.startsWith('data:image')) {
+                  abrirModalEvidencia(val);
+                }
+              }
+            },
+            {
               title: "Acta PDF", 
               formatter: function(cell) {
                 const row = cell.getRow().getData();
@@ -99,7 +145,6 @@
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
                 if(rowData.id_acta) {
-                  // Guardar los datos temporalmente y abrir la página de impresión en una nueva pestaña
                   sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
                   window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
                 }
