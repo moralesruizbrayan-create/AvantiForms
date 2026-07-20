@@ -50,11 +50,11 @@
     <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 items-end">
       <div class="flex-1 w-full">
         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">🔍 Buscar por Computador / Código</label>
-        <input type="text" id="filtro-computador" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="Ej: AVPE001, PW0MG54T...">
+        <input type="text" id="filtro-computador" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600">
       </div>
       <div class="flex-1 w-full">
         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">👤 Buscar por Usuario</label>
-        <input type="text" id="filtro-usuario" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600" placeholder="Ej: Juan Perez...">
+        <input type="text" id="filtro-usuario" class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600">
       </div>
       <div>
         <button id="btn-limpiar" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-semibold py-2 px-4 rounded-md text-sm transition duration-200">
@@ -127,13 +127,13 @@
                 let hasEvidencia = false;
 
                 // Verificamos si existe evidencia de entrega
-                if (row.evidencia_entrega && row.evidencia_entrega.startsWith('data:image')) {
+                if (row.evidencia_entrega && row.evidencia_entrega.length > 50) {
                   html += `<button class='btn-evi-ent bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-2 py-1 rounded text-xs font-bold w-full transition'>📸 Entrega</button>`;
                   hasEvidencia = true;
                 }
                 
                 // Verificamos si existe evidencia de devolución
-                if (row.evidencia_devolucion && row.evidencia_devolucion.startsWith('data:image')) {
+                if (row.evidencia_devolucion && row.evidencia_devolucion.length > 50) {
                   html += `<button class='btn-evi-dev bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 px-2 py-1 rounded text-xs font-bold w-full transition'>📸 Retorno</button>`;
                   hasEvidencia = true;
                 }
@@ -147,7 +147,6 @@
               headerSort: false,
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
-                // Validamos qué botón presionó el usuario
                 if (e.target.classList.contains('btn-evi-ent')) {
                   abrirModalEvidencia(rowData.evidencia_entrega);
                 } else if (e.target.classList.contains('btn-evi-dev')) {
@@ -169,7 +168,6 @@
               headerSort: false,
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
-                // Validar que presionó el botón de PDF y no el espacio en blanco de la celda
                 if(rowData.id_acta && (e.target.classList.contains('btn-pdf') || e.target.closest('.btn-pdf'))) {
                   sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
                   window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
