@@ -44,7 +44,6 @@
     .btn-evi:hover { background: #E0F2FE; }
     .btn-disabled { color: #94A3B8; background: transparent; cursor: not-allowed; opacity: 0.5; }
 
-    /* SCROLLBAR CUSTOM PARA TABLA */
     .tabulator-tableholder::-webkit-scrollbar { height: 8px; width: 8px; }
     .tabulator-tableholder::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 4px; }
     .tabulator-tableholder::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
@@ -66,8 +65,8 @@
           <p class="text-sm text-gray-500 font-medium mt-0.5">Control patrimonial y expedientes fotográficos</p>
         </div>
       </div>
-      <div class="mt-4 md:mt-0 flex gap-3">
-        <button class="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium py-2 px-4 rounded-lg text-sm transition duration-200 shadow-sm" onclick="location.href='index.html'">
+      <div class="mt-4 md:mt-0 flex w-full md:w-auto gap-3">
+        <button class="w-full md:w-auto flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium py-2 px-4 rounded-lg text-sm transition duration-200 shadow-sm" onclick="location.href='index.html'">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Dashboard
         </button>
@@ -83,7 +82,7 @@
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
-            <input type="text" id="filtro-computador" class="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition" placeholder="Ej: AVPE001...">
+            <input type="text" id="filtro-computador" class="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition">
           </div>
         </div>
         
@@ -93,7 +92,7 @@
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
             </div>
-            <input type="text" id="filtro-usuario" class="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition" placeholder="Ej: Juan Perez...">
+            <input type="text" id="filtro-usuario" class="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition">
           </div>
         </div>
 
@@ -108,7 +107,7 @@
           </select>
         </div>
 
-        <div>
+        <div class="w-full lg:w-auto mt-2 lg:mt-0">
           <button id="btn-limpiar" class="flex items-center justify-center w-full lg:w-auto bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm">
             Resetear
           </button>
@@ -123,9 +122,7 @@
 
   </div>
 
-  <!-- ==========================================
-       MODAL: VISOR DE EVIDENCIA FOTOGRÁFICA
-       ========================================== -->
+  <!-- MODAL: VISOR DE EVIDENCIA -->
   <div id="evidencia_modal" class="fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4 transition-opacity">
     <div class="bg-white rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl flex flex-col transform transition-all">
       <div class="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center">
@@ -146,7 +143,6 @@
   <script>
     let tablaInventario;
 
-    // --- FUNCIONES DEL MODAL DE EVIDENCIA ---
     function abrirModalEvidencia(base64Src) {
       if (!base64Src) return;
       document.getElementById('evidencia_img_full').src = base64Src;
@@ -162,7 +158,6 @@
       if(e.target === this) cerrarModalEvidencia();
     });
 
-    // ICONOS SVG PARA BOTONES
     const iconPDF = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
     const iconCamera = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`;
 
@@ -176,7 +171,8 @@
 
         tablaInventario = new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
-          layout: "fitDataFill", 
+          layout: "fitColumns", 
+          responsiveLayout: "collapse", // HACE LA TABLA MAGNÍFICA EN CELULARES
           pagination: "local",
           paginationSize: 10,
           paginationSizeSelector: [10, 25, 50, 100],
@@ -189,15 +185,9 @@
               formatter: function(cell) {
                 const row = cell.getRow().getData();
                 let html = '<div class="flex items-center justify-center gap-2">';
-                
-                // Botón PDF
-                if(row.id_acta) {
-                  html += `<button class='action-btn btn-pdf' title='Ver Acta PDF'>${iconPDF}</button>`;
-                } else {
-                  html += `<button class='action-btn btn-disabled' disabled>${iconPDF}</button>`;
-                }
+                if(row.id_acta) html += `<button class='action-btn btn-pdf' title='Ver Acta PDF'>${iconPDF}</button>`;
+                else html += `<button class='action-btn btn-disabled' disabled>${iconPDF}</button>`;
 
-                // Botón Evidencia (Entrega o Devolución)
                 if ((row.evidencia_entrega && row.evidencia_entrega.length > 50) || (row.evidencia_devolucion && row.evidencia_devolucion.length > 50)) {
                   html += `<button class='action-btn btn-evi' title='Ver Evidencia Fotográfica'>${iconCamera}</button>`;
                 } else {
@@ -209,16 +199,11 @@
               },
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
-                
-                // Clic en botón PDF
                 if(e.target.closest('.btn-pdf')) {
                   sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
                   window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
                 }
-                
-                // Clic en botón Evidencia
                 if(e.target.closest('.btn-evi')) {
-                  // Muestra la de devolución si existe, sino la de entrega
                   if(rowData.evidencia_devolucion && rowData.evidencia_devolucion.length > 50) {
                     abrirModalEvidencia(rowData.evidencia_devolucion);
                   } else {
@@ -264,7 +249,6 @@
       }
     });
 
-    // --- LÓGICA DE FILTROS ---
     function actualizarFiltros() {
       const valComputador = document.getElementById("filtro-computador").value;
       const valUsuario = document.getElementById("filtro-usuario").value;
