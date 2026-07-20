@@ -42,7 +42,7 @@
     .input-wrapper { position: relative; display: flex; width: 100%; }
     input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 6px 10px; font-size: 12px; color: var(--text-color); border-radius: 4px; font-family: inherit; }
     textarea { resize: none; overflow: hidden; vertical-align: middle; line-height: 1.4; min-height: 28px; }
-    .btn-scan { position: absolute; right: 4px; background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
+    .btn-scan { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; }
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; }
     input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #0E5A32; }
     
@@ -73,11 +73,43 @@
     .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 420px; border-radius: 6px; box-shadow: var(--shadow-md); overflow: hidden; }
     .custom-modal-header { background: #0E5A32; color: #FFF; padding: 14px 20px; font-size: 13px; font-weight: 700; text-transform: uppercase; }
     .custom-modal-footer { padding: 14px 20px; background: var(--subhead-bg); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-color); }
-    .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; background: #fff; border: 1.5px dashed #92C840; }
+    
+    /* El touch-action evita que la pantalla haga scroll al firmar en móvil */
+    .sig-canvas-popup { display: block; width: 100%; height: 220px; cursor: crosshair; background: #fff; border: 1.5px dashed #92C840; touch-action: none; }
+    
     .btn-modal { border: none; padding: 8px 18px; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; }
     .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 12px 24px; border-radius: 4px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13px; font-weight: 600; transition: top 0.4s; border: 1px solid var(--border-color); border-left: 4px solid #107C41; }
     .custom-toast.show { top: 24px; }
     
+    /* ==============================================
+       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
+       ============================================== */
+    @media screen and (max-width: 768px) {
+      body { padding: 12px; }
+      .page-container { padding: 16px 12px; border: none; box-shadow: var(--shadow-sm); }
+      .header-table, .header-table tbody, .header-table tr, .header-table td { display: block; width: 100%; text-align: center; }
+      .header-logo img { margin: 0 auto 10px auto; }
+      .header-titles h1 { font-size: 16px; }
+      
+      .action-bar { flex-direction: column; gap: 10px; }
+      .action-group-right { flex-direction: column; width: 100%; }
+      .btn-action { width: 100%; padding: 14px; font-size: 13px; }
+      .mode-selector { display: grid; grid-template-columns: 1fr; gap: 8px; }
+      .mode-btn { width: 100%; text-align: center; }
+
+      /* Transforma la tabla en un diseño moderno de tarjetas apiladas */
+      .form-table, .form-table tbody { display: block; width: 100%; }
+      .form-table tr { display: flex; flex-direction: column; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background-color: var(--card-bg); }
+      .form-table td { display: block; width: 100% !important; border: none; border-bottom: 1px solid var(--border-color); padding: 10px 12px; }
+      .form-table td:last-child { border-bottom: none; }
+      .lbl { background-color: var(--subhead-bg); color: #0E5A32; font-size: 11px; padding: 8px 12px 4px 12px; border-bottom: none !important; font-weight: 700; }
+      .subhead { padding: 10px 12px !important; text-align: center; font-size: 11px; }
+      
+      .signature-section { flex-direction: column; gap: 30px; }
+      .signature-block { width: 100%; }
+      .custom-modal-card { width: 95%; margin: 0 auto; }
+    }
+
     /* OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4 */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
@@ -159,7 +191,7 @@
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo" placeholder=""></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Computador:</td><td><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><textarea rows="1" data-spec="procesador"></textarea></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
@@ -193,7 +225,7 @@
       <!-- ZONA DE ENTREGA -->
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
@@ -228,7 +260,7 @@
         <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
@@ -304,7 +336,7 @@
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
@@ -338,7 +370,7 @@
         <h3>5. Control de Devolución:</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
 
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
@@ -414,7 +446,7 @@
 
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
-        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr></table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
@@ -450,7 +482,7 @@
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
@@ -521,7 +553,7 @@
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Variante Línea:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label> <label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label> <label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega"></textarea></td></tr>
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
@@ -558,7 +590,7 @@
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
-          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion"></textarea></td></tr>
         </table>
         
         <div class="subhead mt-2 mb-2 no-print" style="padding: 4px 8px;">📸 Evidencia Fotográfica (Opcional)</div>
@@ -595,8 +627,9 @@
   <div id="firma_modal" class="custom-modal-overlay no-print">
     <div class="custom-modal-card" style="max-width: 600px;">
       <div class="custom-modal-header">Registrar Firma Digital</div>
-      <div style="padding: 15px; background: white;">
-        <canvas id="popup_canvas" class="sig-canvas-popup" width="560" height="220"></canvas>
+      <div style="padding: 15px; background: white; width: 100%; overflow: hidden;">
+        <!-- Optimizamos el canvas para que sea amigable con el celular y evite scrolls -->
+        <canvas id="popup_canvas" class="sig-canvas-popup"></canvas>
       </div>
       <div class="custom-modal-footer">
         <button class="btn-modal" style="background:#E2E8F0; color:#334155" onclick="document.getElementById('firma_modal').style.display='none'">Cancelar</button>
@@ -626,7 +659,6 @@
             targetView.classList.add('active');
             document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
             
-            // Evaluar los inputs de fecha iniciales
             document.querySelectorAll('input[type="date"]').forEach(input => {
                 if (input.value) input.classList.add('has-val');
                 input.addEventListener('change', function() {
@@ -669,7 +701,7 @@
                     el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
                   } else {
                     el.value = val;
-                    if(el.type === 'date') el.classList.add('has-val'); // Añadir clase explícitamente en modo impresión
+                    if(el.type === 'date') el.classList.add('has-val');
                   }
                 }
                 if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
@@ -747,17 +779,39 @@
     let targetImgId = null, dibujando = false;
     const canvas = document.getElementById('popup_canvas');
     const ctx = canvas.getContext('2d');
-    ctx.strokeStyle = '#242424'; ctx.lineWidth = 3; ctx.lineCap = 'round';
 
+    // CÓDIGO REESCRITO PARA SOPORTAR CANVAS PERFECTO EN MÓVILES
     function abrirModalFirma(imgId) {
       targetImgId = imgId;
-      document.getElementById('firma_modal').style.display = 'flex';
+      const modal = document.getElementById('firma_modal');
+      modal.style.display = 'flex';
+      
+      // Auto-adaptar resolución interna del canvas en dispositivos móviles
+      const rect = canvas.parentElement.getBoundingClientRect();
+      if(rect.width > 0) canvas.width = rect.width;
+      
+      ctx.strokeStyle = '#242424'; ctx.lineWidth = 3; ctx.lineCap = 'round';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: (e.clientX || e.touches[0].clientX) - r.left, y: (e.clientY || e.touches[0].clientY) - r.top }; }
-    canvas.onmousedown = canvas.ontouchstart = (e) => { dibujando = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
-    canvas.onmousemove = canvas.ontouchmove = (e) => { if(dibujando){ const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); } };
+    function getPos(e) { 
+      const r = canvas.getBoundingClientRect(); 
+      // Calculamos escala en caso que el CSS redimensione el canvas, previniendo trazados desviados en móviles
+      const scaleX = canvas.width / r.width;
+      const scaleY = canvas.height / r.height;
+      return { 
+        x: ((e.clientX || (e.touches && e.touches[0].clientX)) - r.left) * scaleX, 
+        y: ((e.clientY || (e.touches && e.touches[0].clientY)) - r.top) * scaleY
+      }; 
+    }
+    
+    canvas.onmousedown = canvas.ontouchstart = (e) => { 
+      dibujando = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); 
+      e.preventDefault(); 
+    };
+    canvas.onmousemove = canvas.ontouchmove = (e) => { 
+      if(dibujando){ const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); } 
+    };
     window.onmouseup = window.ontouchend = () => dibujando = false;
 
     function guardarFirmaPopup() {
