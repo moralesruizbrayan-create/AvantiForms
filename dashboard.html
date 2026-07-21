@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Avanti</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Expulsa al index sin dejar rastro si no hay sesión -->
+    
+    <!-- Ícono de la pestaña (Favicon) -->
+    <link rel="icon" type="image/jpeg" href="AVANTI LOGO (1).jpeg">
+    
     <script>
         if (!localStorage.getItem('token')) {
             window.location.replace('index.html');
@@ -19,7 +22,8 @@
         <header class="top-header">
             <div class="brand">
                 <div class="logo-title-group">
-                    <div class="logo-placeholder-small">🌱</div>
+                    <!-- Integración del logo en el Dashboard -->
+                    <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-dashboard">
                     <div>
                         <h2>Portal de Gestión de Actas</h2>
                         <p class="subtitle"><span class="dot"></span> Área de Soporte TI — Agrícola Avanti S.A.C.</p>
@@ -35,7 +39,6 @@
 
         <!-- Módulos Superiores (Tarjetas) -->
         <section class="modules-grid">
-            <!-- CORRECCIÓN: Agregado onclick a las tarjetas -->
             <div class="card-modulo" onclick="window.location.href='gestion-actas.html'">
                 <div class="card-header-flex">
                     <div class="icon-container">💻</div>
@@ -80,7 +83,6 @@
                         <p>Alta y baja de personal de Avanti para la asignación de equipos.</p>
                     </div>
                 </div>
-                <!-- CORRECCIÓN: Agregado onclick al botón de empleados -->
                 <button class="btn-avanti-blue" onclick="window.location.href='admin-empleados.html'">Gestionar Personal →</button>
             </div>
 
@@ -92,7 +94,6 @@
                         <p>Control</p>
                     </div>
                 </div>
-                <!-- CORRECCIÓN: Agregado onclick al botón de inventario -->
                 <button class="btn-avanti" onclick="window.location.href='inventario.html'">Abrir Base de Datos →</button>
             </div>
         </section>
