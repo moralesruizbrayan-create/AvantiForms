@@ -28,6 +28,7 @@
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
     }
     
+    /* INTEGRACIÓN COMPLETA DE MODO OSCURO */
     body.dark-mode { 
       --bg-color: #0F172A; 
       --text-color: #F8FAFC; 
@@ -51,7 +52,6 @@
     
     .form-view { display: none; } .form-view.active { display: block; }
     
-    /* BARRAS Y CONTENEDORES ADAPTATIVOS */
     .action-bar-container { background-color: var(--card-bg); border-color: var(--border-color); }
     .btn-dash { background-color: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); }
     .btn-dash:hover { background-color: var(--border-color); }
@@ -78,25 +78,19 @@
     .subhead { background-color: var(--subhead-bg); color: #16A34A; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
-    
-    /* NORMALIZACIÓN PARA MÓVILES (-webkit-appearance) */
     input[type="text"], input[type="date"], textarea { 
-      -webkit-appearance: none; appearance: none;
-      width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); 
-      padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; 
-      font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
+      -webkit-appearance: none; appearance: none; width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
     }
     input[type="text"]:focus, input[type="date"]:focus, textarea:focus { outline: none; border-color: #16A34A; }
     
     textarea { resize: none !important; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
-    textarea::-webkit-resizer { display: none !important; }
-    textarea::-webkit-scrollbar { display: none !important; }
+    textarea::-webkit-resizer, textarea::-webkit-scrollbar { display: none !important; }
     
     .btn-scan { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; transition: transform 0.2s; color: var(--text-secondary); }
     .btn-scan:hover { transform: translateY(-50%) scale(1.1); color: var(--text-color); }
     
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; color: var(--text-color); }
-    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
+    input[type="checkbox"], input[type="radio"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #16A34A; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
@@ -131,131 +125,59 @@
     .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 14px 28px; border-radius: 8px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13.5px; font-weight: 600; transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border-color); border-left: 4px solid #16A34A; color: var(--text-color); }
     .custom-toast.show { top: 24px; }
     
-    /* ==============================================
-       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
-       ============================================== */
     @media screen and (max-width: 820px) {
       body { padding: 12px 8px; }
       .page-container { padding: 20px 16px; border: none; box-shadow: var(--shadow-sm); border-radius: 12px; margin-bottom: 20px;}
-      
       .header-table, .header-table tbody, .header-table tr, .header-table td { display: block; width: 100%; text-align: center; }
       .header-logo { padding-bottom: 4px; text-align: center; }
       .header-logo img { margin: 0 auto 12px auto; width: 80px; height: 80px; }
       .header-titles { padding-left: 0; padding-bottom: 16px; text-align: center; }
       .header-titles h1 { font-size: 18px; line-height: 1.3; }
-      
       .mode-selector { display: grid; grid-template-columns: 1fr; gap: 10px; }
       .mode-btn { width: 100%; text-align: center; padding: 12px; font-size: 14px; }
-
       .form-table, .form-table tbody { display: block; width: 100%; }
       .form-table tr { display: flex; flex-direction: column; margin-bottom: 0; background: transparent !important; border: none !important; box-shadow: none !important; }
       .form-table td { display: block; width: 100% !important; }
-      
-      .form-table td.lbl { 
-         background-color: #F1F5F9 !important; 
-         color: #475569 !important; 
-         font-size: 11.5px; 
-         padding: 12px 14px 8px 14px !important; 
-         border: 1px solid var(--border-color) !important; 
-         border-bottom: none !important; 
-         border-radius: 8px 8px 0 0 !important; 
-         margin-top: 16px; 
-         font-weight: 700; 
-         text-transform: uppercase; 
-      }
-      
+      .form-table td.lbl { background-color: #F1F5F9 !important; color: #475569 !important; font-size: 11.5px; padding: 12px 14px 8px 14px !important; border: 1px solid var(--border-color) !important; border-bottom: none !important; border-radius: 8px 8px 0 0 !important; margin-top: 16px; font-weight: 700; text-transform: uppercase; }
       .form-table tr:first-child td.lbl:first-child { margin-top: 0; }
-      
-      .form-table td:not(.lbl):not(.subhead) { 
-         background-color: var(--card-bg); 
-         border: 1px solid var(--border-color) !important; 
-         border-top: none !important; 
-         border-radius: 0 0 8px 8px !important; 
-         padding: 8px 14px 16px 14px !important; 
-         box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-      }
-
-      .form-table td[colspan="4"]:not(.subhead):not(.lbl) {
-         border-top: 1px solid var(--border-color) !important; 
-         border-radius: 8px !important; 
-         margin-top: 16px;
-      }
-
-      .form-table td.subhead { 
-         background-color: transparent !important; 
-         color: #16A34A !important; 
-         font-size: 12px !important; 
-         padding: 24px 0 8px 0 !important; 
-         border: none !important; 
-         text-align: left; 
-         border-bottom: 2px solid #16A34A !important;
-         border-radius: 0 !important;
-         margin-top: 10px;
-      }
-      
+      .form-table td:not(.lbl):not(.subhead) { background-color: var(--card-bg); border: 1px solid var(--border-color) !important; border-top: none !important; border-radius: 0 0 8px 8px !important; padding: 8px 14px 16px 14px !important; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+      .form-table td[colspan="4"]:not(.subhead):not(.lbl), .form-table td[colspan="2"]:not(.subhead):not(.lbl) { border-top: 1px solid var(--border-color) !important; border-radius: 8px !important; margin-top: 16px; }
+      .form-table td.subhead { background-color: transparent !important; color: #16A34A !important; font-size: 12px !important; padding: 24px 0 8px 0 !important; border: none !important; text-align: left; border-bottom: 2px solid #16A34A !important; border-radius: 0 !important; margin-top: 10px; }
       .signature-section { flex-direction: column; gap: 30px; }
       .signature-block { width: 100%; }
       .custom-modal-card { width: 100%; margin: 0; }
-      
       input[type="text"], input[type="date"], textarea { font-size: 15px; padding: 12px 14px; }
-      input[type="checkbox"] { width: 18px; height: 18px; }
+      input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; }
       .inline-flex { font-size: 14px; margin-right: 20px; margin-bottom: 8px; display: inline-flex; flex-wrap: wrap;}
     }
 
-    /* ==============================================
-       OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4
-       ============================================== */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
-      :root, body.dark-mode, body { 
-        --bg-color: #FFFFFF !important; 
-        --text-color: #000000 !important; 
-        --text-secondary: #000000 !important; 
-        --card-bg: #FFFFFF !important; 
-        --border-color: #CBD5E1 !important; 
-        --input-bg: transparent !important; 
-        --input-border: #CBD5E1 !important; 
-        --lbl-bg: #F8FAFC !important; 
-        --subhead-bg: #E2E8F0 !important; 
-      }
-      
+      :root, body.dark-mode, body { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --text-secondary: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #CBD5E1 !important; --input-bg: transparent !important; --input-border: #CBD5E1 !important; --lbl-bg: #F8FAFC !important; --subhead-bg: #E2E8F0 !important; }
       body { background: #FFFFFF !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar-container { display: none !important; }
       .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; margin: 0 !important; }
-      
       .header-table { margin-bottom: 12px !important; border-bottom: 2px solid #16A34A !important; padding-bottom: 4px !important; }
       .header-logo { width: 70px !important; padding-bottom: 8px !important; }
       .header-logo img { width: 60px !important; height: auto !important; max-height: 60px !important; }
       .header-titles { padding-bottom: 8px !important; }
       .header-titles h1 { font-size: 15px !important; color: #16A34A !important; margin:0 !important; padding:0 !important; letter-spacing: 0 !important; }
-      
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #16A34A !important; page-break-after: avoid; }
       h3::before { background-color: #16A34A !important; }
-      
       .form-table { margin-bottom: 6px !important; page-break-inside: avoid; }
       .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.2 !important; vertical-align: middle !important; }
       .lbl { background-color: #F8FAFC !important; color: #000 !important; font-weight: 700 !important; width: 18% !important; }
       .subhead { background-color: #F1F5F9 !important; color: #16A34A !important; font-size: 8.5px !important; padding: 3px 6px !important; }
-      
-      input[type="text"], input[type="date"], textarea { 
-        background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; 
-        color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important;
-        vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; 
-        word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important;
-      }
+      input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important; vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important; }
       textarea { height: auto !important; min-height: auto !important; resize: none !important; display: block !important; }
       textarea::-webkit-resizer { display: none !important; }
-      
       input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
-      
-      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
+      input[type="checkbox"], input[type="radio"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; color: #000 !important; white-space: nowrap !important; }
-      
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #16A34A !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; background: transparent !important; color: #000 !important;}
       .evidencia-box, .evidencia-runtime-img { display: none !important; }
-      
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; color: #000 !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 40px !important; }
@@ -273,20 +195,16 @@
   </button>
   <div id="custom_toast" class="custom-toast no-print"><span id="toast_message"></span></div>
 
-  <!-- BARRA DE ACCIÓN SAAS RESPONSIVE -->
   <div class="action-bar-container max-w-[820px] mx-auto mb-6 p-4 md:p-5 rounded-xl shadow-sm border flex flex-col md:flex-row justify-between items-center gap-4 no-print">
     <button type="button" onclick="location.href='index.html'" class="btn-dash w-full md:w-auto flex items-center justify-center gap-2 font-medium py-2.5 px-5 rounded-lg text-sm transition duration-200 shadow-sm cursor-pointer">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-      Dashboard
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Dashboard
     </button>
     <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
       <button type="button" onclick="procesarGuardadoBaseDatos(this)" class="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none cursor-pointer">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-        Guardar
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg> Guardar
       </button>
       <button type="button" onclick="window.print()" class="w-full md:w-auto flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none cursor-pointer">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-        Imprimir
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg> Imprimir
       </button>
     </div>
   </div>
@@ -329,8 +247,8 @@
           <td class="lbl">Tarjeta de Red:</td>
           <td>
             <div style="display: flex; align-items: center; gap: 12px; white-space: nowrap;">
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="tarjeta_red_si" class="excl-check" data-group="red" style="margin-right: 4px;"> Sí</label>
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="tarjeta_red_no" class="excl-check" data-group="red" style="margin-right: 4px;"> No</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="tarjeta_red_si" class="excl-check" data-group="red_m1" style="margin-right: 4px;"> Sí</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="tarjeta_red_no" class="excl-check" data-group="red_m1" style="margin-right: 4px;"> No</label>
             </div>
           </td>
         </tr>
@@ -339,8 +257,8 @@
           <td class="lbl">S.O. Windows:</td>
           <td>
             <div style="display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="win_si" class="excl-check" data-group="win" style="margin-right: 4px;"> Sí</label>
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="win_no" class="excl-check" data-group="win" style="margin-right: 4px;"> No</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="win_si" class="excl-check" data-group="win_m1" style="margin-right: 4px;"> Sí</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="win_no" class="excl-check" data-group="win_m1" style="margin-right: 4px;"> No</label>
               <span style="font-weight: 500; font-size: 11px;">Ver:</span>
               <input type="text" style="width: 45px; padding: 2px 4px; border: 1px solid var(--input-border); border-radius: 4px; background: transparent;" data-spec="win_ver">
             </div>
@@ -348,8 +266,8 @@
           <td class="lbl">Microsoft Office:</td>
           <td>
             <div style="display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="office_si" class="excl-check" data-group="office" style="margin-right: 4px;"> Sí</label>
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="office_no" class="excl-check" data-group="office" style="margin-right: 4px;"> No</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="office_si" class="excl-check" data-group="off_m1" style="margin-right: 4px;"> Sí</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="office_no" class="excl-check" data-group="off_m1" style="margin-right: 4px;"> No</label>
               <span style="font-weight: 500; font-size: 11px;">Ver:</span>
               <input type="text" style="width: 45px; padding: 2px 4px; border: 1px solid var(--input-border); border-radius: 4px; background: transparent;" data-spec="office_ver">
             </div>
@@ -359,15 +277,15 @@
           <td class="lbl">Antivirus:</td>
           <td>
             <div style="display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="antivirus_si" class="excl-check" data-group="av" style="margin-right: 4px;"> Sí</label>
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="antivirus_no" class="excl-check" data-group="av" style="margin-right: 4px;"> No</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="antivirus_si" class="excl-check" data-group="av_m1" style="margin-right: 4px;"> Sí</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="antivirus_no" class="excl-check" data-group="av_m1" style="margin-right: 4px;"> No</label>
             </div>
           </td>
           <td class="lbl">Correo:</td>
           <td>
             <div style="display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="correo_si" class="excl-check" data-group="mail" style="margin-right: 4px;"> Sí</label>
-              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="correo_no" class="excl-check" data-group="mail" style="margin-right: 4px;"> No</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="correo_si" class="excl-check" data-group="mail_m1" style="margin-right: 4px;"> Sí</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="correo_no" class="excl-check" data-group="mail_m1" style="margin-right: 4px;"> No</label>
             </div>
           </td>
         </tr>
@@ -396,8 +314,7 @@
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
           </label>
           <div id="wrap_evidencia_ent_m1" class="evidencia-preview-wrapper">
@@ -428,13 +345,21 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">Estado Final:</td>
+            <td style="width: 82%;">
+              <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_1" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_1" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+              </div>
+            </td>
+          </tr>
         </table>
         
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
           </label>
           <div id="wrap_evidencia_dev_m1" class="evidencia-preview-wrapper">
@@ -509,8 +434,7 @@
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
           </label>
           <div id="wrap_evidencia_ent_m2" class="evidencia-preview-wrapper">
@@ -540,13 +464,21 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">Estado Final:</td>
+            <td style="width: 82%;">
+              <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_2" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_2" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+              </div>
+            </td>
+          </tr>
         </table>
 
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
           </label>
           <div id="wrap_evidencia_dev_m2" class="evidencia-preview-wrapper">
@@ -621,8 +553,7 @@
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
           </label>
           <div id="wrap_evidencia_ent_m3" class="evidencia-preview-wrapper">
@@ -654,13 +585,21 @@
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">Estado Final:</td>
+            <td style="width: 82%;">
+              <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_3" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_3" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+              </div>
+            </td>
+          </tr>
         </table>
         
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
           </label>
           <div id="wrap_evidencia_dev_m3" class="evidencia-preview-wrapper">
@@ -731,8 +670,7 @@
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
           </label>
           <div id="wrap_evidencia_ent_m4" class="evidencia-preview-wrapper">
@@ -764,13 +702,21 @@
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">Estado Final:</td>
+            <td style="width: 82%;">
+              <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_4" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_4" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+              </div>
+            </td>
+          </tr>
         </table>
         
         <div class="subhead mt-3 mb-2 no-print" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
         <div class="evidencia-box no-print">
           <label class="btn-evidencia">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            Adjuntar Foto
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
             <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
           </label>
           <div id="wrap_evidencia_dev_m4" class="evidencia-preview-wrapper">
@@ -886,6 +832,8 @@
                 if (val !== undefined && val !== null) {
                   if (el.type === 'checkbox') {
                     el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
+                  } else if (el.type === 'radio') {
+                    if (el.value === val) el.checked = true;
                   } else {
                     el.value = val;
                     if(el.type === 'date') el.classList.add('has-val');
@@ -1134,7 +1082,11 @@
         if (el.type === 'checkbox') {
           if (!el.checked) return;
           val = el.nextSibling ? el.nextSibling.textContent.trim() : 'true';
+        } else if (el.type === 'radio') {
+          if (!el.checked) return;
+          val = el.value;
         }
+        
         if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo', 'correo_corp'].includes(key)) {
           payload.empleado[key] = val;
         } else {
