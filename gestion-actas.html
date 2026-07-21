@@ -28,7 +28,6 @@
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
     }
     
-    /* INTEGRACIÓN COMPLETA DE MODO OSCURO */
     body.dark-mode { 
       --bg-color: #0F172A; 
       --text-color: #F8FAFC; 
@@ -64,7 +63,6 @@
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #16A34A; color: #FFF; border-color: #16A34A; box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2); }
 
-    /* CABECERA Y LOGO MEJORADOS */
     .header-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border-bottom: 3px solid #16A34A; }
     .header-logo { width: 85px; padding-bottom: 12px; vertical-align: middle; text-align: left; }
     .header-logo img { width: 100%; max-height: 65px; object-fit: contain; mix-blend-multiply; }
@@ -80,10 +78,16 @@
     .subhead { background-color: var(--subhead-bg); color: #16A34A; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
-    input[type="text"], input[type="date"], textarea { width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; }
+    
+    /* NORMALIZACIÓN PARA MÓVILES (-webkit-appearance) */
+    input[type="text"], input[type="date"], textarea { 
+      -webkit-appearance: none; appearance: none;
+      width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); 
+      padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; 
+      font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
+    }
     input[type="text"]:focus, input[type="date"]:focus, textarea:focus { outline: none; border-color: #16A34A; }
     
-    /* ELIMINACIÓN DE SCROLLBARS Y RESIZERS EN TEXTAREAS */
     textarea { resize: none !important; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
     textarea::-webkit-resizer { display: none !important; }
     textarea::-webkit-scrollbar { display: none !important; }
@@ -128,13 +132,12 @@
     .custom-toast.show { top: 24px; }
     
     /* ==============================================
-       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES Y TABLETS)
+       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
        ============================================== */
     @media screen and (max-width: 820px) {
       body { padding: 12px 8px; }
       .page-container { padding: 20px 16px; border: none; box-shadow: var(--shadow-sm); border-radius: 12px; margin-bottom: 20px;}
       
-      /* Ajuste de Cabecera Móvil */
       .header-table, .header-table tbody, .header-table tr, .header-table td { display: block; width: 100%; text-align: center; }
       .header-logo { padding-bottom: 4px; text-align: center; }
       .header-logo img { margin: 0 auto 12px auto; width: 80px; height: 80px; }
@@ -144,12 +147,10 @@
       .mode-selector { display: grid; grid-template-columns: 1fr; gap: 10px; }
       .mode-btn { width: 100%; text-align: center; padding: 12px; font-size: 14px; }
 
-      /* Formulario Flotante en Móvil (Cards) */
       .form-table, .form-table tbody { display: block; width: 100%; }
       .form-table tr { display: flex; flex-direction: column; margin-bottom: 0; background: transparent !important; border: none !important; box-shadow: none !important; }
       .form-table td { display: block; width: 100% !important; }
       
-      /* Título (Label) como cabecera de la tarjeta */
       .form-table td.lbl { 
          background-color: #F1F5F9 !important; 
          color: #475569 !important; 
@@ -165,7 +166,6 @@
       
       .form-table tr:first-child td.lbl:first-child { margin-top: 0; }
       
-      /* Cuerpo de la tarjeta (Input) */
       .form-table td:not(.lbl):not(.subhead) { 
          background-color: var(--card-bg); 
          border: 1px solid var(--border-color) !important; 
@@ -175,7 +175,6 @@
          box-shadow: 0 1px 2px rgba(0,0,0,0.02);
       }
 
-      /* Checkboxes que ocupan todo el ancho */
       .form-table td[colspan="4"]:not(.subhead):not(.lbl) {
          border-top: 1px solid var(--border-color) !important; 
          border-radius: 8px !important; 
@@ -194,7 +193,6 @@
          margin-top: 10px;
       }
       
-      /* Botones y Firmas en Móvil */
       .signature-section { flex-direction: column; gap: 30px; }
       .signature-block { width: 100%; }
       .custom-modal-card { width: 100%; margin: 0; }
@@ -209,8 +207,6 @@
        ============================================== */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
-      
-      /* FORZAMOS BLANCO Y NEGRO IGNORANDO EL MODO OSCURO */
       :root, body.dark-mode, body { 
         --bg-color: #FFFFFF !important; 
         --text-color: #000000 !important; 
@@ -224,11 +220,9 @@
       }
       
       body { background: #FFFFFF !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar-container { display: none !important; }
       .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; margin: 0 !important; }
       
-      /* CABECERA EN IMPRESIÓN */
       .header-table { margin-bottom: 12px !important; border-bottom: 2px solid #16A34A !important; padding-bottom: 4px !important; }
       .header-logo { width: 70px !important; padding-bottom: 8px !important; }
       .header-logo img { width: 60px !important; height: auto !important; max-height: 60px !important; }
@@ -238,33 +232,20 @@
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #16A34A !important; page-break-after: avoid; }
       h3::before { background-color: #16A34A !important; }
       
-      /* TABLAS EN IMPRESIÓN */
       .form-table { margin-bottom: 6px !important; page-break-inside: avoid; }
       .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.2 !important; vertical-align: middle !important; }
       .lbl { background-color: #F8FAFC !important; color: #000 !important; font-weight: 700 !important; width: 18% !important; }
       .subhead { background-color: #F1F5F9 !important; color: #16A34A !important; font-size: 8.5px !important; padding: 3px 6px !important; }
       
-      /* IMPUTS Y TEXTOS EN IMPRESIÓN (SIN RECORTES) */
       input[type="text"], input[type="date"], textarea { 
-        background: transparent !important; 
-        border: none !important; 
-        padding: 0 !important; 
-        font-size: 9.5px !important; 
-        color: #000 !important; 
-        width: 100% !important; 
-        font-family: inherit !important; 
-        text-align: left !important;
-        vertical-align: middle !important;
-        overflow: visible !important; 
-        white-space: pre-wrap !important; 
-        word-wrap: break-word !important; 
-        overflow-wrap: break-word !important;
-        word-break: normal !important;
+        background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; 
+        color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important;
+        vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; 
+        word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important;
       }
       textarea { height: auto !important; min-height: auto !important; resize: none !important; display: block !important; }
       textarea::-webkit-resizer { display: none !important; }
       
-      /* OCULTAR CAJAS DE FECHA VACÍAS */
       input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
@@ -275,7 +256,6 @@
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #16A34A !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; background: transparent !important; color: #000 !important;}
       .evidencia-box, .evidencia-runtime-img { display: none !important; }
       
-      /* FIRMAS EN IMPRESIÓN */
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; color: #000 !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 40px !important; }
@@ -293,18 +273,18 @@
   </button>
   <div id="custom_toast" class="custom-toast no-print"><span id="toast_message"></span></div>
 
-  <!-- BARRA DE ACCIÓN SAAS RESPONSIVE (CON MODO OSCURO) -->
+  <!-- BARRA DE ACCIÓN SAAS RESPONSIVE -->
   <div class="action-bar-container max-w-[820px] mx-auto mb-6 p-4 md:p-5 rounded-xl shadow-sm border flex flex-col md:flex-row justify-between items-center gap-4 no-print">
-    <button onclick="location.href='index.html'" class="btn-dash w-full md:w-auto flex items-center justify-center gap-2 font-medium py-2.5 px-5 rounded-lg text-sm transition duration-200 shadow-sm">
+    <button type="button" onclick="location.href='index.html'" class="btn-dash w-full md:w-auto flex items-center justify-center gap-2 font-medium py-2.5 px-5 rounded-lg text-sm transition duration-200 shadow-sm cursor-pointer">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
       Dashboard
     </button>
     <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
-      <button onclick="procesarGuardadoBaseDatos(this)" class="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none">
+      <button type="button" onclick="procesarGuardadoBaseDatos(this)" class="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
         Guardar
       </button>
-      <button onclick="window.print()" class="w-full md:w-auto flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none">
+      <button type="button" onclick="window.print()" class="w-full md:w-auto flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
         Imprimir
       </button>
@@ -317,9 +297,9 @@
   <div id="view_material_informatico" class="form-view" data-tipo="material_informatico" data-titulo-base="EQUIPOS INFORMÁTICOS">
     <div class="page-container">
       <div class="mode-selector no-print">
-        <button class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
-        <button class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
-        <button class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
+        <button type="button" class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
       </div>
 
       <table class="header-table">
@@ -339,7 +319,7 @@
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Computador:</td><td><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><textarea rows="1" data-spec="procesador"></textarea></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
@@ -418,7 +398,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m1')">
           </label>
           <div id="wrap_evidencia_ent_m1" class="evidencia-preview-wrapper">
             <img id="evidencia_ent_m1" class="evidencia-runtime-img">
@@ -455,7 +435,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m1')">
           </label>
           <div id="wrap_evidencia_dev_m1" class="evidencia-preview-wrapper">
             <img id="evidencia_dev_m1" class="evidencia-runtime-img">
@@ -485,9 +465,9 @@
   <div id="view_perifericos" class="form-view" data-tipo="perifericos" data-titulo-base="PERIFÉRICOS Y MONITORES">
     <div class="page-container">
       <div class="mode-selector no-print">
-        <button class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
-        <button class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
-        <button class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
+        <button type="button" class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
       </div>
 
       <table class="header-table">
@@ -507,7 +487,7 @@
 
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m2_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m2_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m2_nro_serie" data-spec="nro_serie"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m2_nro_serie')">📷</button></div></td></tr>
         <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_patrimonial"></td></tr>
         <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><textarea rows="1" data-spec="entradas_video"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
@@ -531,7 +511,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m2')">
           </label>
           <div id="wrap_evidencia_ent_m2" class="evidencia-preview-wrapper">
             <img id="evidencia_ent_m2" class="evidencia-runtime-img">
@@ -567,7 +547,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m2')">
           </label>
           <div id="wrap_evidencia_dev_m2" class="evidencia-preview-wrapper">
             <img id="evidencia_dev_m2" class="evidencia-runtime-img">
@@ -597,9 +577,9 @@
   <div id="view_telefonos" class="form-view" data-tipo="telefonos" data-titulo-base="EQUIPOS MÓVILES">
     <div class="page-container">
       <div class="mode-selector no-print">
-        <button class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
-        <button class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
-        <button class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
+        <button type="button" class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
       </div>
 
       <table class="header-table">
@@ -619,8 +599,8 @@
 
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
       <table class="form-table">
-        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m3_nro_serie" data-spec="nro_serie"><button class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">IMEI 1:</td><td><div class="input-wrapper"><input type="text" id="m3_imei1" data-spec="imei_1"><button class="btn-scan no-print" onclick="abrirEscaner('m3_imei1')">📷</button></div></td><td class="lbl">IMEI 2:</td><td><div class="input-wrapper"><input type="text" id="m3_imei2" data-spec="imei_2"><button class="btn-scan no-print" onclick="abrirEscaner('m3_imei2')">📷</button></div></td></tr>
+        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m3_nro_serie" data-spec="nro_serie"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')">📷</button></div></td></tr>
+        <tr><td class="lbl">IMEI 1:</td><td><div class="input-wrapper"><input type="text" id="m3_imei1" data-spec="imei_1"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m3_imei1')">📷</button></div></td><td class="lbl">IMEI 2:</td><td><div class="input-wrapper"><input type="text" id="m3_imei2" data-spec="imei_2"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m3_imei2')">📷</button></div></td></tr>
         <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad"></td></tr>
         <tr><td class="lbl">Código Patrimonial:</td><td colspan="3"><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
@@ -643,7 +623,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
           </label>
           <div id="wrap_evidencia_ent_m3" class="evidencia-preview-wrapper">
             <img id="evidencia_ent_m3" class="evidencia-runtime-img">
@@ -681,7 +661,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
           </label>
           <div id="wrap_evidencia_dev_m3" class="evidencia-preview-wrapper">
             <img id="evidencia_dev_m3" class="evidencia-runtime-img">
@@ -711,9 +691,9 @@
   <div id="view_lineas" class="form-view" data-tipo="lineas" data-titulo-base="LÍNEAS MÓVILES">
     <div class="page-container">
       <div class="mode-selector no-print">
-        <button class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
-        <button class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
-        <button class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
+        <button type="button" class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
       </div>
 
       <table class="header-table">
@@ -737,7 +717,7 @@
         <tr>
           <td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td>
           <td class="lbl">Serie SIM:</td>
-          <td><div class="input-wrapper"><input type="text" id="m4_serie_sim" data-spec="serie_sim"><button class="btn-scan no-print" onclick="abrirEscaner('m4_serie_sim')">📷</button></div></td>
+          <td><div class="input-wrapper"><input type="text" id="m4_serie_sim" data-spec="serie_sim"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m4_serie_sim')">📷</button></div></td>
         </tr>
       </table>
 
@@ -753,7 +733,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
           </label>
           <div id="wrap_evidencia_ent_m4" class="evidencia-preview-wrapper">
             <img id="evidencia_ent_m4" class="evidencia-runtime-img">
@@ -791,7 +771,7 @@
           <label class="btn-evidencia">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             Adjuntar Foto
-            <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
+            <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
           </label>
           <div id="wrap_evidencia_dev_m4" class="evidencia-preview-wrapper">
             <img id="evidencia_dev_m4" class="evidencia-runtime-img">
@@ -825,9 +805,9 @@
         <canvas id="popup_canvas" class="sig-canvas-popup"></canvas>
       </div>
       <div class="custom-modal-footer">
-        <button class="btn-modal" style="background:#F1F5F9; color:#475569" onclick="document.getElementById('firma_modal').style.display='none'">Cancelar</button>
-        <button class="btn-modal" style="background:#FEF3C7; color:#92400E" onclick="ctx.clearRect(0, 0, canvas.width, canvas.height)">Limpiar</button>
-        <button class="btn-modal" style="background:#16A34A; color:#FFF" onclick="guardarFirmaPopup()">Guardar Firma</button>
+        <button type="button" class="btn-modal" style="background:#F1F5F9; color:#475569" onclick="document.getElementById('firma_modal').style.display='none'">Cancelar</button>
+        <button type="button" class="btn-modal" style="background:#FEF3C7; color:#92400E" onclick="ctx.clearRect(0, 0, canvas.width, canvas.height)">Limpiar</button>
+        <button type="button" class="btn-modal" style="background:#16A34A; color:#FFF" onclick="guardarFirmaPopup()">Guardar Firma</button>
       </div>
     </div>
   </div>
@@ -837,7 +817,7 @@
       <div class="custom-modal-header">Escanear Código de Barras / QR</div>
       <div style="padding: 10px; background: black;"><div id="qr-reader" style="width: 100%;"></div></div>
       <div class="custom-modal-footer">
-        <button class="btn-modal" style="background:#F1F5F9; color:#475569" onclick="cerrarEscaner()">Cerrar</button>
+        <button type="button" class="btn-modal" style="background:#F1F5F9; color:#475569" onclick="cerrarEscaner()">Cerrar</button>
       </div>
     </div>
   </div>
@@ -1000,31 +980,79 @@
       const modal = document.getElementById('firma_modal');
       modal.style.display = 'flex';
       
-      const rect = canvas.parentElement.getBoundingClientRect();
-      if(rect.width > 0) canvas.width = rect.width;
-      
-      ctx.strokeStyle = '#242424'; ctx.lineWidth = 3; ctx.lineCap = 'round';
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      setTimeout(() => {
+          const rect = canvas.parentElement.getBoundingClientRect();
+          if(rect.width > 0) {
+              canvas.width = rect.width;
+              canvas.height = 220;
+          }
+          ctx.strokeStyle = '#242424'; 
+          ctx.lineWidth = 3; 
+          ctx.lineCap = 'round';
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 50);
     }
 
     function getPos(e) { 
       const r = canvas.getBoundingClientRect(); 
       const scaleX = canvas.width / r.width;
       const scaleY = canvas.height / r.height;
+      
+      let clientX = e.clientX;
+      let clientY = e.clientY;
+      
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      }
+      
       return { 
-        x: ((e.clientX || (e.touches && e.touches[0].clientX)) - r.left) * scaleX, 
-        y: ((e.clientY || (e.touches && e.touches[0].clientY)) - r.top) * scaleY
+        x: (clientX - r.left) * scaleX, 
+        y: (clientY - r.top) * scaleY
       }; 
     }
     
-    canvas.onmousedown = canvas.ontouchstart = (e) => { 
-      dibujando = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); 
+    /* EVENTOS TÁCTILES PASIVOS (PARA MÓVIL) */
+    canvas.addEventListener('touchstart', function(e) {
+      dibujando = true; 
+      const p = getPos(e); 
+      ctx.beginPath(); 
+      ctx.moveTo(p.x, p.y); 
       e.preventDefault(); 
-    };
-    canvas.onmousemove = canvas.ontouchmove = (e) => { 
-      if(dibujando){ const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); } 
-    };
-    window.onmouseup = window.ontouchend = () => dibujando = false;
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', function(e) {
+      if(dibujando) { 
+        const p = getPos(e); 
+        ctx.lineTo(p.x, p.y); 
+        ctx.stroke(); 
+        e.preventDefault(); 
+      }
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', function(e) {
+      dibujando = false;
+    });
+
+    /* EVENTOS DE MOUSE (PARA PC) */
+    canvas.addEventListener('mousedown', function(e) {
+      dibujando = true; 
+      const p = getPos(e); 
+      ctx.beginPath(); 
+      ctx.moveTo(p.x, p.y); 
+    });
+
+    canvas.addEventListener('mousemove', function(e) {
+      if(dibujando) { 
+        const p = getPos(e); 
+        ctx.lineTo(p.x, p.y); 
+        ctx.stroke(); 
+      }
+    });
+
+    window.addEventListener('mouseup', function(e) {
+      dibujando = false;
+    });
 
     function guardarFirmaPopup() {
       const img = document.getElementById(targetImgId);
