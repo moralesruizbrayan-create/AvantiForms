@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso - Agrícola Avanti</title>
+  <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+    .bg-pattern { background-image: url('/AVANTI%20LOGO%20(1).jpeg'); background-repeat: no-repeat; background-position: center; background-size: 800px; opacity: 0.03; position: fixed; inset: 0; z-index: -1; }
+    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-pattern"></div>
+
+  <div class="glass-card w-full max-w-md p-8 rounded-2xl shadow-xl border border-gray-100 relative z-10">
+    <div class="text-center mb-8">
+      <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti" class="w-20 mx-auto mb-4 mix-blend-multiply">
+      <h1 class="text-2xl font-bold text-slate-800 tracking-tight" id="form-title">Iniciar Sesión</h1>
+      <p class="text-sm text-slate-500 mt-1">Portal de Gestión de Actas TI</p>
+    </div>
+
+    <!-- FORMULARIO LOGIN / REGISTRO -->
+    <form id="auth-form" class="space-y-5">
+      <div id="name-field" class="hidden">
+        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Nombre Completo</label>
+        <input type="text" id="nombre" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:outline-none transition">
+      </div>
+      
+      <div>
+        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Correo Electrónico</label>
+        <input type="email" id="correo" required class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:outline-none transition" placeholder="admin@agricolaavanti.pe">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Contraseña</label>
+        <input type="password" id="password" required class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:outline-none transition" placeholder="••••••••">
+      </div>
+
+      <button type="submit" id="submit-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg text-sm transition shadow-md">
+        Entrar al Sistema
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <button type="button" id="toggle-mode" class="text-sm text-green-600 hover:text-green-800 font-medium transition">
+        ¿No tienes cuenta? Regístrate aquí
+      </button>
+    </div>
+    
+    <div id="error-msg" class="hidden mt-4 text-xs font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-100 text-center"></div>
+  </div>
+
+  <script>
+    let isLogin = true;
+    const form = document.getElementById('auth-form');
+    const toggleBtn = document.getElementById('toggle-mode');
+    const title = document.getElementById('form-title');
+    const nameField = document.getElementById('name-field');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorMsg = document.getElementById('error-msg');
+
+    // Verificar si ya hay sesión activa
+    if(localStorage.getItem('avanti_user')) window.location.href = 'index.html';
+
+    toggleBtn.addEventListener('click', () => {
+      isLogin = !isLogin;
+      title.innerText = isLogin ? 'Iniciar Sesión' : 'Crear Cuenta Administrador';
+      submitBtn.innerText = isLogin ? 'Entrar al Sistema' : 'Registrar Cuenta';
+      toggleBtn.innerText = isLogin ? '¿No tienes cuenta? Regístrate aquí' : '¿Ya tienes cuenta? Inicia sesión';
+      nameField.classList.toggle('hidden', isLogin);
+      errorMsg.classList.add('hidden');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.innerText = "⏳ Procesando...";
+      errorMsg.classList.add('hidden');
+
+      const payload = {
+        action: isLogin ? 'login' : 'register',
+        correo: document.getElementById('correo').value,
+        password: document.getElementById('password').value,
+        nombre: document.getElementById('nombre').value
+      };
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          if (isLogin) {
+            localStorage.setItem('avanti_user', JSON.stringify(data.user));
+            window.location.href = 'index.html';
+          } else {
+            alert("Cuenta creada. Ahora inicia sesión.");
+            toggleBtn.click(); // Volver a login
+          }
+        } else {
+          errorMsg.innerText = data.error;
+          errorMsg.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorMsg.innerText = "Error de conexión al servidor.";
+        errorMsg.classList.remove('hidden');
+      } finally {
+        submitBtn.innerText = isLogin ? 'Entrar al Sistema' : 'Registrar Cuenta';
+      }
+    });
+  </script>
+</body>
+</html>
