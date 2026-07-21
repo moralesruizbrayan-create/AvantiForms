@@ -1,108 +1,158 @@
 import { Pool } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Use POST' });
+  // Asegurar que solo acepte peticiones POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método no permitido. Usa POST.' });
+  }
+  
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const payload = req.body;
-  const client = await pool.connect();
-
+  
   try {
-    await client.query('BEGIN');
-
-    // 1. Guardar/Actualizar Empleado (AHORA INCLUYE CORREO_CORP)
-    const empQuery = `
-      INSERT INTO empleados (dni, nombre_completo, area, cargo, centro_costo, correo_corp)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      ON CONFLICT (dni) DO UPDATE 
-      SET nombre_completo = EXCLUDED.nombre_completo, 
-          area = EXCLUDED.area, 
-          cargo = EXCLUDED.cargo, 
-          centro_costo = EXCLUDED.centro_costo,
-          correo_corp = EXCLUDED.correo_corp
-      RETURNING id_empleado;
-    `;
-    const resEmp = await client.query(empQuery, [
-      payload.empleado.dni_empleado, 
-      payload.empleado.nombre_empleado, 
-      payload.empleado.area_empleado, 
-      payload.empleado.cargo_empleado, 
-      payload.empleado.centro_costo,
-      payload.empleado.correo_corp || null
-    ]);
-    const idEmp = resEmp.rows[0].id_empleado;
-
-    // 2. Guardar Hardware (Sin cambios, funciona perfecto)
-    let idActivo = null;
-    const codPat = payload.equipo.codigo_patrimonial || payload.equipo.codigo_activo || payload.equipo.serie_sim || 'N/A';
-    const numSer = payload.equipo.nro_serie || payload.equipo.nro_telefono || 'N/A';
-    const marca = payload.equipo.marca_modelo || 'N/A';
-
-    if (payload.categoria_acta === 'material_informatico') {
-      const q = `
-        INSERT INTO pcs (codigo_patrimonial, tipo_hardware, marca_modelo, numero_serie, procesador, ram, estado_operativo) 
-        VALUES ($1, $2, $3, $4, $5, $6, 'OPERATIVO') 
-        ON CONFLICT (numero_serie) DO UPDATE 
-        SET estado_operativo = 'OPERATIVO', codigo_patrimonial = EXCLUDED.codigo_patrimonial, marca_modelo = EXCLUDED.marca_modelo, procesador = EXCLUDED.procesador, ram = EXCLUDED.ram
-        RETURNING id_activo;
-      `;
-      idActivo = (await client.query(q, [codPat, payload.equipo.tipo_equipo || 'LAPTOP', marca, numSer, payload.detalles.extras.procesador || null, payload.detalles.extras.ram || null])).rows[0].id_activo;
-    } else if (payload.categoria_acta === 'telefonos') {
-      const q = `INSERT INTO tef (codigo_patrimonial, marca_modelo, numero_serie, estado_operativo) VALUES ($1, $2, $3, 'OPERATIVO') ON CONFLICT (numero_serie) DO UPDATE SET estado_operativo = 'OPERATIVO', codigo_patrimonial = EXCLUDED.codigo_patrimonial, marca_modelo = EXCLUDED.marca_modelo RETURNING id_activo;`;
-      idActivo = (await client.query(q, [codPat, marca, numSer])).rows[0].id_activo;
-    } else if (payload.categoria_acta === 'perifericos') {
-      const q = `INSERT INTO perifericos (codigo_patrimonial, tipo_hardware, marca_modelo, numero_serie, estado_operativo) VALUES ($1, $2, $3, $4, 'OPERATIVO') ON CONFLICT (numero_serie) DO UPDATE SET estado_operativo = 'OPERATIVO', codigo_patrimonial = EXCLUDED.codigo_patrimonial, marca_modelo = EXCLUDED.marca_modelo RETURNING id_activo;`;
-      idActivo = (await client.query(q, [codPat, payload.equipo.tipo_equipo, marca, numSer])).rows[0].id_activo;
-    } else if (payload.categoria_acta === 'lineas') {
-      const q = `INSERT INTO lineas_moviles (iccid_sim, numero_telefono, operador, estado_linea) VALUES ($1, $2, $3, 'ACTIVA') ON CONFLICT (iccid_sim) DO UPDATE SET estado_linea = 'ACTIVA', operador = EXCLUDED.operador, numero_telefono = EXCLUDED.numero_telefono RETURNING id_linea;`;
-      idActivo = (await client.query(q, [codPat, numSer, payload.equipo.operador])).rows[0].id_linea;
+    const { 
+      categoria_acta, 
+      empleado, 
+      equipo, 
+      detalles, 
+      firmas, 
+      fecha_entrega, 
+      fecha_devolucion, 
+      destino_equipo,
+      observaciones_entrega,
+      evidencia_entrega,
+      observaciones_devolucion,
+      evidencia_devolucion,
+      devolucion_mismo_titular,
+      devolucion_quien_nombre,
+      devolucion_quien_dni
+    } = req.body;
+    
+    // -----------------------------------------------------
+    // 1. DETERMINAR CICLO DE VIDA (OPERATIVO vs STOCK vs RETIRADO)
+    // -----------------------------------------------------
+    let nuevoEstado = 'OPERATIVO'; 
+    if (fecha_devolucion && fecha_devolucion.trim() !== '') {
+        nuevoEstado = destino_equipo === 'RETIRADO' ? 'RETIRADO' : 'STOCK';
     }
 
-    // 3. Crear Acta Maestra (AHORA ABSORBE FECHAS, DNI DE FIRMAS Y DATOS DE DEVOLUCIÓN)
-    const actQuery = `
-      INSERT INTO actas_asignacion (
-        id_empleado, categoria_acta, 
-        fecha_entrega, observaciones_entrega, firma_encargado_entrega, firma_empleado_entrega, dni_firma_ti_entrega, dni_firma_emp_entrega, evidencia_entrega,
-        fecha_devolucion, observaciones_devolucion, firma_encargado_devolucion, firma_empleado_devolucion, dni_firma_ti_devolucion, dni_firma_emp_devolucion,
-        devolucion_mismo_titular, devolucion_quien_nombre, devolucion_quien_dni
-      ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) 
-      RETURNING id_acta;
-    `;
-    const idActa = (await client.query(actQuery, [
-      idEmp, 
-      payload.categoria_acta, 
-      payload.fecha_entrega || null,
-      payload.observaciones_entrega || null, 
-      payload.firmas.ti_entrega || null, 
-      payload.firmas.emp_entrega || null,
-      payload.dni_firma_ti_ent || null,
-      payload.dni_firma_emp_ent || null,
-      payload.evidencia_entrega || null,
-      payload.fecha_devolucion || null,
-      payload.observaciones_devolucion || null,
-      payload.firmas.ti_dev || null,
-      payload.firmas.emp_dev || null,
-      payload.dni_firma_ti_dev || null,
-      payload.dni_firma_emp_dev || null,
-      payload.mismo_titular || null,
-      payload.quien_devuelve_nombre || null,
-      payload.quien_devuelve_dni || null
-    ])).rows[0].id_acta;
+    if (categoria_acta === 'lineas') {
+        if (nuevoEstado === 'OPERATIVO') nuevoEstado = 'ACTIVA';
+        if (nuevoEstado === 'RETIRADO') nuevoEstado = 'SUSPENDIDA';
+    }
 
-    // 4. Crear Detalle JSON (Absorbe todos los checks de hardware, software y disco duro)
-    const detTable = payload.categoria_acta === 'material_informatico' ? 'detalle_acta_pc' : payload.categoria_acta === 'telefonos' ? 'detalle_acta_tef' : payload.categoria_acta === 'perifericos' ? 'detalle_acta_periferico' : 'detalle_acta_linea';
-    const detCol = payload.categoria_acta === 'material_informatico' ? 'id_pc' : payload.categoria_acta === 'telefonos' ? 'id_tef' : payload.categoria_acta === 'perifericos' ? 'id_periferico' : 'id_linea';
+    // Iniciar Transacción en Base de Datos
+    await pool.query('BEGIN'); 
     
-    const detallesCombinados = { ...(payload.detalles.software || {}), ...(payload.detalles.extras || {}) };
+    // -----------------------------------------------------
+    // 2. ACTUALIZAR ESTADO DEL EQUIPO EN EL INVENTARIO Y OBTENER ID
+    // -----------------------------------------------------
+    let idActivo = null;
+    let updateRes;
 
-    await client.query(`INSERT INTO ${detTable} (id_acta, ${detCol}, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`, [idActa, idActivo, JSON.stringify(detallesCombinados), JSON.stringify(payload.detalles.accesorios || {})]);
+    if (categoria_acta === 'material_informatico') {
+        updateRes = await pool.query(
+            `UPDATE pcs SET estado_operativo = $1 WHERE codigo_patrimonial = $2 OR numero_serie = $3 RETURNING id_activo`,
+            [nuevoEstado, equipo.codigo_patrimonial, equipo.nro_serie]
+        );
+    } else if (categoria_acta === 'telefonos') {
+        updateRes = await pool.query(
+            `UPDATE tef SET estado_operativo = $1 WHERE numero_serie = $2 RETURNING id_activo`,
+            [nuevoEstado, equipo.nro_serie]
+        );
+    } else if (categoria_acta === 'perifericos') {
+        updateRes = await pool.query(
+            `UPDATE perifericos SET estado_operativo = $1 WHERE codigo_patrimonial = $2 OR numero_serie = $3 RETURNING id_activo`,
+            [nuevoEstado, equipo.codigo_patrimonial, equipo.nro_serie]
+        );
+    } else if (categoria_acta === 'lineas') {
+        updateRes = await pool.query(
+            `UPDATE lineas_moviles SET estado_linea = $1 WHERE numero_telefono = $2 RETURNING id_linea`,
+            [nuevoEstado, equipo.nro_telefono]
+        );
+    }
 
-    await client.query('COMMIT');
-    res.status(200).json({ success: true, idActa });
-  } catch (e) {
-    await client.query('ROLLBACK');
-    res.status(500).json({ success: false, error: e.message });
+    if (updateRes && updateRes.rows.length > 0) {
+        idActivo = updateRes.rows[0].id_activo || updateRes.rows[0].id_linea;
+    }
+
+    // -----------------------------------------------------
+    // 3. ACTUALIZAR O INSERTAR DATOS DEL EMPLEADO (UPSERT)
+    // -----------------------------------------------------
+    const empRes = await pool.query(
+        `INSERT INTO empleados (dni, nombre_completo, cargo, area, correo_corp, centro_costo) 
+         VALUES ($1, $2, $3, $4, $5, $6) 
+         ON CONFLICT (dni) DO UPDATE 
+         SET nombre_completo = EXCLUDED.nombre_completo, 
+             cargo = EXCLUDED.cargo, 
+             area = EXCLUDED.area, 
+             correo_corp = EXCLUDED.correo_corp, 
+             centro_costo = EXCLUDED.centro_costo
+         RETURNING id_empleado`,
+        [empleado.dni_empleado, empleado.nombre_empleado, empleado.cargo_empleado, empleado.area_empleado, empleado.correo_corp, empleado.centro_costo]
+    );
+    const idEmpleado = empRes.rows[0].id_empleado;
+
+    // -----------------------------------------------------
+    // 4. GENERAR EL ACTA MAESTRA (Firmas y Fechas)
+    // -----------------------------------------------------
+    const actaRes = await pool.query(
+        `INSERT INTO actas_asignacion (
+            id_empleado, 
+            fecha_entrega, observaciones_entrega, evidencia_entrega, 
+            firma_encargado_entrega, dni_firma_ti_entrega, firma_empleado_entrega, dni_firma_emp_entrega,
+            fecha_devolucion, observaciones_devolucion, evidencia_devolucion,
+            firma_encargado_devolucion, dni_firma_ti_devolucion, firma_empleado_devolucion, dni_firma_emp_devolucion,
+            devolucion_mismo_titular, devolucion_quien_nombre, devolucion_quien_dni
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id_acta`,
+        [
+            idEmpleado, 
+            fecha_entrega || null, observaciones_entrega, evidencia_entrega,
+            firmas.ti_entrega, req.body.dni_firma_ti_ent, firmas.emp_entrega, req.body.dni_firma_emp_ent,
+            fecha_devolucion || null, observaciones_devolucion, evidencia_devolucion,
+            firmas.ti_dev, req.body.dni_firma_ti_dev, firmas.emp_dev, req.body.dni_firma_emp_dev,
+            devolucion_mismo_titular, devolucion_quien_nombre, devolucion_quien_dni
+        ]
+    );
+    const idActa = actaRes.rows[0].id_acta;
+
+    // -----------------------------------------------------
+    // 5. GUARDAR DETALLES TÉCNICOS (JSON)
+    // -----------------------------------------------------
+    const jsonAccesorios = JSON.stringify(detalles.accesorios || {});
+    // Se unifica software y extras en detalles_json
+    const jsonDetalles = JSON.stringify({ ...detalles.software, ...detalles.extras });
+
+    if (idActivo) {
+        if (categoria_acta === 'material_informatico') {
+            await pool.query(
+                `INSERT INTO detalle_acta_pc (id_acta, id_pc, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
+                [idActa, idActivo, jsonDetalles, jsonAccesorios]
+            );
+        } else if (categoria_acta === 'telefonos') {
+            await pool.query(
+                `INSERT INTO detalle_acta_tef (id_acta, id_tef, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
+                [idActa, idActivo, jsonDetalles, jsonAccesorios]
+            );
+        } else if (categoria_acta === 'perifericos') {
+            await pool.query(
+                `INSERT INTO detalle_acta_periferico (id_acta, id_periferico, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
+                [idActa, idActivo, jsonDetalles, jsonAccesorios]
+            );
+        } else if (categoria_acta === 'lineas') {
+            await pool.query(
+                `INSERT INTO detalle_acta_linea (id_acta, id_linea, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
+                [idActa, idActivo, jsonDetalles, jsonAccesorios]
+            );
+        }
+    }
+
+    await pool.query('COMMIT');
+    res.status(200).json({ success: true, message: 'Acta procesada y equipo actualizado a ' + nuevoEstado });
+    
+  } catch (error) {
+    await pool.query('ROLLBACK');
+    res.status(500).json({ success: false, error: error.message });
   } finally {
-    client.release();
+    await pool.end();
   }
 }
