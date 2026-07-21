@@ -38,11 +38,13 @@
 
     /* BOTONES DE ACCIÓN (ICONOS) */
     .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; background: white; }
-    .btn-pdf { color: #DC2626; border-color: #FECACA; }
-    .btn-pdf:hover { background: #FEE2E2; }
+    .btn-pdf { color: #059669; border-color: #A7F3D0; }
+    .btn-pdf:hover { background: #D1FAE5; }
     .btn-evi { color: #0284C7; border-color: #BAE6FD; }
     .btn-evi:hover { background: #E0F2FE; }
-    .btn-disabled { color: #94A3B8; background: transparent; cursor: not-allowed; opacity: 0.5; }
+    .btn-del { color: #DC2626; border-color: #FECACA; }
+    .btn-del:hover { background: #FEE2E2; }
+    .btn-disabled { color: #94A3B8; background: transparent; cursor: not-allowed; opacity: 0.5; border-color: #E2E8F0; }
 
     .tabulator-tableholder::-webkit-scrollbar { height: 8px; width: 8px; }
     .tabulator-tableholder::-webkit-scrollbar-track { background: #F1F5F9; border-radius: 4px; }
@@ -157,8 +159,9 @@
       if(e.target === this) cerrarModalEvidencia();
     });
 
-    const iconPDF = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
+    const iconPDF = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
     const iconCamera = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`;
+    const iconTrash = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
 
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('inventario-grid').innerHTML = "<div class='flex flex-col items-center justify-center p-16 text-gray-500'><svg class='animate-spin h-8 w-8 mb-4 text-green-600' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'><circle class='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' stroke-width='4'></circle><path class='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path></svg><p class='font-medium'>Sincronizando con la Base de Datos...</p></div>";
@@ -168,7 +171,6 @@
         if (!response.ok) throw new Error('Error de red al consultar a la API');
         const data = await response.json();
 
-        // Limpieza de datos recibidos del backend para que coincidan con los nuevos nombres
         data.inventario_total = data.inventario_total.map(item => {
             if (item.categoria === 'Material Informático') item.categoria = 'PCs';
             return item;
@@ -184,35 +186,52 @@
           columns: [
             {
               title: "Acciones", 
-              width: 100, 
+              width: 140, 
               hozAlign: "center",
               headerSort: false,
               formatter: function(cell) {
                 const row = cell.getRow().getData();
-                let html = '<div class="flex items-center justify-center gap-2">';
+                let html = '<div class="flex items-center justify-center gap-1.5">';
+                
+                // Botón Documento PDF
                 if(row.id_acta) html += `<button class='action-btn btn-pdf' title='Ver Acta PDF'>${iconPDF}</button>`;
                 else html += `<button class='action-btn btn-disabled' disabled>${iconPDF}</button>`;
 
+                // Botón Fotos Evidencia
                 if ((row.evidencia_entrega && row.evidencia_entrega.length > 50) || (row.evidencia_devolucion && row.evidencia_devolucion.length > 50)) {
                   html += `<button class='action-btn btn-evi' title='Ver Evidencia Fotográfica'>${iconCamera}</button>`;
                 } else {
                   html += `<button class='action-btn btn-disabled' disabled>${iconCamera}</button>`;
                 }
 
+                // Botón Borrar Registro Permanente
+                html += `<button class='action-btn btn-del' title='Eliminar de Base de Datos'>${iconTrash}</button>`;
+
                 html += '</div>';
                 return html;
               },
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
+                
+                // Acción Abrir PDF
                 if(e.target.closest('.btn-pdf')) {
                   sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
                   window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
                 }
+                
+                // Acción Abrir Imagen
                 if(e.target.closest('.btn-evi')) {
                   if(rowData.evidencia_devolucion && rowData.evidencia_devolucion.length > 50) {
                     abrirModalEvidencia(rowData.evidencia_devolucion);
                   } else {
                     abrirModalEvidencia(rowData.evidencia_entrega);
+                  }
+                }
+
+                // Acción Eliminar Registro
+                if(e.target.closest('.btn-del')) {
+                  if(confirm("⚠️ ¿Estás completamente seguro de eliminar este registro?\n\nEsta acción borrará el equipo del inventario, destruirá sus historiales, firmas y la hoja de asignación de manera irreversible.")) {
+                     eliminarRegistro(rowData, cell.getRow());
                   }
                 }
               }
@@ -253,6 +272,27 @@
         document.getElementById('inventario-grid').innerHTML = `<div class='bg-red-50 border border-red-200 text-red-600 p-4 rounded-lg mx-auto max-w-lg mt-10 text-center font-medium shadow-sm'>Error al cargar inventario: ${error.message}</div>`;
       }
     });
+
+    // Función que conecta el Front-End con la API de Borrado
+    async function eliminarRegistro(rowData, rowNode) {
+      try {
+        const res = await fetch('/api/eliminar-registro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rowData)
+        });
+        
+        const data = await res.json();
+        if (res.ok && data.success) {
+          rowNode.delete(); // Borra visualmente la fila de la tabla sin necesidad de recargar la página
+          alert("✅ El equipo ha sido eliminado del sistema con éxito.");
+        } else {
+          alert("❌ Hubo un error al eliminar: " + data.error);
+        }
+      } catch(e) {
+        alert("❌ Error de red. No se pudo conectar con el servidor Neon.");
+      }
+    }
 
     function actualizarFiltros() {
       const valComputador = document.getElementById("filtro-computador").value;
