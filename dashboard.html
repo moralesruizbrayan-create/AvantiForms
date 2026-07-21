@@ -1,38 +1,151 @@
-<script>
-    // 1. Verificación de sesión
-    const sessionData = localStorage.getItem('session');
-    if (!sessionData) {
-        window.location.replace('index.html');
-    }
-
-    const session = JSON.parse(sessionData);
-
-    // 2. Aplicar restricciones si es INVITADO una vez que cargue la página
-    document.addEventListener('DOMContentLoaded', () => {
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Avanti</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="AVANTI LOGO (1).jpeg">
+    
+    <!-- LÓGICA DE SESIÓN Y MODO INVITADO -->
+    <script>
+        const sessionData = localStorage.getItem('session');
         
-        // Actualizar el nombre en el badge superior
-        const userBadge = document.querySelector('.user-badge');
-        if (userBadge) {
-            userBadge.textContent = session.role === 'viewer' ? '👁️ INVITADO (Lector)' : `HOLA, ${session.name.toUpperCase()}`;
-        }
+        // 1. Si no hay sesión en absoluto, expulsar al login
+        if (!sessionData) {
+            window.location.replace('index.html');
+        } else {
+            // 2. Extraer datos de la sesión
+            const session = JSON.parse(sessionData);
 
-        // Si es invitado (viewer), bloquear botones de acción
-        if (session.role === 'viewer') {
-            const actionButtons = document.querySelectorAll('.btn-avanti, .btn-avanti-blue');
-            
-            actionButtons.forEach(btn => {
-                // Cambiar el estilo para que parezca deshabilitado
-                btn.style.opacity = '0.5';
-                btn.style.cursor = 'not-allowed';
-                
-                // Quitar la redirección y mostrar una alerta
-                btn.removeAttribute('onclick');
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    alert('Acceso denegado: Estás en modo visualización (Invitado). No tienes permisos para gestionar o abrir bases de datos.');
-                });
+            document.addEventListener('DOMContentLoaded', () => {
+                // Actualizar la etiqueta superior con el nombre o rol
+                const userBadge = document.querySelector('.user-badge');
+                if (userBadge) {
+                    if (session.role === 'viewer') {
+                        userBadge.textContent = '👁️ INVITADO (Lector)';
+                    } else {
+                        userBadge.textContent = `HOLA, ${session.name.toUpperCase()}`;
+                    }
+                }
+
+                // 3. Aplicar restricciones si es modo Invitado
+                if (session.role === 'viewer') {
+                    // Seleccionar todas las tarjetas y botones de acción
+                    const elementosInteractivos = document.querySelectorAll('.card-modulo, .btn-avanti, .btn-avanti-blue');
+                    
+                    elementosInteractivos.forEach(el => {
+                        // Dar aspecto de bloqueado
+                        el.style.opacity = '0.5';
+                        el.style.cursor = 'not-allowed';
+                        
+                        // Quitar el enlace real (onclick)
+                        el.removeAttribute('onclick');
+                        
+                        // Agregar alerta al intentar hacer clic
+                        el.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            alert('Acceso denegado: Estás en modo visualización (Invitado). No tienes permisos para gestionar, generar actas o abrir bases de datos.');
+                        });
+                    });
+                }
             });
         }
-    });
-</script>
+    </script>
+</head>
+<body class="dark-theme"> 
+    
+    <div class="dashboard-container">
+        <!-- Encabezado -->
+        <header class="top-header">
+            <div class="brand">
+                <div class="logo-title-group">
+                    <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-dashboard">
+                    <div>
+                        <h2>Portal de Gestión de Actas</h2>
+                        <p class="subtitle"><span class="dot"></span> Área de Soporte TI — Agrícola Avanti S.A.C.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="user-controls">
+                <button id="themeToggle" class="btn-outline">☀️ Claro</button>
+                <span class="user-badge">Cargando...</span>
+                <button onclick="cerrarSesion()" class="btn-danger">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <!-- Módulos Superiores (Tarjetas) -->
+        <section class="modules-grid">
+            <div class="card-modulo" onclick="window.location.href='gestion-actas.html'">
+                <div class="card-header-flex">
+                    <div class="icon-container">💻</div>
+                    <span class="arrow-icon">→</span>
+                </div>
+                <h3>Equipos Informáticos (PCs)</h3>
+                <p>Generar actas para PCs, Laptops y hardware corporativo.</p>
+            </div>
+            <div class="card-modulo" onclick="window.location.href='gestion-actas.html'">
+                <div class="card-header-flex">
+                    <div class="icon-container">🖥️</div>
+                    <span class="arrow-icon">→</span>
+                </div>
+                <h3>Periféricos / Monitores</h3>
+                <p>Asignación de pantallas, proyectores y equipo visual.</p>
+            </div>
+            <div class="card-modulo" onclick="window.location.href='gestion-actas.html'">
+                <div class="card-header-flex">
+                    <div class="icon-container">📱</div>
+                    <span class="arrow-icon">→</span>
+                </div>
+                <h3>Teléfonos Móviles</h3>
+                <p>Smartphones corporativos y terminales de control.</p>
+            </div>
+            <div class="card-modulo" onclick="window.location.href='gestion-actas.html'">
+                <div class="card-header-flex">
+                    <div class="icon-container">🪪</div>
+                    <span class="arrow-icon">→</span>
+                </div>
+                <h3>Chips / Líneas Móviles</h3>
+                <p>SIM Cards corporativos y planes de datos.</p>
+            </div>
+        </section>
+
+        <!-- Banners Inferiores -->
+        <section class="banners-section">
+            <div class="banner-modulo banner-blue-accent">
+                <div class="banner-content">
+                    <div class="icon-large">👥</div>
+                    <div class="banner-text">
+                        <h3>Directorio de Empleados</h3>
+                        <p>Alta y baja de personal de Avanti para la asignación de equipos.</p>
+                    </div>
+                </div>
+                <button class="btn-avanti-blue" onclick="window.location.href='admin-empleados.html'">Gestionar Personal →</button>
+            </div>
+
+            <div class="banner-modulo banner-dark-accent">
+                <div class="banner-content">
+                    <div class="icon-large">🗄️</div>
+                    <div class="banner-text">
+                        <h3>Inventario</h3>
+                        <p>Control</p>
+                    </div>
+                </div>
+                <button class="btn-avanti" onclick="window.location.href='inventario.html'">Abrir Base de Datos →</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Script principal de la aplicación -->
+    <script src="app.js"></script>
+    
+    <!-- Fallback por si app.js falla al cerrar sesión -->
+    <script>
+        function cerrarSesion() {
+            localStorage.removeItem('session'); // Borra la nueva variable de sesión
+            window.location.replace('index.html');
+        }
+    </script>
+</body>
+</html>
