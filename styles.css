@@ -1,127 +1,201 @@
-/* Variables CSS globales */
+/* Variables y Configuración */
 :root {
     --avanti-green: #00c867;
-    --avanti-green-hover: #00a857;
-    --transition-speed: 0.3s;
+    --avanti-green-hover: #00b05b;
+    --avanti-blue: #2563eb;
+    --avanti-blue-hover: #1d4ed8;
+    --transition: 0.3s ease;
 }
 
-/* Modo Claro (Base) */
+/* TEMA CLARO */
 :root {
-    --bg-main: #f4f5f7;
+    --bg-main: #f3f4f6;
     --card-bg: #ffffff;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
     --border-color: #e5e7eb;
+    --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --input-bg: #f9fafb;
 }
 
-/* Modo Oscuro (Diseño Neumórfico / Foto 2) */
+/* TEMA OSCURO (Estilo foto 2) */
 body.dark-theme {
-    --bg-main: #09090b; /* Fondo ultra oscuro */
-    --card-bg: linear-gradient(145deg, #18181b, #121214); /* Degradado sutil */
+    --bg-main: #0a0a0c;
+    --card-bg: linear-gradient(145deg, #16161a, #0f0f12);
     --text-primary: #ffffff;
     --text-secondary: #a1a1aa;
-    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     --border-color: rgba(255, 255, 255, 0.05);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --input-bg: #1f1f22;
 }
 
-/* Reseteo y Body */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
     background-color: var(--bg-main);
     color: var(--text-primary);
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-    padding: 2rem;
+    transition: background-color var(--transition), color var(--transition);
 }
 
+/* --- ESTILOS DEL LOGIN --- */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 30px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 { font-size: 1.5rem; margin-top: 15px; }
+.login-header p { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px; }
+
+.input-group { margin-bottom: 20px; }
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    outline: none;
+    transition: var(--transition);
+}
+.input-group input:focus { border-color: var(--avanti-green); }
+
+.w-100 { width: 100%; }
+
+/* --- ESTILOS DEL DASHBOARD --- */
 .dashboard-container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 30px;
 }
 
-/* Header */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: var(--card-bg);
-    padding: 1.5rem 2rem;
+    padding: 20px 30px;
     border-radius: 20px;
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
 }
 
+.logo-title-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-placeholder-small {
+    font-size: 2rem;
+}
+
+.brand h2 { font-size: 1.4rem; }
 .subtitle {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.dot {
+    width: 8px; height: 8px;
+    background-color: var(--avanti-green);
+    border-radius: 50%;
+    display: inline-block;
 }
 
 .user-controls {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 15px;
 }
 
-/* Grid de Módulos (Cards) */
+/* Grid Módulos */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
 }
 
 .card-modulo {
     background: var(--card-bg);
-    padding: 2rem;
+    padding: 25px;
     border-radius: 24px;
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s;
+    cursor: pointer;
 }
 
 .card-modulo:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 200, 103, 0.1);
     border-color: rgba(0, 200, 103, 0.3);
 }
 
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
 .icon-container {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     background: rgba(0, 200, 103, 0.1);
-    width: 50px;
-    height: 50px;
+    color: var(--text-primary);
+    width: 45px; height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
-    margin-bottom: 1rem;
+    border-radius: 12px;
 }
 
-.card-modulo h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
+.arrow-icon { color: var(--text-secondary); }
 
-.card-modulo p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
+.card-modulo h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.card-modulo p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
 
-/* Banners (Directorio e Inventario) */
+/* Banners Horizontales */
 .banners-section {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 20px;
 }
 
 .banner-modulo {
@@ -129,71 +203,72 @@ body {
     justify-content: space-between;
     align-items: center;
     background: var(--card-bg);
-    padding: 2rem;
+    padding: 30px;
     border-radius: 24px;
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
 }
 
-.banner-text h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.25rem;
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.banner-text p {
-    color: var(--text-secondary);
+.icon-large {
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 16px;
 }
+
+.banner-text h3 { font-size: 1.3rem; margin-bottom: 5px; }
+.banner-text p { color: var(--text-secondary); font-size: 0.95rem; }
 
 /* Botones */
-button {
-    cursor: pointer;
-    font-weight: 600;
-    transition: all var(--transition-speed);
-}
+button { cursor: pointer; border: none; font-weight: 600; transition: var(--transition); }
 
 .btn-avanti {
     background: var(--avanti-green);
     color: #fff;
-    border: none;
-    padding: 0.8rem 1.5rem;
+    padding: 12px 24px;
     border-radius: 30px;
     box-shadow: 0 4px 15px rgba(0, 200, 103, 0.3);
 }
+.btn-avanti:hover { background: var(--avanti-green-hover); }
 
-.btn-avanti:hover {
-    background: var(--avanti-green-hover);
-    box-shadow: 0 6px 20px rgba(0, 200, 103, 0.5);
+.btn-avanti-blue {
+    background: var(--avanti-blue);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
+.btn-avanti-blue:hover { background: var(--avanti-blue-hover); }
 
 .btn-outline {
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     border-radius: 20px;
 }
-
-.btn-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+.btn-outline:hover { background: rgba(255, 255, 255, 0.1); }
 
 .btn-danger {
     background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
-    border: none;
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     border-radius: 20px;
 }
-
-.btn-danger:hover {
-    background: rgba(239, 68, 68, 0.2);
-}
+.btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
 
 .user-badge {
-    font-size: 0.85rem;
-    font-weight: bold;
+    font-size: 0.8rem;
+    font-weight: 700;
     color: var(--text-secondary);
     background: rgba(255, 255, 255, 0.05);
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     border-radius: 20px;
+    border: 1px solid var(--border-color);
 }
