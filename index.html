@@ -19,35 +19,18 @@
       position: relative; 
       color: #334155;
     }
-    /* Marca de agua sutil */
     body::before {
       content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-image: url('/AVANTI%20LOGO%20(1).jpeg');
       background-repeat: no-repeat; background-position: center; background-size: 600px;
       opacity: 0.02; z-index: -1; pointer-events: none;
     }
-    
-    /* Animaciones de Tarjetas */
-    .saas-card {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .saas-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
-      border-color: #86EFAC;
-    }
+    .saas-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .saas-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1); border-color: #86EFAC; }
     .icon-wrapper { transition: all 0.3s ease; }
     .saas-card:hover .icon-wrapper { background-color: #DCFCE7; color: #16A34A; }
-    
-    /* Panel de Inventario Destacado */
-    .inventory-banner {
-      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-      transition: all 0.3s ease;
-    }
-    .inventory-banner:hover {
-      box-shadow: 0 15px 30px -10px rgba(15, 23, 42, 0.3);
-      transform: translateY(-2px);
-    }
+    .inventory-banner { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); transition: all 0.3s ease; }
+    .inventory-banner:hover { box-shadow: 0 15px 30px -10px rgba(15, 23, 42, 0.3); transform: translateY(-2px); }
   </style>
 </head>
 <body class="p-4 md:p-8 min-h-screen flex flex-col items-center">
@@ -135,7 +118,6 @@
 
     <!-- BANNER DE INVENTARIO Y REPORTERÍA -->
     <div onclick="location.href='inventario.html'" class="inventory-banner rounded-2xl p-6 md:p-8 cursor-pointer relative overflow-hidden group mb-8 border border-slate-800">
-      <!-- Decoración de fondo -->
       <div class="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-10 -translate-y-10 group-hover:scale-110 transition-transform duration-700">
         <svg width="200" height="200" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
       </div>
@@ -146,8 +128,8 @@
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
           </div>
           <div>
-            <h2 class="text-white font-bold text-xl md:text-2xl">Inventario</h2>
-            <p class="text-slate-400 text-sm mt-1">Control</p>
+            <h2 class="text-white font-bold text-xl md:text-2xl">Inventario Global y Reportería</h2>
+            <p class="text-slate-400 text-sm mt-1">Control patrimonial en tiempo real conectado a Neon PostgreSQL.</p>
           </div>
         </div>
         <button class="bg-green-600 hover:bg-green-500 text-white font-semibold py-2.5 px-6 rounded-lg text-sm transition shadow-md whitespace-nowrap">
@@ -160,7 +142,7 @@
     <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
       <div class="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center gap-2">
         <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
-        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Estado del Inventario (Sincronización en Vivo)</h3>
+        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Estado:</h3>
       </div>
       
       <div class="p-6 grid grid-cols-1 lg:grid-cols-4 gap-8 items-center">
@@ -238,9 +220,9 @@
           options: { 
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '75%', // Hace que el aro sea más delgado y moderno
+            cutout: '75%', 
             plugins: { 
-              legend: { display: false }, // Ocultamos la leyenda default para usar nuestros widgets
+              legend: { display: false },
               tooltip: {
                 backgroundColor: '#1E293B',
                 padding: 10,
