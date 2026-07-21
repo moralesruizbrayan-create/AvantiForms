@@ -6,7 +6,7 @@
     <title>Login - Avanti Soporte TI</title>
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Ícono de la pestaña (Favicon) -->
+    <!-- Ícono de la pestaña -->
     <link rel="icon" type="image/jpeg" href="AVANTI LOGO (1).jpeg">
     
     <script>
@@ -17,23 +17,22 @@
 </head>
 <body class="dark-theme login-body">
     <div class="login-container">
-        <div class="login-card">
+        <div class="login-card-mate">
             <div class="login-header">
-                <!-- Integración del logo de Avanti -->
                 <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-login">
                 <h2>Iniciar Sesión</h2>
                 <p>Portal de Gestión de Actas y Equipos</p>
             </div>
             
             <form id="loginForm">
-                <div class="input-group">
+                <div class="input-group-mate">
                     <label for="email">Correo Corporativo</label>
-                    <!-- Placeholders removidos -->
+                    <!-- Sin placeholders -->
                     <input type="email" id="email" required>
                 </div>
-                <div class="input-group">
+                <div class="input-group-mate">
                     <label for="password">Contraseña</label>
-                    <!-- Placeholders removidos -->
+                    <!-- Sin placeholders -->
                     <input type="password" id="password" required>
                 </div>
                 <button type="submit" class="btn-avanti w-100">Ingresar al Portal</button>
@@ -44,7 +43,8 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const loginExitoso = true; // Aquí va tu validación real
+            // Validación simulada
+            const loginExitoso = true; 
             if (loginExitoso) {
                 localStorage.setItem('token', 'autenticado');
                 window.location.replace('dashboard.html');
