@@ -93,7 +93,7 @@
     .btn-scan:hover { transform: translateY(-50%) scale(1.1); color: var(--text-color); }
     
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; color: var(--text-color); }
-    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
+    input[type="checkbox"], input[type="radio"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #16A34A; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
@@ -106,7 +106,7 @@
     .btn-eliminar-foto { position: absolute; top: -8px; right: -8px; background: #EF4444; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
     .btn-eliminar-foto:hover { background: #DC2626; }
 
-    /* FIRMAS (DNI CENTRADO CORRECTAMENTE) */
+    /* FIRMAS */
     .signature-section { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 10px; width: 100%; gap: 20px; }
     .signature-block { width: 48%; text-align: center; font-size: 11px; color: var(--text-color); }
     .signature-trigger-box { width: 100%; height: 70px; background: var(--lbl-bg); border: 2px dashed var(--input-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-weight: 600; }
@@ -129,7 +129,7 @@
     .custom-toast.show { top: 24px; }
     
     /* ==============================================
-       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES Y TABLETS)
+       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
        ============================================== */
     @media screen and (max-width: 820px) {
       body { padding: 12px 8px; }
@@ -149,46 +149,26 @@
       .form-table td { display: block; width: 100% !important; }
       
       .form-table td.lbl { 
-         background-color: #F1F5F9 !important; 
-         color: #475569 !important; 
-         font-size: 11.5px; 
-         padding: 12px 14px 8px 14px !important; 
-         border: 1px solid var(--border-color) !important; 
-         border-bottom: none !important; 
-         border-radius: 8px 8px 0 0 !important; 
-         margin-top: 16px; 
-         font-weight: 700; 
-         text-transform: uppercase; 
+         background-color: #F1F5F9 !important; color: #475569 !important; font-size: 11.5px; 
+         padding: 12px 14px 8px 14px !important; border: 1px solid var(--border-color) !important; 
+         border-bottom: none !important; border-radius: 8px 8px 0 0 !important; margin-top: 16px; font-weight: 700; text-transform: uppercase; 
       }
       
       .form-table tr:first-child td.lbl:first-child { margin-top: 0; }
       .form-table tr.no-print { margin-top: 0; border: none !important; }
       
       .form-table td:not(.lbl):not(.subhead) { 
-         background-color: var(--card-bg); 
-         border: 1px solid var(--border-color) !important; 
-         border-top: none !important; 
-         border-radius: 0 0 8px 8px !important; 
-         padding: 8px 14px 16px 14px !important; 
-         box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+         background-color: var(--card-bg); border: 1px solid var(--border-color) !important; 
+         border-top: none !important; border-radius: 0 0 8px 8px !important; padding: 8px 14px 16px 14px !important; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
       }
 
       .form-table td[colspan="4"]:not(.subhead):not(.lbl), .form-table td[colspan="2"]:not(.subhead):not(.lbl) {
-         border-top: 1px solid var(--border-color) !important; 
-         border-radius: 8px !important; 
-         margin-top: 16px;
+         border-top: 1px solid var(--border-color) !important; border-radius: 8px !important; margin-top: 16px;
       }
 
       .form-table td.subhead { 
-         background-color: transparent !important; 
-         color: #16A34A !important; 
-         font-size: 12px !important; 
-         padding: 24px 0 8px 0 !important; 
-         border: none !important; 
-         text-align: left; 
-         border-bottom: 2px solid #16A34A !important;
-         border-radius: 0 !important;
-         margin-top: 10px;
+         background-color: transparent !important; color: #16A34A !important; font-size: 12px !important; 
+         padding: 24px 0 8px 0 !important; border: none !important; text-align: left; border-bottom: 2px solid #16A34A !important; border-radius: 0 !important; margin-top: 10px;
       }
       
       .signature-section { flex-direction: column; gap: 30px; }
@@ -196,7 +176,7 @@
       .custom-modal-card { width: 100%; margin: 0; }
       
       input[type="text"], input[type="date"], textarea { font-size: 15px; padding: 12px 14px; }
-      input[type="checkbox"] { width: 18px; height: 18px; }
+      input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; }
       .inline-flex { font-size: 14px; margin-right: 20px; margin-bottom: 8px; display: inline-flex; flex-wrap: wrap;}
     }
 
@@ -205,20 +185,7 @@
        ============================================== */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
-      
-      /* FORZAMOS BLANCO Y NEGRO IGNORANDO EL MODO OSCURO */
-      :root, body.dark-mode, body { 
-        --bg-color: #FFFFFF !important; 
-        --text-color: #000000 !important; 
-        --text-secondary: #000000 !important; 
-        --card-bg: #FFFFFF !important; 
-        --border-color: #CBD5E1 !important; 
-        --input-bg: transparent !important; 
-        --input-border: #CBD5E1 !important; 
-        --lbl-bg: #F8FAFC !important; 
-        --subhead-bg: #E2E8F0 !important; 
-      }
-      
+      :root, body.dark-mode, body { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --text-secondary: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #CBD5E1 !important; --input-bg: transparent !important; --input-border: #CBD5E1 !important; --lbl-bg: #F8FAFC !important; --subhead-bg: #E2E8F0 !important; }
       body { background: #FFFFFF !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar-container { display: none !important; }
@@ -229,7 +196,6 @@
       .header-logo img { width: 60px !important; height: auto !important; max-height: 60px !important; }
       .header-titles { padding-bottom: 8px !important; }
       .header-titles h1 { font-size: 15px !important; color: #16A34A !important; margin:0 !important; padding:0 !important; letter-spacing: 0 !important; }
-      
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #16A34A !important; page-break-after: avoid; }
       h3::before { background-color: #16A34A !important; }
       
@@ -238,22 +204,15 @@
       .lbl { background-color: #F8FAFC !important; color: #000 !important; font-weight: 700 !important; width: 18% !important; }
       .subhead { background-color: #F1F5F9 !important; color: #16A34A !important; font-size: 8.5px !important; padding: 3px 6px !important; }
       
-      input[type="text"], input[type="date"], textarea { 
-        background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; 
-        color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important;
-        vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; 
-        word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important;
-      }
+      input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important; vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important; }
       textarea { height: auto !important; min-height: auto !important; resize: none !important; display: block !important; }
       textarea::-webkit-resizer { display: none !important; }
-      
       input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
       
-      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
+      input[type="checkbox"], input[type="radio"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; color: #000 !important; white-space: nowrap !important; }
-      
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #16A34A !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; background: transparent !important; color: #000 !important;}
       .evidencia-box, .evidencia-runtime-img { display: none !important; }
       
@@ -422,7 +381,14 @@
 
       <!-- ZONA DE DEVOLUCIÓN -->
       <div class="sec-devolucion">
-        <h3>5. Control de Devolución (Uso Exclusivo de TI):</h3>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; margin-bottom: 12px; margin-top: 30px;">
+          <h3 style="margin: 0;">5. Control de Devolución (Uso Exclusivo de TI):</h3>
+          <button type="button" class="no-print hover:bg-red-100" onclick="limpiarDevolucion()" style="background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg> Deshacer
+          </button>
+        </div>
+
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
@@ -545,7 +511,14 @@
       </div>
 
       <div class="sec-devolucion">
-        <h3>5. Control de Devolución:</h3>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; margin-bottom: 12px; margin-top: 30px;">
+          <h3 style="margin: 0;">5. Control de Devolución:</h3>
+          <button type="button" class="no-print hover:bg-red-100" onclick="limpiarDevolucion()" style="background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg> Deshacer
+          </button>
+        </div>
+
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
@@ -668,7 +641,14 @@
       </div>
 
       <div class="sec-devolucion">
-        <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; margin-bottom: 12px; margin-top: 30px;">
+          <h3 style="margin: 0;">5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+          <button type="button" class="no-print hover:bg-red-100" onclick="limpiarDevolucion()" style="background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg> Deshacer
+          </button>
+        </div>
+
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
@@ -789,7 +769,14 @@
       </div>
 
       <div class="sec-devolucion">
-        <h3>5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; margin-bottom: 12px; margin-top: 30px;">
+          <h3 style="margin: 0;">5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+          <button type="button" class="no-print hover:bg-red-100" onclick="limpiarDevolucion()" style="background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg> Deshacer
+          </button>
+        </div>
+
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
@@ -883,7 +870,7 @@
                 });
             });
             
-            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No y Estados)
+            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No)
             document.querySelectorAll('.excl-check').forEach(chk => {
                 chk.addEventListener('change', function() {
                     if(this.checked) {
@@ -927,6 +914,8 @@
                 if (val !== undefined && val !== null) {
                   if (el.type === 'checkbox') {
                     el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
+                  } else if (el.type === 'radio') {
+                    if (el.value === val) el.checked = true;
                   } else {
                     el.value = val;
                     if(el.type === 'date') el.classList.add('has-val');
@@ -934,6 +923,7 @@
                 }
               });
               
+              // Cargar Firmas y Mostrar para impresión
               const cargarFirma = (campoDB, idImgPrefijo) => {
                 if (rowData[campoDB] && rowData[campoDB].startsWith('data:image')) {
                   const imgFirma = form.querySelector(`[id^="${idImgPrefijo}"]`);
@@ -953,6 +943,7 @@
               cargarFirma('firma_encargado_devolucion', 'f3_');
               cargarFirma('firma_empleado_devolucion', 'f4_');
 
+              // Forzar redimensión antes de imprimir
               setTimeout(() => {
                 form.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
                 setTimeout(() => window.print(), 300);
@@ -1008,6 +999,67 @@
       toast.style.borderLeftColor = esExito ? '#16A34A' : '#DC2626';
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ==========================================
+    // FUNCIÓN PARA DESHACER LA DEVOLUCIÓN (NUEVO)
+    // ==========================================
+    function limpiarDevolucion() {
+      if(!confirm("¿Estás seguro de deshacer la devolución? Esto borrará las firmas y la fecha de retorno en pantalla.")) return;
+      
+      const form = document.querySelector('.form-view.active');
+      if(!form) return;
+      
+      const dateInput = form.querySelector('input[data-field="fecha_devolucion"]');
+      if(dateInput) { dateInput.value = ''; dateInput.classList.remove('has-val'); }
+      
+      const obsInput = form.querySelector('textarea[data-field="observaciones_devolucion"]');
+      if(obsInput) { obsInput.value = ''; autoResizeTextarea(obsInput); }
+      
+      // Limpiar los checkboxes de Estado Final
+      form.querySelectorAll('input.excl-check[data-group^="destino_eq_"]').forEach(c => c.checked = false);
+      
+      // Limpiar los DNI
+      const dniTiDev = form.querySelector('input[data-field="dni_firma_ti_dev"]');
+      if(dniTiDev) dniTiDev.value = '';
+      const dniEmpDev = form.querySelector('input[data-field="dni_firma_emp_dev"]');
+      if(dniEmpDev) dniEmpDev.value = '';
+      
+      // Limpiar datos condicionales
+      form.querySelectorAll('input[data-field="devolucion_mismo_titular"]').forEach(c => c.checked = false);
+      const devQuienNombre = form.querySelector('textarea[data-field="devolucion_quien_nombre"]');
+      if(devQuienNombre) { devQuienNombre.value = ''; autoResizeTextarea(devQuienNombre); }
+      const devQuienDni = form.querySelector('input[data-field="devolucion_quien_dni"]');
+      if(devQuienDni) devQuienDni.value = '';
+
+      // Limpiar Firmas
+      ['f3', 'f4'].forEach(prefix => {
+          const img = form.querySelector(`img[id^="${prefix}_"]`);
+          if(img) {
+              img.src = ''; 
+              img.style.display = 'none';
+              const idSuffix = img.id.replace(`${prefix}_`, '');
+              const lbl = form.querySelector(`#lbl_${prefix}_${idSuffix}`);
+              if(lbl) lbl.style.display = 'block';
+              const box = form.querySelector(`#box_${prefix}_${idSuffix}`);
+              if(box) box.style.background = 'var(--lbl-bg)';
+          }
+      });
+
+      // Limpiar Evidencia (Foto)
+      const evImg = form.querySelector(`img[id^="evidencia_dev_"]`);
+      if(evImg) {
+          evImg.src = '';
+          const wrap = form.querySelector(`#wrap_${evImg.id}`);
+          if(wrap) wrap.style.display = 'none';
+          const container = evImg.closest('.evidencia-box');
+          if(container) {
+              const fileInput = container.querySelector('input[type="file"]');
+              if(fileInput) fileInput.value = '';
+          }
+      }
+      
+      mostrarNotificacionToast("Devolución borrada. Clic en Guardar para confirmar la asignación.", true);
     }
 
     let targetImgId = null, dibujando = false;
@@ -1068,7 +1120,9 @@
       }
     }, { passive: false });
 
-    canvas.addEventListener('touchend', function(e) { dibujando = false; });
+    canvas.addEventListener('touchend', function(e) {
+      dibujando = false;
+    });
 
     canvas.addEventListener('mousedown', function(e) {
       dibujando = true; 
@@ -1085,7 +1139,9 @@
       }
     });
 
-    window.addEventListener('mouseup', function(e) { dibujando = false; });
+    window.addEventListener('mouseup', function(e) {
+      dibujando = false;
+    });
 
     function guardarFirmaPopup() {
       const img = document.getElementById(targetImgId);
@@ -1168,6 +1224,9 @@
         if (el.type === 'checkbox') {
           if (!el.checked) return;
           val = el.nextSibling ? el.nextSibling.textContent.trim() : 'true';
+        } else if (el.type === 'radio') {
+          if (!el.checked) return;
+          val = el.value;
         }
         
         if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo', 'correo_corp'].includes(key)) {
@@ -1177,7 +1236,6 @@
         }
       });
 
-      // Extracción específica del Checkbox de Destino
       const checkDestino = form.querySelector('input.excl-check[data-group^="destino_eq_"]:checked');
       if (checkDestino) {
           payload.destino_equipo = checkDestino.value;
