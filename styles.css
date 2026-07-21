@@ -1,0 +1,199 @@
+/* Variables CSS globales */
+:root {
+    --avanti-green: #00c867;
+    --avanti-green-hover: #00a857;
+    --transition-speed: 0.3s;
+}
+
+/* Modo Claro (Base) */
+:root {
+    --bg-main: #f4f5f7;
+    --card-bg: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --border-color: #e5e7eb;
+}
+
+/* Modo Oscuro (Diseño Neumórfico / Foto 2) */
+body.dark-theme {
+    --bg-main: #09090b; /* Fondo ultra oscuro */
+    --card-bg: linear-gradient(145deg, #18181b, #121214); /* Degradado sutil */
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    --border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Reseteo y Body */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    padding: 2rem;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Header */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Grid de Módulos (Cards) */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card-modulo {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-modulo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 200, 103, 0.1);
+    border-color: rgba(0, 200, 103, 0.3);
+}
+
+.icon-container {
+    font-size: 1.5rem;
+    background: rgba(0, 200, 103, 0.1);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    margin-bottom: 1rem;
+}
+
+.card-modulo h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.card-modulo p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Banners (Directorio e Inventario) */
+.banners-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.banner-modulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.banner-text h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.banner-text p {
+    color: var(--text-secondary);
+}
+
+/* Botones */
+button {
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-speed);
+}
+
+.btn-avanti {
+    background: var(--avanti-green);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 200, 103, 0.3);
+}
+
+.btn-avanti:hover {
+    background: var(--avanti-green-hover);
+    box-shadow: 0 6px 20px rgba(0, 200, 103, 0.5);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.user-badge {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
