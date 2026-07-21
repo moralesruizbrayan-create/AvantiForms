@@ -5,49 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Avanti</title>
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- CORRECCIÓN: Verificación de sesión antes de renderizar -->
+    <!-- CORRECCIÓN: Expulsa al index sin dejar rastro si no hay sesión -->
     <script>
-        if (!localStorage.getItem('isAuthenticated')) {
+        if (!localStorage.getItem('token')) {
             window.location.replace('index.html');
         }
     </script>
 </head>
-<body class="dark-theme"> <!-- Inicia en dark-theme por defecto -->
+<body class="dark-theme"> 
     
     <div class="dashboard-container">
-        <!-- Header -->
+        <!-- Encabezado -->
         <header class="top-header">
             <div class="brand">
-                <h2>Portal de Gestión de Actas</h2>
-                <p class="subtitle">🟢 Área de Soporte TI — Agrícola Avanti S.A.C.</p>
+                <div class="logo-title-group">
+                    <div class="logo-placeholder-small">🌱</div>
+                    <div>
+                        <h2>Portal de Gestión de Actas</h2>
+                        <p class="subtitle"><span class="dot"></span> Área de Soporte TI — Agrícola Avanti S.A.C.</p>
+                    </div>
+                </div>
             </div>
             <div class="user-controls">
-                <button id="themeToggle" class="btn-outline">☀️ Modo Claro</button>
+                <button id="themeToggle" class="btn-outline">☀️ Claro</button>
                 <span class="user-badge">HOLA, BRAYAN</span>
                 <button onclick="cerrarSesion()" class="btn-danger">Cerrar Sesión</button>
             </div>
         </header>
 
-        <!-- Grid de Tarjetas (Módulos) -->
+        <!-- Módulos Superiores (Tarjetas) -->
         <section class="modules-grid">
             <div class="card-modulo">
-                <div class="icon-container">💻</div>
+                <div class="card-header-flex">
+                    <div class="icon-container">💻</div>
+                    <span class="arrow-icon">→</span>
+                </div>
                 <h3>Equipos Informáticos (PCs)</h3>
                 <p>Generar actas para PCs, Laptops y hardware corporativo.</p>
             </div>
             <div class="card-modulo">
-                <div class="icon-container">🖥️</div>
+                <div class="card-header-flex">
+                    <div class="icon-container">🖥️</div>
+                    <span class="arrow-icon">→</span>
+                </div>
                 <h3>Periféricos / Monitores</h3>
                 <p>Asignación de pantallas, proyectores y equipo visual.</p>
             </div>
             <div class="card-modulo">
-                <div class="icon-container">📱</div>
+                <div class="card-header-flex">
+                    <div class="icon-container">📱</div>
+                    <span class="arrow-icon">→</span>
+                </div>
                 <h3>Teléfonos Móviles</h3>
                 <p>Smartphones corporativos y terminales de control.</p>
             </div>
             <div class="card-modulo">
-                <div class="icon-container">🪪</div>
+                <div class="card-header-flex">
+                    <div class="icon-container">🪪</div>
+                    <span class="arrow-icon">→</span>
+                </div>
                 <h3>Chips / Líneas Móviles</h3>
                 <p>SIM Cards corporativos y planes de datos.</p>
             </div>
@@ -55,19 +71,25 @@
 
         <!-- Banners Inferiores -->
         <section class="banners-section">
-            <div class="banner-modulo">
-                <div class="banner-text">
-                    <h3>Directorio de Empleados</h3>
-                    <p>Alta y baja de personal de Avanti para la asignación de equipos.</p>
+            <div class="banner-modulo banner-blue-accent">
+                <div class="banner-content">
+                    <div class="icon-large">👥</div>
+                    <div class="banner-text">
+                        <h3>Directorio de Empleados</h3>
+                        <p>Alta y baja de personal de Avanti para la asignación de equipos.</p>
+                    </div>
                 </div>
-                <button class="btn-avanti">Gestionar Personal →</button>
+                <button class="btn-avanti-blue">Gestionar Personal →</button>
             </div>
 
-            <div class="banner-modulo">
-                <div class="banner-text">
-                    <!-- CORRECCIÓN: Textos actualizados -->
-                    <h3>Inventario</h3>
-                    <p>Control</p>
+            <div class="banner-modulo banner-dark-accent">
+                <div class="banner-content">
+                    <div class="icon-large">🗄️</div>
+                    <div class="banner-text">
+                        <!-- CAMBIOS SOLICITADOS -->
+                        <h3>Inventario</h3>
+                        <p>Control</p>
+                    </div>
                 </div>
                 <button class="btn-avanti">Abrir Base de Datos →</button>
             </div>
