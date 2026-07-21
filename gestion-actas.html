@@ -68,7 +68,7 @@
     .subhead { background-color: var(--subhead-bg); color: #16A34A; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; align-items: center; }
-    .input-wrapper input { padding-right: 65px !important; } /* Espacio para los botones */
+    .input-wrapper input { padding-right: 65px !important; } 
     
     input[type="text"], input[type="date"], textarea { 
       -webkit-appearance: none; appearance: none; width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
@@ -78,7 +78,6 @@
     textarea { resize: none !important; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
     textarea::-webkit-resizer, textarea::-webkit-scrollbar { display: none !important; }
     
-    /* BOTONES DE ESCANEO Y BÚSQUEDA */
     .scan-actions { position: absolute; right: 8px; display: flex; gap: 10px; align-items: center; }
     .btn-scan { background: transparent; border: none; cursor: pointer; font-size: 16px; transition: transform 0.2s; color: var(--text-secondary); padding: 0; display: flex; align-items: center; justify-content: center; }
     .btn-scan:hover { transform: scale(1.15); color: #16A34A; }
@@ -88,7 +87,6 @@
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #16A34A; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
-    /* EVIDENCIA FOTOGRÁFICA */
     .evidencia-box { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; margin-top: 5px; }
     .btn-evidencia { background: var(--input-bg); color: var(--text-color); padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-color); transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
     .btn-evidencia:hover { background: var(--border-color); }
@@ -97,7 +95,6 @@
     .btn-eliminar-foto { position: absolute; top: -8px; right: -8px; background: #EF4444; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
     .btn-eliminar-foto:hover { background: #DC2626; }
 
-    /* FIRMAS */
     .signature-section { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 10px; width: 100%; gap: 20px; }
     .signature-block { width: 48%; text-align: center; font-size: 11px; color: var(--text-color); }
     .signature-trigger-box { width: 100%; height: 70px; background: var(--lbl-bg); border: 2px dashed var(--input-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-weight: 600; }
@@ -109,7 +106,6 @@
     .signature-field-group input[type="text"] { width: 120px !important; text-align: center !important; background: transparent !important; border: none !important; border-bottom: 1px dashed var(--text-secondary) !important; border-radius: 0 !important; padding: 0 4px 2px 4px !important; color: var(--text-color) !important; font-size: 11px !important; }
     .signature-field-group input[type="text"]:focus { box-shadow: none !important; border-bottom: 1px dashed #16A34A !important; }
 
-    /* MODALES Y TOASTS */
     .custom-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-overlay); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 16px; }
     .custom-modal-card { background: var(--card-bg); width: 100%; max-width: 460px; border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 90vh; }
     .custom-modal-header { background: #16A34A; color: #FFF; padding: 16px 24px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -205,9 +201,9 @@
   </div>
 
   <!-- ==========================================
-       FORMULARIO 1: MATERIAL INFORMÁTICO
+       FORMULARIO 1: PCs
        ========================================== -->
-  <div id="view_material_informatico" class="form-view" data-tipo="material_informatico" data-titulo-base="EQUIPOS INFORMÁTICOS">
+  <div id="view_material_informatico" class="form-view" data-tipo="PCs" data-titulo-base="PCs">
     <div class="page-container">
       <div class="mode-selector no-print">
         <button type="button" class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
@@ -218,7 +214,7 @@
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo"></td>
-          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE EQUIPOS INFORMÁTICOS</h1></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE PCs</h1></td>
         </tr>
       </table>
 
@@ -369,7 +365,7 @@
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_1" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_1" value="STOCK"> 📦 Retornar a Stock (Reasignable)</label>
                 <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_1" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
@@ -514,7 +510,7 @@
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_2" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_2" value="STOCK"> 📦 Retornar a Stock (Reasignable)</label>
                 <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_2" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
@@ -685,7 +681,7 @@
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="STOCK"> 📦 Retornar a Stock (Reasignable)</label>
                 <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
@@ -752,7 +748,15 @@
       <table class="form-table">
         <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador"></td></tr>
         <tr>
-          <td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono" onchange="buscarEquipo(this.value)"></td>
+          <td class="lbl">Nº de Teléfono:</td>
+          <td style="width:32%;">
+            <div class="input-wrapper">
+              <input type="text" id="m4_nro_telefono" data-spec="nro_telefono" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m4_nro_telefono').value)" title="Buscar en Base de Datos">🔍</button>
+              </div>
+            </div>
+          </td>
           <td class="lbl">Serie SIM:</td>
           <td>
             <div class="input-wrapper">
@@ -834,7 +838,7 @@
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_4" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_4" value="STOCK"> 📦 Retornar a Stock (Reasignable)</label>
                 <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_4" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
@@ -846,7 +850,7 @@
             <div class="evidencia-box">
               <label class="btn-evidencia">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
-                <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m4')">
+                <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m4')">
               </label>
               <div id="wrap_evidencia_dev_m4" class="evidencia-preview-wrapper">
                 <img id="evidencia_dev_m4" class="evidencia-runtime-img">
@@ -918,7 +922,7 @@
                 });
             });
             
-            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No)
+            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No y Estados)
             document.querySelectorAll('.excl-check').forEach(chk => {
                 chk.addEventListener('change', function() {
                     if(this.checked) {
@@ -1110,10 +1114,7 @@
       const obsInput = form.querySelector('textarea[data-field="observaciones_devolucion"]');
       if(obsInput) { obsInput.value = ''; autoResizeTextarea(obsInput); }
       
-      form.querySelectorAll('input.excl-check[data-group^="destino_eq_"]').forEach(c => {
-          if(c.value === 'STOCK') c.checked = true;
-          else c.checked = false;
-      });
+      form.querySelectorAll('input.excl-check[data-group^="destino_eq_"]').forEach(c => c.checked = false);
       
       const dniTiDev = form.querySelector('input[data-field="dni_firma_ti_dev"]');
       if(dniTiDev) dniTiDev.value = '';
@@ -1321,6 +1322,7 @@
         
         if (el.type === 'checkbox') {
           if (!el.checked) return;
+          // Si el checkbox tiene un atributo "value" (como Sí, No), tomamos ese valor explícito.
           val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
         }
         
@@ -1345,7 +1347,7 @@
           val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
         }
         
-        if(['codigo_patrimonial', 'codigo_activo', 'tipo_equipo', 'tipo_periferico', 'marca_modelo', 'nro_serie', 'nro_telefono', 'serie_sim', 'operador'].includes(key)) {
+        if(['codigo_patrimonial', 'codigo_activo', 'tipo_equipo', 'tipo_periferico', 'marca_modelo', 'nro_serie', 'nro_telefono', 'serie_sim', 'operador', 'procesador', 'ram'].includes(key)) {
           payload.equipo[key] = val;
         } else if(key.startsWith('acc_') || key.startsWith('cable_') || key === 'adaptador_voltaje') {
           payload.detalles.accesorios[key] = val;
