@@ -80,12 +80,16 @@
     .subhead { background-color: var(--subhead-bg); color: #16A34A; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
+    
+    /* NORMALIZACIÓN PARA MÓVILES (-webkit-appearance) */
     input[type="text"], input[type="date"], textarea { 
-      -webkit-appearance: none; appearance: none; width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
+      -webkit-appearance: none; appearance: none;
+      width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); 
+      padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; 
+      font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
     }
     input[type="text"]:focus, input[type="date"]:focus, textarea:focus { outline: none; border-color: #16A34A; }
     
-    /* ELIMINACIÓN DE SCROLLBARS Y RESIZERS EN TEXTAREAS */
     textarea { resize: none !important; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
     textarea::-webkit-resizer, textarea::-webkit-scrollbar { display: none !important; }
     
@@ -93,7 +97,7 @@
     .btn-scan:hover { transform: translateY(-50%) scale(1.1); color: var(--text-color); }
     
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; color: var(--text-color); }
-    input[type="checkbox"], input[type="radio"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
+    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #16A34A; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
@@ -176,7 +180,7 @@
       .custom-modal-card { width: 100%; margin: 0; }
       
       input[type="text"], input[type="date"], textarea { font-size: 15px; padding: 12px 14px; }
-      input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; }
+      input[type="checkbox"] { width: 18px; height: 18px; }
       .inline-flex { font-size: 14px; margin-right: 20px; margin-bottom: 8px; display: inline-flex; flex-wrap: wrap;}
     }
 
@@ -185,7 +189,20 @@
        ============================================== */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
-      :root, body.dark-mode, body { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --text-secondary: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #CBD5E1 !important; --input-bg: transparent !important; --input-border: #CBD5E1 !important; --lbl-bg: #F8FAFC !important; --subhead-bg: #E2E8F0 !important; }
+      
+      /* FORZAMOS BLANCO Y NEGRO IGNORANDO EL MODO OSCURO */
+      :root, body.dark-mode, body { 
+        --bg-color: #FFFFFF !important; 
+        --text-color: #000000 !important; 
+        --text-secondary: #000000 !important; 
+        --card-bg: #FFFFFF !important; 
+        --border-color: #CBD5E1 !important; 
+        --input-bg: transparent !important; 
+        --input-border: #CBD5E1 !important; 
+        --lbl-bg: #F8FAFC !important; 
+        --subhead-bg: #E2E8F0 !important; 
+      }
+      
       body { background: #FFFFFF !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar-container { display: none !important; }
@@ -196,6 +213,7 @@
       .header-logo img { width: 60px !important; height: auto !important; max-height: 60px !important; }
       .header-titles { padding-bottom: 8px !important; }
       .header-titles h1 { font-size: 15px !important; color: #16A34A !important; margin:0 !important; padding:0 !important; letter-spacing: 0 !important; }
+      
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #16A34A !important; page-break-after: avoid; }
       h3::before { background-color: #16A34A !important; }
       
@@ -204,15 +222,22 @@
       .lbl { background-color: #F8FAFC !important; color: #000 !important; font-weight: 700 !important; width: 18% !important; }
       .subhead { background-color: #F1F5F9 !important; color: #16A34A !important; font-size: 8.5px !important; padding: 3px 6px !important; }
       
-      input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important; vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important; }
+      input[type="text"], input[type="date"], textarea { 
+        background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; 
+        color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important;
+        vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; 
+        word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important;
+      }
       textarea { height: auto !important; min-height: auto !important; resize: none !important; display: block !important; }
       textarea::-webkit-resizer { display: none !important; }
+      
       input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
       
-      input[type="checkbox"], input[type="radio"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
+      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; color: #000 !important; white-space: nowrap !important; }
+      
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #16A34A !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; background: transparent !important; color: #000 !important;}
       .evidencia-box, .evidencia-runtime-img { display: none !important; }
       
@@ -650,7 +675,13 @@
         </div>
 
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
+            <td style="width: 82%;">
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="titular_eq_3" data-field="devolucion_mismo_titular" value="Sí"> Sí</label>
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="titular_eq_3" data-field="devolucion_mismo_titular" value="No"> No</label>
+            </td>
+          </tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
@@ -734,7 +765,14 @@
       <div class="sec-entrega">
         <h3>3. Condiciones de Entrega:</h3>
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">Variante Línea:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-spec="var_reasignacion"> Reasignación</label> <label class="inline-flex"><input type="checkbox" data-spec="var_nueva"> Línea Nueva</label> <label class="inline-flex"><input type="checkbox" data-spec="var_reposicion"> Reposición por Falla</label></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">Variante Línea:</td>
+            <td style="width: 82%;">
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="var_linea_4" data-spec="variante_linea" value="Reasignación"> Reasignación</label> 
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="var_linea_4" data-spec="variante_linea" value="Línea Nueva"> Línea Nueva</label> 
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="var_linea_4" data-spec="variante_linea" value="Reposición por Falla"> Reposición por Falla</label>
+            </td>
+          </tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr>
         </table>
         
@@ -778,7 +816,13 @@
         </div>
 
         <table class="form-table">
-          <tr><td class="lbl" style="width: 18%;">¿Mismo titular?:</td><td style="width: 82%;"><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="Sí"> Sí</label><label class="inline-flex"><input type="checkbox" data-field="devolucion_mismo_titular" value="No"> No</label></td></tr>
+          <tr>
+            <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
+            <td style="width: 82%;">
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="titular_eq_4" data-field="devolucion_mismo_titular" value="Sí"> Sí</label>
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="titular_eq_4" data-field="devolucion_mismo_titular" value="No"> No</label>
+            </td>
+          </tr>
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
@@ -870,7 +914,7 @@
                 });
             });
             
-            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No)
+            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No y Estados)
             document.querySelectorAll('.excl-check').forEach(chk => {
                 chk.addEventListener('change', function() {
                     if(this.checked) {
@@ -913,9 +957,7 @@
 
                 if (val !== undefined && val !== null) {
                   if (el.type === 'checkbox') {
-                    el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
-                  } else if (el.type === 'radio') {
-                    if (el.value === val) el.checked = true;
+                    el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí' || val === el.value);
                   } else {
                     el.value = val;
                     if(el.type === 'date') el.classList.add('has-val');
@@ -1016,8 +1058,11 @@
       const obsInput = form.querySelector('textarea[data-field="observaciones_devolucion"]');
       if(obsInput) { obsInput.value = ''; autoResizeTextarea(obsInput); }
       
-      // Limpiar los checkboxes de Estado Final
-      form.querySelectorAll('input.excl-check[data-group^="destino_eq_"]').forEach(c => c.checked = false);
+      // Limpiar los checkboxes de Estado Final y volver a marcar STOCK
+      form.querySelectorAll('input.excl-check[data-group^="destino_eq_"]').forEach(c => {
+          if(c.value === 'STOCK') c.checked = true;
+          else c.checked = false;
+      });
       
       // Limpiar los DNI
       const dniTiDev = form.querySelector('input[data-field="dni_firma_ti_dev"]');
@@ -1025,7 +1070,7 @@
       const dniEmpDev = form.querySelector('input[data-field="dni_firma_emp_dev"]');
       if(dniEmpDev) dniEmpDev.value = '';
       
-      // Limpiar datos condicionales
+      // Limpiar datos condicionales (Mismo Titular etc.)
       form.querySelectorAll('input[data-field="devolucion_mismo_titular"]').forEach(c => c.checked = false);
       const devQuienNombre = form.querySelector('textarea[data-field="devolucion_quien_nombre"]');
       if(devQuienNombre) { devQuienNombre.value = ''; autoResizeTextarea(devQuienNombre); }
@@ -1103,6 +1148,7 @@
       }; 
     }
     
+    /* EVENTOS TÁCTILES PASIVOS (PARA MÓVIL) */
     canvas.addEventListener('touchstart', function(e) {
       dibujando = true; 
       const p = getPos(e); 
@@ -1124,6 +1170,7 @@
       dibujando = false;
     });
 
+    /* EVENTOS DE MOUSE (PARA PC) */
     canvas.addEventListener('mousedown', function(e) {
       dibujando = true; 
       const p = getPos(e); 
@@ -1223,10 +1270,8 @@
         
         if (el.type === 'checkbox') {
           if (!el.checked) return;
-          val = el.nextSibling ? el.nextSibling.textContent.trim() : 'true';
-        } else if (el.type === 'radio') {
-          if (!el.checked) return;
-          val = el.value;
+          // Si el checkbox tiene un atributo "value" (como Sí, No), tomamos ese valor explícito.
+          val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
         }
         
         if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo', 'correo_corp'].includes(key)) {
@@ -1236,6 +1281,7 @@
         }
       });
 
+      // Extracción específica del Estado Final (Destino)
       const checkDestino = form.querySelector('input.excl-check[data-group^="destino_eq_"]:checked');
       if (checkDestino) {
           payload.destino_equipo = checkDestino.value;
@@ -1243,7 +1289,13 @@
 
       form.querySelectorAll('[data-spec]').forEach(el => {
         const key = el.getAttribute('data-spec');
-        const val = el.type === 'checkbox' ? el.checked : el.value;
+        let val = el.value;
+        
+        if (el.type === 'checkbox') {
+          if (!el.checked) return;
+          // Si el checkbox tiene value explicito (como Variante Línea: Reasignación, etc.)
+          val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
+        }
         
         if(['codigo_patrimonial', 'codigo_activo', 'tipo_equipo', 'tipo_periferico', 'marca_modelo', 'nro_serie', 'nro_telefono', 'serie_sim', 'operador'].includes(key)) {
           payload.equipo[key] = val;
