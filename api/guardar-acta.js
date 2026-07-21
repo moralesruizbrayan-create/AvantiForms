@@ -95,16 +95,19 @@ export default async function handler(req, res) {
     // -----------------------------------------------------
     // 4. GENERAR EL ACTA MAESTRA (Firmas y Fechas)
     // -----------------------------------------------------
+    // *CORRECCIÓN:* Se agrega categoria_acta ($1) al INSERT.
     const actaRes = await pool.query(
         `INSERT INTO actas_asignacion (
+            categoria_acta,
             id_empleado, 
             fecha_entrega, observaciones_entrega, evidencia_entrega, 
             firma_encargado_entrega, dni_firma_ti_entrega, firma_empleado_entrega, dni_firma_emp_entrega,
             fecha_devolucion, observaciones_devolucion, evidencia_devolucion,
             firma_encargado_devolucion, dni_firma_ti_devolucion, firma_empleado_devolucion, dni_firma_emp_devolucion,
             devolucion_mismo_titular, devolucion_quien_nombre, devolucion_quien_dni
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id_acta`,
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING id_acta`,
         [
+            categoria_acta,
             idEmpleado, 
             fecha_entrega || null, observaciones_entrega, evidencia_entrega,
             firmas.ti_entrega, req.body.dni_firma_ti_ent, firmas.emp_entrega, req.body.dni_firma_emp_ent,
