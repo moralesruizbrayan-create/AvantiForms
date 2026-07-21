@@ -1,5 +1,8 @@
-/* Variables y Configuración */
+/* =========================================
+   1. VARIABLES GLOBALES Y TEMAS
+   ========================================= */
 :root {
+    /* Colores corporativos fijos */
     --avanti-green: #00c867;
     --avanti-green-hover: #00b05b;
     --avanti-blue: #2563eb;
@@ -7,7 +10,7 @@
     --transition: 0.3s ease;
 }
 
-/* TEMA CLARO */
+/* TEMA CLARO (Para el Dashboard si usan el botón de cambiar tema) */
 :root {
     --bg-main: #f3f4f6;
     --card-bg: #ffffff;
@@ -15,10 +18,9 @@
     --text-secondary: #6b7280;
     --border-color: #e5e7eb;
     --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.05);
-    --input-bg: #f9fafb;
 }
 
-/* TEMA OSCURO (Estilo foto 2) */
+/* TEMA OSCURO (Por defecto para el Dashboard) */
 body.dark-theme {
     --bg-main: #0a0a0c;
     --card-bg: linear-gradient(145deg, #16161a, #0f0f12);
@@ -26,9 +28,11 @@ body.dark-theme {
     --text-secondary: #a1a1aa;
     --border-color: rgba(255, 255, 255, 0.05);
     --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
-    --input-bg: #1f1f22;
 }
 
+/* =========================================
+   2. RESETEO Y BASE
+   ========================================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -42,7 +46,32 @@ body {
     transition: background-color var(--transition), color var(--transition);
 }
 
-/* --- NUEVOS ESTILOS DEL LOGIN (Estilo Mate / Flat Dark) --- */
+/* =========================================
+   3. ESTILOS DE LOGOS E IMÁGENES (CORRECCIONES)
+   ========================================= */
+.logo-login {
+    width: 120px !important;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 0 auto 20px auto !important;
+    display: block !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    object-fit: contain;
+}
+
+.logo-dashboard {
+    width: 45px !important;
+    height: 45px !important;
+    min-width: 45px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    object-fit: cover;
+}
+
+/* =========================================
+   4. ESTILOS DEL LOGIN & REGISTRO (DISEÑO MATE / FLAT DARK)
+   ========================================= */
 .login-body {
     display: flex;
     justify-content: center;
@@ -57,13 +86,13 @@ body {
     padding: 20px;
 }
 
-/* Tarjeta sólida, sin bordes translúcidos, color mate */
 .login-card-mate {
-    background-color: #17171a; /* Gris muy oscuro mate basado en la ref */
+    background-color: #17171a; /* Gris mate oscuro sólido */
     padding: 45px 35px;
     border-radius: 28px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     border: none;
+    width: 100%;
 }
 
 .login-header {
@@ -84,62 +113,94 @@ body {
     margin-top: 5px; 
 }
 
-/* Campos de formulario rediseñados */
-.input-group-mate { 
-    margin-bottom: 24px; 
+/* Contenedores de inputs y etiquetas */
+.input-group-mate {
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .input-group-mate label {
     display: block;
-    margin-bottom: 10px;
-    font-size: 0.8rem;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #a1a1aa;
     font-weight: 500;
-    color: #a1a1aa; /* Gris claro para las etiquetas */
 }
 
-/* Inputs tipo "Píldora" con fondo suave y sin bordes */
+/* Diseño de inputs sin borde visible */
 .input-group-mate input {
     width: 100%;
+    box-sizing: border-box; 
     padding: 16px 20px;
-    border-radius: 16px; /* Bordes muy redondeados */
-    background-color: #222227; /* Fondo ligeramente más claro que la tarjeta */
-    border: 2px solid transparent; /* Transparente para que no se vea hasta hacer focus */
+    border-radius: 16px;
+    background-color: #222227;
+    border: 2px solid transparent;
     color: #ffffff;
     font-size: 1rem;
     outline: none;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
-/* Efecto al hacer clic en el input */
-.input-group-mate input:focus { 
+.input-group-mate input:focus {
     background-color: #27272d;
-    border-color: var(--avanti-green); /* El borde verde de Avanti solo aparece al escribir */
+    border-color: var(--avanti-green);
 }
 
-/* Botón adaptado al nuevo diseño */
-.w-100 { 
-    width: 100%; 
+/* Divisor "o" */
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    color: #55555c;
+    font-size: 0.9rem;
+    position: relative;
 }
+.divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background-color: #333338;
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
 
-.login-card-mate .btn-avanti {
-    background-color: var(--avanti-green);
-    color: #ffffff;
-    font-size: 1rem;
+/* Botón secundario (Invitado) */
+.btn-outline-mate {
+    background-color: transparent;
+    color: #a1a1aa;
+    border: 2px solid #333338;
+    padding: 14px;
+    border-radius: 16px;
     font-weight: 600;
-    padding: 16px;
-    border-radius: 16px; /* Mismo redondeo que los inputs */
-    border: none;
-    margin-top: 10px;
-    box-shadow: none; /* Se quita el resplandor para mantener el estilo flat */
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 0.95rem;
+}
+.btn-outline-mate:hover {
+    border-color: #a1a1aa;
+    color: #ffffff;
 }
 
-.login-card-mate .btn-avanti:hover {
-    background-color: var(--avanti-green-hover);
-    transform: translateY(-2px);
+/* Enlaces de alternar formulario */
+.toggle-text {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.85rem;
+    color: #888890;
+}
+.toggle-text a {
+    color: var(--avanti-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+.toggle-text a:hover {
+    text-decoration: underline;
 }
 
-/* --- ESTILOS DEL DASHBOARD --- */
+/* =========================================
+   5. ESTILOS DEL DASHBOARD
+   ========================================= */
 .dashboard-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -149,6 +210,7 @@ body {
     gap: 30px;
 }
 
+/* Header Dashboard */
 .top-header {
     display: flex;
     justify-content: space-between;
@@ -164,10 +226,6 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-}
-
-.logo-placeholder-small {
-    font-size: 2rem;
 }
 
 .brand h2 { font-size: 1.4rem; }
@@ -192,7 +250,7 @@ body {
     gap: 15px;
 }
 
-/* Grid Módulos */
+/* Grid de Tarjetas (Módulos) */
 .modules-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -237,7 +295,7 @@ body {
 .card-modulo h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .card-modulo p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
 
-/* Banners Horizontales */
+/* Banners Inferiores */
 .banners-section {
     display: flex;
     flex-direction: column;
@@ -271,15 +329,19 @@ body {
 .banner-text h3 { font-size: 1.3rem; margin-bottom: 5px; }
 .banner-text p { color: var(--text-secondary); font-size: 0.95rem; }
 
-/* Botones */
+/* =========================================
+   6. BOTONES GLOBALES
+   ========================================= */
 button { cursor: pointer; border: none; font-weight: 600; transition: var(--transition); }
+
+.w-100 { width: 100%; }
 
 .btn-avanti {
     background: var(--avanti-green);
     color: #fff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0, 200, 103, 0.3);
+    padding: 14px 24px;
+    border-radius: 16px; /* Modificado para hacer juego con inputs */
+    font-size: 1rem;
 }
 .btn-avanti:hover { background: var(--avanti-green-hover); }
 
@@ -287,8 +349,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     background: var(--avanti-blue);
     color: #fff;
     padding: 12px 24px;
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    border-radius: 16px;
 }
 .btn-avanti-blue:hover { background: var(--avanti-blue-hover); }
 
@@ -318,35 +379,12 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     border-radius: 20px;
     border: 1px solid var(--border-color);
 }
-/* --- ESTILOS DE IMÁGENES DE LOGO --- */
-/* =========================================
-   CORRECCIÓN 1: TAMAÑO ESTRICTO DE LOGOS
-   ========================================= */
-.logo-login {
-    width: 120px !important; /* Fuerza un tamaño máximo */
-    max-width: 100%;
-    height: auto;
-    border-radius: 12px;
-    margin: 0 auto 20px auto !important; /* Lo centra horizontalmente */
-    display: block !important; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    object-fit: contain;
-}
-
-.logo-dashboard {
-    width: 45px !important;
-    height: 45px !important;
-    min-width: 45px; /* Evita que en móviles se encoja o aplaste */
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    object-fit: cover;
-}
 
 /* =========================================
-   CORRECCIÓN 2: DISEÑO RESPONSIVO (MÓVILES)
+   7. DISEÑO RESPONSIVO (MÓVILES)
    ========================================= */
 @media (max-width: 768px) {
-    /* Ajuste del Header: Apila los elementos hacia abajo */
+    /* Header Dashboard */
     .top-header {
         flex-direction: column;
         align-items: flex-start;
@@ -354,14 +392,12 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         padding: 20px 15px;
     }
 
-    .brand h2 {
-        font-size: 1.25rem;
-    }
+    .brand h2 { font-size: 1.25rem; }
 
-    /* Ajuste de los botones del usuario para que no se peguen */
+    /* Controles de usuario (se acomodan abajo del header) */
     .user-controls {
         width: 100%;
-        flex-wrap: wrap; /* Permite que los botones bajen de línea si no caben */
+        flex-wrap: wrap; 
         justify-content: flex-start;
         gap: 10px;
     }
@@ -371,7 +407,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         padding: 6px 12px;
     }
 
-    /* Ajuste de los Banners inferiores */
+    /* Banners inferiores Dashboard */
     .banner-modulo {
         flex-direction: column;
         align-items: flex-start;
@@ -380,12 +416,11 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     }
     
     .banner-content {
-        flex-direction: column; /* Pone el ícono arriba del texto */
+        flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
 
-    /* Los botones de los banners ocuparán todo el ancho en celulares */
     .banner-modulo button {
         width: 100%; 
         text-align: center;
