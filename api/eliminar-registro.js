@@ -9,41 +9,68 @@ export default async function handler(req, res) {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
   try {
-    // Capturamos los datos que manda el botón de papelera desde el Dashboard
     const { categoria, numero_serie, computador, id_acta } = req.body;
     
     // Iniciar Transacción de borrado seguro
     await pool.query('BEGIN');
 
-    // 1. ELIMINAR EL ACTA Y SUS DETALLES (Si el equipo tenía una asignada)
-    if (id_acta) {
-        // Borramos los detalles técnicos (historial de RAM, SW, fotos, firmas)
-        await pool.query(`DELETE FROM detalle_acta_pc WHERE id_acta = $1`, [id_acta]);
-        await pool.query(`DELETE FROM detalle_acta_tef WHERE id_acta = $1`, [id_acta]);
-        await pool.query(`DELETE FROM detalle_acta_periferico WHERE id_acta = $1`, [id_acta]);
-        await pool.query(`DELETE FROM detalle_acta_linea WHERE id_acta = $1`, [id_acta]);
-        
-        // Borramos el acta principal
-        await pool.query(`DELETE FROM actas_asignacion WHERE id_acta = $1`, [id_acta]);
-    }
-
-    // 2. ELIMINAR EL ACTIVO FÍSICO DEL ALMACÉN SEGÚN SU CATEGORÍA
     const serieSegura = numero_serie || '';
     const codigoSeguro = computador || '';
 
+    // -----------------------------------------------------
+    // 1. ELIMINAR DEPENDENCIAS EN CASCADA (DETALLES TÉCNICOS)
+    // -----------------------------------------------------
     if (categoria === 'PCs' || categoria === 'Material Informático') {
-        await pool.query(`DELETE FROM pcs WHERE numero_serie = $1 OR codigo_patrimonial = $2`, [serieSegura, codigoSeguro]);
-    } else if (categoria === 'Teléfono Móvil' || categoria === 'telefonos') {
-        await pool.query(`DELETE FROM tef WHERE numero_serie = $1 OR codigo_patrimonial = $2`, [serieSegura, codigoSeguro]);
-    } else if (categoria === 'Periférico' || categoria === 'perifericos') {
-        await pool.query(`DELETE FROM perifericos WHERE numero_serie = $1 OR codigo_patrimonial = $2`, [serieSegura, codigoSeguro]);
-    } else if (categoria === 'Línea Móvil' || categoria === 'lineas') {
-        // En líneas, el "código patrimonial" suele ser el número de celular
-        await pool.query(`DELETE FROM lineas_moviles WHERE numero_telefono = $1 OR iccid_sim = $2 OR numero_telefono = $2 OR iccid_sim = $1`, [serieSegura, codigoSeguro]);
+        const resEq = await pool.query(
+            `SELECT id_activo FROM pcs WHERE (numero_serie = $1 AND numero_serie != '') OR (codigo_patrimonial = $2 AND codigo_patrimonial != '') LIMIT 1`, 
+            [serieSegura, codigoSeguro]
+        );
+        if (resEq.rows.length > 0) {
+            await pool.query(`DELETE FROM detalle_acta_pc WHERE id_pc = $1`, [resEq.rows[0].id_activo]);
+            await pool.query(`DELETE FROM pcs WHERE id_activo = $1`, [resEq.rows[0].id_activo]);
+        }
+    } 
+    else if (categoria === 'Teléfono Móvil' || categoria === 'telefonos') {
+        const resEq = await pool.query(
+            `SELECT id_activo FROM tef WHERE (numero_serie = $1 AND numero_serie != '') OR (codigo_patrimonial = $2 AND codigo_patrimonial != '') LIMIT 1`, 
+            [serieSegura, codigoSeguro]
+        );
+        if (resEq.rows.length > 0) {
+            await pool.query(`DELETE FROM detalle_acta_tef WHERE id_tef = $1`, [resEq.rows[0].id_activo]);
+            await pool.query(`DELETE FROM tef WHERE id_activo = $1`, [resEq.rows[0].id_activo]);
+        }
+    } 
+    else if (categoria === 'Periférico' || categoria === 'perifericos') {
+        const resEq = await pool.query(
+            `SELECT id_activo FROM perifericos WHERE (numero_serie = $1 AND numero_serie != '') OR (codigo_patrimonial = $2 AND codigo_patrimonial != '') LIMIT 1`, 
+            [serieSegura, codigoSeguro]
+        );
+        if (resEq.rows.length > 0) {
+            await pool.query(`DELETE FROM detalle_acta_periferico WHERE id_periferico = $1`, [resEq.rows[0].id_activo]);
+            await pool.query(`DELETE FROM perifericos WHERE id_activo = $1`, [resEq.rows[0].id_activo]);
+        }
+    } 
+    else if (categoria === 'Línea Móvil' || categoria === 'lineas') {
+        const resEq = await pool.query(
+            `SELECT id_linea FROM lineas_moviles WHERE (numero_telefono = $1 AND numero_telefono != '') OR (iccid_sim = $2 AND iccid_sim != '') LIMIT 1`, 
+            [serieSegura, codigoSeguro]
+        );
+        if (resEq.rows.length > 0) {
+            await pool.query(`DELETE FROM detalle_acta_linea WHERE id_linea = $1`, [resEq.rows[0].id_linea]);
+            await pool.query(`DELETE FROM lineas_moviles WHERE id_linea = $1`, [resEq.rows[0].id_linea]);
+        }
+    }
+
+    // -----------------------------------------------------
+    // 2. ELIMINAR EL ACTA MAESTRA
+    // -----------------------------------------------------
+    // Tras borrar los detalles de arriba, el acta queda liberada y se puede eliminar de forma segura
+    if (id_acta) {
+        await pool.query(`DELETE FROM actas_asignacion WHERE id_acta = $1`, [id_acta]);
     }
 
     await pool.query('COMMIT');
-    res.status(200).json({ success: true, message: 'Registro y actas eliminados permanentemente del sistema.' });
+    res.status(200).json({ success: true, message: 'Equipo y registros eliminados exitosamente.' });
 
   } catch (error) {
     await pool.query('ROLLBACK');
