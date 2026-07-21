@@ -1079,24 +1079,45 @@
         if (!form) return;
         
         const setVal = (spec, val) => {
-            if(val) {
+            if(val !== undefined && val !== null) {
                 const el = form.querySelector(`[data-spec="${spec}"]`);
                 if(el) {
-                    el.value = val;
-                    if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
+                    if (el.type === 'checkbox' || el.type === 'radio') {
+                        // Marca automáticamente las casillas "Sí", "No" o Accesorios guardados previamente
+                        el.checked = (val === true || String(val).toLowerCase() === 'true' || val === el.value);
+                    } else {
+                        // Rellena procesador, RAM, Disco Duro, etc.
+                        el.value = val;
+                        if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
+                    }
                 }
             }
         };
 
+        // 1. Rellena los datos base
         setVal('tipo_equipo', eq.tipo_equipo);
         setVal('marca_modelo', eq.marca_modelo);
         setVal('nro_serie', eq.nro_serie);
         setVal('codigo_patrimonial', eq.codigo_patrimonial);
-        setVal('procesador', eq.procesador);
-        setVal('ram', eq.ram);
         setVal('operador', eq.operador);
         setVal('nro_telefono', eq.nro_telefono);
         setVal('serie_sim', eq.serie_sim);
+
+        // 2. Desempaqueta y rellena dinámicamente Procesador, RAM, Disco Duro, y Software
+        if (eq.detalles_json) {
+            try {
+                const det = typeof eq.detalles_json === 'string' ? JSON.parse(eq.detalles_json) : eq.detalles_json;
+                Object.keys(det).forEach(k => setVal(k, det[k]));
+            } catch(e) { console.error("Error leyendo detalles:", e) }
+        }
+
+        // 3. Desempaqueta y marca los Accesorios / Periféricos
+        if (eq.accesorios_json) {
+            try {
+                const acc = typeof eq.accesorios_json === 'string' ? JSON.parse(eq.accesorios_json) : eq.accesorios_json;
+                Object.keys(acc).forEach(k => setVal(k, acc[k]));
+            } catch(e) { console.error("Error leyendo accesorios:", e) }
+        }
     }
 
     // ==========================================
