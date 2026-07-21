@@ -80,25 +80,20 @@
     .subhead { background-color: var(--subhead-bg); color: #16A34A; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .input-wrapper { position: relative; display: flex; width: 100%; }
-    
-    /* NORMALIZACIÓN PARA MÓVILES (-webkit-appearance) */
     input[type="text"], input[type="date"], textarea { 
-      -webkit-appearance: none; appearance: none;
-      width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); 
-      padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; 
-      font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
+      -webkit-appearance: none; appearance: none; width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
     }
     input[type="text"]:focus, input[type="date"]:focus, textarea:focus { outline: none; border-color: #16A34A; }
     
+    /* ELIMINACIÓN DE SCROLLBARS Y RESIZERS EN TEXTAREAS */
     textarea { resize: none !important; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
-    textarea::-webkit-resizer { display: none !important; }
-    textarea::-webkit-scrollbar { display: none !important; }
+    textarea::-webkit-resizer, textarea::-webkit-scrollbar { display: none !important; }
     
     .btn-scan { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; transition: transform 0.2s; color: var(--text-secondary); }
     .btn-scan:hover { transform: translateY(-50%) scale(1.1); color: var(--text-color); }
     
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; color: var(--text-color); }
-    input[type="checkbox"], input[type="radio"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
+    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #16A34A; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
@@ -111,7 +106,7 @@
     .btn-eliminar-foto { position: absolute; top: -8px; right: -8px; background: #EF4444; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
     .btn-eliminar-foto:hover { background: #DC2626; }
 
-    /* FIRMAS */
+    /* FIRMAS (DNI CENTRADO CORRECTAMENTE) */
     .signature-section { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 10px; width: 100%; gap: 20px; }
     .signature-block { width: 48%; text-align: center; font-size: 11px; color: var(--text-color); }
     .signature-trigger-box { width: 100%; height: 70px; background: var(--lbl-bg); border: 2px dashed var(--input-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-weight: 600; }
@@ -134,7 +129,7 @@
     .custom-toast.show { top: 24px; }
     
     /* ==============================================
-       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
+       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES Y TABLETS)
        ============================================== */
     @media screen and (max-width: 820px) {
       body { padding: 12px 8px; }
@@ -154,25 +149,46 @@
       .form-table td { display: block; width: 100% !important; }
       
       .form-table td.lbl { 
-         background-color: #F1F5F9 !important; color: #475569 !important; font-size: 11.5px; 
-         padding: 12px 14px 8px 14px !important; border: 1px solid var(--border-color) !important; 
-         border-bottom: none !important; border-radius: 8px 8px 0 0 !important; margin-top: 16px; font-weight: 700; text-transform: uppercase; 
+         background-color: #F1F5F9 !important; 
+         color: #475569 !important; 
+         font-size: 11.5px; 
+         padding: 12px 14px 8px 14px !important; 
+         border: 1px solid var(--border-color) !important; 
+         border-bottom: none !important; 
+         border-radius: 8px 8px 0 0 !important; 
+         margin-top: 16px; 
+         font-weight: 700; 
+         text-transform: uppercase; 
       }
       
       .form-table tr:first-child td.lbl:first-child { margin-top: 0; }
+      .form-table tr.no-print { margin-top: 0; border: none !important; }
       
       .form-table td:not(.lbl):not(.subhead) { 
-         background-color: var(--card-bg); border: 1px solid var(--border-color) !important; 
-         border-top: none !important; border-radius: 0 0 8px 8px !important; padding: 8px 14px 16px 14px !important; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+         background-color: var(--card-bg); 
+         border: 1px solid var(--border-color) !important; 
+         border-top: none !important; 
+         border-radius: 0 0 8px 8px !important; 
+         padding: 8px 14px 16px 14px !important; 
+         box-shadow: 0 1px 2px rgba(0,0,0,0.02);
       }
 
       .form-table td[colspan="4"]:not(.subhead):not(.lbl), .form-table td[colspan="2"]:not(.subhead):not(.lbl) {
-         border-top: 1px solid var(--border-color) !important; border-radius: 8px !important; margin-top: 16px;
+         border-top: 1px solid var(--border-color) !important; 
+         border-radius: 8px !important; 
+         margin-top: 16px;
       }
 
       .form-table td.subhead { 
-         background-color: transparent !important; color: #16A34A !important; font-size: 12px !important; 
-         padding: 24px 0 8px 0 !important; border: none !important; text-align: left; border-bottom: 2px solid #16A34A !important; border-radius: 0 !important; margin-top: 10px;
+         background-color: transparent !important; 
+         color: #16A34A !important; 
+         font-size: 12px !important; 
+         padding: 24px 0 8px 0 !important; 
+         border: none !important; 
+         text-align: left; 
+         border-bottom: 2px solid #16A34A !important;
+         border-radius: 0 !important;
+         margin-top: 10px;
       }
       
       .signature-section { flex-direction: column; gap: 30px; }
@@ -180,7 +196,7 @@
       .custom-modal-card { width: 100%; margin: 0; }
       
       input[type="text"], input[type="date"], textarea { font-size: 15px; padding: 12px 14px; }
-      input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; }
+      input[type="checkbox"] { width: 18px; height: 18px; }
       .inline-flex { font-size: 14px; margin-right: 20px; margin-bottom: 8px; display: inline-flex; flex-wrap: wrap;}
     }
 
@@ -235,10 +251,11 @@
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
       
-      input[type="checkbox"], input[type="radio"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
+      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; color: #000 !important; white-space: nowrap !important; }
       
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #16A34A !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; background: transparent !important; color: #000 !important;}
+      .evidencia-box, .evidencia-runtime-img { display: none !important; }
       
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; color: #000 !important; }
@@ -409,12 +426,12 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
-          <tr>
+          <tr class="no-print">
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_1" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_1" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_1" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_1" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
           </tr>
@@ -532,12 +549,12 @@
         <table class="form-table">
           <tr><td class="lbl" style="width: 18%;">Fecha Dev.:</td><td style="width: 82%;"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
-          <tr>
+          <tr class="no-print">
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_2" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_2" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_2" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_2" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
           </tr>
@@ -657,12 +674,12 @@
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
-          <tr>
+          <tr class="no-print">
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_3" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_3" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
           </tr>
@@ -778,12 +795,12 @@
           <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
           <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
           <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
-          <tr>
+          <tr class="no-print">
             <td class="lbl" style="width: 18%;">Estado Final:</td>
             <td style="width: 82%;">
               <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_4" data-field="destino_equipo" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
-                <label class="inline-flex" style="margin:0;"><input type="radio" name="destino_eq_4" data-field="destino_equipo" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_4" value="STOCK" checked> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_4" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
               </div>
             </td>
           </tr>
@@ -866,7 +883,7 @@
                 });
             });
             
-            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No)
+            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No y Estados)
             document.querySelectorAll('.excl-check').forEach(chk => {
                 chk.addEventListener('change', function() {
                     if(this.checked) {
@@ -910,8 +927,6 @@
                 if (val !== undefined && val !== null) {
                   if (el.type === 'checkbox') {
                     el.checked = (val === true || String(val).toLowerCase() === 'true' || val === 'Sí');
-                  } else if (el.type === 'radio') {
-                    if (el.value === val) el.checked = true;
                   } else {
                     el.value = val;
                     if(el.type === 'date') el.classList.add('has-val');
@@ -919,7 +934,6 @@
                 }
               });
               
-              // Cargar Firmas y Mostrar para impresión
               const cargarFirma = (campoDB, idImgPrefijo) => {
                 if (rowData[campoDB] && rowData[campoDB].startsWith('data:image')) {
                   const imgFirma = form.querySelector(`[id^="${idImgPrefijo}"]`);
@@ -939,7 +953,6 @@
               cargarFirma('firma_encargado_devolucion', 'f3_');
               cargarFirma('firma_empleado_devolucion', 'f4_');
 
-              // Forzar redimensión antes de imprimir
               setTimeout(() => {
                 form.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
                 setTimeout(() => window.print(), 300);
@@ -1038,7 +1051,6 @@
       }; 
     }
     
-    /* EVENTOS TÁCTILES PASIVOS (PARA MÓVIL) */
     canvas.addEventListener('touchstart', function(e) {
       dibujando = true; 
       const p = getPos(e); 
@@ -1056,11 +1068,8 @@
       }
     }, { passive: false });
 
-    canvas.addEventListener('touchend', function(e) {
-      dibujando = false;
-    });
+    canvas.addEventListener('touchend', function(e) { dibujando = false; });
 
-    /* EVENTOS DE MOUSE (PARA PC) */
     canvas.addEventListener('mousedown', function(e) {
       dibujando = true; 
       const p = getPos(e); 
@@ -1076,9 +1085,7 @@
       }
     });
 
-    window.addEventListener('mouseup', function(e) {
-      dibujando = false;
-    });
+    window.addEventListener('mouseup', function(e) { dibujando = false; });
 
     function guardarFirmaPopup() {
       const img = document.getElementById(targetImgId);
@@ -1161,9 +1168,6 @@
         if (el.type === 'checkbox') {
           if (!el.checked) return;
           val = el.nextSibling ? el.nextSibling.textContent.trim() : 'true';
-        } else if (el.type === 'radio') {
-          if (!el.checked) return;
-          val = el.value;
         }
         
         if(['dni_empleado', 'nombre_empleado', 'area_empleado', 'cargo_empleado', 'centro_costo', 'correo_corp'].includes(key)) {
@@ -1173,10 +1177,10 @@
         }
       });
 
-      // Asegurar que el radio button activo sea capturado correctamente
-      const radioDestino = form.querySelector('input[type="radio"][data-field="destino_equipo"]:checked');
-      if (radioDestino) {
-          payload.destino_equipo = radioDestino.value;
+      // Extracción específica del Checkbox de Destino
+      const checkDestino = form.querySelector('input.excl-check[data-group^="destino_eq_"]:checked');
+      if (checkDestino) {
+          payload.destino_equipo = checkDestino.value;
       }
 
       form.querySelectorAll('[data-spec]').forEach(el => {
