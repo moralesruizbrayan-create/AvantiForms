@@ -11,7 +11,6 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-    /* VARIABLES GLOBALES Y DISEÑO BASE */
     :root { 
       --bg-color: #F8FAFC; 
       --text-color: #334155; 
@@ -28,19 +27,10 @@
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
     }
     
-    /* INTEGRACIÓN COMPLETA DE MODO OSCURO */
     body.dark-mode { 
-      --bg-color: #0F172A; 
-      --text-color: #F8FAFC; 
-      --text-secondary: #94A3B8; 
-      --card-bg: #1E293B; 
-      --border-color: #334155; 
-      --input-bg: #0F172A; 
-      --input-border: #475569; 
-      --lbl-bg: #1E293B; 
-      --subhead-bg: #334155; 
-      --modal-overlay: rgba(0, 0, 0, 0.85); 
-      --watermark-opacity: 0.01; 
+      --bg-color: #0F172A; --text-color: #F8FAFC; --text-secondary: #94A3B8; --card-bg: #1E293B; 
+      --border-color: #334155; --input-bg: #0F172A; --input-border: #475569; --lbl-bg: #1E293B; 
+      --subhead-bg: #334155; --modal-overlay: rgba(0, 0, 0, 0.85); --watermark-opacity: 0.01; 
     }
     
     * { box-sizing: border-box; }
@@ -52,7 +42,6 @@
     
     .form-view { display: none; } .form-view.active { display: block; }
     
-    /* BARRAS Y CONTENEDORES ADAPTATIVOS */
     .action-bar-container { background-color: var(--card-bg); border-color: var(--border-color); }
     .btn-dash { background-color: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); }
     .btn-dash:hover { background-color: var(--border-color); }
@@ -64,7 +53,6 @@
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #16A34A; color: #FFF; border-color: #16A34A; box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2); }
 
-    /* CABECERA Y LOGO MEJORADOS */
     .header-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border-bottom: 3px solid #16A34A; }
     .header-logo { width: 85px; padding-bottom: 12px; vertical-align: middle; text-align: left; }
     .header-logo img { width: 100%; max-height: 65px; object-fit: contain; mix-blend-multiply; }
@@ -79,25 +67,24 @@
     .lbl { background-color: var(--lbl-bg); font-weight: 600; width: 18%; color: var(--text-secondary); }
     .subhead { background-color: var(--subhead-bg); color: #16A34A; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .input-wrapper { position: relative; display: flex; width: 100%; }
+    .input-wrapper { position: relative; display: flex; width: 100%; align-items: center; }
+    .input-wrapper input { padding-right: 65px !important; } /* Espacio para los botones */
     
-    /* NORMALIZACIÓN PARA MÓVILES (-webkit-appearance) */
     input[type="text"], input[type="date"], textarea { 
-      -webkit-appearance: none; appearance: none;
-      width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); 
-      padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; 
-      font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
+      -webkit-appearance: none; appearance: none; width: 100%; border: 1px solid var(--input-border); background: var(--input-bg); padding: 8px 10px; font-size: 12.5px; color: var(--text-color); border-radius: 6px; font-family: inherit; transition: border-color 0.2s; vertical-align: middle; text-align: left; 
     }
     input[type="text"]:focus, input[type="date"]:focus, textarea:focus { outline: none; border-color: #16A34A; }
     
     textarea { resize: none !important; overflow: hidden; vertical-align: middle; line-height: 1.5; min-height: 34px; }
     textarea::-webkit-resizer, textarea::-webkit-scrollbar { display: none !important; }
     
-    .btn-scan { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; padding: 4px; font-size: 16px; transition: transform 0.2s; color: var(--text-secondary); }
-    .btn-scan:hover { transform: translateY(-50%) scale(1.1); color: var(--text-color); }
+    /* BOTONES DE ESCANEO Y BÚSQUEDA */
+    .scan-actions { position: absolute; right: 8px; display: flex; gap: 10px; align-items: center; }
+    .btn-scan { background: transparent; border: none; cursor: pointer; font-size: 16px; transition: transform 0.2s; color: var(--text-secondary); padding: 0; display: flex; align-items: center; justify-content: center; }
+    .btn-scan:hover { transform: scale(1.15); color: #16A34A; }
     
     .inline-flex { display: inline-flex; align-items: center; margin-right: 16px; font-weight: 500; cursor: pointer; color: var(--text-color); }
-    input[type="checkbox"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
+    input[type="checkbox"], input[type="radio"] { margin-right: 6px; cursor: pointer; accent-color: #16A34A; width: 16px; height: 16px; }
     
     .compromiso-box { border: 1px solid var(--border-color); border-left: 4px solid #16A34A; background: var(--lbl-bg); padding: 12px 16px; font-size: 11px; margin-top: 10px; border-radius: 6px; line-height: 1.5; color: var(--text-secondary); }
     
@@ -132,115 +119,60 @@
     .custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--card-bg); box-shadow: var(--shadow-md); padding: 14px 28px; border-radius: 8px; display: flex; align-items: center; gap: 12px; z-index: 10000; font-size: 13.5px; font-weight: 600; transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border-color); border-left: 4px solid #16A34A; color: var(--text-color); }
     .custom-toast.show { top: 24px; }
     
-    /* ==============================================
-       COMPORTAMIENTO RESPONSIVE (TELÉFONOS MÓVILES)
-       ============================================== */
     @media screen and (max-width: 820px) {
       body { padding: 12px 8px; }
       .page-container { padding: 20px 16px; border: none; box-shadow: var(--shadow-sm); border-radius: 12px; margin-bottom: 20px;}
-      
       .header-table, .header-table tbody, .header-table tr, .header-table td { display: block; width: 100%; text-align: center; }
       .header-logo { padding-bottom: 4px; text-align: center; }
       .header-logo img { margin: 0 auto 12px auto; width: 80px; height: 80px; }
       .header-titles { padding-left: 0; padding-bottom: 16px; text-align: center; }
       .header-titles h1 { font-size: 18px; line-height: 1.3; }
-      
       .mode-selector { display: grid; grid-template-columns: 1fr; gap: 10px; }
       .mode-btn { width: 100%; text-align: center; padding: 12px; font-size: 14px; }
-
       .form-table, .form-table tbody { display: block; width: 100%; }
       .form-table tr { display: flex; flex-direction: column; margin-bottom: 0; background: transparent !important; border: none !important; box-shadow: none !important; }
       .form-table td { display: block; width: 100% !important; }
-      
-      .form-table td.lbl { 
-         background-color: #F1F5F9 !important; color: #475569 !important; font-size: 11.5px; 
-         padding: 12px 14px 8px 14px !important; border: 1px solid var(--border-color) !important; 
-         border-bottom: none !important; border-radius: 8px 8px 0 0 !important; margin-top: 16px; font-weight: 700; text-transform: uppercase; 
-      }
-      
+      .form-table td.lbl { background-color: #F1F5F9 !important; color: #475569 !important; font-size: 11.5px; padding: 12px 14px 8px 14px !important; border: 1px solid var(--border-color) !important; border-bottom: none !important; border-radius: 8px 8px 0 0 !important; margin-top: 16px; font-weight: 700; text-transform: uppercase; }
       .form-table tr:first-child td.lbl:first-child { margin-top: 0; }
       .form-table tr.no-print { margin-top: 0; border: none !important; }
-      
-      .form-table td:not(.lbl):not(.subhead) { 
-         background-color: var(--card-bg); border: 1px solid var(--border-color) !important; 
-         border-top: none !important; border-radius: 0 0 8px 8px !important; padding: 8px 14px 16px 14px !important; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-      }
-
-      .form-table td[colspan="4"]:not(.subhead):not(.lbl), .form-table td[colspan="2"]:not(.subhead):not(.lbl) {
-         border-top: 1px solid var(--border-color) !important; border-radius: 8px !important; margin-top: 16px;
-      }
-
-      .form-table td.subhead { 
-         background-color: transparent !important; color: #16A34A !important; font-size: 12px !important; 
-         padding: 24px 0 8px 0 !important; border: none !important; text-align: left; border-bottom: 2px solid #16A34A !important; border-radius: 0 !important; margin-top: 10px;
-      }
-      
+      .form-table td:not(.lbl):not(.subhead) { background-color: var(--card-bg); border: 1px solid var(--border-color) !important; border-top: none !important; border-radius: 0 0 8px 8px !important; padding: 8px 14px 16px 14px !important; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+      .form-table td[colspan="4"]:not(.subhead):not(.lbl), .form-table td[colspan="2"]:not(.subhead):not(.lbl) { border-top: 1px solid var(--border-color) !important; border-radius: 8px !important; margin-top: 16px; }
+      .form-table td.subhead { background-color: transparent !important; color: #16A34A !important; font-size: 12px !important; padding: 24px 0 8px 0 !important; border: none !important; text-align: left; border-bottom: 2px solid #16A34A !important; border-radius: 0 !important; margin-top: 10px; }
       .signature-section { flex-direction: column; gap: 30px; }
       .signature-block { width: 100%; }
       .custom-modal-card { width: 100%; margin: 0; }
-      
       input[type="text"], input[type="date"], textarea { font-size: 15px; padding: 12px 14px; }
-      input[type="checkbox"] { width: 18px; height: 18px; }
+      input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; }
       .inline-flex { font-size: 14px; margin-right: 20px; margin-bottom: 8px; display: inline-flex; flex-wrap: wrap;}
     }
 
-    /* ==============================================
-       OPTIMIZACIÓN ESTRICTA PARA IMPRESIÓN A4
-       ============================================== */
     @media print {
       @page { size: A4 portrait; margin: 10mm 15mm; }
-      
-      /* FORZAMOS BLANCO Y NEGRO IGNORANDO EL MODO OSCURO */
-      :root, body.dark-mode, body { 
-        --bg-color: #FFFFFF !important; 
-        --text-color: #000000 !important; 
-        --text-secondary: #000000 !important; 
-        --card-bg: #FFFFFF !important; 
-        --border-color: #CBD5E1 !important; 
-        --input-bg: transparent !important; 
-        --input-border: #CBD5E1 !important; 
-        --lbl-bg: #F8FAFC !important; 
-        --subhead-bg: #E2E8F0 !important; 
-      }
-      
+      :root, body.dark-mode, body { --bg-color: #FFFFFF !important; --text-color: #000000 !important; --text-secondary: #000000 !important; --card-bg: #FFFFFF !important; --border-color: #CBD5E1 !important; --input-bg: transparent !important; --input-border: #CBD5E1 !important; --lbl-bg: #F8FAFC !important; --subhead-bg: #E2E8F0 !important; }
       body { background: #FFFFFF !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar-container { display: none !important; }
       .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; margin: 0 !important; }
-      
       .header-table { margin-bottom: 12px !important; border-bottom: 2px solid #16A34A !important; padding-bottom: 4px !important; }
       .header-logo { width: 70px !important; padding-bottom: 8px !important; }
       .header-logo img { width: 60px !important; height: auto !important; max-height: 60px !important; }
       .header-titles { padding-bottom: 8px !important; }
       .header-titles h1 { font-size: 15px !important; color: #16A34A !important; margin:0 !important; padding:0 !important; letter-spacing: 0 !important; }
-      
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #16A34A !important; page-break-after: avoid; }
       h3::before { background-color: #16A34A !important; }
-      
       .form-table { margin-bottom: 6px !important; page-break-inside: avoid; }
       .form-table td { padding: 4px 6px !important; font-size: 9.5px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.2 !important; vertical-align: middle !important; }
       .lbl { background-color: #F8FAFC !important; color: #000 !important; font-weight: 700 !important; width: 18% !important; }
       .subhead { background-color: #F1F5F9 !important; color: #16A34A !important; font-size: 8.5px !important; padding: 3px 6px !important; }
-      
-      input[type="text"], input[type="date"], textarea { 
-        background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; 
-        color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important;
-        vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; 
-        word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important;
-      }
+      input[type="text"], input[type="date"], textarea { background: transparent !important; border: none !important; padding: 0 !important; font-size: 9.5px !important; color: #000 !important; width: 100% !important; font-family: inherit !important; text-align: left !important; vertical-align: middle !important; overflow: visible !important; white-space: pre-wrap !important; word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: normal !important; }
       textarea { height: auto !important; min-height: auto !important; resize: none !important; display: block !important; }
       textarea::-webkit-resizer { display: none !important; }
-      
       input[type="date"]:not(.has-val) { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
-      
-      input[type="checkbox"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
+      input[type="checkbox"], input[type="radio"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
       .inline-flex { font-size: 9.5px !important; margin-right: 8px !important; color: #000 !important; white-space: nowrap !important; }
-      
       .compromiso-box { font-size: 8.5px !important; padding: 6px 10px !important; border: 1px solid #CBD5E1 !important; border-left: 3px solid #16A34A !important; margin-top: 4px !important; page-break-inside: avoid; line-height: 1.2 !important; background: transparent !important; color: #000 !important;}
       .evidencia-box, .evidencia-runtime-img { display: none !important; }
-      
       .signature-section { margin-top: 25px !important; margin-bottom: 8px !important; page-break-inside: avoid; }
       .signature-block { font-size: 9px !important; color: #000 !important; }
       .signature-trigger-box { border: none !important; background: transparent !important; height: 40px !important; }
@@ -300,8 +232,24 @@
 
       <h3>2. Detalle del Equipo Informático:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m1_nro_serie" data-spec="nro_serie"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m1_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Computador:</td><td><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
+        <tr>
+          <td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m1_nro_serie" data-spec="nro_serie" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m1_nro_serie').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m1_nro_serie')" title="Escanear Código">📷</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td>
+          <td class="lbl">CPU:</td>
+          <td><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td>
+        </tr>
         <tr><td colspan="4" class="subhead">Especificaciones de Hardware</td></tr>
         <tr><td class="lbl">Procesador:</td><td><textarea rows="1" data-spec="procesador"></textarea></td><td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram"></td></tr>
         <tr>
@@ -486,8 +434,23 @@
 
       <h3>2. Detalle del Periférico / Monitor:</h3>
       <table class="form-table">
-        <tr><td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m2_nro_serie" data-spec="nro_serie"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m2_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Código Activo:</td><td><input type="text" data-spec="codigo_patrimonial"></td></tr>
+        <tr>
+          <td class="lbl">Tipo de Equipo:</td><td style="width:32%;"><input type="text" data-spec="tipo_equipo"></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m2_nro_serie" data-spec="nro_serie" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m2_nro_serie').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m2_nro_serie')" title="Escanear Código">📷</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">Marca / Modelo:</td><td><textarea rows="1" data-spec="marca_modelo"></textarea></td>
+          <td class="lbl">Código Activo:</td><td><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td>
+        </tr>
         <tr><td class="lbl">Pulgadas/Tamaño:</td><td><input type="text" data-spec="pulgadas_tamano"></td><td class="lbl">Entradas Video:</td><td><textarea rows="1" data-spec="entradas_video"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Cables y Conectores Incluidos</td></tr>
         <tr>
@@ -616,10 +579,43 @@
 
       <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
       <table class="form-table">
-        <tr><td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td><td class="lbl">Nº de Serie:</td><td><div class="input-wrapper"><input type="text" id="m3_nro_serie" data-spec="nro_serie"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m3_nro_serie')">📷</button></div></td></tr>
-        <tr><td class="lbl">IMEI 1:</td><td><div class="input-wrapper"><input type="text" id="m3_imei1" data-spec="imei_1"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m3_imei1')">📷</button></div></td><td class="lbl">IMEI 2:</td><td><div class="input-wrapper"><input type="text" id="m3_imei2" data-spec="imei_2"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m3_imei2')">📷</button></div></td></tr>
+        <tr>
+          <td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_nro_serie" data-spec="nro_serie" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_nro_serie').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_nro_serie')" title="Escanear Código">📷</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">IMEI 1:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_imei1" data-spec="imei_1" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_imei1').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei1')" title="Escanear Código">📷</button>
+              </div>
+            </div>
+          </td>
+          <td class="lbl">IMEI 2:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_imei2" data-spec="imei_2" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_imei2').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei2')" title="Escanear Código">📷</button>
+              </div>
+            </div>
+          </td>
+        </tr>
         <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad"></td></tr>
-        <tr><td class="lbl">Código Patrimonial:</td><td colspan="3"><textarea rows="1" data-spec="codigo_patrimonial"></textarea></td></tr>
+        <tr><td class="lbl">Código Patrimonial:</td><td colspan="3"><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td></tr>
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
         <tr>
           <td colspan="4">
@@ -756,9 +752,17 @@
       <table class="form-table">
         <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador"></td></tr>
         <tr>
-          <td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono"></td>
+          <td class="lbl">Nº de Teléfono:</td><td style="width:32%;"><input type="text" data-spec="nro_telefono" onchange="buscarEquipo(this.value)"></td>
           <td class="lbl">Serie SIM:</td>
-          <td><div class="input-wrapper"><input type="text" id="m4_serie_sim" data-spec="serie_sim"><button type="button" class="btn-scan no-print" onclick="abrirEscaner('m4_serie_sim')">📷</button></div></td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m4_serie_sim" data-spec="serie_sim" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m4_serie_sim').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m4_serie_sim')" title="Escanear Código">📷</button>
+              </div>
+            </div>
+          </td>
         </tr>
       </table>
 
@@ -914,7 +918,7 @@
                 });
             });
             
-            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No y Estados)
+            // MOTOR LÓGICO DE CASILLAS EXCLUSIVAS (Sí/No)
             document.querySelectorAll('.excl-check').forEach(chk => {
                 chk.addEventListener('change', function() {
                     if(this.checked) {
@@ -1044,7 +1048,55 @@
     }
 
     // ==========================================
-    // FUNCIÓN PARA DESHACER LA DEVOLUCIÓN (NUEVO)
+    // AUTOCOMPLETADO INTELIGENTE (CÁMARA O MANUAL)
+    // ==========================================
+    async function buscarEquipo(codigo) {
+        if (!codigo || codigo.trim() === '') return;
+        
+        mostrarNotificacionToast("🔍 Buscando equipo en la Base de Datos...", true);
+        
+        try {
+            const res = await fetch(`/api/obtener-equipo?codigo=${encodeURIComponent(codigo.trim())}`);
+            const data = await res.json();
+            
+            if (res.ok && data.success) {
+                autocompletarFormulario(data.equipo);
+                mostrarNotificacionToast("✅ Equipo encontrado y autocompletado", true);
+            } else {
+                mostrarNotificacionToast("⚠️ El código no está registrado en el inventario", false);
+            }
+        } catch (err) {
+            mostrarNotificacionToast("❌ Error de conexión al buscar", false);
+        }
+    }
+
+    function autocompletarFormulario(eq) {
+        const form = document.querySelector('.form-view.active');
+        if (!form) return;
+        
+        const setVal = (spec, val) => {
+            if(val) {
+                const el = form.querySelector(`[data-spec="${spec}"]`);
+                if(el) {
+                    el.value = val;
+                    if(el.tagName.toLowerCase() === 'textarea') autoResizeTextarea(el);
+                }
+            }
+        };
+
+        setVal('tipo_equipo', eq.tipo_equipo);
+        setVal('marca_modelo', eq.marca_modelo);
+        setVal('nro_serie', eq.nro_serie);
+        setVal('codigo_patrimonial', eq.codigo_patrimonial);
+        setVal('procesador', eq.procesador);
+        setVal('ram', eq.ram);
+        setVal('operador', eq.operador);
+        setVal('nro_telefono', eq.nro_telefono);
+        setVal('serie_sim', eq.serie_sim);
+    }
+
+    // ==========================================
+    // FUNCIÓN PARA DESHACER LA DEVOLUCIÓN
     // ==========================================
     function limpiarDevolucion() {
       if(!confirm("¿Estás seguro de deshacer la devolución? Esto borrará las firmas y la fecha de retorno en pantalla.")) return;
@@ -1058,26 +1110,22 @@
       const obsInput = form.querySelector('textarea[data-field="observaciones_devolucion"]');
       if(obsInput) { obsInput.value = ''; autoResizeTextarea(obsInput); }
       
-      // Limpiar los checkboxes de Estado Final y volver a marcar STOCK
       form.querySelectorAll('input.excl-check[data-group^="destino_eq_"]').forEach(c => {
           if(c.value === 'STOCK') c.checked = true;
           else c.checked = false;
       });
       
-      // Limpiar los DNI
       const dniTiDev = form.querySelector('input[data-field="dni_firma_ti_dev"]');
       if(dniTiDev) dniTiDev.value = '';
       const dniEmpDev = form.querySelector('input[data-field="dni_firma_emp_dev"]');
       if(dniEmpDev) dniEmpDev.value = '';
       
-      // Limpiar datos condicionales (Mismo Titular etc.)
       form.querySelectorAll('input[data-field="devolucion_mismo_titular"]').forEach(c => c.checked = false);
       const devQuienNombre = form.querySelector('textarea[data-field="devolucion_quien_nombre"]');
       if(devQuienNombre) { devQuienNombre.value = ''; autoResizeTextarea(devQuienNombre); }
       const devQuienDni = form.querySelector('input[data-field="devolucion_quien_dni"]');
       if(devQuienDni) devQuienDni.value = '';
 
-      // Limpiar Firmas
       ['f3', 'f4'].forEach(prefix => {
           const img = form.querySelector(`img[id^="${prefix}_"]`);
           if(img) {
@@ -1091,7 +1139,6 @@
           }
       });
 
-      // Limpiar Evidencia (Foto)
       const evImg = form.querySelector(`img[id^="evidencia_dev_"]`);
       if(evImg) {
           evImg.src = '';
@@ -1148,7 +1195,6 @@
       }; 
     }
     
-    /* EVENTOS TÁCTILES PASIVOS (PARA MÓVIL) */
     canvas.addEventListener('touchstart', function(e) {
       dibujando = true; 
       const p = getPos(e); 
@@ -1170,7 +1216,6 @@
       dibujando = false;
     });
 
-    /* EVENTOS DE MOUSE (PARA PC) */
     canvas.addEventListener('mousedown', function(e) {
       dibujando = true; 
       const p = getPos(e); 
@@ -1208,9 +1253,15 @@
       document.getElementById('scanner_modal').style.display = 'flex';
       if (!html5QrCode) html5QrCode = new Html5Qrcode("qr-reader");
       html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (text) => {
-        currentInputTarget.value = text; autoResizeTextarea(currentInputTarget); cerrarEscaner(); mostrarNotificacionToast("Código capturado", true);
-      }).catch(err => alert("Permita acceso a la cámara"));
+        currentInputTarget.value = text; 
+        if(currentInputTarget.tagName.toLowerCase() === 'textarea') autoResizeTextarea(currentInputTarget);
+        cerrarEscaner(); 
+        
+        // Ejecutar Búsqueda Inteligente Inmediatamente Después de Escanear
+        buscarEquipo(text); 
+      }).catch(err => alert("Permita acceso a la cámara para escanear."));
     }
+    
     function cerrarEscaner() { document.getElementById('scanner_modal').style.display='none'; if(html5QrCode) html5QrCode.stop(); }
 
     function procesarEvidenciaFotografica(input, imgId) {
@@ -1270,7 +1321,6 @@
         
         if (el.type === 'checkbox') {
           if (!el.checked) return;
-          // Si el checkbox tiene un atributo "value" (como Sí, No), tomamos ese valor explícito.
           val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
         }
         
@@ -1281,7 +1331,6 @@
         }
       });
 
-      // Extracción específica del Estado Final (Destino)
       const checkDestino = form.querySelector('input.excl-check[data-group^="destino_eq_"]:checked');
       if (checkDestino) {
           payload.destino_equipo = checkDestino.value;
@@ -1293,7 +1342,6 @@
         
         if (el.type === 'checkbox') {
           if (!el.checked) return;
-          // Si el checkbox tiene value explicito (como Variante Línea: Reasignación, etc.)
           val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
         }
         
