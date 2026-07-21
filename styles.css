@@ -273,19 +273,75 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     border: 1px solid var(--border-color);
 }
 /* --- ESTILOS DE IMÁGENES DE LOGO --- */
+/* =========================================
+   CORRECCIÓN 1: TAMAÑO ESTRICTO DE LOGOS
+   ========================================= */
 .logo-login {
-    width: 75px; 
+    width: 120px !important; /* Fuerza un tamaño máximo */
+    max-width: 100%;
     height: auto;
     border-radius: 12px;
-    margin-bottom: 15px;
+    margin: 0 auto 20px auto !important; /* Lo centra horizontalmente */
+    display: block !important; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .logo-dashboard {
-    width: 45px;
-    height: 45px;
+    width: 45px !important;
+    height: 45px !important;
+    min-width: 45px; /* Evita que en móviles se encoja o aplaste */
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     object-fit: cover;
+}
+
+/* =========================================
+   CORRECCIÓN 2: DISEÑO RESPONSIVO (MÓVILES)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Ajuste del Header: Apila los elementos hacia abajo */
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px 15px;
+    }
+
+    .brand h2 {
+        font-size: 1.25rem;
+    }
+
+    /* Ajuste de los botones del usuario para que no se peguen */
+    .user-controls {
+        width: 100%;
+        flex-wrap: wrap; /* Permite que los botones bajen de línea si no caben */
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .user-badge {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+
+    /* Ajuste de los Banners inferiores */
+    .banner-modulo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .banner-content {
+        flex-direction: column; /* Pone el ícono arriba del texto */
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    /* Los botones de los banners ocuparán todo el ancho en celulares */
+    .banner-modulo button {
+        width: 100%; 
+        text-align: center;
+    }
 }
