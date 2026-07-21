@@ -31,6 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Función de Cerrar Sesión con corrección de historial
 function cerrarSesion() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('session'); // Ahora borramos 'session' en lugar de 'token'
     window.location.replace('index.html');
 }
