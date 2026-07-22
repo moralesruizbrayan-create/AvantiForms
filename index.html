@@ -145,12 +145,12 @@
         });
 
         // ==========================================
-        // 2. LÓGICA DE INVITADO (Solo lectura)
+        // 2. LÓGICA DE INVITADO (Acceso Total)
         // ==========================================
         btnGuest.addEventListener('click', () => {
             const session = { 
                 name: 'Invitado', 
-                role: 'viewer', 
+                role: 'admin', // <-- CAMBIADO: Ahora tiene permisos completos de administrador
                 token: 'guest-000' 
             };
             localStorage.setItem('session', JSON.stringify(session));
