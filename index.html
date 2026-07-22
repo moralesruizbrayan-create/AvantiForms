@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Avanti Soporte TI</title>
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Ícono de la pestaña -->
     <link rel="icon" type="image/jpeg" href="AVANTI LOGO (1).jpeg">
     
     <script>
+        // Si ya hay sesión, redirigir al dashboard inmediatamente
         if (localStorage.getItem('session')) {
             window.location.replace('dashboard.html');
         }
@@ -17,6 +20,7 @@
     <div class="login-container">
         <div class="login-card-mate">
             <div class="login-header">
+                <!-- Integración del logo -->
                 <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-login">
                 <h2 id="formTitle">Iniciar Sesión</h2>
                 <p id="formSubtitle">Portal de Gestión de Actas y Equipos</p>
@@ -36,12 +40,13 @@
                 
                 <div class="divider">o</div>
                 
+                <!-- Ingreso como Invitado -->
                 <button type="button" id="btnGuest" class="btn-outline-mate w-100">👁️ Ingresar como Invitado</button>
                 
                 <p class="toggle-text">¿No tienes cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
             </form>
 
-            <!-- FORMULARIO DE REGISTRO -->
+            <!-- FORMULARIO DE REGISTRO (Oculto por defecto) -->
             <form id="registerForm" style="display: none;">
                 <div class="input-group-mate">
                     <label for="regName">Nombre Completo</label>
@@ -62,36 +67,8 @@
         </div>
     </div>
 
-    <!-- LÓGICA DE AUTENTICACIÓN MEJORADA -->
+    <!-- LÓGICA DE INTERFAZ Y AUTENTICACIÓN -->
     <script>
-        // Función segura para obtener usuarios
-        function getSafeUsers() {
-            try {
-                let db = JSON.parse(localStorage.getItem('usersDB'));
-                if (!Array.isArray(db)) return [];
-                return db;
-            } catch (error) {
-                return [];
-            }
-        }
-
-        // Función segura para guardar usuarios
-        function saveUsers(usersArray) {
-            localStorage.setItem('usersDB', JSON.stringify(usersArray));
-        }
-
-        // Crear cuenta por defecto de Administrador si la base está vacía
-        let users = getSafeUsers();
-        if (users.length === 0) {
-            users.push({ 
-                name: 'Brayan Morales', 
-                email: 'brayan@avanti.com', 
-                password: 'admin', 
-                role: 'admin' 
-            });
-            saveUsers(users);
-        }
-
         // Referencias al DOM
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
@@ -100,7 +77,7 @@
         const formTitle = document.getElementById('formTitle');
         const btnGuest = document.getElementById('btnGuest');
 
-        // Alternar vistas
+        // Alternar entre Login y Registro
         showRegister.addEventListener('click', (e) => {
             e.preventDefault();
             loginForm.style.display = 'none';
@@ -115,60 +92,61 @@
             formTitle.textContent = 'Iniciar Sesión';
         });
 
-        // REGISTRO ROBUSTO
-        registerForm.addEventListener('submit', (e) => {
+        // ==========================================
+        // 1. LÓGICA DE LOGIN (Conectada a Neon DB)
+        // ==========================================
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Limpieza de datos (Quitar espacios y pasar a minúscula el correo)
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const password = document.getElementById('regPassword').value;
-
-            let currentDB = getSafeUsers();
-            
-            // Verificar si el correo ya existe
-            if (currentDB.find(u => u.email === email)) {
-                alert('Este correo ya se encuentra registrado. Intenta iniciar sesión.');
-                return;
-            }
-
-            // Guardar nuevo usuario
-            currentDB.push({ name, email, password, role: 'admin' });
-            saveUsers(currentDB);
-            
-            alert('¡Cuenta creada con éxito! Ya puedes iniciar sesión con tus credenciales.');
-            
-            // Limpiar formulario y regresar a login
-            registerForm.reset();
-            showLogin.click();
-        });
-
-        // LOGIN ROBUSTO
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Limpieza del input de intento de login
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
 
-            const currentDB = getSafeUsers();
-            const validUser = currentDB.find(u => u.email === email && u.password === password);
+            // Efecto de carga en el botón
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Verificando...';
+            submitBtn.disabled = true;
 
-            if (validUser) {
-                // Crear sesión exitosa
-                const session = { 
-                    name: validUser.name, 
-                    role: validUser.role, 
-                    token: 'auth-' + Date.now() 
-                };
-                localStorage.setItem('session', JSON.stringify(session));
-                window.location.replace('dashboard.html');
-            } else {
-                alert('Correo o contraseña incorrectos.');
+            try {
+                // Llamada a tu API en Vercel
+                const response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo: email, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Traducir el rol de la base de datos al frontend
+                    const userRole = data.user.rol === 'Administrador' ? 'admin' : 'viewer';
+
+                    // Guardar los datos del usuario extraídos de Neon PostgreSQL
+                    const session = { 
+                        id: data.user.id_usuario,
+                        name: data.user.nombre, 
+                        role: userRole, 
+                        token: 'auth-' + Date.now() 
+                    };
+                    
+                    localStorage.setItem('session', JSON.stringify(session));
+                    window.location.replace('dashboard.html');
+                } else {
+                    alert(data.message || 'Correo o contraseña incorrectos.');
+                }
+            } catch (error) {
+                alert('Hubo un problema al conectar con el servidor. Revisa tu conexión.');
+                console.error('Error de fetch:', error);
+            } finally {
+                // Restaurar el botón independientemente del resultado
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
         });
 
-        // INGRESO COMO INVITADO
+        // ==========================================
+        // 2. LÓGICA DE INVITADO (Solo lectura)
+        // ==========================================
         btnGuest.addEventListener('click', () => {
             const session = { 
                 name: 'Invitado', 
@@ -177,6 +155,33 @@
             };
             localStorage.setItem('session', JSON.stringify(session));
             window.location.replace('dashboard.html');
+        });
+
+        // ==========================================
+        // 3. LÓGICA DE REGISTRO (Simulación Local)
+        // ==========================================
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value;
+
+            // Almacenamiento local temporal para el registro
+            let db = [];
+            try { db = JSON.parse(localStorage.getItem('usersDB')) || []; } catch(err) {}
+            
+            if (db.find(u => u.email === email)) {
+                alert('Este correo ya está registrado.');
+                return;
+            }
+
+            db.push({ name, email, password, role: 'admin' });
+            localStorage.setItem('usersDB', JSON.stringify(db));
+            
+            alert('Cuenta de prueba creada en el navegador. (Nota: Para iniciar sesión permanentemente, la cuenta debe crearse en la base de datos Neon).');
+            registerForm.reset();
+            showLogin.click();
         });
     </script>
 </body>
