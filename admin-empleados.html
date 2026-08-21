@@ -21,54 +21,31 @@
       --accent-green: #10B981;
     }
 
-    body { 
-      background-color: var(--bg-deep); 
-      font-family: 'Inter', system-ui, sans-serif; 
-      color: var(--text-bright); 
-    }
+    body { background-color: var(--bg-deep); font-family: 'Inter', system-ui, sans-serif; color: var(--text-bright); }
     
-    /* Paneles y Contenedores sin brillos ni sombras saturadas */
-    .neo-panel {
-      background-color: var(--surface-slate);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      box-shadow: none; /* Limpieza cromática */
-    }
-    
-    .neo-input {
-      background-color: var(--bg-deep) !important;
-      border: 1px solid var(--border-subtle) !important;
-      color: var(--text-bright) !important;
-      transition: border-color 0.2s ease;
-    }
-    
-    .neo-input:focus {
-      border-color: var(--accent-green) !important;
-      outline: none;
-    }
+    .neo-panel { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); border-radius: 12px; }
+    .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
+    .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* ESTILOS TABULATOR - Integración perfecta al Dark Pizarra */
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-bright) !important; }
-    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; font-weight: 600; border-bottom: 1px solid var(--border-subtle) !important; }
-    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 10px 4px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase; }
+    /* PILAR 1 y 2: Jerarquía, Whitespace y Zebra Striping */
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; color: var(--text-bright) !important; }
+    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; }
+    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
+    .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; color: #CBD5E1; transition: background-color 0.15s ease; }
-    /* Eliminamos el franjeado contrastante, usamos un tono casi imperceptible */
-    .tabulator-row:nth-child(even) { background-color: #1c2636 !important; } 
-    .tabulator-row:hover { background-color: var(--border-subtle) !important; cursor: pointer; }
-    .tabulator-cell { border-right: none !important; padding: 16px 10px !important; vertical-align: middle !important; }
+    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row:nth-child(even) { background-color: rgba(255, 255, 255, 0.015) !important; } /* Zebra muy sutil */
+    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
+    .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; }
     
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
     .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px; }
     .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
 
-    /* Botones de acción minimalistas */
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--border-subtle); transition: all 0.2s ease; cursor: pointer; background-color: var(--bg-deep); }
-    .btn-del { color: #F87171; }
-    .btn-del:hover { background-color: rgba(239, 68, 68, 0.1); border-color: #EF4444; }
+    /* PILAR 4: Acciones Contextuales (Discretas por defecto, resaltan en hover) */
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; color: var(--text-muted); background: transparent; }
+    .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.2); }
     
-    /* Botones principales */
     .btn-primary { background-color: var(--accent-green); color: #fff; border: 1px solid transparent; transition: background 0.2s; }
     .btn-primary:hover { background-color: #059669; }
     .btn-outline { background-color: var(--bg-deep); border: 1px solid var(--border-subtle); color: var(--text-bright); transition: border-color 0.2s; }
@@ -78,7 +55,6 @@
 <body class="p-4 md:p-8">
 
   <div class="max-w-[1200px] mx-auto space-y-6">
-    
     <!-- CABECERA -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
@@ -91,10 +67,10 @@
         </div>
       </div>
       <div class="mt-4 md:mt-0 flex w-full md:w-auto gap-3">
-        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-medium py-2 px-5 rounded-lg text-sm transition">
+        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-medium py-2.5 px-5 rounded-lg text-sm transition">
           Dashboard
         </button>
-        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-medium py-2 px-5 rounded-lg text-sm transition">
+        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-medium py-2.5 px-5 rounded-lg text-sm transition">
           + Añadir Empleado
         </button>
       </div>
@@ -173,11 +149,15 @@
         }
 
         let cols = [
-            { title: "DNI", field: "dni", width: 110, headerFilter: "input" },
-            { title: "Nombre Completo", field: "nombre_completo", headerFilter: "input", formatter: cell => `<span class="font-medium text-[#F8FAFC]">${cell.getValue()}</span>` },
-            { title: "Área", field: "area", headerFilter: "input" },
-            { title: "Cargo", field: "cargo", headerFilter: "input" },
-            { title: "Correo Corp.", field: "correo_corp", width: 220, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="italic text-[#94A3B8]">-</span>` }
+            { title: "DNI", field: "dni", width: 120, headerFilter: "input", formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs">${cell.getValue()}</span>` },
+            { title: "Empleado", field: "nombre_completo", headerFilter: "input", formatter: cell => {
+                let name = cell.getValue();
+                let email = cell.getRow().getData().correo_corp || "Sin correo corporativo";
+                return `<div class="font-medium text-[#F8FAFC] tracking-wide">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light">${email}</div>`;
+              }
+            },
+            { title: "Área", field: "area", headerFilter: "input", formatter: cell => `<span class="text-[#E2E8F0]">${cell.getValue()}</span>` },
+            { title: "Cargo", field: "cargo", headerFilter: "input", formatter: cell => `<span class="text-[#CBD5E1] font-light">${cell.getValue()}</span>` }
         ];
 
         if (!isGuest) {
