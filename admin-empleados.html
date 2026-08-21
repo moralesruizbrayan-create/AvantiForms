@@ -43,10 +43,10 @@
         </div>
       </div>
       <div class="mt-4 md:mt-0 flex w-full md:w-auto gap-3">
-        <button onclick="location.href='index.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium py-2 px-4 rounded-lg text-sm transition shadow-sm">
+        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium py-2 px-4 rounded-lg text-sm transition shadow-sm">
           Dashboard
         </button>
-        <button onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg text-sm transition shadow-sm">
+        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg text-sm transition shadow-sm">
           + Añadir Empleado
         </button>
       </div>
@@ -104,11 +104,18 @@
     </div>
   </div>
 
+  <script src="app.js"></script>
   <script>
-    // Validar Sesión Activa
-    if(!localStorage.getItem('avanti_user')) window.location.href = 'login.html';
-
     let tablaEmpleados;
+
+    // Verificar si es invitado
+    const sessionData = JSON.parse(localStorage.getItem('session') || '{}');
+    const isGuest = sessionData.role === 'viewer';
+
+    // Ocultar botón de añadir si es invitado
+    if (isGuest) {
+      document.getElementById('btn-add-empleado').style.display = 'none';
+    }
 
     async function cargarEmpleados() {
       try {
@@ -120,18 +127,18 @@
             return;
         }
 
-        tablaEmpleados = new Tabulator("#empleados-grid", {
-          data: data.data,
-          layout: "fitColumns",
-          pagination: "local",
-          paginationSize: 15,
-          columns: [
+        // Definir columnas base
+        let cols = [
             { title: "DNI", field: "dni", width: 110, headerFilter: "input" },
             { title: "Nombre Completo", field: "nombre_completo", headerFilter: "input", formatter: cell => `<span class="font-medium text-gray-800">${cell.getValue()}</span>` },
             { title: "Área", field: "area", headerFilter: "input" },
             { title: "Cargo", field: "cargo", headerFilter: "input" },
-            { title: "Correo Corp.", field: "correo_corp", width: 200, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="text-gray-400 italic">-</span>` },
-            { 
+            { title: "Correo Corp.", field: "correo_corp", width: 200, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="text-gray-400 italic">-</span>` }
+        ];
+
+        // Añadir columna de acciones SOLO si NO es invitado
+        if (!isGuest) {
+            cols.push({ 
               title: "Acciones", width: 100, hozAlign: "center", headerSort: false,
               formatter: () => `<button class='action-btn btn-del' title='Eliminar Empleado'><svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>`,
               cellClick: async function(e, cell) {
@@ -143,18 +150,26 @@
                   }
                 }
               }
-            }
-          ]
+            });
+        }
+
+        tablaEmpleados = new Tabulator("#empleados-grid", {
+          data: data.data,
+          layout: "fitColumns",
+          pagination: "local",
+          paginationSize: 15,
+          columns: cols
         });
       } catch (err) { console.error("Error cargando empleados:", err); }
     }
 
-    // Inicializar carga
     cargarEmpleados();
 
-    // Guardar nuevo empleado
+    // Guardar nuevo empleado (El botón está oculto para invitados de todas formas)
     document.getElementById('form-empleado').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isGuest) return alert('Modo solo lectura.');
+
       const btn = document.getElementById('btn-save-emp');
       btn.innerText = "Guardando...";
       
@@ -177,7 +192,7 @@
         if (res.ok) {
           document.getElementById('modal-empleado').classList.add('hidden');
           document.getElementById('form-empleado').reset();
-          cargarEmpleados(); // Recargar tabla
+          cargarEmpleados(); 
         } else { alert("Error al guardar el empleado."); }
       } catch (err) { alert("Error de conexión."); }
       finally { btn.innerText = "Guardar Empleado"; }
