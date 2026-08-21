@@ -8,97 +8,122 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <link rel="stylesheet" href="styles.css"> <!-- Importar variables globales -->
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body { background-color: #F3F4F6; font-family: 'Inter', system-ui, sans-serif; color: #334155; }
     
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 13px; }
-    .tabulator-header { background-color: #1E293B !important; color: #F8FAFC !important; font-weight: 500; border-bottom: none !important; border-top-left-radius: 8px; border-top-right-radius: 8px; }
-    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 6px 4px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 12.5px; }
-    .tabulator-row { background-color: #FFFFFF !important; border-bottom: 1px solid #F1F5F9 !important; transition: background-color 0.2s ease; }
-    .tabulator-row:nth-child(even) { background-color: #FAFAFA !important; }
-    .tabulator-row:hover { background-color: #F1F5F9 !important; }
-    .tabulator-cell { border-right: none !important; padding: 14px 10px !important; vertical-align: middle !important; }
+    /* Adaptación al Tema Avanti */
+    .neo-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-soft, 0 10px 30px rgba(0,0,0,0.5));
+      border-radius: 20px;
+    }
     
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; background: white; }
-    .btn-del { color: #DC2626; border-color: #FECACA; }
-    .btn-del:hover { background: #FEE2E2; }
+    .neo-input {
+      background-color: var(--bg-main) !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-primary) !important;
+      transition: all 0.3s ease;
+    }
+    
+    .neo-input:focus {
+      border-color: var(--avanti-green) !important;
+      outline: none;
+    }
+
+    /* ESTILOS CORPORATIVOS TABULATOR ADAPTATIVOS */
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-primary) !important; }
+    .tabulator-header { background-color: var(--bg-main) !important; color: var(--text-primary) !important; font-weight: 600; border-bottom: 2px solid var(--border-color) !important; }
+    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 10px 4px !important; }
+    .tabulator-col-title { font-weight: 600 !important; font-size: 13px; }
+    .tabulator-row { background-color: var(--card-bg) !important; border-bottom: 1px solid var(--border-color) !important; color: var(--text-secondary); transition: background-color 0.2s ease; }
+    .tabulator-row:nth-child(even) { background-color: rgba(128, 128, 128, 0.03) !important; }
+    .tabulator-row:hover { background-color: rgba(0, 200, 103, 0.08) !important; }
+    .tabulator-cell { border-right: none !important; padding: 16px 10px !important; vertical-align: middle !important; }
+    
+    .tabulator-footer { background-color: var(--bg-main) !important; border-top: 1px solid var(--border-color) !important; color: var(--text-primary) !important; }
+    .tabulator-footer .tabulator-page { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 8px; }
+    .tabulator-footer .tabulator-page.active { background: var(--avanti-green); color: white; border-color: var(--avanti-green); }
+
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border-color); transition: all 0.2s ease; cursor: pointer; background: var(--bg-main); }
+    .btn-del { color: #ef4444; }
+    .btn-del:hover { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
   </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-8 dark-theme">
 
   <div class="max-w-[1200px] mx-auto space-y-6">
     
-    <!-- CABECERA -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+    <!-- CABECERA ADAPTADA -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
-        <div class="p-2 bg-gray-50 rounded-lg border border-gray-100">
-          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <div class="p-3 bg-opacity-10 bg-green-500 rounded-xl border border-green-500 border-opacity-20">
+          <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-gray-800 tracking-tight">Directorio de Personal</h1>
-          <p class="text-sm text-gray-500 font-medium mt-0.5">Gestión de empleados para asignación de equipos</p>
+          <h1 class="text-xl font-bold tracking-tight" style="color: var(--text-primary)">Directorio de Personal</h1>
+          <p class="text-sm font-medium mt-0.5" style="color: var(--text-secondary)">Gestión de empleados para asignación de equipos</p>
         </div>
       </div>
       <div class="mt-4 md:mt-0 flex w-full md:w-auto gap-3">
-        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium py-2 px-4 rounded-lg text-sm transition shadow-sm">
+        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-medium py-2 px-5 rounded-xl text-sm shadow-sm transition">
           Dashboard
         </button>
-        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg text-sm transition shadow-sm">
+        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-avanti font-medium py-2 px-5 rounded-xl text-sm shadow-sm transition">
           + Añadir Empleado
         </button>
       </div>
     </div>
 
     <!-- CONTENEDOR DEL GRID -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="neo-panel overflow-hidden p-2">
       <div id="empleados-grid" class="w-full"></div>
     </div>
   </div>
 
   <!-- MODAL: AÑADIR EMPLEADO -->
-  <div id="modal-empleado" class="fixed inset-0 bg-slate-900 bg-opacity-70 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-lg w-full overflow-hidden shadow-2xl">
-      <div class="bg-green-600 px-6 py-4 flex justify-between items-center text-white">
-        <h3 class="font-bold text-lg">Registrar Nuevo Empleado</h3>
-        <button onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="hover:text-green-200">
+  <div id="modal-empleado" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4">
+    <div class="neo-panel max-w-lg w-full overflow-hidden shadow-2xl border border-gray-700">
+      <div class="px-6 py-5 flex justify-between items-center border-b" style="border-color: var(--border-color)">
+        <h3 class="font-bold text-lg" style="color: var(--text-primary)">Registrar Nuevo Empleado</h3>
+        <button onclick="document.getElementById('modal-empleado').classList.add('hidden')" style="color: var(--text-secondary)" class="hover:text-green-500 transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <form id="form-empleado" class="p-6 space-y-4">
-        <div class="grid grid-cols-2 gap-4">
+      <form id="form-empleado" class="p-6 space-y-5">
+        <div class="grid grid-cols-2 gap-5">
           <div>
-            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">DNI *</label>
-            <input type="text" id="emp-dni" required class="w-full px-3 py-2 border rounded-lg text-sm focus:border-green-600 focus:outline-none">
+            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">DNI *</label>
+            <input type="text" id="emp-dni" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Centro Costo</label>
-            <input type="text" id="emp-cc" class="w-full px-3 py-2 border rounded-lg text-sm focus:border-green-600 focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Nombre Completo *</label>
-          <input type="text" id="emp-nombre" required class="w-full px-3 py-2 border rounded-lg text-sm focus:border-green-600 focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Área / Departamento *</label>
-            <input type="text" id="emp-area" required class="w-full px-3 py-2 border rounded-lg text-sm focus:border-green-600 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Cargo / Puesto *</label>
-            <input type="text" id="emp-cargo" required class="w-full px-3 py-2 border rounded-lg text-sm focus:border-green-600 focus:outline-none">
+            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Centro Costo</label>
+            <input type="text" id="emp-cc" class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Correo Corporativo</label>
-          <input type="email" id="emp-correo" class="w-full px-3 py-2 border rounded-lg text-sm focus:border-green-600 focus:outline-none">
+          <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Nombre Completo *</label>
+          <input type="text" id="emp-nombre" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
         </div>
-        <div class="pt-4 flex justify-end gap-3 border-t mt-4">
-          <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="px-5 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg font-medium">Cancelar</button>
-          <button type="submit" id="btn-save-emp" class="px-5 py-2 text-sm bg-green-600 text-white hover:bg-green-700 rounded-lg font-medium shadow-sm">Guardar Empleado</button>
+        <div class="grid grid-cols-2 gap-5">
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Área / Departamento *</label>
+            <input type="text" id="emp-area" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Cargo / Puesto *</label>
+            <input type="text" id="emp-cargo" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Correo Corporativo</label>
+          <input type="email" id="emp-correo" class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+        </div>
+        <div class="pt-5 flex justify-end gap-3 border-t mt-4" style="border-color: var(--border-color)">
+          <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="btn-outline px-5 py-2.5 rounded-xl font-medium text-sm">Cancelar</button>
+          <button type="submit" id="btn-save-emp" class="btn-avanti px-5 py-2.5 rounded-xl font-medium text-sm">Guardar Empleado</button>
         </div>
       </form>
     </div>
@@ -107,12 +132,9 @@
   <script src="app.js"></script>
   <script>
     let tablaEmpleados;
-
-    // Verificar si es invitado
     const sessionData = JSON.parse(localStorage.getItem('session') || '{}');
     const isGuest = sessionData.role === 'viewer';
 
-    // Ocultar botón de añadir si es invitado
     if (isGuest) {
       document.getElementById('btn-add-empleado').style.display = 'none';
     }
@@ -127,16 +149,14 @@
             return;
         }
 
-        // Definir columnas base
         let cols = [
             { title: "DNI", field: "dni", width: 110, headerFilter: "input" },
-            { title: "Nombre Completo", field: "nombre_completo", headerFilter: "input", formatter: cell => `<span class="font-medium text-gray-800">${cell.getValue()}</span>` },
+            { title: "Nombre Completo", field: "nombre_completo", headerFilter: "input", formatter: cell => `<span class="font-medium" style="color: var(--text-primary)">${cell.getValue()}</span>` },
             { title: "Área", field: "area", headerFilter: "input" },
             { title: "Cargo", field: "cargo", headerFilter: "input" },
-            { title: "Correo Corp.", field: "correo_corp", width: 200, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="text-gray-400 italic">-</span>` }
+            { title: "Correo Corp.", field: "correo_corp", width: 220, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="italic opacity-50">-</span>` }
         ];
 
-        // Añadir columna de acciones SOLO si NO es invitado
         if (!isGuest) {
             cols.push({ 
               title: "Acciones", width: 100, hozAlign: "center", headerSort: false,
@@ -165,7 +185,6 @@
 
     cargarEmpleados();
 
-    // Guardar nuevo empleado (El botón está oculto para invitados de todas formas)
     document.getElementById('form-empleado').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (isGuest) return alert('Modo solo lectura.');
