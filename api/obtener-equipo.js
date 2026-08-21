@@ -1,6 +1,12 @@
-import { Pool } from '@neondatabase/serverless';
+const { Pool } = require('pg');
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
 export default async function handler(req, res) {
+
   if (req.method !== 'GET') return res.status(405).json({ error: 'Usa GET' });
   
   const { codigo } = req.query;
