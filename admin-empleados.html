@@ -27,19 +27,16 @@
     .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
     .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* CORE: Eliminación de Aberración Cromática en Tabulator */
     .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; color: var(--text-bright) !important; }
     .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
     .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    /* Control estricto de Zebra Striping para forzar modo oscuro */
     .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
     .tabulator-row.tabulator-row-even { background-color: #151e2d !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
     .tabulator-row:hover { background-color: #27364b !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; }
     
-    /* Corrección de inputs de filtros en las columnas */
     .tabulator-header input[type="text"], .tabulator-header input[type="search"] {
       background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important;
       border-radius: 6px; padding: 8px 12px !important; width: 100%; box-sizing: border-box; outline: none; transition: border 0.2s;
@@ -50,8 +47,15 @@
     .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px; }
     .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
 
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; color: var(--text-muted); background: transparent; }
-    .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.2); }
+    .action-btn { 
+        display: inline-flex; align-items: center; justify-content: center; 
+        width: 36px; height: 36px; border-radius: 8px; 
+        border: 1px solid var(--border-subtle); 
+        background-color: #151e2d; 
+        color: #E2E8F0; 
+        transition: all 0.2s ease; cursor: pointer; 
+    }
+    .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.3); }
     
     .btn-primary { background-color: var(--accent-green); color: #fff; border: 1px solid transparent; transition: background 0.2s; }
     .btn-primary:hover { background-color: #059669; }
@@ -153,20 +157,20 @@
         }
 
         let cols = [
-            { title: "DNI", field: "dni", width: 120, headerFilter: "input", formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs">${cell.getValue()}</span>` },
-            { title: "Empleado", field: "nombre_completo", headerFilter: "input", formatter: cell => {
+            { title: "DNI", field: "dni", minWidth: 120, headerFilter: "input", formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs">${cell.getValue()}</span>` },
+            { title: "Empleado", field: "nombre_completo", minWidth: 260, headerFilter: "input", formatter: cell => {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo corporativo";
-                return `<div class="font-medium text-[#F8FAFC] tracking-wide">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light">${email}</div>`;
+                return `<div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-snug">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div>`;
               }
             },
-            { title: "Área", field: "area", headerFilter: "input", formatter: cell => `<span class="text-[#E2E8F0]">${cell.getValue()}</span>` },
-            { title: "Cargo", field: "cargo", headerFilter: "input", formatter: cell => `<span class="text-[#CBD5E1] font-light">${cell.getValue()}</span>` }
+            { title: "Área", field: "area", minWidth: 200, headerFilter: "input", formatter: cell => `<span class="text-[#E2E8F0] whitespace-normal break-words leading-snug">${cell.getValue()}</span>` },
+            { title: "Cargo", field: "cargo", minWidth: 200, headerFilter: "input", formatter: cell => `<span class="text-[#CBD5E1] font-light whitespace-normal break-words leading-snug">${cell.getValue()}</span>` }
         ];
 
         if (!isGuest) {
             cols.push({ 
-              title: "Acciones", width: 100, hozAlign: "center", headerSort: false,
+              title: "Acciones", minWidth: 100, hozAlign: "center", headerSort: false,
               formatter: () => `<button class='action-btn btn-del' title='Eliminar Empleado'><svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>`,
               cellClick: async function(e, cell) {
                 if(e.target.closest('.btn-del')) {
@@ -178,13 +182,16 @@
                             headers: {'Content-Type': 'application/json'}, 
                             body: JSON.stringify({id_empleado: id}) 
                         });
-                        if (response.ok) {
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok && data.success) {
                             cell.getRow().delete();
                         } else {
-                            alert("Ocurrió un error al eliminar al empleado.");
+                            alert("❌ Error al eliminar: " + (data.error || 'Problema desconocido en el servidor.'));
                         }
                     } catch(err) {
-                        alert("Error de conexión al servidor.");
+                        alert("❌ Error de red al intentar conectar con Neon PostgreSQL.");
                     }
                   }
                 }
@@ -194,7 +201,7 @@
 
         tablaEmpleados = new Tabulator("#empleados-grid", {
           data: data.data,
-          layout: "fitColumns",
+          layout: "fitColumns", // Distribuye el espacio entre columnas
           pagination: "local",
           paginationSize: 15,
           columns: cols
