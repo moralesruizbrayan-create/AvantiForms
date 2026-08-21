@@ -24,34 +24,34 @@
 
     body { background-color: var(--bg-deep); font-family: 'Inter', system-ui, sans-serif; color: var(--text-bright); }
     
-    .neo-panel { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); border-radius: 12px; }
+    .neo-panel { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); border-radius: 12px; box-shadow: none; }
     .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
     .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* PILAR 1 y 2: Jerarquía, Whitespace y Zebra Striping */
+    /* CORE: Eliminación de Aberración Cromática en Tabulator */
     .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; color: var(--text-bright) !important; }
-    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; }
+    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; font-weight: 600; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
     .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
-    .tabulator-row:nth-child(even) { background-color: rgba(255, 255, 255, 0.015) !important; }
-    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
+    /* Control estricto de Zebra Striping */
+    .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row.tabulator-row-even { background-color: #151e2d !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row:hover { background-color: #27364b !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; }
     
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
     .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px;}
     .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
 
-    /* PILAR 3: Badges (Indicadores de estado tipo píldora) */
+    /* Indicadores de estado tipo píldora */
     .tab-badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: transparent; border: 1px solid var(--border-subtle); color: var(--text-bright); }
     .tab-badge::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; }
-    
     .t-op::before { background-color: #10B981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
     .t-ret::before { background-color: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
     .t-stk::before { background-color: #38BDF8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
 
-    /* PILAR 4: Acciones Contextuales */
+    /* Acciones Contextuales */
     .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; color: var(--text-muted); background: transparent; }
     .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
     .btn-evi:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
@@ -72,7 +72,6 @@
 
   <div class="max-w-[1400px] mx-auto space-y-6">
     
-    <!-- CABECERA -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
         <div class="p-2 bg-white rounded-lg shadow-none border border-[#334155]">
@@ -91,7 +90,6 @@
       </div>
     </div>
 
-    <!-- PANEL DE BÚSQUEDA Y FILTROS -->
     <div class="p-6 neo-panel">
       <div class="flex flex-col lg:flex-row gap-5 items-end">
         <div class="flex-1 w-full">
@@ -133,14 +131,12 @@
       </div>
     </div>
 
-    <!-- CONTENEDOR DEL GRID -->
     <div class="neo-panel overflow-hidden p-0">
       <div id="inventario-grid" class="w-full"></div>
     </div>
 
   </div>
 
-  <!-- MODAL: VISOR DE EVIDENCIA -->
   <div id="evidencia_modal" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4 transition-opacity">
     <div class="neo-panel max-w-4xl w-full overflow-hidden flex flex-col">
       <div class="px-6 py-4 flex justify-between items-center border-b border-[#334155] bg-[#0F172A]">
