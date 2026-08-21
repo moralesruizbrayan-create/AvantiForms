@@ -157,31 +157,45 @@
             window.location.replace('dashboard.html');
         });
 
+// ==========================================
+        // 3. LÓGICA DE REGISTRO (Conectada a Neon DB)
         // ==========================================
-        // 3. LÓGICA DE REGISTRO (Simulación Local)
-        // ==========================================
-        registerForm.addEventListener('submit', (e) => {
+        registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim().toLowerCase();
             const password = document.getElementById('regPassword').value;
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
 
-            // Almacenamiento local temporal para el registro
-            let db = [];
-            try { db = JSON.parse(localStorage.getItem('usersDB')) || []; } catch(err) {}
-            
-            if (db.find(u => u.email === email)) {
-                alert('Este correo ya está registrado.');
-                return;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Creando cuenta...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/registro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre: name, correo: email, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('¡Cuenta creada con éxito! Ya puedes iniciar sesión con tus credenciales.');
+                    registerForm.reset();
+                    showLogin.click(); // Cambia la vista al formulario de login
+                } else {
+                    // Muestra el error (ej. "El correo ya está registrado")
+                    alert(data.message || 'Ocurrió un error al crear la cuenta.');
+                }
+            } catch (error) {
+                alert('Hubo un problema al conectar con el servidor.');
+                console.error('Error en registro:', error);
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
-
-            db.push({ name, email, password, role: 'admin' });
-            localStorage.setItem('usersDB', JSON.stringify(db));
-            
-            alert('Cuenta de prueba creada en el navegador. (Nota: Para iniciar sesión permanentemente, la cuenta debe crearse en la base de datos Neon).');
-            registerForm.reset();
-            showLogin.click();
         });
     </script>
 </body>
