@@ -8,122 +8,145 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
-  <link rel="stylesheet" href="styles.css"> <!-- Importar variables globales -->
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
-    /* Adaptación al Tema Avanti */
+    :root {
+      --bg-deep: #0F172A;
+      --surface-slate: #1E293B;
+      --border-subtle: #334155;
+      --text-bright: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-green: #10B981;
+    }
+
+    body { 
+      background-color: var(--bg-deep); 
+      font-family: 'Inter', system-ui, sans-serif; 
+      color: var(--text-bright); 
+    }
+    
+    /* Paneles y Contenedores sin brillos ni sombras saturadas */
     .neo-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-soft, 0 10px 30px rgba(0,0,0,0.5));
-      border-radius: 20px;
+      background-color: var(--surface-slate);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      box-shadow: none; /* Limpieza cromática */
     }
     
     .neo-input {
-      background-color: var(--bg-main) !important;
-      border: 1px solid var(--border-color) !important;
-      color: var(--text-primary) !important;
-      transition: all 0.3s ease;
+      background-color: var(--bg-deep) !important;
+      border: 1px solid var(--border-subtle) !important;
+      color: var(--text-bright) !important;
+      transition: border-color 0.2s ease;
     }
     
     .neo-input:focus {
-      border-color: var(--avanti-green) !important;
+      border-color: var(--accent-green) !important;
       outline: none;
     }
 
-    /* ESTILOS CORPORATIVOS TABULATOR ADAPTATIVOS */
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-primary) !important; }
-    .tabulator-header { background-color: var(--bg-main) !important; color: var(--text-primary) !important; font-weight: 600; border-bottom: 2px solid var(--border-color) !important; }
+    /* ESTILOS TABULATOR - Integración perfecta al Dark Pizarra */
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-bright) !important; }
+    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; font-weight: 600; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 10px 4px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 13px; }
-    .tabulator-row { background-color: var(--card-bg) !important; border-bottom: 1px solid var(--border-color) !important; color: var(--text-secondary); transition: background-color 0.2s ease; }
-    .tabulator-row:nth-child(even) { background-color: rgba(128, 128, 128, 0.03) !important; }
-    .tabulator-row:hover { background-color: rgba(0, 200, 103, 0.08) !important; }
+    .tabulator-col-title { font-weight: 600 !important; font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase; }
+    
+    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; color: #CBD5E1; transition: background-color 0.15s ease; }
+    /* Eliminamos el franjeado contrastante, usamos un tono casi imperceptible */
+    .tabulator-row:nth-child(even) { background-color: #1c2636 !important; } 
+    .tabulator-row:hover { background-color: var(--border-subtle) !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 16px 10px !important; vertical-align: middle !important; }
     
-    .tabulator-footer { background-color: var(--bg-main) !important; border-top: 1px solid var(--border-color) !important; color: var(--text-primary) !important; }
-    .tabulator-footer .tabulator-page { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 8px; }
-    .tabulator-footer .tabulator-page.active { background: var(--avanti-green); color: white; border-color: var(--avanti-green); }
+    .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
+    .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px; }
+    .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
 
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border-color); transition: all 0.2s ease; cursor: pointer; background: var(--bg-main); }
-    .btn-del { color: #ef4444; }
-    .btn-del:hover { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+    /* Botones de acción minimalistas */
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--border-subtle); transition: all 0.2s ease; cursor: pointer; background-color: var(--bg-deep); }
+    .btn-del { color: #F87171; }
+    .btn-del:hover { background-color: rgba(239, 68, 68, 0.1); border-color: #EF4444; }
+    
+    /* Botones principales */
+    .btn-primary { background-color: var(--accent-green); color: #fff; border: 1px solid transparent; transition: background 0.2s; }
+    .btn-primary:hover { background-color: #059669; }
+    .btn-outline { background-color: var(--bg-deep); border: 1px solid var(--border-subtle); color: var(--text-bright); transition: border-color 0.2s; }
+    .btn-outline:hover { border-color: var(--text-muted); }
   </style>
 </head>
-<body class="p-4 md:p-8 dark-theme">
+<body class="p-4 md:p-8">
 
   <div class="max-w-[1200px] mx-auto space-y-6">
     
-    <!-- CABECERA ADAPTADA -->
+    <!-- CABECERA -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
-        <div class="p-3 bg-opacity-10 bg-green-500 rounded-xl border border-green-500 border-opacity-20">
-          <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <div class="p-3 bg-[#0F172A] rounded-lg border border-[#334155]">
+          <svg class="w-7 h-7 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold tracking-tight" style="color: var(--text-primary)">Directorio de Personal</h1>
-          <p class="text-sm font-medium mt-0.5" style="color: var(--text-secondary)">Gestión de empleados para asignación de equipos</p>
+          <h1 class="text-xl font-bold tracking-tight text-[#F8FAFC]">Directorio de Personal</h1>
+          <p class="text-sm font-medium mt-0.5 text-[#94A3B8]">Gestión de empleados para asignación de equipos</p>
         </div>
       </div>
       <div class="mt-4 md:mt-0 flex w-full md:w-auto gap-3">
-        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-medium py-2 px-5 rounded-xl text-sm shadow-sm transition">
+        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-medium py-2 px-5 rounded-lg text-sm transition">
           Dashboard
         </button>
-        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-avanti font-medium py-2 px-5 rounded-xl text-sm shadow-sm transition">
+        <button id="btn-add-empleado" onclick="document.getElementById('modal-empleado').classList.remove('hidden')" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-medium py-2 px-5 rounded-lg text-sm transition">
           + Añadir Empleado
         </button>
       </div>
     </div>
 
     <!-- CONTENEDOR DEL GRID -->
-    <div class="neo-panel overflow-hidden p-2">
+    <div class="neo-panel overflow-hidden p-0">
       <div id="empleados-grid" class="w-full"></div>
     </div>
   </div>
 
   <!-- MODAL: AÑADIR EMPLEADO -->
   <div id="modal-empleado" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4">
-    <div class="neo-panel max-w-lg w-full overflow-hidden shadow-2xl border border-gray-700">
-      <div class="px-6 py-5 flex justify-between items-center border-b" style="border-color: var(--border-color)">
-        <h3 class="font-bold text-lg" style="color: var(--text-primary)">Registrar Nuevo Empleado</h3>
-        <button onclick="document.getElementById('modal-empleado').classList.add('hidden')" style="color: var(--text-secondary)" class="hover:text-green-500 transition-colors">
+    <div class="neo-panel max-w-lg w-full overflow-hidden">
+      <div class="px-6 py-5 flex justify-between items-center border-b border-[#334155] bg-[#0F172A]">
+        <h3 class="font-bold text-lg text-[#F8FAFC]">Registrar Nuevo Empleado</h3>
+        <button onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="text-[#94A3B8] hover:text-[#10B981] transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <form id="form-empleado" class="p-6 space-y-5">
+      <form id="form-empleado" class="p-6 space-y-5 bg-[#1E293B]">
         <div class="grid grid-cols-2 gap-5">
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">DNI *</label>
-            <input type="text" id="emp-dni" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">DNI *</label>
+            <input type="text" id="emp-dni" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Centro Costo</label>
-            <input type="text" id="emp-cc" class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Centro Costo</label>
+            <input type="text" id="emp-cc" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Nombre Completo *</label>
-          <input type="text" id="emp-nombre" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+          <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Nombre Completo *</label>
+          <input type="text" id="emp-nombre" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
         </div>
         <div class="grid grid-cols-2 gap-5">
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Área / Departamento *</label>
-            <input type="text" id="emp-area" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Área / Departamento *</label>
+            <input type="text" id="emp-area" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Cargo / Puesto *</label>
-            <input type="text" id="emp-cargo" required class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Cargo / Puesto *</label>
+            <input type="text" id="emp-cargo" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase mb-1.5" style="color: var(--text-secondary)">Correo Corporativo</label>
-          <input type="email" id="emp-correo" class="w-full px-4 py-2.5 rounded-xl text-sm neo-input">
+          <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Correo Corporativo</label>
+          <input type="email" id="emp-correo" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
         </div>
-        <div class="pt-5 flex justify-end gap-3 border-t mt-4" style="border-color: var(--border-color)">
-          <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="btn-outline px-5 py-2.5 rounded-xl font-medium text-sm">Cancelar</button>
-          <button type="submit" id="btn-save-emp" class="btn-avanti px-5 py-2.5 rounded-xl font-medium text-sm">Guardar Empleado</button>
+        <div class="pt-5 flex justify-end gap-3 border-t border-[#334155] mt-4">
+          <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="btn-outline px-5 py-2.5 rounded-lg font-medium text-sm">Cancelar</button>
+          <button type="submit" id="btn-save-emp" class="btn-primary px-5 py-2.5 rounded-lg font-medium text-sm">Guardar Empleado</button>
         </div>
       </form>
     </div>
@@ -151,10 +174,10 @@
 
         let cols = [
             { title: "DNI", field: "dni", width: 110, headerFilter: "input" },
-            { title: "Nombre Completo", field: "nombre_completo", headerFilter: "input", formatter: cell => `<span class="font-medium" style="color: var(--text-primary)">${cell.getValue()}</span>` },
+            { title: "Nombre Completo", field: "nombre_completo", headerFilter: "input", formatter: cell => `<span class="font-medium text-[#F8FAFC]">${cell.getValue()}</span>` },
             { title: "Área", field: "area", headerFilter: "input" },
             { title: "Cargo", field: "cargo", headerFilter: "input" },
-            { title: "Correo Corp.", field: "correo_corp", width: 220, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="italic opacity-50">-</span>` }
+            { title: "Correo Corp.", field: "correo_corp", width: 220, formatter: cell => cell.getValue() ? cell.getValue() : `<span class="italic text-[#94A3B8]">-</span>` }
         ];
 
         if (!isGuest) {
