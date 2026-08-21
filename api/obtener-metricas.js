@@ -1,8 +1,12 @@
-import { Pool } from '@neondatabase/serverless';
+const { Pool } = require('pg');
+
+// La conexión se declara UNA sola vez y por fuera de la función
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
 export default async function handler(req, res) {
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  
   try {
     const query = `
       SELECT 
@@ -118,7 +122,6 @@ export default async function handler(req, res) {
     res.status(200).json({ success: true, kpis: { stock, operativo, retirados }, inventario_total: flatRows });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
-  } finally {
-    await pool.end();
   }
+  // IMPORTANTE: Eliminamos el "finally { await pool.end(); }" para que la API no muera en Vercel
 }
