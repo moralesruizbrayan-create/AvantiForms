@@ -39,6 +39,32 @@
     .tabulator-row:hover { background-color: #27364B !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 16px 12px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
+    /* 📱 CORRECCIÓN DE VISTA MÓVIL (RESPONSIVE COLLAPSE) */
+    .tabulator-row .tabulator-responsive-collapse {
+        background-color: var(--bg-deep) !important;
+        border-top: 1px solid var(--border-subtle) !important;
+        border-bottom: 2px solid var(--border-subtle) !important;
+        padding: 0 !important;
+    }
+    .tabulator-row .tabulator-responsive-collapse table { width: 100%; color: var(--text-bright) !important; font-size: 14px; }
+    .tabulator-row .tabulator-responsive-collapse table tr td {
+        border-bottom: 1px solid var(--border-subtle) !important;
+        padding: 14px 16px !important;
+        vertical-align: middle !important;
+    }
+    /* Etiquetas de la vista móvil (Empleado, Departamento, etc.) */
+    .tabulator-row .tabulator-responsive-collapse table tr td:first-of-type {
+        font-weight: 600; color: var(--text-muted) !important; text-transform: uppercase;
+        font-size: 11.5px; letter-spacing: 0.05em; width: 35%;
+        border-right: 1px solid var(--border-subtle) !important; background-color: #111a2a;
+    }
+    /* Datos en vista móvil */
+    .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type { text-align: left !important; padding-left: 16px !important; }
+    
+    /* Fuerza alinear a la izquierda los formatos en móvil aunque en PC estén centrados */
+    .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type .justify-center { justify-content: flex-start !important; }
+    .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type .text-center { text-align: left !important; }
+
     /* Paginador (Footer) */
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 10px !important; }
     .tabulator-footer .tabulator-page-size { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; padding: 4px 8px; outline: none; }
@@ -48,7 +74,7 @@
 
     /* Indicadores de estado tipo píldora */
     .tab-badge { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: transparent; border: 1px solid var(--border-subtle); color: var(--text-bright); }
-    .tab-badge::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; }
+    .tab-badge::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
     .t-op::before { background-color: #10B981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
     .t-ret::before { background-color: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
     .t-stk::before { background-color: #38BDF8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
@@ -56,29 +82,21 @@
     /* BOTONES DE ACCIÓN: Estilo 'Ghost' limpio */
     .action-btn { 
       display: inline-flex; align-items: center; justify-content: center; 
-      width: 36px; height: 36px; border-radius: 8px; 
-      border: 1px solid transparent; 
-      background-color: transparent; 
-      color: #64748B; 
-      transition: all 0.2s ease; cursor: pointer; 
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; 
+      background-color: transparent; color: #64748B; transition: all 0.2s ease; cursor: pointer; 
     }
     .action-btn svg { width: 18px; height: 18px; transition: stroke-width 0.2s; }
-    
     .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
     .btn-pdf:hover svg { stroke-width: 2.5px; }
-    
     .btn-evi:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); }
     .btn-evi:hover svg { stroke-width: 2.5px; }
-    
     .btn-del:hover { color: #EF4444; background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
     .btn-del:hover svg { stroke-width: 2.5px; }
-    
     .btn-disabled { color: var(--border-subtle) !important; cursor: not-allowed; opacity: 0.3; }
 
     .btn-outline { background-color: var(--bg-deep); border: 1px solid var(--border-subtle); color: var(--text-bright); transition: border-color 0.2s; }
     .btn-outline:hover { border-color: var(--text-muted); }
 
-    /* Scrollbar sutil */
     .tabulator-tableholder::-webkit-scrollbar { height: 8px; width: 8px; }
     .tabulator-tableholder::-webkit-scrollbar-track { background: var(--bg-deep); }
     .tabulator-tableholder::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 4px; }
@@ -217,20 +235,20 @@
           layout: "fitColumns", 
           responsiveLayout: "collapse",
           pagination: "local",
-          paginationSize: 50, // Paginación por defecto en 50 registros
+          paginationSize: 50, /* 50 Registros Predeterminados */
           paginationSizeSelector: [10, 25, 50, 100],
           
-          // Encuadre y alineación global (Horizontal y Vertical)
+          /* Alineación vertical global asegurada */
           columnDefaults: {
-            hozAlign: "center",
-            vertAlign: "middle",
-            headerHozAlign: "center"
+            vertAlign: "middle"
           },
           
           columns: [
             {
               title: "Acciones", 
               minWidth: 150, 
+              hozAlign: "center",
+              headerHozAlign: "center",
               headerSort: false,
               formatter: function(cell) {
                 const row = cell.getRow().getData();
@@ -256,20 +274,14 @@
               },
               cellClick: function(e, cell) {
                 const rowData = cell.getRow().getData();
-                
                 if(e.target.closest('.btn-pdf')) {
                   sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
                   window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
                 }
-                
                 if(e.target.closest('.btn-evi')) {
-                  if(rowData.evidencia_devolucion && rowData.evidencia_devolucion.length > 50) {
-                    abrirModalEvidencia(rowData.evidencia_devolucion);
-                  } else {
-                    abrirModalEvidencia(rowData.evidencia_entrega);
-                  }
+                  if(rowData.evidencia_devolucion && rowData.evidencia_devolucion.length > 50) abrirModalEvidencia(rowData.evidencia_devolucion);
+                  else abrirModalEvidencia(rowData.evidencia_entrega);
                 }
-
                 if(e.target.closest('.btn-del') && !isGuest) {
                   if(confirm("⚠️ ¿Estás completamente seguro de eliminar este registro?\n\nEsta acción borrará el equipo del inventario de manera irreversible.")) {
                      eliminarRegistro(rowData, cell.getRow());
@@ -280,51 +292,67 @@
             { 
               title: "Categoría", 
               field: "categoria", 
-              minWidth: 140, 
-              formatter: cell => `<div class="w-full flex justify-center"><span class="inline-flex items-center px-3 py-1.5 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${cell.getValue()}</span></div>` 
+              minWidth: 140,
+              hozAlign: "center",
+              headerHozAlign: "center",
+              formatter: cell => `<div class="flex justify-center w-full"><span class="inline-flex items-center px-3 py-1.5 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${cell.getValue()}</span></div>` 
             },
             { 
+              /* TEXTOS LARGOS: Justificados a la izquierda para mantener la línea de lectura recta */
               title: "Empleado", 
               field: "nombre_empleado", 
-              minWidth: 260, 
+              minWidth: 260,
+              hozAlign: "left",
+              headerHozAlign: "left",
               formatter: function(cell) {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo asignado";
-                if(!name) return `<div class="w-full text-center"><span class="italic text-[#64748B] font-light">No asignado</span></div>`;
-                return `<div class="w-full text-center"><div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-snug">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div></div>`;
+                if(!name) return `<div class="w-full text-left"><span class="italic text-[#64748B] font-light">No asignado</span></div>`;
+                return `<div class="w-full text-left"><div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-relaxed">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div></div>`;
               }
             },
             { 
               title: "Departamento", 
               field: "area", 
-              minWidth: 160, 
-              formatter: cell => `<div class="w-full text-center text-[#E2E8F0] whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
+              minWidth: 170,
+              hozAlign: "left",
+              headerHozAlign: "left",
+              formatter: cell => `<div class="w-full text-left text-[#E2E8F0] whitespace-normal break-words leading-relaxed">${cell.getValue() || "-"}</div>` 
             },
             { 
+              /* DATOS TÉCNICOS: Centrados */
               title: "CPU", 
               field: "computador", 
-              minWidth: 130, 
+              minWidth: 130,
+              hozAlign: "center",
+              headerHozAlign: "center",
               formatter: cell => `<div class="w-full text-center text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
             },
             { 
               title: "Nº Serie", 
               field: "numero_serie", 
-              minWidth: 140, 
+              minWidth: 150,
+              hozAlign: "center",
+              headerHozAlign: "center",
               formatter: cell => `<div class="w-full text-center text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
             },
             { 
               title: "Marca y Modelo", 
               field: "marca_modelo", 
-              minWidth: 260, 
+              minWidth: 260,
+              hozAlign: "left",
+              headerHozAlign: "left",
               formatter: function(cell) {
                 let text = cell.getValue();
-                return text ? `<div class="w-full text-center text-[#E2E8F0] whitespace-normal break-words leading-snug">${text}</div>` : `<div class="w-full text-center">-</div>`;
+                return text ? `<div class="w-full text-left text-[#E2E8F0] whitespace-normal break-words leading-relaxed">${text}</div>` : `<div class="w-full text-left">-</div>`;
               }
             },
             { 
               title: "Estado", 
               field: "estado_operativo", 
               minWidth: 140,
+              hozAlign: "center",
+              headerHozAlign: "center",
               formatter: function(cell) {
                 const val = cell.getValue();
                 let badge = "";
