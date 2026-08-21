@@ -6,67 +6,130 @@ const pool = new Pool({
 });
 
 export default async function handler(req, res) {
-    
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Usa GET' });
+  // Evitar bloqueos de CORS si la API falla
+  res.setHeader('Access-Control-Allow-Origin', '*');
   
-  const { codigo } = req.query;
-  if (!codigo || codigo.trim() === '') return res.status(400).json({ error: 'Código vacío' });
-
-  // IMPORTANTE: Se eliminó la re-declaración local de "const pool = new Pool(...)" que causaba conflicto
-
   try {
-    // 1. Buscamos en PCs (Haciendo cruce con el último detalle guardado)
-    let qPc = await pool.query(`
-      SELECT 'PCs' as tipo_vista, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, p.codigo_patrimonial,
-             d.detalles_json, d.accesorios_json
+    // Verificación 1: ¿Existe la variable de entorno?
+    if (!process.env.DATABASE_URL) {
+      return res.status(500).json({ success: false, error: "CRÍTICO: No se encontró DATABASE_URL en Vercel." });
+    }
+
+    const query = `
+      SELECT 
+        'Material Informático' as categoria, p.id_activo, 
+        p.codigo_patrimonial as computador, p.numero_serie, p.marca_modelo, p.estado_operativo, 
+        p.procesador, p.ram, p.tipo_hardware as tipo_equipo,
+        d.detalles_json->>'disco_duro' as disco_duro, 
+        d.detalles_json->>'usuario_pc' as usuario_pc,
+        d.detalles_json, d.accesorios_json,
+        e.dni, e.nombre_completo as nombre_empleado, e.cargo as oficio_cargo, e.area, e.correo_corp,
+        a.id_acta, 'material_informatico' as tipo_vista,
+        a.fecha_entrega, a.fecha_devolucion,
+        a.evidencia_entrega, a.evidencia_devolucion,
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM pcs p
-      LEFT JOIN detalle_acta_pc d ON p.id_activo = d.id_pc
-      WHERE p.numero_serie = $1 OR p.codigo_patrimonial = $1
-      ORDER BY d.id_acta DESC LIMIT 1
-    `, [codigo.trim()]);
-    
-    if (qPc.rows.length > 0) return res.status(200).json({ success: true, equipo: qPc.rows[0] });
+      LEFT JOIN detalle_acta_pc d ON d.id_pc = p.id_activo AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_pc WHERE id_pc = p.id_activo)
+      LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
+      LEFT JOIN empleados e ON a.id_empleado = e.id_empleado
 
-    // 2. Buscamos en Telefonos
-    let qTef = await pool.query(`
-      SELECT 'telefonos' as tipo_vista, t.tipo_hardware as tipo_equipo, t.marca_modelo, t.numero_serie as nro_serie, t.codigo_patrimonial,
-             d.detalles_json, d.accesorios_json
+      UNION ALL
+
+      SELECT 
+        'Teléfono Móvil', t.id_activo, t.codigo_patrimonial, t.numero_serie, t.marca_modelo, t.estado_operativo, 
+        NULL, NULL, t.tipo_hardware as tipo_equipo,
+        NULL, NULL,
+        d.detalles_json, d.accesorios_json,
+        e.dni, e.nombre_completo, e.cargo, e.area, e.correo_corp,
+        a.id_acta, 'telefonos' as tipo_vista,
+        a.fecha_entrega, a.fecha_devolucion,
+        a.evidencia_entrega, a.evidencia_devolucion,
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM tef t
-      LEFT JOIN detalle_acta_tef d ON t.id_activo = d.id_tef
-      WHERE t.numero_serie = $1 OR t.codigo_patrimonial = $1
-      ORDER BY d.id_acta DESC LIMIT 1
-    `, [codigo.trim()]);
-    
-    if (qTef.rows.length > 0) return res.status(200).json({ success: true, equipo: qTef.rows[0] });
+      LEFT JOIN detalle_acta_tef d ON d.id_tef = t.id_activo AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_tef WHERE id_tef = t.id_activo)
+      LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
+      LEFT JOIN empleados e ON a.id_empleado = e.id_empleado
 
-    // 3. Buscamos en Perifericos
-    let qPeri = await pool.query(`
-      SELECT 'perifericos' as tipo_vista, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, p.codigo_patrimonial,
-             d.detalles_json, d.accesorios_json
-      FROM perifericos p
-      LEFT JOIN detalle_acta_periferico d ON p.id_activo = d.id_periferico
-      WHERE p.numero_serie = $1 OR p.codigo_patrimonial = $1
-      ORDER BY d.id_acta DESC LIMIT 1
-    `, [codigo.trim()]);
-    
-    if (qPeri.rows.length > 0) return res.status(200).json({ success: true, equipo: qPeri.rows[0] });
+      UNION ALL
 
-    // 4. Buscamos en Lineas
-    let qLin = await pool.query(`
-      SELECT 'lineas' as tipo_vista, l.operador, l.numero_telefono as nro_telefono, l.iccid_sim as serie_sim,
-             d.detalles_json, d.accesorios_json
+      SELECT 
+        'Periférico', pr.id_activo, pr.codigo_patrimonial, pr.numero_serie, pr.marca_modelo, pr.estado_operativo, 
+        NULL, NULL, pr.tipo_hardware as tipo_equipo,
+        NULL, NULL,
+        d.detalles_json, d.accesorios_json,
+        e.dni, e.nombre_completo, e.cargo, e.area, e.correo_corp,
+        a.id_acta, 'perifericos' as tipo_vista,
+        a.fecha_entrega, a.fecha_devolucion,
+        a.evidencia_entrega, a.evidencia_devolucion,
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
+      FROM perifericos pr
+      LEFT JOIN detalle_acta_periferico d ON d.id_periferico = pr.id_activo AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_periferico WHERE id_periferico = pr.id_activo)
+      LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
+      LEFT JOIN empleados e ON a.id_empleado = e.id_empleado
+
+      UNION ALL
+
+      SELECT 
+        'Línea Móvil', l.id_linea, l.iccid_sim, l.numero_telefono, l.operador, l.estado_linea, 
+        NULL, NULL, NULL as tipo_equipo,
+        NULL, NULL,
+        d.detalles_json, d.accesorios_json,
+        e.dni, e.nombre_completo, e.cargo, e.area, e.correo_corp,
+        a.id_acta, 'lineas' as tipo_vista,
+        a.fecha_entrega, a.fecha_devolucion,
+        a.evidencia_entrega, a.evidencia_devolucion,
+        a.observaciones_entrega, a.observaciones_devolucion,
+        a.firma_encargado_entrega, a.firma_empleado_entrega, 
+        a.firma_encargado_devolucion, a.firma_empleado_devolucion,
+        a.dni_firma_ti_entrega as dni_firma_ti_ent, 
+        a.dni_firma_emp_entrega as dni_firma_emp_ent, 
+        a.dni_firma_ti_devolucion as dni_firma_ti_dev, 
+        a.dni_firma_emp_devolucion as dni_firma_emp_dev,
+        a.devolucion_mismo_titular, a.devolucion_quien_nombre, a.devolucion_quien_dni
       FROM lineas_moviles l
-      LEFT JOIN detalle_acta_linea d ON l.id_linea = d.id_linea
-      WHERE l.numero_telefono = $1 OR l.iccid_sim = $1
-      ORDER BY d.id_acta DESC LIMIT 1
-    `, [codigo.trim()]);
+      LEFT JOIN detalle_acta_linea d ON d.id_linea = l.id_linea AND d.id_detalle = (SELECT MAX(id_detalle) FROM detalle_acta_linea WHERE id_linea = l.id_linea)
+      LEFT JOIN actas_asignacion a ON d.id_acta = a.id_acta
+      LEFT JOIN empleados e ON a.id_empleado = e.id_empleado
+    `;
     
-    if (qLin.rows.length > 0) return res.status(200).json({ success: true, equipo: qLin.rows[0] });
+    const { rows } = await pool.query(query);
 
-    res.status(404).json({ success: false, message: 'Equipo no encontrado' });
+    const parseJson = (val) => (typeof val === 'string' ? JSON.parse(val || '{}') : (val || {}));
+    const flatRows = rows.map(r => ({
+      ...r,
+      ...parseJson(r.detalles_json),
+      ...parseJson(r.accesorios_json)
+    }));
 
+    const stock = flatRows.filter(r => r.estado_operativo === 'STOCK').length;
+    const operativo = flatRows.filter(r => r.estado_operativo === 'OPERATIVO' || r.estado_operativo === 'ACTIVA').length;
+    const retirados = flatRows.filter(r => r.estado_operativo === 'RETIRADO' || r.estado_operativo === 'SUSPENDIDA').length;
+
+    res.status(200).json({ success: true, kpis: { stock, operativo, retirados }, inventario_total: flatRows });
   } catch (error) {
+    // Verificación 2: Atrapamos el error exacto y lo enviamos al frontend
+    console.error("ERROR SQL:", error.message);
     res.status(500).json({ success: false, error: error.message });
   }
-  // IMPORTANTE: Se eliminó pool.end() para mantener la conexión viva
 }
