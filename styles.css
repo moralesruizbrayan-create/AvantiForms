@@ -44,6 +44,9 @@ body {
     background-color: var(--bg-main);
     color: var(--text-primary);
     transition: background-color var(--transition), color var(--transition);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* <-- Esta es la regla clave que elimina el scroll lateral */
 }
 
 /* =========================================
@@ -83,7 +86,8 @@ body {
 .login-container {
     width: 100%;
     max-width: 420px;
-    padding: 20px;
+    padding: 0 20px; /* Ajustado para que el padding no desborde el ancho */
+    box-sizing: border-box; /* Asegura que el padding se calcule hacia adentro */
 }
 
 .login-card-mate {
