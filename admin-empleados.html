@@ -27,22 +27,29 @@
     .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
     .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* PILAR 1 y 2: Jerarquía, Whitespace y Zebra Striping */
+    /* CORE: Eliminación de Aberración Cromática en Tabulator */
     .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; color: var(--text-bright) !important; }
     .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
     .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
-    .tabulator-row:nth-child(even) { background-color: rgba(255, 255, 255, 0.015) !important; } /* Zebra muy sutil */
-    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
+    /* Control estricto de Zebra Striping para forzar modo oscuro */
+    .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row.tabulator-row-even { background-color: #151e2d !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row:hover { background-color: #27364b !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; }
     
+    /* Corrección de inputs de filtros en las columnas */
+    .tabulator-header input[type="text"], .tabulator-header input[type="search"] {
+      background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important;
+      border-radius: 6px; padding: 8px 12px !important; width: 100%; box-sizing: border-box; outline: none; transition: border 0.2s;
+    }
+    .tabulator-header input:focus { border-color: var(--accent-green) !important; }
+
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
     .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px; }
     .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
 
-    /* PILAR 4: Acciones Contextuales (Discretas por defecto, resaltan en hover) */
     .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; color: var(--text-muted); background: transparent; }
     .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.2); }
     
@@ -55,7 +62,6 @@
 <body class="p-4 md:p-8">
 
   <div class="max-w-[1200px] mx-auto space-y-6">
-    <!-- CABECERA -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
         <div class="p-3 bg-[#0F172A] rounded-lg border border-[#334155]">
@@ -76,13 +82,11 @@
       </div>
     </div>
 
-    <!-- CONTENEDOR DEL GRID -->
     <div class="neo-panel overflow-hidden p-0">
       <div id="empleados-grid" class="w-full"></div>
     </div>
   </div>
 
-  <!-- MODAL: AÑADIR EMPLEADO -->
   <div id="modal-empleado" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4">
     <div class="neo-panel max-w-lg w-full overflow-hidden">
       <div class="px-6 py-5 flex justify-between items-center border-b border-[#334155] bg-[#0F172A]">
@@ -166,10 +170,22 @@
               formatter: () => `<button class='action-btn btn-del' title='Eliminar Empleado'><svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>`,
               cellClick: async function(e, cell) {
                 if(e.target.closest('.btn-del')) {
-                  if(confirm("¿Eliminar este empleado del directorio?")) {
+                  if(confirm("¿Estás seguro de eliminar este empleado del directorio?\n\nSi el empleado tiene equipos asignados, estos quedarán 'sin asignar' en el inventario.")) {
                     const id = cell.getRow().getData().id_empleado;
-                    await fetch('/api/empleados', { method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({id_empleado: id}) });
-                    cell.getRow().delete();
+                    try {
+                        const response = await fetch('/api/empleados', { 
+                            method: 'DELETE', 
+                            headers: {'Content-Type': 'application/json'}, 
+                            body: JSON.stringify({id_empleado: id}) 
+                        });
+                        if (response.ok) {
+                            cell.getRow().delete();
+                        } else {
+                            alert("Ocurrió un error al eliminar al empleado.");
+                        }
+                    } catch(err) {
+                        alert("Error de conexión al servidor.");
+                    }
                   }
                 }
               }
