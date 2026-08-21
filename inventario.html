@@ -28,17 +28,17 @@
     .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
     .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* CORE: Eliminación de Aberración Cromática en Tabulator */
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; color: var(--text-bright) !important; }
+    /* TABULATOR - Flat Dark Mode adaptativo */
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-bright) !important; }
     .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; font-weight: 600; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
     .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    /* Control estricto de Zebra Striping */
-    .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
-    .tabulator-row.tabulator-row-even { background-color: #151e2d !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
-    .tabulator-row:hover { background-color: #27364b !important; cursor: pointer; }
-    .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; }
+    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row:nth-child(even) { background-color: rgba(255, 255, 255, 0.015) !important; }
+    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
+    /* Padding ajustado para permitir que las filas crezcan con el texto */
+    .tabulator-cell { border-right: none !important; padding: 16px 12px !important; vertical-align: middle !important; }
     
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
     .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px;}
@@ -51,12 +51,19 @@
     .t-ret::before { background-color: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
     .t-stk::before { background-color: #38BDF8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
 
-    /* Acciones Contextuales */
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; color: var(--text-muted); background: transparent; }
-    .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
-    .btn-evi:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
-    .btn-del:hover { color: #EF4444; background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
-    .btn-disabled { color: var(--border-subtle); cursor: not-allowed; opacity: 0.3; }
+    /* BOTONES DE ACCIÓN - Estado base visible para que no se pierdan en el fondo */
+    .action-btn { 
+        display: inline-flex; align-items: center; justify-content: center; 
+        width: 36px; height: 36px; border-radius: 8px; 
+        border: 1px solid var(--border-subtle); 
+        background-color: #151e2d; /* Fondo base sutil */
+        color: #E2E8F0; /* Iconos brillantes por defecto */
+        transition: all 0.2s ease; cursor: pointer; 
+    }
+    .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+    .btn-evi:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); }
+    .btn-del:hover { color: #EF4444; background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
+    .btn-disabled { color: #475569 !important; background-color: transparent !important; border-color: transparent !important; cursor: not-allowed; opacity: 0.5; box-shadow: none; }
 
     .btn-outline { background-color: var(--bg-deep); border: 1px solid var(--border-subtle); color: var(--text-bright); transition: border-color 0.2s; }
     .btn-outline:hover { border-color: var(--text-muted); }
@@ -71,7 +78,6 @@
 <body class="p-4 md:p-8">
 
   <div class="max-w-[1400px] mx-auto space-y-6">
-    
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
         <div class="p-2 bg-white rounded-lg shadow-none border border-[#334155]">
@@ -194,7 +200,7 @@
 
         tablaInventario = new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
-          layout: "fitColumns", 
+          layout: "fitColumns", // Distribuye el espacio sobrante
           responsiveLayout: "collapse",
           pagination: "local",
           paginationSize: 10,
@@ -202,7 +208,7 @@
           columns: [
             {
               title: "Acciones", 
-              width: 140, 
+              minWidth: 150, // minWidth en lugar de width para adaptabilidad
               hozAlign: "center",
               headerSort: false,
               formatter: function(cell) {
@@ -226,50 +232,59 @@
 
                 html += '</div>';
                 return html;
-              },
-              cellClick: function(e, cell) {
-                const rowData = cell.getRow().getData();
-                
-                if(e.target.closest('.btn-pdf')) {
-                  sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
-                  window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
-                }
-                
-                if(e.target.closest('.btn-evi')) {
-                  if(rowData.evidencia_devolucion && rowData.evidencia_devolucion.length > 50) {
-                    abrirModalEvidencia(rowData.evidencia_devolucion);
-                  } else {
-                    abrirModalEvidencia(rowData.evidencia_entrega);
-                  }
-                }
-
-                if(e.target.closest('.btn-del') && !isGuest) {
-                  if(confirm("⚠️ ¿Estás completamente seguro de eliminar este registro?\n\nEsta acción borrará el equipo del inventario de manera irreversible.")) {
-                     eliminarRegistro(rowData, cell.getRow());
-                  }
-                }
               }
             },
-            { title: "Categoría", field: "categoria", width: 140 },
-            { title: "Empleado", field: "nombre_empleado", width: 220, formatter: function(cell) {
+            { 
+              title: "Categoría", 
+              field: "categoria", 
+              minWidth: 140, 
+              // Nuevo formato brillante para la categoría
+              formatter: cell => `<span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase bg-[#0F172A] text-[#38BDF8] border border-[#334155] shadow-sm">${cell.getValue()}</span>` 
+            },
+            { 
+              title: "Empleado", 
+              field: "nombre_empleado", 
+              minWidth: 260, 
+              formatter: function(cell) {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo asignado";
                 if(!name) return `<span class="italic text-[#94A3B8] font-light">No asignado</span>`;
-                return `<div class="font-medium text-[#F8FAFC] tracking-wide">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light">${email}</div>`;
+                // Adaptabilidad: whitespace-normal y break-words para que el texto baje de línea si es largo
+                return `<div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-snug">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div>`;
               }
             },
-            { title: "Departamento", field: "area", width: 150, formatter: cell => `<span class="text-[#E2E8F0]">${cell.getValue() || "-"}</span>` },
-            { title: "CPU", field: "computador", width: 120, formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs">${cell.getValue() || "-"}</span>` },
-            { title: "Nº Serie", field: "numero_serie", width: 140, formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs">${cell.getValue() || "-"}</span>` },
-            { title: "Marca y Modelo", field: "marca_modelo", width: 220, formatter: function(cell) {
+            { 
+              title: "Departamento", 
+              field: "area", 
+              minWidth: 160, 
+              formatter: cell => `<span class="text-[#E2E8F0] whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+            },
+            { 
+              title: "CPU", 
+              field: "computador", 
+              minWidth: 130, 
+              formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+            },
+            { 
+              title: "Nº Serie", 
+              field: "numero_serie", 
+              minWidth: 140, 
+              formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+            },
+            { 
+              title: "Marca y Modelo", 
+              field: "marca_modelo", 
+              minWidth: 260, 
+              formatter: function(cell) {
                 let text = cell.getValue();
-                return text ? `<div class="truncate w-full text-[#E2E8F0]" title="${text}">${text}</div>` : "-";
+                // Eliminado el "truncate", agregado whitespace-normal para que la fila crezca
+                return text ? `<div class="w-full text-[#E2E8F0] whitespace-normal break-words leading-snug">${text}</div>` : "-";
               }
             },
             { 
               title: "Estado", 
               field: "estado_operativo", 
-              width: 140,
+              minWidth: 140,
               hozAlign: "left",
               formatter: function(cell) {
                 const val = cell.getValue();
