@@ -28,21 +28,24 @@
     .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
     .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* TABULATOR - Flat Dark Mode adaptativo */
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-bright) !important; }
-    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; font-weight: 600; border-bottom: 1px solid var(--border-subtle) !important; }
-    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+    /* CORE: DOMINIO TOTAL SOBRE TABULATOR PARA EVITAR EL FONDO BLANCO */
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; }
+    .tabulator-header { background-color: var(--bg-deep) !important; border-bottom: 1px solid var(--border-subtle) !important; }
+    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 14px 6px !important; }
+    .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
-    .tabulator-row:nth-child(even) { background-color: rgba(255, 255, 255, 0.015) !important; }
-    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
-    /* Padding ajustado para permitir que las filas crezcan con el texto */
-    .tabulator-cell { border-right: none !important; padding: 16px 12px !important; vertical-align: middle !important; }
+    /* Reglas estrictas para Zebra Striping sin transparencias que fallen */
+    .tabulator-row, .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row.tabulator-row-even { background-color: #141C2B !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row:hover { background-color: #27364B !important; cursor: pointer; }
+    .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
-    .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
-    .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px;}
-    .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
+    /* Paginador (Footer) adaptado al Dark Mode */
+    .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 10px !important; }
+    .tabulator-footer .tabulator-page-size { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; padding: 4px 8px; outline: none; }
+    .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 6px; margin: 0 2px; transition: all 0.2s; }
+    .tabulator-footer .tabulator-page:hover { background: var(--surface-slate) !important; color: var(--text-bright) !important; }
+    .tabulator-footer .tabulator-page.active { background: var(--surface-slate) !important; color: var(--accent-green) !important; border: 1px solid var(--border-subtle) !important; font-weight: bold; }
 
     /* Indicadores de estado tipo píldora */
     .tab-badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: transparent; border: 1px solid var(--border-subtle); color: var(--text-bright); }
@@ -51,19 +54,28 @@
     .t-ret::before { background-color: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
     .t-stk::before { background-color: #38BDF8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
 
-    /* BOTONES DE ACCIÓN - Estado base visible para que no se pierdan en el fondo */
+    /* BOTONES DE ACCIÓN: Estilo 'Ghost' limpio */
     .action-btn { 
-        display: inline-flex; align-items: center; justify-content: center; 
-        width: 36px; height: 36px; border-radius: 8px; 
-        border: 1px solid var(--border-subtle); 
-        background-color: #151e2d; /* Fondo base sutil */
-        color: #E2E8F0; /* Iconos brillantes por defecto */
-        transition: all 0.2s ease; cursor: pointer; 
+      display: inline-flex; align-items: center; justify-content: center; 
+      width: 36px; height: 36px; border-radius: 8px; 
+      border: 1px solid transparent; /* Sin borde por defecto */
+      background-color: transparent; /* Sin fondo por defecto */
+      color: #64748B; /* Gris muy tenue */
+      transition: all 0.2s ease; cursor: pointer; 
     }
+    .action-btn svg { width: 18px; height: 18px; transition: stroke-width 0.2s; }
+    
+    /* Estados Hover (Se encienden al pasar el cursor) */
     .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+    .btn-pdf:hover svg { stroke-width: 2.5px; }
+    
     .btn-evi:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); }
+    .btn-evi:hover svg { stroke-width: 2.5px; }
+    
     .btn-del:hover { color: #EF4444; background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
-    .btn-disabled { color: #475569 !important; background-color: transparent !important; border-color: transparent !important; cursor: not-allowed; opacity: 0.5; box-shadow: none; }
+    .btn-del:hover svg { stroke-width: 2.5px; }
+    
+    .btn-disabled { color: var(--border-subtle) !important; cursor: not-allowed; opacity: 0.3; }
 
     .btn-outline { background-color: var(--bg-deep); border: 1px solid var(--border-subtle); color: var(--text-bright); transition: border-color 0.2s; }
     .btn-outline:hover { border-color: var(--text-muted); }
@@ -78,6 +90,8 @@
 <body class="p-4 md:p-8">
 
   <div class="max-w-[1400px] mx-auto space-y-6">
+    
+    <!-- CABECERA -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
         <div class="p-2 bg-white rounded-lg shadow-none border border-[#334155]">
@@ -96,6 +110,7 @@
       </div>
     </div>
 
+    <!-- PANEL DE FILTROS -->
     <div class="p-6 neo-panel">
       <div class="flex flex-col lg:flex-row gap-5 items-end">
         <div class="flex-1 w-full">
@@ -137,20 +152,22 @@
       </div>
     </div>
 
-    <div class="neo-panel overflow-hidden p-0">
+    <!-- CONTENEDOR DEL GRID -->
+    <div class="neo-panel overflow-hidden p-0 border border-[#334155]">
       <div id="inventario-grid" class="w-full"></div>
     </div>
 
   </div>
 
+  <!-- MODAL DE EVIDENCIA -->
   <div id="evidencia_modal" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4 transition-opacity">
-    <div class="neo-panel max-w-4xl w-full overflow-hidden flex flex-col">
+    <div class="neo-panel max-w-4xl w-full overflow-hidden flex flex-col shadow-2xl">
       <div class="px-6 py-4 flex justify-between items-center border-b border-[#334155] bg-[#0F172A]">
         <h3 class="font-bold text-lg flex items-center gap-2 text-[#F8FAFC]">
           <svg class="w-5 h-5 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
           Evidencia Fotográfica
         </h3>
-        <button onclick="cerrarModalEvidencia()" class="text-[#94A3B8] hover:text-[#10B981] transition-colors">
+        <button onclick="cerrarModalEvidencia()" class="text-[#94A3B8] hover:text-[#10B981] transition-colors outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
@@ -181,9 +198,9 @@
       if(e.target === this) cerrarModalEvidencia();
     });
 
-    const iconPDF = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
-    const iconCamera = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`;
-    const iconTrash = `<svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
+    const iconPDF = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
+    const iconCamera = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`;
+    const iconTrash = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
 
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('inventario-grid').innerHTML = "<div class='flex flex-col items-center justify-center p-16 text-[#94A3B8]'><svg class='animate-spin h-8 w-8 mb-4 text-[#10B981]' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'><circle class='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' stroke-width='4'></circle><path class='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path></svg><p class='font-medium'>Sincronizando con la Base de Datos...</p></div>";
@@ -200,7 +217,7 @@
 
         tablaInventario = new Tabulator("#inventario-grid", {
           data: data.inventario_total, 
-          layout: "fitColumns", // Distribuye el espacio sobrante
+          layout: "fitColumns", 
           responsiveLayout: "collapse",
           pagination: "local",
           paginationSize: 10,
@@ -208,7 +225,7 @@
           columns: [
             {
               title: "Acciones", 
-              minWidth: 150, // minWidth en lugar de width para adaptabilidad
+              minWidth: 150, 
               hozAlign: "center",
               headerSort: false,
               formatter: function(cell) {
@@ -232,14 +249,35 @@
 
                 html += '</div>';
                 return html;
+              },
+              cellClick: function(e, cell) {
+                const rowData = cell.getRow().getData();
+                
+                if(e.target.closest('.btn-pdf')) {
+                  sessionStorage.setItem('acta_imprimir', JSON.stringify(rowData));
+                  window.open(`gestion-actas.html?vista=${rowData.tipo_vista}&print=true`, '_blank');
+                }
+                
+                if(e.target.closest('.btn-evi')) {
+                  if(rowData.evidencia_devolucion && rowData.evidencia_devolucion.length > 50) {
+                    abrirModalEvidencia(rowData.evidencia_devolucion);
+                  } else {
+                    abrirModalEvidencia(rowData.evidencia_entrega);
+                  }
+                }
+
+                if(e.target.closest('.btn-del') && !isGuest) {
+                  if(confirm("⚠️ ¿Estás completamente seguro de eliminar este registro?\n\nEsta acción borrará el equipo del inventario de manera irreversible.")) {
+                     eliminarRegistro(rowData, cell.getRow());
+                  }
+                }
               }
             },
             { 
               title: "Categoría", 
               field: "categoria", 
               minWidth: 140, 
-              // Nuevo formato brillante para la categoría
-              formatter: cell => `<span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase bg-[#0F172A] text-[#38BDF8] border border-[#334155] shadow-sm">${cell.getValue()}</span>` 
+              formatter: cell => `<span class="inline-flex items-center px-3 py-1.5 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${cell.getValue()}</span>` 
             },
             { 
               title: "Empleado", 
@@ -248,8 +286,7 @@
               formatter: function(cell) {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo asignado";
-                if(!name) return `<span class="italic text-[#94A3B8] font-light">No asignado</span>`;
-                // Adaptabilidad: whitespace-normal y break-words para que el texto baje de línea si es largo
+                if(!name) return `<span class="italic text-[#64748B] font-light">No asignado</span>`;
                 return `<div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-snug">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div>`;
               }
             },
@@ -263,13 +300,13 @@
               title: "CPU", 
               field: "computador", 
               minWidth: 130, 
-              formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+              formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
             },
             { 
               title: "Nº Serie", 
               field: "numero_serie", 
               minWidth: 140, 
-              formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+              formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
             },
             { 
               title: "Marca y Modelo", 
@@ -277,7 +314,6 @@
               minWidth: 260, 
               formatter: function(cell) {
                 let text = cell.getValue();
-                // Eliminado el "truncate", agregado whitespace-normal para que la fila crezca
                 return text ? `<div class="w-full text-[#E2E8F0] whitespace-normal break-words leading-snug">${text}</div>` : "-";
               }
             },
