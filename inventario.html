@@ -22,71 +22,42 @@
       --accent-green: #10B981;
     }
 
-    body { 
-      background-color: var(--bg-deep); 
-      font-family: 'Inter', system-ui, sans-serif; 
-      color: var(--text-bright); 
-    }
+    body { background-color: var(--bg-deep); font-family: 'Inter', system-ui, sans-serif; color: var(--text-bright); }
     
-    /* Paneles limpios sin Aberración Cromática */
-    .neo-panel {
-      background-color: var(--surface-slate);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      box-shadow: none; 
-    }
-    
-    .neo-input {
-      background-color: var(--bg-deep) !important;
-      border: 1px solid var(--border-subtle) !important;
-      color: var(--text-bright) !important;
-      transition: border-color 0.2s ease;
-    }
-    
-    .neo-input:focus {
-      border-color: var(--accent-green) !important;
-      outline: none;
-    }
+    .neo-panel { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); border-radius: 12px; }
+    .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
+    .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* ESTILOS TABULATOR - Flat Dark Mode */
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; color: var(--text-bright) !important; }
-    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; font-weight: 600; border-bottom: 1px solid var(--border-subtle) !important; }
-    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 10px 4px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase; }
+    /* PILAR 1 y 2: Jerarquía, Whitespace y Zebra Striping */
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; color: var(--text-bright) !important; }
+    .tabulator-header { background-color: var(--bg-deep) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; }
+    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 6px !important; }
+    .tabulator-col-title { font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; color: #CBD5E1; transition: background-color 0.15s ease; }
-    .tabulator-row:nth-child(even) { background-color: #1c2636 !important; } 
-    .tabulator-row:hover { background-color: var(--border-subtle) !important; cursor: pointer; }
-    .tabulator-cell { border-right: none !important; padding: 16px 10px !important; vertical-align: middle !important; }
+    .tabulator-row { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
+    .tabulator-row:nth-child(even) { background-color: rgba(255, 255, 255, 0.015) !important; }
+    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
+    .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; }
     
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; }
     .tabulator-footer .tabulator-page { background: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; margin: 0 4px;}
     .tabulator-footer .tabulator-page.active { background: var(--accent-green); color: white; border-color: var(--accent-green); }
 
-    /* BADGES DE ESTADO - Limpios y definidos */
-    .tab-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; text-transform: uppercase; border: 1px solid transparent; letter-spacing: 0.5px; }
+    /* PILAR 3: Badges (Indicadores de estado tipo píldora) */
+    .tab-badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: transparent; border: 1px solid var(--border-subtle); color: var(--text-bright); }
     .tab-badge::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; }
     
-    .t-op { background-color: rgba(16, 185, 129, 0.1); color: #10B981; border-color: rgba(16, 185, 129, 0.2); }
-    .t-op::before { background-color: #10B981; }
-    
-    .t-ret { background-color: rgba(248, 113, 113, 0.1); color: #F87171; border-color: rgba(248, 113, 113, 0.2); }
-    .t-ret::before { background-color: #F87171; }
-    
-    .t-stk { background-color: rgba(56, 189, 248, 0.1); color: #38BDF8; border-color: rgba(56, 189, 248, 0.2); }
-    .t-stk::before { background-color: #38BDF8; }
+    .t-op::before { background-color: #10B981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+    .t-ret::before { background-color: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+    .t-stk::before { background-color: #38BDF8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
 
-    /* BOTONES DE ACCIÓN (ICONOS) */
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--border-subtle); transition: all 0.2s ease; cursor: pointer; background-color: var(--bg-deep); }
-    .btn-pdf { color: #10B981; }
-    .btn-pdf:hover { background-color: rgba(16, 185, 129, 0.1); border-color: #10B981; }
-    .btn-evi { color: #38BDF8; }
-    .btn-evi:hover { background-color: rgba(56, 189, 248, 0.1); border-color: #38BDF8; }
-    .btn-del { color: #F87171; }
-    .btn-del:hover { background-color: rgba(239, 68, 68, 0.1); border-color: #EF4444; }
-    .btn-disabled { color: var(--border-subtle); background: transparent; cursor: not-allowed; opacity: 0.5; }
+    /* PILAR 4: Acciones Contextuales */
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; border: 1px solid transparent; transition: all 0.2s ease; cursor: pointer; color: var(--text-muted); background: transparent; }
+    .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
+    .btn-evi:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
+    .btn-del:hover { color: #EF4444; background-color: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
+    .btn-disabled { color: var(--border-subtle); cursor: not-allowed; opacity: 0.3; }
 
-    /* Botones principales */
     .btn-outline { background-color: var(--bg-deep); border: 1px solid var(--border-subtle); color: var(--text-bright); transition: border-color 0.2s; }
     .btn-outline:hover { border-color: var(--text-muted); }
 
@@ -287,22 +258,22 @@
             { title: "Empleado", field: "nombre_empleado", width: 220, formatter: function(cell) {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo asignado";
-                if(!name) return `<span class="italic text-[#94A3B8]">No asignado</span>`;
-                return `<div class="font-medium text-[#F8FAFC]">${name}</div><div class="text-xs mt-0.5 text-[#94A3B8]">${email}</div>`;
+                if(!name) return `<span class="italic text-[#94A3B8] font-light">No asignado</span>`;
+                return `<div class="font-medium text-[#F8FAFC] tracking-wide">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light">${email}</div>`;
               }
             },
-            { title: "Departamento", field: "area", width: 160 },
-            { title: "CPU", field: "computador", width: 130, formatter: function(cell){ return cell.getValue() || "-"; } },
-            { title: "Nº Serie", field: "numero_serie", width: 140 },
-            { title: "Marca y Modelo", field: "marca_modelo", width: 200, formatter: function(cell) {
+            { title: "Departamento", field: "area", width: 150, formatter: cell => `<span class="text-[#E2E8F0]">${cell.getValue() || "-"}</span>` },
+            { title: "CPU", field: "computador", width: 120, formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs">${cell.getValue() || "-"}</span>` },
+            { title: "Nº Serie", field: "numero_serie", width: 140, formatter: cell => `<span class="text-[#CBD5E1] font-mono text-xs">${cell.getValue() || "-"}</span>` },
+            { title: "Marca y Modelo", field: "marca_modelo", width: 220, formatter: function(cell) {
                 let text = cell.getValue();
-                return text ? `<div class="truncate w-full" title="${text}">${text}</div>` : "-";
+                return text ? `<div class="truncate w-full text-[#E2E8F0]" title="${text}">${text}</div>` : "-";
               }
             },
             { 
               title: "Estado", 
               field: "estado_operativo", 
-              width: 130,
+              width: 140,
               hozAlign: "left",
               formatter: function(cell) {
                 const val = cell.getValue();
@@ -316,7 +287,7 @@
         });
 
       } catch (error) {
-        document.getElementById('inventario-grid').innerHTML = `<div class='neo-panel border-[#EF4444] text-[#EF4444] p-4 mx-auto max-w-lg mt-10 text-center font-medium'>Error al cargar inventario: ${error.message}</div>`;
+        document.getElementById('inventario-grid').innerHTML = `<div class='neo-panel border-[#EF4444] text-[#EF4444] p-4 mx-auto max-w-lg mt-10 text-center font-medium shadow-sm'>Error al cargar inventario: ${error.message}</div>`;
       }
     });
 
