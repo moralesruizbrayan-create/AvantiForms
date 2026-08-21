@@ -6,53 +6,6 @@
     <title>Dashboard - Avanti</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/jpeg" href="AVANTI LOGO (1).jpeg">
-    
-    <!-- LÓGICA DE SESIÓN Y MODO INVITADO -->
-    <script>
-        const sessionData = localStorage.getItem('session');
-        
-        // 1. Si no hay sesión en absoluto, expulsar al login
-        if (!sessionData) {
-            window.location.replace('index.html');
-        } else {
-            // 2. Extraer datos de la sesión
-            const session = JSON.parse(sessionData);
-
-            document.addEventListener('DOMContentLoaded', () => {
-                // Actualizar la etiqueta superior con el nombre o rol
-                const userBadge = document.querySelector('.user-badge');
-                if (userBadge) {
-                    if (session.role === 'viewer') {
-                        userBadge.textContent = '👁️ INVITADO (Lector)';
-                    } else {
-                        userBadge.textContent = `HOLA, ${session.name.toUpperCase()}`;
-                    }
-                }
-
-                // 3. Aplicar restricciones si es modo Invitado
-                if (session.role === 'viewer') {
-                    // Seleccionar todas las tarjetas y botones de acción
-                    const elementosInteractivos = document.querySelectorAll('.card-modulo, .btn-avanti, .btn-avanti-blue');
-                    
-                    elementosInteractivos.forEach(el => {
-                        // Dar aspecto de bloqueado
-                        el.style.opacity = '0.5';
-                        el.style.cursor = 'not-allowed';
-                        
-                        // Quitar el enlace real (onclick)
-                        el.removeAttribute('onclick');
-                        
-                        // Agregar alerta al intentar hacer clic
-                        el.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            alert('Acceso denegado: Estás en modo visualización (Invitado). No tienes permisos para gestionar, generar actas o abrir bases de datos.');
-                        });
-                    });
-                }
-            });
-        }
-    </script>
 </head>
 <body class="dark-theme"> 
     
@@ -139,13 +92,5 @@
 
     <!-- Script principal de la aplicación -->
     <script src="app.js"></script>
-    
-    <!-- Fallback por si app.js falla al cerrar sesión -->
-    <script>
-        function cerrarSesion() {
-            localStorage.removeItem('session'); // Borra la nueva variable de sesión
-            window.location.replace('index.html');
-        }
-    </script>
 </body>
 </html>
