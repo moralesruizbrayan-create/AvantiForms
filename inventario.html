@@ -28,19 +28,18 @@
     .neo-input { background-color: var(--bg-deep) !important; border: 1px solid var(--border-subtle) !important; color: var(--text-bright) !important; transition: border-color 0.2s ease; }
     .neo-input:focus { border-color: var(--accent-green) !important; outline: none; }
 
-    /* CORE: DOMINIO TOTAL SOBRE TABULATOR PARA EVITAR EL FONDO BLANCO */
+    /* CORE: TABULATOR ALINEACIÓN Y ESTILOS */
     .tabulator { border: none !important; background-color: transparent !important; font-size: 13.5px; }
     .tabulator-header { background-color: var(--bg-deep) !important; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 14px 6px !important; }
     .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    /* Reglas estrictas para Zebra Striping sin transparencias que fallen */
     .tabulator-row, .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
     .tabulator-row.tabulator-row-even { background-color: #141C2B !important; border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.2s ease; }
     .tabulator-row:hover { background-color: #27364B !important; cursor: pointer; }
-    .tabulator-cell { border-right: none !important; padding: 18px 12px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
+    .tabulator-cell { border-right: none !important; padding: 16px 12px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
-    /* Paginador (Footer) adaptado al Dark Mode */
+    /* Paginador (Footer) */
     .tabulator-footer { background-color: var(--bg-deep) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 10px !important; }
     .tabulator-footer .tabulator-page-size { background-color: var(--surface-slate); border: 1px solid var(--border-subtle); color: var(--text-bright); border-radius: 6px; padding: 4px 8px; outline: none; }
     .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 6px; margin: 0 2px; transition: all 0.2s; }
@@ -48,7 +47,7 @@
     .tabulator-footer .tabulator-page.active { background: var(--surface-slate) !important; color: var(--accent-green) !important; border: 1px solid var(--border-subtle) !important; font-weight: bold; }
 
     /* Indicadores de estado tipo píldora */
-    .tab-badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: transparent; border: 1px solid var(--border-subtle); color: var(--text-bright); }
+    .tab-badge { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: transparent; border: 1px solid var(--border-subtle); color: var(--text-bright); }
     .tab-badge::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; }
     .t-op::before { background-color: #10B981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
     .t-ret::before { background-color: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
@@ -58,14 +57,13 @@
     .action-btn { 
       display: inline-flex; align-items: center; justify-content: center; 
       width: 36px; height: 36px; border-radius: 8px; 
-      border: 1px solid transparent; /* Sin borde por defecto */
-      background-color: transparent; /* Sin fondo por defecto */
-      color: #64748B; /* Gris muy tenue */
+      border: 1px solid transparent; 
+      background-color: transparent; 
+      color: #64748B; 
       transition: all 0.2s ease; cursor: pointer; 
     }
     .action-btn svg { width: 18px; height: 18px; transition: stroke-width 0.2s; }
     
-    /* Estados Hover (Se encienden al pasar el cursor) */
     .btn-pdf:hover { color: #10B981; background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
     .btn-pdf:hover svg { stroke-width: 2.5px; }
     
@@ -91,7 +89,6 @@
 
   <div class="max-w-[1400px] mx-auto space-y-6">
     
-    <!-- CABECERA -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel">
       <div class="flex items-center gap-4">
         <div class="p-2 bg-white rounded-lg shadow-none border border-[#334155]">
@@ -220,17 +217,24 @@
           layout: "fitColumns", 
           responsiveLayout: "collapse",
           pagination: "local",
-          paginationSize: 10,
+          paginationSize: 50, // Paginación por defecto en 50 registros
           paginationSizeSelector: [10, 25, 50, 100],
+          
+          // Encuadre y alineación global (Horizontal y Vertical)
+          columnDefaults: {
+            hozAlign: "center",
+            vertAlign: "middle",
+            headerHozAlign: "center"
+          },
+          
           columns: [
             {
               title: "Acciones", 
               minWidth: 150, 
-              hozAlign: "center",
               headerSort: false,
               formatter: function(cell) {
                 const row = cell.getRow().getData();
-                let html = '<div class="flex items-center justify-center gap-1.5">';
+                let html = '<div class="flex items-center justify-center gap-1.5 w-full">';
                 
                 if(row.id_acta) html += `<button class='action-btn btn-pdf' title='Ver Acta PDF'>${iconPDF}</button>`;
                 else html += `<button class='action-btn btn-disabled' disabled>${iconPDF}</button>`;
@@ -277,7 +281,7 @@
               title: "Categoría", 
               field: "categoria", 
               minWidth: 140, 
-              formatter: cell => `<span class="inline-flex items-center px-3 py-1.5 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${cell.getValue()}</span>` 
+              formatter: cell => `<div class="w-full flex justify-center"><span class="inline-flex items-center px-3 py-1.5 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${cell.getValue()}</span></div>` 
             },
             { 
               title: "Empleado", 
@@ -286,27 +290,27 @@
               formatter: function(cell) {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo asignado";
-                if(!name) return `<span class="italic text-[#64748B] font-light">No asignado</span>`;
-                return `<div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-snug">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div>`;
+                if(!name) return `<div class="w-full text-center"><span class="italic text-[#64748B] font-light">No asignado</span></div>`;
+                return `<div class="w-full text-center"><div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-snug">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div></div>`;
               }
             },
             { 
               title: "Departamento", 
               field: "area", 
               minWidth: 160, 
-              formatter: cell => `<span class="text-[#E2E8F0] whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+              formatter: cell => `<div class="w-full text-center text-[#E2E8F0] whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
             },
             { 
               title: "CPU", 
               field: "computador", 
               minWidth: 130, 
-              formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+              formatter: cell => `<div class="w-full text-center text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
             },
             { 
               title: "Nº Serie", 
               field: "numero_serie", 
               minWidth: 140, 
-              formatter: cell => `<span class="text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</span>` 
+              formatter: cell => `<div class="w-full text-center text-[#94A3B8] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
             },
             { 
               title: "Marca y Modelo", 
@@ -314,20 +318,20 @@
               minWidth: 260, 
               formatter: function(cell) {
                 let text = cell.getValue();
-                return text ? `<div class="w-full text-[#E2E8F0] whitespace-normal break-words leading-snug">${text}</div>` : "-";
+                return text ? `<div class="w-full text-center text-[#E2E8F0] whitespace-normal break-words leading-snug">${text}</div>` : `<div class="w-full text-center">-</div>`;
               }
             },
             { 
               title: "Estado", 
               field: "estado_operativo", 
               minWidth: 140,
-              hozAlign: "left",
               formatter: function(cell) {
                 const val = cell.getValue();
-                if(!val) return "";
-                if(val === 'OPERATIVO' || val === 'ACTIVA') return `<span class="tab-badge t-op">Activo</span>`;
-                if(val === 'RETIRADO' || val === 'SUSPENDIDA') return `<span class="tab-badge t-ret">Inactivo</span>`;
-                return `<span class="tab-badge t-stk">Stock</span>`;
+                let badge = "";
+                if(val === 'OPERATIVO' || val === 'ACTIVA') badge = `<span class="tab-badge t-op">Activo</span>`;
+                else if(val === 'RETIRADO' || val === 'SUSPENDIDA') badge = `<span class="tab-badge t-ret">Inactivo</span>`;
+                else badge = `<span class="tab-badge t-stk">Stock</span>`;
+                return `<div class="flex items-center justify-center w-full">${badge}</div>`;
               }
             }
           ]
