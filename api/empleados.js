@@ -28,32 +28,49 @@ export default async function handler(req, res) {
             );
             return res.status(201).json({ success: true, data: result.rows[0] });
         }
+
+        // --- EDITAR EMPLEADO ---
+        if (req.method === 'PUT') {
+            const { id_empleado, dni, nombre_completo, area, cargo, correo_corp, centro_costo } = req.body;
+            
+            if (!id_empleado) {
+                return res.status(400).json({ success: false, error: 'ID de empleado no proporcionado.' });
+            }
+
+            const result = await pool.query(
+                `UPDATE empleados 
+                 SET dni = $1, nombre_completo = $2, area = $3, cargo = $4, correo_corp = $5, centro_costo = $6
+                 WHERE id_empleado = $7 RETURNING *`,
+                [dni, nombre_completo, area, cargo, correo_corp, centro_costo, id_empleado]
+            );
+            return res.status(200).json({ success: true, data: result.rows[0] });
+        }
         
-        // --- ELIMINAR EMPLEADO SEGURAMENTE ---
+        // --- ELIMINAR EMPLEADO ---
         if (req.method === 'DELETE') {
             const { id_empleado } = req.body;
+            
+            if (!id_empleado) {
+                return res.status(400).json({ success: false, error: 'ID de empleado indefinido o no proporcionado.' });
+            }
+
             const client = await pool.connect();
             
             try {
                 await client.query('BEGIN');
-                
-                // 1. Liberar los equipos/actas vinculados a este empleado para no violar la Foreign Key
                 await client.query('UPDATE actas_asignacion SET id_empleado = NULL WHERE id_empleado = $1', [id_empleado]);
-                
-                // 2. Ahora sí, borrar al empleado
                 await client.query('DELETE FROM empleados WHERE id_empleado = $1', [id_empleado]);
-                
                 await client.query('COMMIT');
                 return res.status(200).json({ success: true, message: 'Empleado eliminado correctamente.' });
             } catch (err) {
                 await client.query('ROLLBACK');
-                throw err;
+                throw err; 
             } finally {
                 client.release();
             }
         }
 
-        return res.status(405).json({ success: false, error: 'Método no permitido' });
+        return res.status(405).json({ success: false, error: 'Método no permitido.' });
 
     } catch (error) {
         console.error("ERROR API EMPLEADOS:", error.message);
