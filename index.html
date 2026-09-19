@@ -16,107 +16,86 @@
         }
     </script>
 </head>
-<body class="dark-theme login-body">
-    <div class="login-container">
-        <div class="login-card-mate">
-            <div class="login-header">
-                <!-- Integración del logo -->
-                <div class="logo-container-login">
-    <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-login">
-</div>
-                <h2 id="formTitle">Iniciar Sesión</h2>
-                <p id="formSubtitle">Portal de Gestión de Actas y Equipos</p>
+<body class="dark-theme login-split-body">
+    <div class="split-layout">
+        <!-- Left Panel: Branding & Welcome (Light Theme for Logo Integration) -->
+        <div class="split-left">
+            <div class="branding-content">
+                <div class="logo-wrapper">
+                    <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-blend">
+                </div>
+                <h1 class="brand-title">Sistema de Control de Activos y Actas TI</h1>
+                <p class="brand-subtitle">Agrícola Avanti S.A.C.</p>
+                <div class="badges-container">
+                    <span class="badge"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> Plataforma Segura</span>
+                    <span class="badge"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Versión 2.0</span>
+                </div>
+            </div>
+            <div class="split-footer">
+                © 2026 Agrícola Avanti S.A.C. Todos los derechos reservados.
+            </div>
+        </div>
+
+        <!-- Right Panel: Login -->
+        <div class="split-right">
+            <div class="login-card-mate">
+                <div class="login-header text-center">
+                    <h2 id="formTitle" style="margin-bottom: 5px;">Iniciar Sesión</h2>
+                    <p id="formSubtitle" style="color: var(--text-secondary); margin-bottom: 25px;">Ingresa tus credenciales corporativas</p>
+                </div>
+                
+                <!-- FORMULARIO DE INICIO DE SESIÓN -->
+                <form id="loginForm">
+                    <div class="input-group-mate with-icon">
+                        <label for="loginEmail">Correo Corporativo</label>
+                        <div class="input-icon-wrapper">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path></svg>
+                            <input type="email" id="loginEmail" placeholder="usuario@agricolaavanti.pe" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group-mate password-group with-icon">
+                        <label for="loginPassword">Contraseña</label>
+                        <div class="input-icon-wrapper">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            <input type="password" id="loginPassword" placeholder="Tu contraseña" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
+                                <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </button>
+                        </div>
+                        <div id="capsWarningLogin" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
+                    </div>
+                    
+                    <div class="remember-group" style="margin-bottom: 25px;">
+                        <label class="custom-checkbox-container" style="display:flex; align-items:center; gap: 8px; cursor: pointer; color: var(--text-secondary); font-size: 0.9rem;">
+                            <input type="checkbox" id="rememberUser" style="width: 16px; height: 16px; accent-color: #10b981;">
+                            Recordar usuario en este dispositivo
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-avanti w-100" id="loginBtn">
+                        <span class="btn-text">Ingresar al Portal</span>
+                        <svg class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                    
+                    <div class="divider">o</div>
+                    
+                    <!-- Ingreso como Invitado (Con PIN) -->
+                    <div class="tooltip-container">
+                        <button type="button" id="btnGuest" class="btn-outline-mate w-100">🛡️ Auditoría (Requiere PIN)</button>
+                        <div class="tooltip-text">Acceso de lectura para auditores autorizados.</div>
+                    </div>
+                    
+                    <div class="login-footer-links">
+                        <p class="security-note">🔒 Acceso restringido al personal autorizado.<br>Contactar a Soporte TI para altas.</p>
+                        <a href="mailto:soporte@agricolaavanti.pe" class="support-link">¿Problemas para ingresar? Solicitar asistencia a TI</a>
+                    </div>
+                </form>
             </div>
             
-            <!-- FORMULARIO DE INICIO DE SESIÓN -->
-            <form id="loginForm">
-                <div class="input-group-mate">
-                    <label for="loginEmail">Correo Corporativo</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="input-group-mate password-group">
-                    <label for="loginPassword">Contraseña</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="loginPassword" required>
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
-                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                    <div id="capsWarningLogin" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
-                </div>
-                
-                <div class="remember-group">
-                    <input type="checkbox" id="rememberUser">
-                    <label for="rememberUser">Recordar usuario en este dispositivo</label>
-                </div>
-                <button type="submit" class="btn-avanti w-100" id="loginBtn">
-    <span class="btn-text">Ingresar al Portal</span>
-    <svg class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-</button>
-                
-                <div class="divider">o</div>
-                
-                <!-- Ingreso como Invitado -->
-                <div class="tooltip-container">
-                    <button type="button" id="btnGuest" class="btn-outline-mate w-100">👁️ Acceso Modo Consulta (Solo Lectura)</button>
-                    <div class="tooltip-text">Permite explorar el inventario sin permisos para generar ni firmar actas.</div>
-                </div>
-                
-                <p class="toggle-text">¿No tienes cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
-            </form>
-
-            <!-- FORMULARIO DE REGISTRO (Oculto por defecto) -->
-            <form id="registerForm" style="display: none;">
-                <div class="input-group-mate">
-                    <label for="regName">Nombre Completo</label>
-                    <input type="text" id="regName" placeholder="Ej. Brayan Morales Ruiz" required>
-                </div>
-                <div class="input-group-mate">
-                    <label for="regEmail">Correo Corporativo</label>
-                    <input type="email" id="regEmail" placeholder="nombre.apellido@agricolaavanti.pe" required>
-                </div>
-                <div class="input-group-mate password-group">
-                    <label for="regPassword">Contraseña</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="regPassword" placeholder="Crea una contraseña segura" required>
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPassword', this)">
-                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                    <div id="capsWarningReg" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
-                    
-                    <!-- Fuerza de contraseña -->
-                    <div class="password-strength-container">
-                        <div class="strength-bar-bg">
-                            <div id="strengthFill" class="strength-bar-fill"></div>
-                        </div>
-                        <div class="strength-text">
-                            <span>Nivel de seguridad</span>
-                            <span id="strengthLabel">Mínimo 6 caracteres</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Confirmar Contraseña -->
-                <div class="input-group-mate password-group">
-                    <label for="regPasswordConfirm">Confirmar Contraseña</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="regPasswordConfirm" placeholder="Repite tu contraseña" required>
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPasswordConfirm', this)">
-                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                    <div id="capsWarningRegConfirm" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
-                    <div id="matchWarning" class="match-warning">⚠️ Las contraseñas no coinciden</div>
-                    <div id="matchSuccess" class="match-success">✓ Las contraseñas coinciden</div>
-                </div>
-                <button type="submit" class="btn-avanti w-100">
-    <span class="btn-text">Crear Cuenta</span>
-    <svg class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-</button>
-                
-                <p class="toggle-text">¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia sesión</a></p>
-            </form>
+            <div class="mobile-footer">
+                © 2026 Agrícola Avanti S.A.C.
+            </div>
         </div>
     </div>
 
@@ -250,26 +229,10 @@
         
         // Referencias al DOM
         const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const showRegister = document.getElementById('showRegister');
-        const showLogin = document.getElementById('showLogin');
         const formTitle = document.getElementById('formTitle');
         const btnGuest = document.getElementById('btnGuest');
 
-        // Alternar entre Login y Registro
-        showRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-            formTitle.textContent = 'Crear Cuenta';
-        });
-
-        showLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            registerForm.style.display = 'none';
-            loginForm.style.display = 'block';
-            formTitle.textContent = 'Iniciar Sesión';
-        });
+        
 
         // ==========================================
         // 1. LÓGICA DE LOGIN (Conectada a Neon DB)
@@ -332,63 +295,17 @@
         // 2. LÓGICA DE INVITADO (Acceso Total)
         // ==========================================
         btnGuest.addEventListener('click', () => {
-            const session = { 
-                name: 'Invitado', 
-                role: 'viewer', // Acceso de solo lectura
-                token: 'guest-000' 
-            };
-            localStorage.setItem('session', JSON.stringify(session));
-            window.location.replace('dashboard.html');
-        });
-
-// ==========================================
-        // 3. LÓGICA DE REGISTRO (Conectada a Neon DB)
-        // ==========================================
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const password = document.getElementById('regPassword').value;
-            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
-            
-            if (password.length < 6) {
-                showToast('La contraseña debe tener al menos 6 caracteres.');
-                return;
-            }
-            if (password !== passwordConfirm) {
-                showToast('Las contraseñas no coinciden.');
-                return;
-            }
-            const submitBtn = registerForm.querySelector('button[type="submit"]');
-
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Creando cuenta...';
-            submitBtn.disabled = true;
-
-            try {
-                const response = await fetch('/api/registro', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nombre: name, correo: email, password: password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.success) {
-                    showToast('¡Cuenta creada con éxito! Ya puedes iniciar sesión con tus credenciales.');
-                    registerForm.reset();
-                    showLogin.click(); // Cambia la vista al formulario de login
-                } else {
-                    // Muestra el error (ej. "El correo ya está registrado")
-                    showToast(data.message || 'Ocurrió un error al crear la cuenta.');
-                }
-            } catch (error) {
-                showToast('Hubo un problema al conectar con el servidor.');
-                console.error('Error en registro:', error);
-            } finally {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+            const pin = prompt("Por favor, ingrese el PIN de auditoría (0000):");
+            if (pin === "0000") {
+                const session = { 
+                    name: 'Auditor', 
+                    role: 'viewer',
+                    token: 'guest-000' 
+                };
+                localStorage.setItem('session', JSON.stringify(session));
+                window.location.replace('dashboard.html');
+            } else if (pin !== null) {
+                showToast("PIN incorrecto. Acceso denegado.");
             }
         });
     </script>
