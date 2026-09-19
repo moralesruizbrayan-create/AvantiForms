@@ -1,319 +1,234 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Avanti Soporte TI</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso al Portal - Agrícola Avanti S.A.C.</title>
+  <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .bg-brand-dark { background-color: #0B1325; }
+    .card-dark { background-color: #111C35; border: 1px solid #1E2E4E; }
+    .input-dark { background-color: #172442; border: 1px solid #23365C; color: #FFFFFF; }
+    .input-dark:focus { border-color: #16A34A; outline: none; box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2); }
     
-    <!-- Ícono de la pestaña -->
-    <link rel="icon" type="image/jpeg" href="AVANTI LOGO (1).jpeg">
-    
-    <script>
-        // Si ya hay sesión, redirigir al dashboard inmediatamente
-        if (localStorage.getItem('session')) {
-            window.location.replace('dashboard.html');
-        }
-    </script>
-</head>
-<body class="dark-theme login-split-body">
-    <div class="split-layout">
-        <!-- Left Panel: Branding & Welcome (Light Theme for Logo Integration) -->
-        <div class="split-left">
-            <div class="branding-content">
-                <div class="logo-wrapper">
-                    <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-blend">
-                </div>
-                <h1 class="brand-title">Sistema de Control de Activos y Actas TI</h1>
-                <p class="brand-subtitle">Agrícola Avanti S.A.C.</p>
-                <div class="badges-container">
-                    <span class="badge"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> Plataforma Segura</span>
-                    <span class="badge"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Versión 2.0</span>
-                </div>
-            </div>
-            <div class="split-footer">
-                © 2026 Agrícola Avanti S.A.C. Todos los derechos reservados.
-            </div>
-        </div>
+    /* Autocomplete fix for Chrome */
+    .input-dark:-webkit-autofill,
+    .input-dark:-webkit-autofill:hover, 
+    .input-dark:-webkit-autofill:focus, 
+    .input-dark:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #172442 inset !important;
+        -webkit-text-fill-color: #ffffff !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
 
-        <!-- Right Panel: Login -->
-        <div class="split-right">
-            <div class="login-card-mate">
-                <div class="login-header text-center">
-                    <h2 id="formTitle" style="margin-bottom: 5px;">Iniciar Sesión</h2>
-                    <p id="formSubtitle" style="color: var(--text-secondary); margin-bottom: 25px;">Ingresa tus credenciales corporativas</p>
-                </div>
-                
-                <!-- FORMULARIO DE INICIO DE SESIÓN -->
-                <form id="loginForm">
-                    <div class="input-group-mate with-icon">
-                        <label for="loginEmail">Correo Corporativo</label>
-                        <div class="input-icon-wrapper">
-                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path></svg>
-                            <input type="email" id="loginEmail" placeholder="usuario@agricolaavanti.pe" required>
-                        </div>
-                    </div>
-                    
-                    <div class="input-group-mate password-group with-icon">
-                        <label for="loginPassword">Contraseña</label>
-                        <div class="input-icon-wrapper">
-                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            <input type="password" id="loginPassword" placeholder="Tu contraseña" required>
-                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
-                                <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            </button>
-                        </div>
-                        <div id="capsWarningLogin" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
-                    </div>
-                    
-                    <div class="remember-group" style="margin-bottom: 25px;">
-                        <label class="custom-checkbox-container" style="display:flex; align-items:center; gap: 8px; cursor: pointer; color: var(--text-secondary); font-size: 0.9rem;">
-                            <input type="checkbox" id="rememberUser" style="width: 16px; height: 16px; accent-color: #10b981;">
-                            Recordar usuario en este dispositivo
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="btn-avanti w-100" id="loginBtn">
-                        <span class="btn-text">Ingresar al Portal</span>
-                        <svg class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    </button>
-                    
-                    <div class="divider">o</div>
-                    
-                    <!-- Ingreso como Invitado (Con PIN) -->
-                    <div class="tooltip-container">
-                        <button type="button" id="btnGuest" class="btn-outline-mate w-100">🛡️ Auditoría (Requiere PIN)</button>
-                        <div class="tooltip-text">Acceso de lectura para auditores autorizados.</div>
-                    </div>
-                    
-                    <div class="login-footer-links">
-                        <p class="security-note">🔒 Acceso restringido al personal autorizado.<br>Contactar a Soporte TI para altas.</p>
-                        <a href="mailto:soporte@agricolaavanti.pe" class="support-link">¿Problemas para ingresar? Solicitar asistencia a TI</a>
-                    </div>
-                </form>
-            </div>
-            
-            <div class="mobile-footer">
-                © 2026 Agrícola Avanti S.A.C.
-            </div>
-        </div>
+    /* Toast styles */
+    .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #ef4444;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+    .toast-notification.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .toast-notification.hidden {
+        display: none;
+    }
+  </style>
+  <script>
+    // Si ya hay sesión, redirigir al dashboard inmediatamente
+    if (localStorage.getItem('session')) {
+        window.location.replace('dashboard.html');
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col lg:flex-row bg-brand-dark text-slate-100">
+
+  <!-- PANEL IZQUIERDO: IDENTIDAD INSTITUCIONAL -->
+  <div class="lg:w-1/2 bg-slate-50 text-slate-800 flex flex-col justify-between p-8 sm:p-14 lg:p-20 relative border-r border-slate-200">
+    
+    <!-- ENCUADRE ÓPTIMO DEL LOGO -->
+    <div>
+      <div class="inline-block p-3 bg-white rounded-xl shadow-sm border border-slate-100 mb-8">
+        <img src="AVANTI LOGO (1).jpeg" alt="Agrícola Avanti" class="h-16 w-auto object-contain">
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+        Sistema de Control de Activos y Actas TI
+      </h1>
+      <p class="text-lg font-semibold text-green-700 mt-2">
+        Agrícola Avanti S.A.C.
+      </p>
+      <p class="text-sm text-slate-500 mt-4 max-w-md leading-relaxed">
+        Plataforma centralizada para la asignación, control de inventario y generación de actas de entrega y devolución de equipos tecnológicos.
+      </p>
     </div>
 
-    <!-- LÓGICA DE INTERFAZ Y AUTENTICACIÓN -->
-    <script>
-        
-        // Funciones auxiliares agregadas
-        function togglePasswordVisibility(inputId, btn) {
-            const input = document.getElementById(inputId);
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-            if (type === 'text') {
-                btn.innerHTML = '<svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>';
-            } else {
-                btn.innerHTML = '<svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
-            }
+    <!-- FOOTER IZQUIERDO CON VERSIÓN -->
+    <div class="mt-12 pt-6 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
+      <span>© 2026 Agrícola Avanti S.A.C.</span>
+      <span class="bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full font-medium">Versión 2.0</span>
+    </div>
+  </div>
+
+  <!-- PANEL DERECHO: FORMULARIO DE INICIO DE SESIÓN -->
+  <div class="lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
+    <div class="w-full max-w-md card-dark p-8 sm:p-10 rounded-2xl shadow-xl">
+      
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-white tracking-wide">Iniciar Sesión</h2>
+        <p class="text-sm text-slate-400 mt-1">Ingresa tus credenciales corporativas autorizadas</p>
+      </div>
+
+      <form id="loginForm" class="space-y-5">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5 uppercase tracking-wider">Correo Corporativo</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">@</span>
+            <input type="email" id="loginEmail" required placeholder="usuario@agricolaavanti.pe" 
+                   class="w-full pl-10 pr-4 py-3 rounded-lg text-sm input-dark transition">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5 uppercase tracking-wider">Contraseña</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">🔒</span>
+            <input type="password" id="loginPassword" required placeholder="••••••••••••" 
+                   class="w-full pl-10 pr-10 py-3 rounded-lg text-sm input-dark transition">
+            <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center">
+          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-green-600 focus:ring-green-500 bg-slate-800 border-slate-700">
+          <label for="rememberMe" class="ml-2 text-xs text-slate-300">Recordar usuario en este dispositivo</label>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg text-sm transition shadow-lg shadow-green-600/20 cursor-pointer flex justify-center items-center gap-2">
+          Ingresar al Portal
+        </button>
+
+        <div class="pt-4 border-t border-slate-800/80 text-center">
+          <p class="text-xs text-slate-400 flex items-center justify-center gap-1.5">
+            🔒 <span>Acceso restringido al personal autorizado de TI</span>
+          </p>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="toast-notification hidden">
+      <span class="toast-icon">⚠️</span>
+      <span id="toastMessage">Error message</span>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pass = document.getElementById('loginPassword');
+      pass.type = pass.type === 'password' ? 'text' : 'password';
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toastNotification');
+        const toastMsg = document.getElementById('toastMessage');
+        toastMsg.textContent = message;
+        toast.classList.remove('hidden');
+        // Reflow
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.classList.add('hidden'), 300);
+        }, 4000);
+    }
+
+    // Auto-fill saved email if available
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedEmail = localStorage.getItem('savedEmail');
+        if (savedEmail) {
+            document.getElementById('loginEmail').value = savedEmail;
+            document.getElementById('rememberMe').checked = true;
         }
+    });
 
-        function showToast(message) {
-            const toast = document.getElementById('toastNotification');
-            const toastMsg = document.getElementById('toastMessage');
-            toastMsg.textContent = message;
-            toast.classList.remove('hidden');
-            // Reflow
-            void toast.offsetWidth;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.classList.add('hidden'), 300);
-            }, 4000);
-        }
-
-        function checkCapsLock(e, warningElementId) {
-            const warningEl = document.getElementById(warningElementId);
-            if (e.getModifierState && e.getModifierState('CapsLock')) {
-                warningEl.classList.remove('hidden');
-            } else {
-                warningEl.classList.add('hidden');
-            }
-        }
-
-        // On load bindings
-        window.addEventListener('DOMContentLoaded', () => {
-            const loginPwd = document.getElementById('loginPassword');
-            if(loginPwd) loginPwd.addEventListener('keyup', (e) => checkCapsLock(e, 'capsWarningLogin'));
-            
-            const regPwd = document.getElementById('regPassword');
-            if(regPwd) regPwd.addEventListener('keyup', (e) => checkCapsLock(e, 'capsWarningReg'));
-
-            const savedEmail = localStorage.getItem('savedEmail');
-            if (savedEmail) {
-                const emailInput = document.getElementById('loginEmail');
-                if(emailInput) emailInput.value = savedEmail;
-                const remUser = document.getElementById('rememberUser');
-                if(remUser) remUser.checked = true;
-            }
-        });
-
+    const loginForm = document.getElementById('loginForm');
+    
+    // ==========================================
+    // LÓGICA DE LOGIN (Conectada a Neon DB)
+    // ==========================================
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        // Validacion de contraseña en tiempo real
-        window.addEventListener('DOMContentLoaded', () => {
-            const regPwd = document.getElementById('regPassword');
-            const regPwdConfirm = document.getElementById('regPasswordConfirm');
-            const strengthFill = document.getElementById('strengthFill');
-            const strengthLabel = document.getElementById('strengthLabel');
-            const matchWarning = document.getElementById('matchWarning');
-            const matchSuccess = document.getElementById('matchSuccess');
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const submitBtn = document.getElementById('btnSubmit');
 
-            function checkMatch() {
-                if(!regPwd || !regPwdConfirm) return;
-                const p1 = regPwd.value;
-                const p2 = regPwdConfirm.value;
-                if (p2.length === 0) {
-                    matchWarning.classList.remove('visible');
-                    matchSuccess.classList.remove('visible');
-                    return;
-                }
-                if (p1 !== p2) {
-                    matchWarning.classList.add('visible');
-                    matchSuccess.classList.remove('visible');
-                } else {
-                    matchWarning.classList.remove('visible');
-                    matchSuccess.classList.add('visible');
-                }
-            }
+        // Efecto de carga en el botón
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Verificando...';
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            if (regPwd) {
-                regPwd.addEventListener('input', () => {
-                    const val = regPwd.value;
-                    let strength = 0;
-                    
-                    if (val.length >= 6) strength += 1;
-                    if (val.length >= 8) strength += 1;
-                    if (/[A-Z]/.test(val)) strength += 1;
-                    if (/[0-9]/.test(val)) strength += 1;
-                    if (/[^A-Za-z0-9]/.test(val)) strength += 1;
+        try {
+            // Llamada a tu API en Vercel
+            const response = await fetch('/api/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ correo: email, password: password })
+            });
 
-                    if (val.length === 0) {
-                        strengthFill.style.width = '0%';
-                        strengthLabel.textContent = 'Mínimo 6 caracteres';
-                        strengthLabel.style.color = '#94a3b8';
-                    } else if (val.length < 6) {
-                        strengthFill.style.width = '20%';
-                        strengthFill.style.backgroundColor = '#ef4444'; 
-                        strengthLabel.textContent = 'Muy corta';
-                        strengthLabel.style.color = '#ef4444';
-                    } else if (strength <= 2) {
-                        strengthFill.style.width = '40%';
-                        strengthFill.style.backgroundColor = '#facc15'; 
-                        strengthLabel.textContent = 'Débil';
-                        strengthLabel.style.color = '#facc15';
-                    } else if (strength <= 3) {
-                        strengthFill.style.width = '70%';
-                        strengthFill.style.backgroundColor = '#3b82f6'; 
-                        strengthLabel.textContent = 'Aceptable';
-                        strengthLabel.style.color = '#3b82f6';
-                    } else {
-                        strengthFill.style.width = '100%';
-                        strengthFill.style.backgroundColor = '#10b981'; 
-                        strengthLabel.textContent = 'Segura';
-                        strengthLabel.style.color = '#10b981';
-                    }
-                    checkMatch();
-                });
-            }
-            if (regPwdConfirm) {
-                regPwdConfirm.addEventListener('input', checkMatch);
-                regPwdConfirm.addEventListener('keyup', (e) => checkCapsLock(e, 'capsWarningRegConfirm'));
-            }
-        });
-        
-        // Referencias al DOM
-        const loginForm = document.getElementById('loginForm');
-        const formTitle = document.getElementById('formTitle');
-        const btnGuest = document.getElementById('btnGuest');
+            const data = await response.json();
 
-        
+            if (response.ok && data.success) {
+                // Traducir el rol de la base de datos al frontend
+                const userRole = data.user.rol === 'Administrador' ? 'admin' : 'viewer';
 
-        // ==========================================
-        // 1. LÓGICA DE LOGIN (Conectada a Neon DB)
-        // ==========================================
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-
-            // Efecto de carga en el botón
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Verificando...';
-            submitBtn.disabled = true;
-
-            try {
-                // Llamada a tu API en Vercel
-                const response = await fetch('/api/auth', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ correo: email, password: password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.success) {
-                    // Traducir el rol de la base de datos al frontend
-                    const userRole = data.user.rol === 'Administrador' ? 'admin' : 'viewer';
-
-                    // Guardar los datos del usuario extraídos de Neon PostgreSQL
-                    const session = { 
-                        id: data.user.id_usuario,
-                        name: data.user.nombre, 
-                        role: userRole, 
-                        token: 'auth-' + Date.now() 
-                    };
-                    
-                                        if (document.getElementById('rememberUser').checked) {
-                        localStorage.setItem('savedEmail', email);
-                    } else {
-                        localStorage.removeItem('savedEmail');
-                    }
-                    localStorage.setItem('session', JSON.stringify(session));
-                    window.location.replace('dashboard.html');
-                } else {
-                    showToast(data.message || 'Correo o contraseña incorrectos.');
-                }
-            } catch (error) {
-                showToast('Hubo un problema al conectar con el servidor. Revisa tu conexión.');
-                console.error('Error de fetch:', error);
-            } finally {
-                // Restaurar el botón independientemente del resultado
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
-        });
-
-        // ==========================================
-        // 2. LÓGICA DE INVITADO (Acceso Total)
-        // ==========================================
-        btnGuest.addEventListener('click', () => {
-            const pin = prompt("Por favor, ingrese el PIN de auditoría (0000):");
-            if (pin === "0000") {
+                // Guardar los datos del usuario extraídos de Neon PostgreSQL
                 const session = { 
-                    name: 'Auditor', 
-                    role: 'viewer',
-                    token: 'guest-000' 
+                    id: data.user.id_usuario,
+                    name: data.user.nombre, 
+                    role: userRole, 
+                    token: 'auth-' + Date.now() 
                 };
+                
+                if (document.getElementById('rememberMe').checked) {
+                    localStorage.setItem('savedEmail', email);
+                } else {
+                    localStorage.removeItem('savedEmail');
+                }
                 localStorage.setItem('session', JSON.stringify(session));
                 window.location.replace('dashboard.html');
-            } else if (pin !== null) {
-                showToast("PIN incorrecto. Acceso denegado.");
+            } else {
+                showToast(data.message || 'Correo o contraseña incorrectos.');
             }
-        });
-    </script>
-
-    <!-- TOAST NOTIFICATION -->
-    <div id="toastNotification" class="toast-notification hidden">
-        <span class="toast-icon">⚠️</span>
-        <span id="toastMessage">Error message</span>
-    </div>
+        } catch (error) {
+            showToast('Hubo un problema al conectar con el servidor. Revisa tu conexión.');
+            console.error('Error de fetch:', error);
+        } finally {
+            // Restaurar el botón independientemente del resultado
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+    });
+  </script>
 </body>
 </html>
