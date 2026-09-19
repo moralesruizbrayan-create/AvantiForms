@@ -3,34 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal TI - Agrícola Avanti</title>
+  <title>Portal TI - Agrícola Avanti S.A.C.</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; }
-    .bg-main-dark { background-color: #0b111e; }
-    .input-clean {
-      background-color: #141d30;
-      border: 1px solid #23324d;
-      color: #f8fafc;
-      transition: border-color 0.15s, box-shadow 0.15s;
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .bg-main-dark { background-color: #0B111E; }
+    
+    /* Inputs de alta definición sin placeholders */
+    .input-pro {
+      background-color: #141D30;
+      border: 1px solid #233352;
+      color: #FFFFFF;
+      transition: all 0.15s ease;
     }
-    .input-clean:focus {
+    .input-pro:hover {
+      border-color: #3B4E75;
+    }
+    .input-pro:focus {
       border-color: #10B981;
+      background-color: #16223A;
       outline: none;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
     }
-    .pattern-dots {
-      background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
-      background-size: 24px 24px;
+    
+    /* Grilla geométrica sutil y limpia */
+    .grid-pattern {
+      background-image: radial-gradient(#CBD5E1 1.2px, transparent 1.2px);
+      background-size: 28px 28px;
     }
 
     /* Autocomplete fix for Chrome */
-    .input-clean:-webkit-autofill,
-    .input-clean:-webkit-autofill:hover, 
-    .input-clean:-webkit-autofill:focus, 
-    .input-clean:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 30px #141d30 inset !important;
+    .input-pro:-webkit-autofill,
+    .input-pro:-webkit-autofill:hover, 
+    .input-pro:-webkit-autofill:focus, 
+    .input-pro:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #141D30 inset !important;
         -webkit-text-fill-color: #ffffff !important;
         transition: background-color 5000s ease-in-out 0s;
     }
@@ -71,40 +79,55 @@
     }
   </script>
 </head>
-<body class="min-h-screen flex flex-col lg:flex-row bg-main-dark text-slate-100">
+<body class="min-h-screen flex flex-col lg:flex-row bg-main-dark text-slate-100 antialiased selection:bg-emerald-500 selection:text-white">
 
   <!-- ==========================================
-       PANEL IZQUIERDO: IDENTIDAD CORPORATIVA
+       PANEL IZQUIERDO: IDENTIDAD CORPORATIVA EQUILIBRADA
        ========================================== -->
-  <div class="lg:w-1/2 bg-white text-slate-900 flex flex-col justify-between p-10 sm:p-16 lg:p-20 border-r border-slate-200 pattern-dots">
+  <div class="lg:w-1/2 bg-white text-slate-900 flex flex-col justify-between p-10 sm:p-16 lg:p-20 border-r border-slate-200/90 grid-pattern">
+    
+    <!-- CABECERA SUPERIOR DE MARCA -->
     <div>
-      <img src="AVANTI LOGO (1).jpeg" alt="Avanti" class="h-20 w-auto object-contain mb-10">
-      
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+      <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Agrícola Avanti" class="h-16 w-auto object-contain">
+    </div>
+
+    <!-- BLOQUE CENTRAL OPTICAMENTE EQUILIBRADO -->
+    <div class="my-auto py-12">
+      <!-- Badge de Estado TI -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium mb-6">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Área de Soporte TI</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl lg:text-[40px] font-extrabold tracking-tight text-slate-900 leading-[1.15] max-w-lg">
         Sistema de Control de Activos y Actas TI
       </h1>
-      <p class="text-base font-semibold text-emerald-600 mt-2">
+      
+      <p class="text-base font-semibold text-emerald-700 mt-3 tracking-wide">
         Agrícola Avanti S.A.C.
       </p>
     </div>
 
-    <!-- VERSIÓN INTEGRADA AL PIE (SIN ELEMENTOS FLOTANTES) -->
-    <div class="text-xs text-slate-400 font-mono flex items-center justify-between border-t border-slate-200 pt-6">
+    <!-- FOOTER IZQUIERDO PULIDO -->
+    <div class="pt-6 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 font-mono">
       <span>© 2026 Agrícola Avanti S.A.C.</span>
-      <span class="text-slate-500 font-semibold">v2.0</span>
+      <span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600 font-semibold">v2.0</span>
     </div>
   </div>
 
   <!-- ==========================================
-       PANEL DERECHO: LOGIN Y REGISTRO
+       PANEL DERECHO: FORMULARIO ESTABLE (SIN SALTOS DE PANTALLA)
        ========================================== -->
   <div class="lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
-    <div class="w-full max-w-sm min-h-[380px] flex flex-col justify-center">
+    <!-- Altura mínima fijada para erradicar el Layout Shift -->
+    <div class="w-full max-w-sm min-h-[440px] flex flex-col justify-center">
       
-      <!-- TÍTULO DINÁMICO -->
-      <h2 id="formTitle" class="text-2xl font-bold text-white mb-6 tracking-wide">
-        Iniciar Sesión
-      </h2>
+      <!-- TÍTULO FIJO -->
+      <div class="mb-6">
+        <h2 id="formTitle" class="text-2xl font-bold text-white tracking-tight">
+          Iniciar Sesión
+        </h2>
+      </div>
 
       <!-- FORMULARIO 1: LOGIN -->
       <form id="loginForm" class="space-y-4">
@@ -112,7 +135,8 @@
           <label for="loginEmail" class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
             Correo
           </label>
-          <input type="email" id="loginEmail" required autofocus class="w-full px-3.5 py-2.5 rounded-lg text-sm input-clean font-medium">
+          <input type="email" id="loginEmail" required autofocus 
+                 class="w-full px-3.5 py-2.5 rounded-lg text-sm input-pro font-medium">
         </div>
 
         <div>
@@ -120,42 +144,47 @@
             Contraseña
           </label>
           <div class="relative">
-            <input type="password" id="loginPassword" required class="w-full pl-3.5 pr-10 py-2.5 rounded-lg text-sm input-clean font-medium">
-            <button type="button" onclick="togglePass('loginPassword', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 cursor-pointer">
-              <!-- SVG Ojo Limpio -->
+            <input type="password" id="loginPassword" required 
+                   class="w-full pl-3.5 pr-10 py-2.5 rounded-lg text-sm input-pro font-medium">
+            <button type="button" onclick="togglePass('loginPassword', this)" 
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition cursor-pointer">
+              <!-- SVG Ojo de contorno limpio -->
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
             </button>
           </div>
         </div>
 
-        <div class="flex items-center pt-1">
-          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-800 border-slate-700 cursor-pointer">
-          <label for="rememberMe" class="ml-2 text-xs text-slate-300 select-none cursor-pointer">Recordar sesión</label>
+        <div class="flex items-center pt-0.5">
+          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+          <label for="rememberMe" class="ml-2 text-xs text-slate-300 font-medium select-none cursor-pointer">Recordar sesión</label>
         </div>
 
-        <button type="submit" id="btnSubmit" class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition shadow-sm cursor-pointer flex justify-center items-center gap-2">
+        <button type="submit" id="btnSubmit" 
+                class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:scale-[0.99] text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition shadow-lg shadow-emerald-500/10 cursor-pointer flex justify-center items-center gap-2">
           <span>Ingresar al Portal</span>
         </button>
 
-        <p class="text-center text-xs text-slate-400 pt-3">
-          ¿No tienes cuenta? <a href="#" id="btnIrRegistro" class="text-emerald-400 hover:text-emerald-300 font-semibold underline">Regístrate</a>
+        <p class="text-center text-xs text-slate-400 pt-4">
+          ¿No tienes cuenta? <a href="#" id="btnIrRegistro" class="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2">Regístrate</a>
         </p>
       </form>
 
-      <!-- FORMULARIO 2: REGISTRO (OCULTO) -->
+      <!-- FORMULARIO 2: REGISTRO (OCULTO DINÁMICAMENTE) -->
       <form id="registerForm" class="space-y-4 hidden">
         <div>
           <label for="regName" class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
             Nombre Completo
           </label>
-          <input type="text" id="regName" required class="w-full px-3.5 py-2.5 rounded-lg text-sm input-clean font-medium">
+          <input type="text" id="regName" required 
+                 class="w-full px-3.5 py-2.5 rounded-lg text-sm input-pro font-medium">
         </div>
 
         <div>
           <label for="regEmail" class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
             Correo
           </label>
-          <input type="email" id="regEmail" required class="w-full px-3.5 py-2.5 rounded-lg text-sm input-clean font-medium">
+          <input type="email" id="regEmail" required 
+                 class="w-full px-3.5 py-2.5 rounded-lg text-sm input-pro font-medium">
         </div>
 
         <div>
@@ -163,20 +192,22 @@
             Contraseña
           </label>
           <div class="relative">
-            <input type="password" id="regPassword" required class="w-full pl-3.5 pr-10 py-2.5 rounded-lg text-sm input-clean font-medium">
-            <button type="button" onclick="togglePass('regPassword', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 cursor-pointer">
-              <!-- SVG Ojo Limpio -->
+            <input type="password" id="regPassword" required 
+                   class="w-full pl-3.5 pr-10 py-2.5 rounded-lg text-sm input-pro font-medium">
+            <button type="button" onclick="togglePass('regPassword', this)" 
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
             </button>
           </div>
         </div>
 
-        <button type="submit" id="btnSubmitReg" class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition shadow-sm cursor-pointer flex justify-center items-center gap-2">
+        <button type="submit" id="btnSubmitReg"
+                class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:scale-[0.99] text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition shadow-lg shadow-emerald-500/10 cursor-pointer flex justify-center items-center gap-2">
           <span>Crear Cuenta</span>
         </button>
 
-        <p class="text-center text-xs text-slate-400 pt-3">
-          ¿Ya tienes cuenta? <a href="#" id="btnIrLogin" class="text-emerald-400 hover:text-emerald-300 font-semibold underline">Inicia sesión</a>
+        <p class="text-center text-xs text-slate-400 pt-4">
+          ¿Ya tienes cuenta? <a href="#" id="btnIrLogin" class="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2">Inicia sesión</a>
         </p>
       </form>
 
@@ -217,7 +248,6 @@
       const isPassword = input.type === 'password';
       input.type = isPassword ? 'text' : 'password';
       
-      // Alternar icono SVG (ojo abierto / ojo tachado)
       btn.innerHTML = isPassword 
         ? `<svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path></svg>`
         : `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`;
@@ -237,7 +267,6 @@
         }
         
         toast.classList.remove('hidden');
-        // Reflow
         void toast.offsetWidth;
         toast.classList.add('show');
         setTimeout(() => {
@@ -246,7 +275,6 @@
         }, 4000);
     }
 
-    // Auto-fill saved email if available
     window.addEventListener('DOMContentLoaded', () => {
         const savedEmail = localStorage.getItem('savedEmail');
         if (savedEmail) {
