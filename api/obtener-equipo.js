@@ -21,7 +21,7 @@ export default async function handler(req, res) {
              d.detalles_json, d.accesorios_json
       FROM pcs p
       LEFT JOIN detalle_acta_pc d ON p.id_activo = d.id_pc
-      WHERE p.numero_serie = $1 OR p.codigo_patrimonial = $1
+      WHERE p.numero_serie ILIKE $1 OR p.codigo_patrimonial ILIKE $1
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
              d.detalles_json, d.accesorios_json
       FROM tef t
       LEFT JOIN detalle_acta_tef d ON t.id_activo = d.id_tef
-      WHERE t.numero_serie = $1 OR t.codigo_patrimonial = $1
+      WHERE t.numero_serie ILIKE $1 OR t.codigo_patrimonial ILIKE $1
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
              d.detalles_json, d.accesorios_json
       FROM perifericos p
       LEFT JOIN detalle_acta_periferico d ON p.id_activo = d.id_periferico
-      WHERE p.numero_serie = $1 OR p.codigo_patrimonial = $1
+      WHERE p.numero_serie ILIKE $1 OR p.codigo_patrimonial ILIKE $1
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
              d.detalles_json, d.accesorios_json
       FROM lineas_moviles l
       LEFT JOIN detalle_acta_linea d ON l.id_linea = d.id_linea
-      WHERE l.numero_telefono = $1 OR l.iccid_sim = $1
+      WHERE l.numero_telefono ILIKE $1 OR l.iccid_sim ILIKE $1
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     

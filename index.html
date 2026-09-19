@@ -21,7 +21,9 @@
         <div class="login-card-mate">
             <div class="login-header">
                 <!-- Integración del logo -->
-                <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-login">
+                <div class="logo-container-login">
+    <img src="AVANTI LOGO (1).jpeg" alt="Logo Avanti" class="logo-login">
+</div>
                 <h2 id="formTitle">Iniciar Sesión</h2>
                 <p id="formSubtitle">Portal de Gestión de Actas y Equipos</p>
             </div>
@@ -32,16 +34,33 @@
                     <label for="loginEmail">Correo Corporativo</label>
                     <input type="email" id="loginEmail" required>
                 </div>
-                <div class="input-group-mate">
+                <div class="input-group-mate password-group">
                     <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
+                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </button>
+                    </div>
+                    <div id="capsWarningLogin" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
                 </div>
-                <button type="submit" class="btn-avanti w-100">Ingresar al Portal</button>
+                
+                <div class="remember-group">
+                    <input type="checkbox" id="rememberUser">
+                    <label for="rememberUser">Recordar usuario en este dispositivo</label>
+                </div>
+                <button type="submit" class="btn-avanti w-100" id="loginBtn">
+    <span class="btn-text">Ingresar al Portal</span>
+    <svg class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+</button>
                 
                 <div class="divider">o</div>
                 
                 <!-- Ingreso como Invitado -->
-                <button type="button" id="btnGuest" class="btn-outline-mate w-100">👁️ Ingresar como Invitado</button>
+                <div class="tooltip-container">
+                    <button type="button" id="btnGuest" class="btn-outline-mate w-100">👁️ Acceso Modo Consulta (Solo Lectura)</button>
+                    <div class="tooltip-text">Permite explorar el inventario sin permisos para generar ni firmar actas.</div>
+                </div>
                 
                 <p class="toggle-text">¿No tienes cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
             </form>
@@ -50,17 +69,51 @@
             <form id="registerForm" style="display: none;">
                 <div class="input-group-mate">
                     <label for="regName">Nombre Completo</label>
-                    <input type="text" id="regName" required>
+                    <input type="text" id="regName" placeholder="Ej. Brayan Morales Ruiz" required>
                 </div>
                 <div class="input-group-mate">
                     <label for="regEmail">Correo Corporativo</label>
-                    <input type="email" id="regEmail" required>
+                    <input type="email" id="regEmail" placeholder="nombre.apellido@agricolaavanti.pe" required>
                 </div>
-                <div class="input-group-mate">
+                <div class="input-group-mate password-group">
                     <label for="regPassword">Contraseña</label>
-                    <input type="password" id="regPassword" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPassword" placeholder="Crea una contraseña segura" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPassword', this)">
+                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </button>
+                    </div>
+                    <div id="capsWarningReg" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
+                    
+                    <!-- Fuerza de contraseña -->
+                    <div class="password-strength-container">
+                        <div class="strength-bar-bg">
+                            <div id="strengthFill" class="strength-bar-fill"></div>
+                        </div>
+                        <div class="strength-text">
+                            <span>Nivel de seguridad</span>
+                            <span id="strengthLabel">Mínimo 6 caracteres</span>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn-avanti w-100">Crear Cuenta</button>
+
+                <!-- Confirmar Contraseña -->
+                <div class="input-group-mate password-group">
+                    <label for="regPasswordConfirm">Confirmar Contraseña</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPasswordConfirm" placeholder="Repite tu contraseña" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPasswordConfirm', this)">
+                            <svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </button>
+                    </div>
+                    <div id="capsWarningRegConfirm" class="caps-warning hidden">⚠️ Bloqueo de mayúsculas activado</div>
+                    <div id="matchWarning" class="match-warning">⚠️ Las contraseñas no coinciden</div>
+                    <div id="matchSuccess" class="match-success">✓ Las contraseñas coinciden</div>
+                </div>
+                <button type="submit" class="btn-avanti w-100">
+    <span class="btn-text">Crear Cuenta</span>
+    <svg class="spinner hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+</button>
                 
                 <p class="toggle-text">¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia sesión</a></p>
             </form>
@@ -69,6 +122,132 @@
 
     <!-- LÓGICA DE INTERFAZ Y AUTENTICACIÓN -->
     <script>
+        
+        // Funciones auxiliares agregadas
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            if (type === 'text') {
+                btn.innerHTML = '<svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>';
+            } else {
+                btn.innerHTML = '<svg class="eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            toast.classList.remove('hidden');
+            // Reflow
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 4000);
+        }
+
+        function checkCapsLock(e, warningElementId) {
+            const warningEl = document.getElementById(warningElementId);
+            if (e.getModifierState && e.getModifierState('CapsLock')) {
+                warningEl.classList.remove('hidden');
+            } else {
+                warningEl.classList.add('hidden');
+            }
+        }
+
+        // On load bindings
+        window.addEventListener('DOMContentLoaded', () => {
+            const loginPwd = document.getElementById('loginPassword');
+            if(loginPwd) loginPwd.addEventListener('keyup', (e) => checkCapsLock(e, 'capsWarningLogin'));
+            
+            const regPwd = document.getElementById('regPassword');
+            if(regPwd) regPwd.addEventListener('keyup', (e) => checkCapsLock(e, 'capsWarningReg'));
+
+            const savedEmail = localStorage.getItem('savedEmail');
+            if (savedEmail) {
+                const emailInput = document.getElementById('loginEmail');
+                if(emailInput) emailInput.value = savedEmail;
+                const remUser = document.getElementById('rememberUser');
+                if(remUser) remUser.checked = true;
+            }
+        });
+
+        
+        // Validacion de contraseña en tiempo real
+        window.addEventListener('DOMContentLoaded', () => {
+            const regPwd = document.getElementById('regPassword');
+            const regPwdConfirm = document.getElementById('regPasswordConfirm');
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthLabel = document.getElementById('strengthLabel');
+            const matchWarning = document.getElementById('matchWarning');
+            const matchSuccess = document.getElementById('matchSuccess');
+
+            function checkMatch() {
+                if(!regPwd || !regPwdConfirm) return;
+                const p1 = regPwd.value;
+                const p2 = regPwdConfirm.value;
+                if (p2.length === 0) {
+                    matchWarning.classList.remove('visible');
+                    matchSuccess.classList.remove('visible');
+                    return;
+                }
+                if (p1 !== p2) {
+                    matchWarning.classList.add('visible');
+                    matchSuccess.classList.remove('visible');
+                } else {
+                    matchWarning.classList.remove('visible');
+                    matchSuccess.classList.add('visible');
+                }
+            }
+
+            if (regPwd) {
+                regPwd.addEventListener('input', () => {
+                    const val = regPwd.value;
+                    let strength = 0;
+                    
+                    if (val.length >= 6) strength += 1;
+                    if (val.length >= 8) strength += 1;
+                    if (/[A-Z]/.test(val)) strength += 1;
+                    if (/[0-9]/.test(val)) strength += 1;
+                    if (/[^A-Za-z0-9]/.test(val)) strength += 1;
+
+                    if (val.length === 0) {
+                        strengthFill.style.width = '0%';
+                        strengthLabel.textContent = 'Mínimo 6 caracteres';
+                        strengthLabel.style.color = '#94a3b8';
+                    } else if (val.length < 6) {
+                        strengthFill.style.width = '20%';
+                        strengthFill.style.backgroundColor = '#ef4444'; 
+                        strengthLabel.textContent = 'Muy corta';
+                        strengthLabel.style.color = '#ef4444';
+                    } else if (strength <= 2) {
+                        strengthFill.style.width = '40%';
+                        strengthFill.style.backgroundColor = '#facc15'; 
+                        strengthLabel.textContent = 'Débil';
+                        strengthLabel.style.color = '#facc15';
+                    } else if (strength <= 3) {
+                        strengthFill.style.width = '70%';
+                        strengthFill.style.backgroundColor = '#3b82f6'; 
+                        strengthLabel.textContent = 'Aceptable';
+                        strengthLabel.style.color = '#3b82f6';
+                    } else {
+                        strengthFill.style.width = '100%';
+                        strengthFill.style.backgroundColor = '#10b981'; 
+                        strengthLabel.textContent = 'Segura';
+                        strengthLabel.style.color = '#10b981';
+                    }
+                    checkMatch();
+                });
+            }
+            if (regPwdConfirm) {
+                regPwdConfirm.addEventListener('input', checkMatch);
+                regPwdConfirm.addEventListener('keyup', (e) => checkCapsLock(e, 'capsWarningRegConfirm'));
+            }
+        });
+        
         // Referencias al DOM
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
@@ -129,13 +308,18 @@
                         token: 'auth-' + Date.now() 
                     };
                     
+                                        if (document.getElementById('rememberUser').checked) {
+                        localStorage.setItem('savedEmail', email);
+                    } else {
+                        localStorage.removeItem('savedEmail');
+                    }
                     localStorage.setItem('session', JSON.stringify(session));
                     window.location.replace('dashboard.html');
                 } else {
-                    alert(data.message || 'Correo o contraseña incorrectos.');
+                    showToast(data.message || 'Correo o contraseña incorrectos.');
                 }
             } catch (error) {
-                alert('Hubo un problema al conectar con el servidor. Revisa tu conexión.');
+                showToast('Hubo un problema al conectar con el servidor. Revisa tu conexión.');
                 console.error('Error de fetch:', error);
             } finally {
                 // Restaurar el botón independientemente del resultado
@@ -150,7 +334,7 @@
         btnGuest.addEventListener('click', () => {
             const session = { 
                 name: 'Invitado', 
-                role: 'admin', // <-- CAMBIADO: Ahora tiene permisos completos de administrador
+                role: 'viewer', // Acceso de solo lectura
                 token: 'guest-000' 
             };
             localStorage.setItem('session', JSON.stringify(session));
@@ -166,6 +350,16 @@
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim().toLowerCase();
             const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+            
+            if (password.length < 6) {
+                showToast('La contraseña debe tener al menos 6 caracteres.');
+                return;
+            }
+            if (password !== passwordConfirm) {
+                showToast('Las contraseñas no coinciden.');
+                return;
+            }
             const submitBtn = registerForm.querySelector('button[type="submit"]');
 
             const originalText = submitBtn.textContent;
@@ -182,15 +376,15 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('¡Cuenta creada con éxito! Ya puedes iniciar sesión con tus credenciales.');
+                    showToast('¡Cuenta creada con éxito! Ya puedes iniciar sesión con tus credenciales.');
                     registerForm.reset();
                     showLogin.click(); // Cambia la vista al formulario de login
                 } else {
                     // Muestra el error (ej. "El correo ya está registrado")
-                    alert(data.message || 'Ocurrió un error al crear la cuenta.');
+                    showToast(data.message || 'Ocurrió un error al crear la cuenta.');
                 }
             } catch (error) {
-                alert('Hubo un problema al conectar con el servidor.');
+                showToast('Hubo un problema al conectar con el servidor.');
                 console.error('Error en registro:', error);
             } finally {
                 submitBtn.textContent = originalText;
@@ -198,5 +392,11 @@
             }
         });
     </script>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotification" class="toast-notification hidden">
+        <span class="toast-icon">⚠️</span>
+        <span id="toastMessage">Error message</span>
+    </div>
 </body>
 </html>

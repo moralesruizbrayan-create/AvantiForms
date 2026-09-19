@@ -52,14 +52,21 @@ body {
 /* =========================================
    3. ESTILOS DE LOGOS E IMÁGENES (CORRECCIONES)
    ========================================= */
+.logo-container-login {
+    display: inline-flex;
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+}
 .logo-login {
     width: 120px !important;
     max-width: 100%;
     height: auto;
-    border-radius: 12px;
-    margin: 0 auto 20px auto !important;
     display: block !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     object-fit: contain;
 }
 
@@ -91,11 +98,11 @@ body {
 }
 
 .login-card-mate {
-    background-color: #17171a; /* Gris mate oscuro sólido */
+    background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08) 0%, #0f172a 70%), #0f172a;
+    border: 1px solid #1e293b;
     padding: 45px 35px;
     border-radius: 28px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-    border: none;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     width: 100%;
 }
 
@@ -137,17 +144,59 @@ body {
     box-sizing: border-box; 
     padding: 16px 20px;
     border-radius: 16px;
-    background-color: #222227;
-    border: 2px solid transparent;
+    background-color: #1E293B;
+    border: 1px solid #334155; transition: all 0.3s ease;
     color: #ffffff;
     font-size: 1rem;
     outline: none;
     transition: 0.3s ease;
 }
 
+/* Corrección de Autocompletado en Chrome */
+.input-group-mate input:-webkit-autofill,
+.input-group-mate input:-webkit-autofill:hover, 
+.input-group-mate input:-webkit-autofill:focus, 
+.input-group-mate input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1E293B inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+.input-group-mate input:-webkit-autofill:focus {
+    border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Password Wrapper & Toggle Eye */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.password-wrapper input {
+    padding-right: 45px;
+}
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.toggle-password:hover {
+    color: #ffffff;
+}
+.eye-icon {
+    width: 20px;
+    height: 20px;
+}
+
 .input-group-mate input:focus {
     background-color: #27272d;
-    border-color: var(--avanti-green);
+    border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 /* Divisor "o" */
@@ -346,8 +395,26 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     padding: 14px 24px;
     border-radius: 16px; /* Modificado para hacer juego con inputs */
     font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 .btn-avanti:hover { background: var(--avanti-green-hover); }
+
+/* Spinner */
+.spinner {
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+}
+.hidden {
+    display: none !important;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
 .btn-avanti-blue {
     background: var(--avanti-blue);
@@ -430,3 +497,164 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         text-align: center;
     }
 }
+
+
+/* =========================================
+   8. NUEVOS COMPONENTES (CAPS, CHECKBOX, TOOLTIP, TOAST)
+   ========================================= */
+
+.caps-warning {
+    color: #facc15;
+    font-size: 0.75rem;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.remember-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+.remember-group input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #333338;
+    border-radius: 4px;
+    background-color: #222227;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+    outline: none;
+}
+.remember-group input[type="checkbox"]:checked {
+    background-color: var(--avanti-green);
+    border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+.remember-group input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    left: 2px;
+    top: -1px;
+}
+.remember-group label {
+    font-size: 0.85rem;
+    color: #a1a1aa;
+    cursor: pointer;
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.tooltip-container .tooltip-text {
+    visibility: hidden;
+    width: 280px;
+    background-color: #1e293b;
+    color: #e2e8f0;
+    text-align: center;
+    border-radius: 8px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 120%;
+    left: 50%;
+    margin-left: -140px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid #334155;
+    pointer-events: none;
+}
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+.tooltip-container .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #334155 transparent transparent transparent;
+}
+
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #1e293b;
+    border-left: 4px solid #ef4444;
+    color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    transform: translateX(120%);
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.toast-notification.show {
+    transform: translateX(0);
+}
+.toast-notification .toast-icon {
+    font-size: 1.2rem;
+}
+
+
+/* =========================================
+   9. FUERZA DE CONTRASEÑA Y VALIDACIÓN
+   ========================================= */
+.password-strength-container {
+    margin-top: 10px;
+    width: 100%;
+}
+.strength-bar-bg {
+    width: 100%;
+    height: 5px;
+    background-color: #334155;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.strength-bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+.strength-text {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.match-warning, .match-success {
+    font-size: 0.8rem;
+    margin-top: 6px;
+    display: none;
+    align-items: center;
+    gap: 4px;
+}
+.match-warning { color: #ef4444; }
+.match-success { color: #10b981; }
+.match-warning.visible, .match-success.visible {
+    display: flex;
+}
+
+/* Tabulator Sorting Arrows Fix */
+.tabulator-col[aria-sort="none"] .tabulator-col-sorter { opacity: 0; transition: opacity 0.2s; }
+.tabulator-col:hover .tabulator-col-sorter { opacity: 0.5; }
+.tabulator-col[aria-sort="ascending"] .tabulator-col-sorter,
+.tabulator-col[aria-sort="descending"] .tabulator-col-sorter { opacity: 1 !important; color: #10B981 !important; }
