@@ -3,33 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso al Portal - Agrícola Avanti S.A.C.</title>
+  <title>Portal TI - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; }
-    .bg-dark-brand { background-color: #0c1322; }
-    .input-dark {
+    .bg-main-dark { background-color: #0c1322; }
+    .input-clean {
       background-color: #162035;
       border: 1px solid #233352;
       color: #ffffff;
-      transition: all 0.2s;
     }
-    .input-dark:focus {
+    .input-clean:focus {
       border-color: #10B981;
       outline: none;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
     }
     .pattern-dots {
-      background-image: radial-gradient(#E2E8F0 1.2px, transparent 1.2px);
+      background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
     /* Autocomplete fix for Chrome */
-    .input-dark:-webkit-autofill,
-    .input-dark:-webkit-autofill:hover, 
-    .input-dark:-webkit-autofill:focus, 
-    .input-dark:-webkit-autofill:active {
+    .input-clean:-webkit-autofill,
+    .input-clean:-webkit-autofill:hover, 
+    .input-clean:-webkit-autofill:focus, 
+    .input-clean:-webkit-autofill:active {
         -webkit-box-shadow: 0 0 0 30px #162035 inset !important;
         -webkit-text-fill-color: #ffffff !important;
         transition: background-color 5000s ease-in-out 0s;
@@ -53,6 +52,9 @@
         transition: all 0.3s ease;
         z-index: 1000;
     }
+    .toast-notification.success {
+        background-color: #10B981;
+    }
     .toast-notification.show {
         transform: translateY(0);
         opacity: 1;
@@ -68,95 +70,111 @@
     }
   </script>
 </head>
-<body class="min-h-screen flex flex-col lg:flex-row bg-dark-brand text-slate-100">
+<body class="min-h-screen flex flex-col lg:flex-row bg-main-dark text-slate-100">
 
-  <!-- PANEL IZQUIERDO: MARCA E IDENTIDAD (TAL CUAL LA PRIMERA FOTO) -->
-  <div class="lg:w-1/2 bg-white text-slate-900 flex flex-col justify-between p-8 sm:p-14 lg:p-20 relative border-r border-slate-200 pattern-dots">
-    
+  <!-- PANEL IZQUIERDO: MARCA -->
+  <div class="lg:w-1/2 bg-white text-slate-900 flex flex-col justify-between p-10 sm:p-16 lg:p-20 border-r border-slate-200 pattern-dots">
     <div>
-      <!-- LOGO -->
-      <div class="mb-8">
-        <img src="AVANTI LOGO (1).jpeg" alt="Agrícola Avanti" class="h-20 w-auto object-contain">
-      </div>
-
-      <!-- TÍTULO PRINCIPAL -->
+      <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti" class="h-20 w-auto object-contain mb-10">
+      
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
         Sistema de Control de Activos y Actas TI
       </h1>
-      <p class="text-lg font-semibold text-emerald-600 mt-2">
+      <p class="text-base font-semibold text-emerald-600 mt-2">
         Agrícola Avanti S.A.C.
       </p>
 
-      <!-- INSIGNIA DE VERSIÓN -->
-      <div class="mt-8 flex items-center gap-3">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
-          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+      <div class="mt-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
           Versión 2.0
-        </div>
+        </span>
       </div>
     </div>
 
-    <!-- FOOTER IZQUIERDO -->
-    <div class="mt-12 pt-6 border-t border-slate-200 text-xs text-slate-500">
-      © 2026 Agrícola Avanti S.A.C. Todos los derechos reservados.
+    <div class="text-xs text-slate-500 font-mono">
+      © 2026 Agrícola Avanti S.A.C.
     </div>
   </div>
 
-  <!-- PANEL DERECHO: LOGIN LIMPIO (SIN AUDITORÍA NI ENLACES INNECESARIOS) -->
+  <!-- PANEL DERECHO: LOGIN Y REGISTRO (SIN TEXTO BASURA NI PLACEHOLDERS) -->
   <div class="lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
-    <div class="w-full max-w-md">
+    <div class="w-full max-w-sm">
       
-      <!-- ENCABEZADO LOGIN -->
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold text-white tracking-wide">Iniciar Sesión</h2>
-        <p class="text-xs text-slate-400 mt-1.5">Ingresa tus credenciales corporativas</p>
-      </div>
+      <!-- TÍTULO DINÁMICO -->
+      <h2 id="formTitle" class="text-2xl font-bold text-white mb-6 tracking-wide">
+        Iniciar Sesión
+      </h2>
 
-      <!-- FORMULARIO DE ACCESO -->
-      <form id="loginForm" class="space-y-5">
+      <!-- FORMULARIO 1: LOGIN -->
+      <form id="loginForm" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
-            Correo Corporativo
+          <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+            Correo
           </label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 text-sm">@</span>
-            <input type="email" id="loginEmail" required placeholder="soporte@agricolaavanti.pe" 
-                   class="w-full pl-10 pr-4 py-3 rounded-lg text-sm input-dark">
-          </div>
+          <input type="email" id="loginEmail" required autofocus class="w-full px-3.5 py-2.5 rounded-lg text-sm input-clean font-medium">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
+          <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
             Contraseña
           </label>
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 text-sm">🔒</span>
-            <input type="password" id="loginPassword" required placeholder="••••••••••••" 
-                   class="w-full pl-10 pr-11 py-3 rounded-lg text-sm input-dark">
-            <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white transition">
+            <input type="password" id="loginPassword" required class="w-full pl-3.5 pr-10 py-2.5 rounded-lg text-sm input-clean font-medium">
+            <button type="button" onclick="togglePass('loginPassword')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white cursor-pointer">
               👁️
             </button>
           </div>
         </div>
 
-        <div class="flex items-center">
-          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-900 border-slate-700">
-          <label for="rememberMe" class="ml-2 text-xs text-slate-300">Recordar usuario en este dispositivo</label>
+        <div class="flex items-center pt-1">
+          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-800 border-slate-700 cursor-pointer">
+          <label for="rememberMe" class="ml-2 text-xs text-slate-300 select-none cursor-pointer">Recordar sesión</label>
         </div>
 
-        <!-- BOTÓN PRINCIPAL -->
-        <button type="submit" id="btnSubmit" 
-                class="w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-lg text-sm transition shadow-lg shadow-emerald-600/20 cursor-pointer flex justify-center items-center gap-2">
+        <button type="submit" id="btnSubmit" class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition shadow-sm cursor-pointer flex justify-center items-center gap-2">
           <span>Ingresar al Portal</span>
         </button>
 
-        <!-- AVISO CORPORATIVO DISCRETO -->
-        <div class="pt-5 border-t border-slate-800 text-center">
-          <div class="inline-flex items-center gap-2 p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
-            <span>🔒</span>
-            <span>Acceso restringido al personal autorizado. Contactar a Soporte TI para altas.</span>
+        <p class="text-center text-xs text-slate-400 pt-3">
+          ¿No tienes cuenta? <a href="#" id="btnIrRegistro" class="text-emerald-400 hover:text-emerald-300 font-semibold underline">Regístrate</a>
+        </p>
+      </form>
+
+      <!-- FORMULARIO 2: REGISTRO (OCULTO POR DEFECTO) -->
+      <form id="registerForm" class="space-y-4 hidden">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+            Nombre Completo
+          </label>
+          <input type="text" id="regName" required class="w-full px-3.5 py-2.5 rounded-lg text-sm input-clean font-medium">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+            Correo
+          </label>
+          <input type="email" id="regEmail" required class="w-full px-3.5 py-2.5 rounded-lg text-sm input-clean font-medium">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+            Contraseña
+          </label>
+          <div class="relative">
+            <input type="password" id="regPassword" required class="w-full pl-3.5 pr-10 py-2.5 rounded-lg text-sm input-clean font-medium">
+            <button type="button" onclick="togglePass('regPassword')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white cursor-pointer">
+              👁️
+            </button>
           </div>
         </div>
+
+        <button type="submit" id="btnSubmitReg" class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition shadow-sm cursor-pointer flex justify-center items-center gap-2">
+          <span>Crear Cuenta</span>
+        </button>
+
+        <p class="text-center text-xs text-slate-400 pt-3">
+          ¿Ya tienes cuenta? <a href="#" id="btnIrLogin" class="text-emerald-400 hover:text-emerald-300 font-semibold underline">Inicia sesión</a>
+        </p>
       </form>
 
     </div>
@@ -164,20 +182,52 @@
 
   <!-- TOAST NOTIFICATION -->
   <div id="toastNotification" class="toast-notification hidden">
-      <span class="toast-icon">⚠️</span>
-      <span id="toastMessage">Error message</span>
+    <span class="toast-icon">⚠️</span>
+    <span id="toastMessage">Error message</span>
   </div>
 
+  <!-- CONTROL DE VISTAS (LOGIN / REGISTRO) Y LÓGICA -->
   <script>
-    function togglePassword() {
-      const pass = document.getElementById('loginPassword');
-      pass.type = pass.type === 'password' ? 'text' : 'password';
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const formTitle = document.getElementById('formTitle');
+    const btnIrRegistro = document.getElementById('btnIrRegistro');
+    const btnIrLogin = document.getElementById('btnIrLogin');
+
+    btnIrRegistro.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      formTitle.textContent = 'Crear Cuenta';
+      document.getElementById('regName').focus();
+    });
+
+    btnIrLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+      formTitle.textContent = 'Iniciar Sesión';
+      document.getElementById('loginEmail').focus();
+    });
+
+    function togglePass(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
     }
 
-    function showToast(message) {
+    function showToast(message, isSuccess = false) {
         const toast = document.getElementById('toastNotification');
         const toastMsg = document.getElementById('toastMessage');
         toastMsg.textContent = message;
+        
+        if (isSuccess) {
+            toast.classList.add('success');
+            toast.querySelector('.toast-icon').textContent = '✓';
+        } else {
+            toast.classList.remove('success');
+            toast.querySelector('.toast-icon').textContent = '⚠️';
+        }
+        
         toast.classList.remove('hidden');
         // Reflow
         void toast.offsetWidth;
@@ -197,8 +247,6 @@
         }
     });
 
-    const loginForm = document.getElementById('loginForm');
-    
     // ==========================================
     // LÓGICA DE LOGIN (Conectada a Neon DB)
     // ==========================================
@@ -209,14 +257,12 @@
         const password = document.getElementById('loginPassword').value;
         const submitBtn = document.getElementById('btnSubmit');
 
-        // Efecto de carga en el botón
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Verificando...</span>';
         submitBtn.disabled = true;
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
         try {
-            // Llamada a tu API en Vercel
             const response = await fetch('/api/auth', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -226,10 +272,7 @@
             const data = await response.json();
 
             if (response.ok && data.success) {
-                // Traducir el rol de la base de datos al frontend
                 const userRole = data.user.rol === 'Administrador' ? 'admin' : 'viewer';
-
-                // Guardar los datos del usuario extraídos de Neon PostgreSQL
                 const session = { 
                     id: data.user.id_usuario,
                     name: data.user.nombre, 
@@ -248,10 +291,51 @@
                 showToast(data.message || 'Correo o contraseña incorrectos.');
             }
         } catch (error) {
-            showToast('Hubo un problema al conectar con el servidor. Revisa tu conexión.');
+            showToast('Hubo un problema al conectar con el servidor.');
             console.error('Error de fetch:', error);
         } finally {
-            // Restaurar el botón independientemente del resultado
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+    });
+
+    // ==========================================
+    // LÓGICA DE REGISTRO
+    // ==========================================
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const submitBtn = document.getElementById('btnSubmitReg');
+
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Creando...</span>';
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        try {
+            const response = await fetch('/api/registro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: name, correo: email, password: password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                showToast('¡Cuenta creada con éxito! Ya puedes iniciar sesión.', true);
+                registerForm.reset();
+                btnIrLogin.click();
+            } else {
+                showToast(data.message || 'Ocurrió un error al crear la cuenta.');
+            }
+        } catch (error) {
+            showToast('Hubo un problema al conectar con el servidor.');
+            console.error('Error de fetch:', error);
+        } finally {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
