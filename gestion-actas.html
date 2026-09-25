@@ -656,7 +656,7 @@
               <input type="text" id="m3_nro_serie" data-spec="nro_serie" onchange="buscarEquipo(this.value)">
               <div class="scan-actions no-print">
                 <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_nro_serie').value)" title="Buscar en Base de Datos">🔍</button>
-                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_nro_serie')" title="Escanear Código">📸</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_nro_serie')" title="Escanear Código">📷</button>
               </div>
             </div>
           </td>
@@ -668,7 +668,7 @@
               <input type="text" id="m3_imei1" data-spec="imei_1" onchange="buscarEquipo(this.value)">
               <div class="scan-actions no-print">
                 <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_imei1').value)" title="Buscar en Base de Datos">🔍</button>
-                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei1')" title="Escanear Código">📸</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei1')" title="Escanear Código">📷</button>
               </div>
             </div>
           </td>
@@ -678,20 +678,54 @@
               <input type="text" id="m3_imei2" data-spec="imei_2" onchange="buscarEquipo(this.value)">
               <div class="scan-actions no-print">
                 <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_imei2').value)" title="Buscar en Base de Datos">🔍</button>
-                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei2')" title="Escanear Código">📸</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei2')" title="Escanear Código">📷</button>
               </div>
             </div>
           </td>
         </tr>
-        <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad"></td></tr>
-        <tr><td class="lbl">Código Patrimonial:</td><td colspan="3"><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td></tr>
+        
+        <tr><td colspan="4" class="subhead">Especificaciones Técnicas e Identificadores</td></tr>
+        <tr>
+          <td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td>
+          <td class="lbl">Capacidad (ROM):</td><td><input type="text" data-spec="capacidad" placeholder="Ej. 128 GB"></td>
+        </tr>
+        <tr>
+          <td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram_movil" placeholder="Ej. 4 GB"></td>
+          <td class="lbl">Cód. Patrimonial:</td><td><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td>
+        </tr>
+
+        <tr><td colspan="4" class="subhead">Estado de Componentes y Operatividad</td></tr>
+        <tr>
+          <td class="lbl">Estado Pantalla:</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 12px; white-space: nowrap;">
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="pant_intacta" class="excl-check" data-group="pantalla_m3" style="margin-right: 4px;" value="Intacta"> Intacta</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="pant_fisurada" class="excl-check" data-group="pantalla_m3" style="margin-right: 4px;" value="Fisurada"> Fisurada</label>
+            </div>
+          </td>
+          <td class="lbl">Sistema Operativo:</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 12px; white-space: nowrap;">
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="so_android" class="excl-check" data-group="so_m3" style="margin-right: 4px;" value="Android"> Android</label>
+              <label style="display: flex; align-items: center; cursor: pointer; margin: 0;"><input type="checkbox" data-spec="so_ios" class="excl-check" data-group="so_m3" style="margin-right: 4px;" value="iOS"> iOS</label>
+            </div>
+          </td>
+        </tr>
+
         <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
         <tr>
-          <td colspan="4">
-            <label class="inline-flex"><input type="checkbox" data-spec="acc_cargador" value="Cargador de Pared"> Cargador de Pared</label>
-            <label class="inline-flex"><input type="checkbox" data-spec="acc_cable" value="Cable USB"> Cable USB</label>
-            <label class="inline-flex"><input type="checkbox" data-spec="acc_case" value="Funda Protectora"> Funda Protectora (Case)</label>
-            <label class="inline-flex"><input type="checkbox" data-spec="acc_lamina" value="Lámina de Vidrio"> Lámina de Vidrio</label>
+          <td colspan="4" style="padding: 12px 14px !important;">
+            <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                <label class="inline-flex"><input type="checkbox" data-spec="acc_cargador" value="Cargador de Pared"> Cargador (Cubo)</label>
+                <label class="inline-flex"><input type="checkbox" data-spec="acc_cable" value="Cable USB"> Cable USB</label>
+                <label class="inline-flex"><input type="checkbox" data-spec="acc_case" value="Funda Protectora"> Case / Funda Protectora</label>
+                <label class="inline-flex"><input type="checkbox" data-spec="acc_lamina" value="Lámina de Vidrio"> Mica / Lámina de Vidrio</label>
+                <label class="inline-flex"><input type="checkbox" data-spec="acc_auriculares" value="Auriculares"> Auriculares</label>
+            </div>
+            <div style="margin-top:8px; display:flex; align-items:center;">
+                <span style="font-weight:bold; margin-right:8px; color: var(--text-secondary);">Otros:</span>
+                <textarea rows="1" data-spec="acc_otros_movil" style="flex-grow:1;"></textarea>
+            </div>
           </td>
         </tr>
       </table>
