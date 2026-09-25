@@ -234,7 +234,7 @@
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo"></td>
-          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓNº DE PCs</h1></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE PCs</h1></td>
         </tr>
       </table>
 
@@ -436,7 +436,7 @@
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo"></td>
-          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓNº DE EQUIPOS VISUALES Y PERIFÉRICOS</h1></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE EQUIPOS VISUALES Y PERIFÉRICOS</h1></td>
         </tr>
       </table>
 
@@ -634,7 +634,7 @@
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo"></td>
-          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓNº DE EQUIPOS MÓVILES</h1></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE EQUIPOS MÓVILES</h1></td>
         </tr>
       </table>
 
@@ -687,10 +687,10 @@
         <tr><td colspan="4" class="subhead">Especificaciones Técnicas e Identificadores</td></tr>
         <tr>
           <td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td>
-          <td class="lbl">Capacidad (ROM):</td><td><input type="text" data-spec="capacidad" placeholder="Ej. 128 GB"></td>
+          <td class="lbl">Capacidad (ROM):</td><td><input type="text" data-spec="capacidad" ></td>
         </tr>
         <tr>
-          <td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram_movil" placeholder="Ej. 4 GB"></td>
+          <td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram_movil" ></td>
           <td class="lbl">Cód. Patrimonial:</td><td><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td>
         </tr>
 
@@ -839,7 +839,7 @@
       <table class="header-table">
         <tr>
           <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo"></td>
-          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓNº DE LÍNEAS MÓVILES</h1></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓN DE LÍNEAS MÓVILES</h1></td>
         </tr>
       </table>
 
@@ -851,9 +851,8 @@
         <tr><td class="lbl">Oficio/Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td><td class="lbl">Zona/Sede:</td><td><input type="text" data-spec="zona_sede"></td></tr>
       </table>
 
-      <h3>2. Detalle de la Línea Móvil:</h3>
+      <h3>2. Detalle de la Línea Móvil (SIM Card):</h3>
       <table class="form-table">
-        <tr><td class="lbl">Operador:</td><td colspan="3"><input type="text" data-spec="operador"></td></tr>
         <tr>
           <td class="lbl">Nº de Teléfono:</td>
           <td style="width:32%;">
@@ -864,16 +863,43 @@
               </div>
             </div>
           </td>
-          <td class="lbl">Serie SIM:</td>
-          <td>
+          <td class="lbl">Operador:</td>
+          <td><input type="text" data-spec="operador"></td>
+        </tr>
+        <tr>
+          <td class="lbl">Serie SIM (ICCID):</td>
+          <td colspan="3">
             <div class="input-wrapper">
               <input type="text" id="m4_serie_sim" data-spec="serie_sim" onchange="buscarEquipo(this.value)">
               <div class="scan-actions no-print">
                 <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m4_serie_sim').value)" title="Buscar en Base de Datos">🔍</button>
-                <button type="button" class="btn-scan" onclick="abrirEscaner('m4_serie_sim')" title="Escanear Código">📸</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m4_serie_sim')" title="Escanear Código">📷</button>
               </div>
             </div>
           </td>
+        </tr>
+        <tr><td colspan="4" class="subhead">Especificaciones del Plan Corporativo</td></tr>
+        <tr>
+          <td class="lbl">Tipo de SIM:</td>
+          <td>
+             <div style="display: flex; gap: 10px;">
+                <label><input type="radio" name="tipo_sim_m4" data-spec="sim_fisica" value="Física"> SIM Física</label>
+                <label><input type="radio" name="tipo_sim_m4" data-spec="sim_esim" value="eSIM"> eSIM</label>
+             </div>
+          </td>
+          <td class="lbl">Tope de Consumo:</td>
+          <td>
+             <div style="display: flex; gap: 10px;">
+                <label><input type="radio" name="tope_m4" data-spec="tope_abierto" value="Abierto"> Abierto</label>
+                <label><input type="radio" name="tope_m4" data-spec="tope_cerrado" value="Cerrado"> Cerrado</label>
+             </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">Plan de Datos:</td>
+          <td><input type="text" data-spec="plan_datos"></td>
+          <td class="lbl">PIN / PUK:</td>
+          <td><input type="text" data-spec="pin_puk"></td>
         </tr>
       </table>
 
@@ -1148,11 +1174,11 @@
       } else if (modo === 'devolucion') {
         secEntrega.style.display = 'none';
         secDevolucion.style.display = 'block';
-        titleH1.innerText = "ACTA DE DEVOLUCIÓNº DE " + baseTitle;
+        titleH1.innerText = "ACTA DE DEVOLUCIÓN DE " + baseTitle;
       } else {
         secEntrega.style.display = 'block';
         secDevolucion.style.display = 'block';
-        titleH1.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓNº DE " + baseTitle;
+        titleH1.innerText = "ACTA DE ENTREGA Y DEVOLUCIÓN DE " + baseTitle;
       }
       
       view.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
