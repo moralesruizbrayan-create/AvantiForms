@@ -12,14 +12,14 @@
   <style>
 
     :root {
-      --bg-deep: #090E17;
-      --surface-slate: #0F172A;
-      --border-subtle: #1E293B;
-      --border-focus: #334155;
-      --text-bright: #F8FAFC;
-      --text-muted: #94A3B8;
-      --accent-green: #10B981;
-      --accent-green-hover: #059669;
+      --bg-deep: #0a0a0c;
+      --surface-slate: #131416;
+      --border-subtle: #222222;
+      --border-focus: #333333;
+      --text-bright: #ffffff;
+      --text-muted: #a1a1aa;
+      --accent-green: #00c867;
+      --accent-green-hover: #00b05b;
     }
 
     body { 
@@ -39,8 +39,8 @@
     
     /* Inputs de Alta Definicin (input-pro) */
     .neo-input { 
-        background-color: #172033 !important; 
-        border: 1px solid #334155 !important; 
+        background-color: transparent !important; 
+        border: 1px solid var(--border-focus) !important; 
         color: #F8FAFC !important; 
         transition: all 0.15s ease-in-out; 
     }
@@ -81,7 +81,7 @@
     .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type > div { justify-content: flex-start !important; text-align: left !important; }
 
     .tabulator-footer { background-color: var(--surface-slate) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 16px !important;}
-    .tabulator-footer .tabulator-page-size { background-color: #172033; border: 1px solid #334155; color: var(--text-bright); border-radius: 8px; padding: 6px 12px; outline: none; transition: border 0.2s;}
+    .tabulator-footer .tabulator-page-size { background-color: transparent; border: 1px solid var(--border-focus); color: var(--text-bright); border-radius: 8px; padding: 6px 12px; outline: none; transition: border 0.2s;}
     .tabulator-footer .tabulator-page-size:focus { border-color: var(--accent-green); }
     .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 8px; margin: 0 4px; padding: 6px 12px !important; transition: all 0.2s; font-weight: 500;}
     .tabulator-footer .tabulator-page:hover { background: #1E293B !important; color: var(--text-bright) !important; }
@@ -104,12 +104,12 @@
     .btn-primary:active { transform: scale(0.98); }
     
     .btn-outline { 
-        background-color: #172033; 
-        border: 1px solid #334155; 
+        background-color: transparent; 
+        border: 1px solid var(--border-focus); 
         color: var(--text-bright); 
         transition: all 0.15s ease-in-out; 
     }
-    .btn-outline:hover { border-color: #475569; background-color: #1E293B; }
+    .btn-outline:hover { border-color: var(--text-muted); background-color: rgba(255, 255, 255, 0.05); }
     .btn-outline:active { transform: scale(0.98); }
 
   
@@ -127,12 +127,12 @@
     <!-- HEADER PRINCIPAL -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel gap-4">
       <div class="flex items-center gap-5">
-        <div class="p-3.5 bg-[#0F172A] rounded-xl border border-[#1E293B] shadow-sm flex items-center justify-center">
+        <div class="p-3.5 bg-[var(--surface-slate)] rounded-xl border border-[var(--border-subtle)] shadow-sm flex items-center justify-center">
           <svg class="w-7 h-7 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
         <div>
-          <h1 class="text-2xl font-extrabold tracking-tight text-[#F8FAFC]">Directorio de Personal</h1>
-          <p class="text-sm font-medium mt-1 text-[#94A3B8]">Gestión de empleados para asignación de equipos</p>
+          <h1 class="text-2xl font-extrabold tracking-tight text-[var(--text-bright)]">Directorio de Personal</h1>
+          <p class="text-sm font-medium mt-1 text-[var(--text-muted)]">Gestión de empleados para asignación de equipos</p>
           <div class="flex items-center gap-2 mt-2.5">
             <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <p id="record-counter" class="text-[11px] font-bold text-[#10B981] uppercase tracking-wider">Cargando...</p>
@@ -157,7 +157,7 @@
         <div class="w-full flex-1">
             <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Búsqueda Global</label>
             <div class="relative">
-                <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 <input type="text" id="global-search" placeholder="Buscar por DNI, nombre, cargo..." class="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm neo-input focus:ring-0">
             </div>
         </div>
@@ -185,42 +185,42 @@
 
   <div id="modal-empleado" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4">
     <div class="neo-panel max-w-lg w-full overflow-hidden">
-      <div class="px-6 py-5 flex justify-between items-center border-b border-[#334155] bg-[#0F172A]">
-        <h3 id="modal-title" class="font-bold text-lg text-[#F8FAFC]">Registrar Nuevo Empleado</h3>
-        <button onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="text-[#94A3B8] hover:text-[#10B981] transition-colors">
+      <div class="px-6 py-5 flex justify-between items-center border-b border-[var(--border-focus)] bg-[var(--surface-slate)]">
+        <h3 id="modal-title" class="font-bold text-lg text-[var(--text-bright)]">Registrar Nuevo Empleado</h3>
+        <button onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="text-[var(--text-muted)] hover:text-[#10B981] transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <form id="form-empleado" class="p-6 space-y-5 bg-[#1E293B]">
+      <form id="form-empleado" class="p-6 space-y-5 bg-[#1a1a1c]">
         <div class="grid grid-cols-2 gap-5">
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">DNI *</label>
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">DNI *</label>
             <input type="text" id="emp-dni" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Centro Costo</label>
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Centro Costo</label>
             <input type="text" id="emp-cc" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Nombre Completo *</label>
+          <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Nombre Completo *</label>
           <input type="text" id="emp-nombre" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
         </div>
         <div class="grid grid-cols-2 gap-5">
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Área / Departamento *</label>
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Área / Departamento *</label>
             <input type="text" id="emp-area" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Cargo / Puesto *</label>
+            <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Cargo / Puesto *</label>
             <input type="text" id="emp-cargo" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
           </div>
         </div>
         <div>
-          <label class="block text-xs font-semibold uppercase mb-1.5 text-[#94A3B8]">Correo Corporativo</label>
+          <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Correo Corporativo</label>
           <input type="email" id="emp-correo" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
         </div>
-        <div class="pt-5 flex justify-end gap-3 border-t border-[#334155] mt-4">
+        <div class="pt-5 flex justify-end gap-3 border-t border-[var(--border-focus)] mt-4">
           <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="btn-outline px-5 py-2.5 rounded-lg font-medium text-sm">Cancelar</button>
           <button type="submit" id="btn-save-emp" class="btn-primary px-5 py-2.5 rounded-lg font-medium text-sm">Guardar Empleado</button>
         </div>
@@ -272,7 +272,7 @@
                     : '<span class="bg-gray-500/10 text-gray-400 border border-gray-500/20 px-2 py-0.5 rounded text-xs font-semibold">DEVUELTO</span>';
                 
                 html += `
-                <div class="bg-[#0F172A] border border-[#334155] p-4 rounded-lg flex flex-col gap-2">
+                <div class="bg-[var(--surface-slate)] border border-[var(--border-focus)] p-4 rounded-lg flex flex-col gap-2">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="font-semibold text-white text-sm">${a.categoria}</p>
@@ -327,11 +327,11 @@
         }
 
         let cols = [
-            { title: "DNI", field: "dni", minWidth: 120, hozAlign: "center", headerHozAlign: "center", formatter: cell => `<div class="w-full flex items-center justify-center h-full text-[#94A3B8] font-mono text-xs">${cell.getValue()}</div>` },
+            { title: "DNI", field: "dni", minWidth: 120, hozAlign: "center", headerHozAlign: "center", formatter: cell => `<div class="w-full flex items-center justify-center h-full text-[var(--text-muted)] font-mono text-xs">${cell.getValue()}</div>` },
             { title: "Empleado", field: "nombre_completo", minWidth: 260, hozAlign: "left", headerHozAlign: "left", formatter: cell => {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo corporativo";
-                return `<div class="w-full flex flex-col justify-center h-full text-left"><div class="font-medium text-[#F8FAFC] tracking-wide whitespace-normal break-words leading-relaxed text-justify">${name}</div><div class="text-xs mt-1 text-[#94A3B8] font-light break-words">${email}</div></div>`;
+                return `<div class="w-full flex flex-col justify-center h-full text-left"><div class="font-medium text-[var(--text-bright)] tracking-wide whitespace-normal break-words leading-relaxed text-justify">${name}</div><div class="text-xs mt-1 text-[var(--text-muted)] font-light break-words">${email}</div></div>`;
               }
             },
             { title: "Área", field: "area", minWidth: 180, hozAlign: "left", headerHozAlign: "left", formatter: cell => `<div class="w-full flex items-center h-full text-left text-[#E2E8F0] whitespace-normal break-words leading-relaxed text-justify">${cell.getValue()}</div>` },
@@ -461,13 +461,13 @@
 
   <div id="modal-historial" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-4">
     <div class="neo-panel max-w-2xl w-full overflow-hidden flex flex-col max-h-[85vh]">
-      <div class="px-6 py-5 flex justify-between items-center border-b border-[#334155] bg-[#0F172A] shrink-0">
-        <h3 class="font-bold text-lg text-[#F8FAFC]">Historial del Empleado</h3>
-        <button onclick="document.getElementById('modal-historial').classList.add('hidden')" class="text-[#94A3B8] hover:text-[#10B981] transition-colors">
+      <div class="px-6 py-5 flex justify-between items-center border-b border-[var(--border-focus)] bg-[var(--surface-slate)] shrink-0">
+        <h3 class="font-bold text-lg text-[var(--text-bright)]">Historial del Empleado</h3>
+        <button onclick="document.getElementById('modal-historial').classList.add('hidden')" class="text-[var(--text-muted)] hover:text-[#10B981] transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <div class="p-6 bg-[#1E293B] overflow-y-auto flex-1">
+      <div class="p-6 bg-[#1a1a1c] overflow-y-auto flex-1">
         <div class="mb-4">
             <h4 id="historial-nombre" class="text-lg font-semibold text-white"></h4>
             <p id="historial-dni" class="text-sm text-gray-400"></p>
