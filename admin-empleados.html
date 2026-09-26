@@ -230,6 +230,11 @@
 
   <script src="app.js"></script>
   <script>
+    function toCapitalize(str) {
+        if (!str) return '';
+        return str.toUpperCase(); // Para estandarizar con los registros actuales
+    }
+
     let tablaEmpleados;
     let equipByEmp = {};
     let historialByEmp = {};
