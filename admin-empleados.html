@@ -44,10 +44,10 @@
         color: #F8FAFC !important; 
         transition: all 0.15s ease-in-out; 
     }
-    .neo-input:hover { border-color: #475569 !important; }
+    .neo-input:hover { border-color: #3f3f46 !important; }
     .neo-input:focus { 
         border-color: var(--accent-green) !important; 
-        background-color: #1A243B !important; 
+        background-color: #18181b !important; 
         outline: none; 
         box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); 
     }
@@ -62,19 +62,19 @@
         border-bottom: 1px solid var(--border-subtle) !important; 
     }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 16px 12px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;}
+    .tabulator-col-title { font-weight: 600 !important; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);}
     
     .tabulator-row { border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.15s ease; }
-    .tabulator-row.tabulator-row-odd { background-color: #0B121E !important; }
-    .tabulator-row.tabulator-row-even { background-color: #0D1524 !important; }
-    .tabulator-row:hover { background-color: #1A263D !important; cursor: pointer; }
+    .tabulator-row.tabulator-row-odd { background-color: transparent !important; }
+    .tabulator-row.tabulator-row-even { background-color: #0f0f11 !important; }
+    .tabulator-row:hover { background-color: #18181b !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 18px 16px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
     /* VISTA MVIL PREMIUM */
     .tabulator-row .tabulator-responsive-collapse { background-color: var(--surface-slate) !important; padding: 20px !important; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-row .tabulator-responsive-collapse table { width: 100%; display: block; }
     .tabulator-row .tabulator-responsive-collapse table tbody { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-    .tabulator-row .tabulator-responsive-collapse table tr { display: flex; flex-direction: column; background: #131E32; padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle); }
+    .tabulator-row .tabulator-responsive-collapse table tr { display: flex; flex-direction: column; background: var(--surface-slate); padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle); }
     .tabulator-row .tabulator-responsive-collapse table tr td { border: none !important; padding: 0 !important; display: block; text-align: left !important; }
     .tabulator-row .tabulator-responsive-collapse table tr td:first-of-type { font-size: 11px !important; color: var(--text-muted) !important; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; background: transparent !important; width: 100% !important; border: none !important; }
     .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type { font-size: 14px !important; width: 100% !important; padding: 0 !important; }
@@ -84,11 +84,11 @@
     .tabulator-footer .tabulator-page-size { background-color: transparent; border: 1px solid var(--border-focus); color: var(--text-bright); border-radius: 8px; padding: 6px 12px; outline: none; transition: border 0.2s;}
     .tabulator-footer .tabulator-page-size:focus { border-color: var(--accent-green); }
     .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 8px; margin: 0 4px; padding: 6px 12px !important; transition: all 0.2s; font-weight: 500;}
-    .tabulator-footer .tabulator-page:hover { background: #1E293B !important; color: var(--text-bright) !important; }
+    .tabulator-footer .tabulator-page:hover { background: #1a1a1c !important; color: var(--text-bright) !important; }
     .tabulator-footer .tabulator-page.active { background: var(--accent-green) !important; color: white !important; border: 1px solid transparent !important; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
 
     /* BOTONES ACCIN EN TABLA */
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid transparent; background: transparent; color: #64748B; transition: all 0.15s ease; cursor: pointer; }
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid transparent; background: transparent; color: var(--text-muted); transition: all 0.15s ease; cursor: pointer; }
     .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.2); }
     .btn-edit:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
     
@@ -116,8 +116,8 @@
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; border: 2px solid var(--bg-deep); }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; border: 2px solid var(--bg-deep); }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
   </style>
 </head>
@@ -334,7 +334,7 @@
                 return `<div class="w-full flex flex-col justify-center h-full text-left"><div class="font-medium text-[var(--text-bright)] tracking-wide whitespace-normal break-words leading-relaxed text-justify">${name}</div><div class="text-xs mt-1 text-[var(--text-muted)] font-light break-words">${email}</div></div>`;
               }
             },
-            { title: "Área", field: "area", minWidth: 180, hozAlign: "left", headerHozAlign: "left", formatter: cell => `<div class="w-full flex items-center h-full text-left text-[#E2E8F0] whitespace-normal break-words leading-relaxed text-justify">${cell.getValue()}</div>` },
+            { title: "Área", field: "area", minWidth: 180, hozAlign: "left", headerHozAlign: "left", formatter: cell => `<div class="w-full flex items-center h-full text-left text-[var(--text-bright)] whitespace-normal break-words leading-relaxed text-justify">${cell.getValue()}</div>` },
             { title: "Cargo", field: "cargo", minWidth: 180, hozAlign: "left", headerHozAlign: "left", formatter: cell => `<div class="w-full flex items-center h-full text-left text-[#CBD5E1] font-light whitespace-normal break-words leading-relaxed text-justify">${cell.getValue()}</div>` }
         ];
 
