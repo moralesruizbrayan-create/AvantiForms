@@ -1,0 +1,167 @@
+<div id="view_telefonos" class="form-view modo-completo" data-tipo="telefonos" data-titulo-base="EQUIPOS MÓVILES">
+    <div class="page-container">
+      <div class="mode-selector no-print">
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'entrega')">Solo Entrega</button>
+        <button type="button" class="mode-btn" onclick="cambiarModo(this, 'devolucion')">Solo Devolución</button>
+        <button type="button" class="mode-btn active" onclick="cambiarModo(this, 'completo')">Reporte Completo</button>
+      </div>
+
+      <table class="header-table">
+        <tr>
+          <td class="header-logo"><img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti Logo"></td>
+          <td class="header-titles"><h1>ACTA DE ENTREGA Y DEVOLUCIÓNº DE EQUIPOS MÓVILES</h1></td>
+        </tr>
+      </table>
+
+      <h3>1. Datos Generales del Responsable:</h3>
+      <table class="form-table">
+        <tr><td class="lbl">Nombre Empleado:</td><td colspan="3"><textarea rows="1" data-field="nombre_empleado"></textarea></td></tr>
+        <tr><td class="lbl">DNI:</td><td style="width:32%;"><input type="text" data-field="dni_empleado"></td><td class="lbl">Área:</td><td><textarea rows="1" data-field="area_empleado"></textarea></td></tr>
+        <tr><td class="lbl">Cargo:</td><td><textarea rows="1" data-field="cargo_empleado"></textarea></td><td class="lbl">Centro Costo:</td><td><input type="text" data-field="centro_costo"></td></tr>
+        <tr><td class="lbl">Fecha Operación:</td><td colspan="3"><input type="date" data-field="fecha_entrega"></td></tr>
+      </table>
+
+      <h3>2. Detalle del Equipo Móvil (Smartphone):</h3>
+      <table class="form-table">
+        <tr>
+          <td class="lbl">Marca / Modelo:</td><td style="width:32%;"><textarea rows="1" data-spec="marca_modelo"></textarea></td>
+          <td class="lbl">Nº de Serie:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_nro_serie" data-spec="nro_serie" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_nro_serie').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_nro_serie')" title="Escanear Código">📸</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="lbl">IMEI 1:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_imei1" data-spec="imei_1" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_imei1').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei1')" title="Escanear Código">📸</button>
+              </div>
+            </div>
+          </td>
+          <td class="lbl">IMEI 2:</td>
+          <td>
+            <div class="input-wrapper">
+              <input type="text" id="m3_imei2" data-spec="imei_2" onchange="buscarEquipo(this.value)">
+              <div class="scan-actions no-print">
+                <button type="button" class="btn-scan" onclick="buscarEquipo(document.getElementById('m3_imei2').value)" title="Buscar en Base de Datos">🔍</button>
+                <button type="button" class="btn-scan" onclick="abrirEscaner('m3_imei2')" title="Escanear Código">📸</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr><td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td><td class="lbl">Capacidad:</td><td><input type="text" data-spec="capacidad"></td></tr>
+        <tr><td class="lbl">Código Patrimonial:</td><td colspan="3"><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td></tr>
+        <tr><td colspan="4" class="subhead">Accesorios e Implementos de Protección</td></tr>
+        <tr>
+          <td colspan="4">
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_cargador" value="Cargador de Pared"> Cargador de Pared</label>
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_cable" value="Cable USB"> Cable USB</label>
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_case" value="Funda Protectora"> Funda Protectora (Case)</label>
+            <label class="inline-flex"><input type="checkbox" data-spec="acc_lamina" value="Lámina de Vidrio"> Lámina de Vidrio</label>
+          </td>
+        </tr>
+      </table>
+
+      <div class="sec-entrega">
+        <h3>3. Condiciones de Entrega:</h3>
+        <table class="form-table"><tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_entrega" style="min-height: 40px;"></textarea></td></tr></table>
+        
+        <div class="no-print">
+            <div class="subhead mt-3 mb-2" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
+            <div class="evidencia-box">
+              <label class="btn-evidencia">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
+                <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_ent_m3')">
+              </label>
+              <div id="wrap_evidencia_ent_m3" class="evidencia-preview-wrapper">
+                <img id="evidencia_ent_m3" class="evidencia-runtime-img">
+                <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_ent_m3', this)">✖</button>
+              </div>
+            </div>
+        </div>
+
+        <h3>4. Compromiso de Responsabilidad:</h3>
+        <div class="compromiso-box">El responsable se hace cargo del equipo y asume el costo en caso de pérdida y/o robo fuera de las instalaciones de la empresa, así como también del servicio técnico en caso de desperfecto por mala manipulación.</div>
+        <div class="signature-section">
+          <div class="signature-block">
+            <div id="box_f1_m3" class="signature-trigger-box" onclick="abrirModalFirma('f1_m3')"><span id="lbl_f1_m3">📝 Firmar Encargado TI</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL ENCARGADO (TI)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_ent"></div>
+          </div>
+          <div class="signature-block">
+            <div id="box_f2_m3" class="signature-trigger-box" onclick="abrirModalFirma('f2_m3')"><span id="lbl_f2_m3">📝 Firmar Empleado</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA DEL EMPLEADO / RECEPTOR</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_ent"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-devolucion">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; margin-bottom: 12px; margin-top: 30px;">
+          <h3 style="margin: 0;">5. Control de Devolución (Uso Exclusivo del Área de TI):</h3>
+          <button type="button" class="no-print hover:bg-red-100" onclick="limpiarDevolucion()" style="background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg> Deshacer
+          </button>
+        </div>
+
+        <table class="form-table">
+          <tr>
+            <td class="lbl" style="width: 18%;">¿Mismo titular?:</td>
+            <td style="width: 82%;">
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="titular_eq_3" data-field="devolucion_mismo_titular" value="Sí"> Sí</label>
+              <label class="inline-flex"><input type="checkbox" class="excl-check" data-group="titular_eq_3" data-field="devolucion_mismo_titular" value="No"> No</label>
+            </td>
+          </tr>
+          <tr><td class="lbl" style="width: 18%;">Quien devuelve:</td><td style="width: 82%;"><textarea rows="1" data-field="devolucion_quien_nombre"></textarea></td></tr>
+          <tr><td class="lbl" style="width: 18%;">DNI / Fecha Dev.:</td><td style="width: 82%; display: flex; gap: 10px;"><input type="text" data-field="devolucion_quien_dni"><input type="date" data-field="fecha_devolucion"></td></tr>
+          <tr><td class="lbl" style="width: 18%;">Observaciones:</td><td style="width: 82%;"><textarea data-field="observaciones_devolucion" style="min-height: 40px;"></textarea></td></tr>
+          <tr class="no-print">
+            <td class="lbl" style="width: 18%;">Estado Final:</td>
+            <td style="width: 82%;">
+              <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="STOCK"> 📦 Retornar a Stock (Reasignable)</label>
+                <label class="inline-flex" style="margin:0;"><input type="checkbox" class="excl-check" data-group="destino_eq_3" value="RETIRADO"> 🚫 Dar de Baja / Retirado</label>
+              </div>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="no-print">
+            <div class="subhead mt-3 mb-2" style="padding: 6px 10px; border-radius: 4px;">📸 Evidencia Fotográfica (Opcional)</div>
+            <div class="evidencia-box">
+              <label class="btn-evidencia">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Adjuntar Foto
+                <input type="file" accept="image/*" capture="environment" class="visually-hidden" style="position: absolute; left: -9999px; opacity: 0;" onchange="procesarEvidenciaFotografica(this, 'evidencia_dev_m3')">
+              </label>
+              <div id="wrap_evidencia_dev_m3" class="evidencia-preview-wrapper">
+                <img id="evidencia_dev_m3" class="evidencia-runtime-img">
+                <button type="button" class="btn-eliminar-foto no-print" onclick="eliminarEvidencia('evidencia_dev_m3', this)">✖</button>
+              </div>
+            </div>
+        </div>
+
+        <div class="signature-section">
+          <div class="signature-block">
+            <div id="box_f3_m3" class="signature-trigger-box" onclick="abrirModalFirma('f3_m3')"><span id="lbl_f3_m3">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA ENCARGADO TI (RETORNO)</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_ti_dev"></div>
+          </div>
+          <div class="signature-block">
+            <div id="box_f4_m3" class="signature-trigger-box" onclick="abrirModalFirma('f4_m3')"><span id="lbl_f4_m3">📝 Firmar Persona que Devuelve</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
+            <div class="signature-line"></div><strong>FIRMA PERSONA QUE DEVUELVE</strong>
+            <div class="signature-field-group"><span>DNI:</span><input type="text" data-field="dni_firma_emp_dev"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

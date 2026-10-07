@@ -284,3 +284,4 @@ if (oldInvFilters) {
 fs.writeFileSync('inventario.html', invHtml, 'utf8');
 
 console.log("Completed!");
+

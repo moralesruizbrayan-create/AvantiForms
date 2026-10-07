@@ -58,12 +58,21 @@ export default async function handler(req, res) {
         let nro_serie = equipo.nro_serie || '';
         let cod_patrimonial = equipo.codigo_patrimonial || '';
         
+        let hasCodPatrimonial = (tabla === 'pcs');
+
         let checkRes = { rows: [] };
-        if (nro_serie !== '' || cod_patrimonial !== '') {
-            checkRes = await pool.query(
-                `SELECT ${idCol} FROM ${tabla} WHERE (numero_serie = $1 AND numero_serie != '') OR (codigo_patrimonial = $2 AND codigo_patrimonial != '') LIMIT 1`,
-                [nro_serie, cod_patrimonial]
-            );
+        if (nro_serie !== '' || (hasCodPatrimonial && cod_patrimonial !== '')) {
+            if (hasCodPatrimonial) {
+                checkRes = await pool.query(
+                    `SELECT ${idCol} FROM ${tabla} WHERE (numero_serie = $1 AND numero_serie != '') OR (codigo_patrimonial = $2 AND codigo_patrimonial != '') LIMIT 1`,
+                    [nro_serie, cod_patrimonial]
+                );
+            } else {
+                checkRes = await pool.query(
+                    `SELECT ${idCol} FROM ${tabla} WHERE (numero_serie = $1 AND numero_serie != '') LIMIT 1`,
+                    [nro_serie]
+                );
+            }
         }
 
         if (checkRes.rows.length > 0) {
@@ -73,12 +82,21 @@ export default async function handler(req, res) {
                 [nuevoEstado, equipo.marca_modelo, equipo.tipo_equipo, idActivo]
             );
         } else {
-            const insRes = await pool.query(
-                `INSERT INTO ${tabla} (numero_serie, codigo_patrimonial, tipo_hardware, marca_modelo, estado_operativo) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING ${idCol}`,
-                [nro_serie, cod_patrimonial, equipo.tipo_equipo, equipo.marca_modelo, nuevoEstado]
-            );
-            idActivo = insRes.rows[0][idCol];
+            if (hasCodPatrimonial) {
+                const insRes = await pool.query(
+                    `INSERT INTO ${tabla} (numero_serie, codigo_patrimonial, tipo_hardware, marca_modelo, estado_operativo) 
+                     VALUES ($1, $2, $3, $4, $5) RETURNING ${idCol}`,
+                    [nro_serie, cod_patrimonial, equipo.tipo_equipo, equipo.marca_modelo, nuevoEstado]
+                );
+                idActivo = insRes.rows[0][idCol];
+            } else {
+                const insRes = await pool.query(
+                    `INSERT INTO ${tabla} (numero_serie, tipo_hardware, marca_modelo, estado_operativo) 
+                     VALUES ($1, $2, $3, $4) RETURNING ${idCol}`,
+                    [nro_serie, equipo.tipo_equipo, equipo.marca_modelo, nuevoEstado]
+                );
+                idActivo = insRes.rows[0][idCol];
+            }
         }
     };
 

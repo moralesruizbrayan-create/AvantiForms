@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       UNION ALL
 
       SELECT 
-        'Teléfono Móvil', t.id_activo, t.codigo_patrimonial, t.numero_serie, t.marca_modelo, t.estado_operativo, 
+        'Teléfono Móvil', t.id_activo, NULL as codigo_patrimonial, t.numero_serie, t.marca_modelo, t.estado_operativo, 
         NULL, NULL, t.tipo_hardware as tipo_equipo,
         NULL, NULL,
         d.detalles_json, d.accesorios_json,
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
       UNION ALL
 
       SELECT 
-        'Periférico', pr.id_activo, pr.codigo_patrimonial, pr.numero_serie, pr.marca_modelo, pr.estado_operativo, 
+        'Periférico', pr.id_activo, NULL as codigo_patrimonial, pr.numero_serie, pr.marca_modelo, pr.estado_operativo, 
         NULL, NULL, pr.tipo_hardware as tipo_equipo,
         NULL, NULL,
         d.detalles_json, d.accesorios_json,

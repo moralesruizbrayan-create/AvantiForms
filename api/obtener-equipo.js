@@ -29,11 +29,11 @@ export default async function handler(req, res) {
 
     // 2. Buscamos en Telefonos
     let qTef = await pool.query(`
-      SELECT 'telefonos' as tipo_vista, t.tipo_hardware as tipo_equipo, t.marca_modelo, t.numero_serie as nro_serie, t.codigo_patrimonial,
+      SELECT 'telefonos' as tipo_vista, t.tipo_hardware as tipo_equipo, t.marca_modelo, t.numero_serie as nro_serie, NULL as codigo_patrimonial,
              d.detalles_json, d.accesorios_json
       FROM tef t
       LEFT JOIN detalle_acta_tef d ON t.id_activo = d.id_tef
-      WHERE t.numero_serie ILIKE $1 OR t.codigo_patrimonial ILIKE $1
+      WHERE t.numero_serie ILIKE $1
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     
@@ -41,11 +41,11 @@ export default async function handler(req, res) {
 
     // 3. Buscamos en Perifericos
     let qPeri = await pool.query(`
-      SELECT 'perifericos' as tipo_vista, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, p.codigo_patrimonial,
+      SELECT 'perifericos' as tipo_vista, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, NULL as codigo_patrimonial,
              d.detalles_json, d.accesorios_json
       FROM perifericos p
       LEFT JOIN detalle_acta_periferico d ON p.id_activo = d.id_periferico
-      WHERE p.numero_serie ILIKE $1 OR p.codigo_patrimonial ILIKE $1
+      WHERE p.numero_serie ILIKE $1
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     
