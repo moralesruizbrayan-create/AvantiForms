@@ -53,14 +53,14 @@
     .mode-btn:hover { background: var(--border-color); }
     .mode-btn.active { background: #16A34A; color: #FFF; border-color: #16A34A; box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2); }
 
-    .header-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); border-radius: 8px; overflow: hidden; }
+    .header-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border-top: 4px solid #16A34A; border-bottom: 2px solid #F59E0B; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); box-shadow: var(--shadow-sm); border-radius: 8px; overflow: hidden; }
     .header-logo { width: 140px; padding: 12px; border-right: 1px solid var(--border-color); vertical-align: middle; text-align: center; background: #fff; }
     .header-logo img { width: 100px; max-height: 50px; object-fit: contain; mix-blend-multiply; margin: 0 auto; display: block; }
     .header-titles { vertical-align: middle; padding: 12px 20px; text-align: center; background-color: var(--subhead-bg); }
     .header-titles h1 { font-size: 16px; color: var(--text-color); margin: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
     
     h3 { font-size: 11px; color: #16A34A; font-weight: 700; text-transform: uppercase; margin: 20px 0 8px 0; display: flex; align-items: center; letter-spacing: 0.5px; }
-    h3::before { content: ""; display: inline-block; width: 4px; height: 14px; background-color: #16A34A; margin-right: 8px; border-radius: 2px; }
+    h3::before { content: ""; display: inline-block; width: 4px; height: 14px; background-color: #F59E0B; margin-right: 8px; border-radius: 2px; }
     
     .form-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11.5px; }
     .form-table td { border: 1px solid var(--border-color); padding: 8px 12px; vertical-align: middle; }
@@ -122,9 +122,9 @@
     .sig-formal-title { background: var(--subhead-bg); color: var(--text-color); font-weight: 700; font-size: 11px; text-transform: uppercase; padding: 6px 10px; border-bottom: 1px solid var(--border-color); text-align: center; letter-spacing: 0.5px; }
     .sig-formal-body { padding: 12px; }
     .sig-formal-row { display: flex; gap: 15px; margin-bottom: 12px; }
-    .sig-formal-box-firma { flex-grow: 1; border: 1px dashed var(--input-border); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 6px; position: relative; min-height: 80px; }
-    .sig-formal-box-huella { width: 65px; height: 80px; border: 1px solid var(--input-border); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 6px; }
-    .sig-formal-label { font-size: 9px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; margin-top: 4px; border-top: 1px solid var(--border-color); width: 80%; text-align: center; padding-top: 4px; }
+    .sig-formal-box-firma { flex-grow: 1; border: none; border-bottom: 1.5px solid var(--text-color); border-radius: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 6px; position: relative; min-height: 80px; margin-right: 15px; margin-left: 10px; }
+    .sig-formal-box-huella { width: 16mm; height: 22mm; border: 1px solid var(--border-color); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 4px; background: #fff; }
+    .sig-formal-label { font-size: 8px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; margin-top: 2px; width: 100%; text-align: center; }
     .huella-espacio { flex-grow: 1; }
     .sig-formal-details { width: 100%; border-collapse: collapse; font-size: 11px; }
     .sig-formal-details td { padding: 4px 0; vertical-align: bottom; }
@@ -186,13 +186,13 @@
       body::before { display: none !important; }
       .no-print, .theme-toggle-btn, .mode-selector, .action-bar-container { display: none !important; }
       .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; display: block !important; margin: 0 !important; }
-      .header-table { border: 2px solid #000 !important; margin-bottom: 15px !important; border-radius: 0 !important; box-shadow: none !important; }
+      .header-table { border-top: 4px solid #16A34A !important; border-bottom: 2px solid #F59E0B !important; border-left: 2px solid #000 !important; border-right: 2px solid #000 !important; margin-bottom: 15px !important; border-radius: 0 !important; box-shadow: none !important; }
       .header-logo { width: 120px !important; border-right: 2px solid #000 !important; padding: 5px !important; background: transparent !important; }
       .header-logo img { width: 90px !important; max-height: 45px !important; }
       .header-titles { padding: 8px !important; background-color: #F1F5F9 !important; text-align: center !important; }
       .header-titles h1 { font-size: 13px !important; color: #000 !important; font-weight: 800 !important; margin: 0 !important; letter-spacing: 0 !important; }
       h3 { font-size: 10px !important; margin: 10px 0 4px 0 !important; color: #16A34A !important; page-break-after: avoid; }
-      h3::before { background-color: #16A34A !important; }
+      h3::before { background-color: #F59E0B !important; }
       .form-table { margin-bottom: 6px !important; page-break-inside: avoid; }
       .form-table td { padding: 1px 3px !important; font-size: 7.2px !important; color: #000 !important; border: 1px solid #CBD5E1 !important; line-height: 1.2 !important; vertical-align: middle !important; }
       .lbl { background-color: #F8FAFC !important; color: #000 !important; font-weight: 700 !important; width: 18% !important; }
@@ -201,6 +201,9 @@
       textarea { height: auto !important; min-height: auto !important; resize: none !important; display: block !important; }
       textarea::-webkit-resizer { display: none !important; }
       input[type="date"]:not(.has-val) { color: transparent !important; }
+      input[type="date"]:not(.has-val)::-webkit-datetime-edit { color: transparent !important; }
+      input[type="date"]:not(.has-val)::-webkit-datetime-edit-text { color: transparent !important; }
+      input[type="date"]:not(.has-val)::-webkit-datetime-edit-fields-wrapper { color: transparent !important; }
       input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
       input[type="date"]::-webkit-inner-spin-button { display: none !important; }
       input[type="checkbox"], input[type="radio"] { width: 10px !important; height: 10px !important; margin-right: 3px !important; accent-color: #16A34A !important; }
@@ -221,9 +224,10 @@
       .sig-formal-cell:first-child { border-right: 1px solid #000 !important; }
       .sig-formal-title { background: #F1F5F9 !important; color: #000 !important; border-bottom: 1px solid #000 !important; font-size: 10px !important; padding: 4px !important; }
       .sig-formal-body { padding: 8px !important; }
-      .sig-formal-box-firma, .sig-formal-box-huella { border: 1px solid #000 !important; border-radius: 0 !important; min-height: 60px !important; }
-      .sig-formal-box-huella { width: 50px !important; height: 60px !important; }
-      .sig-formal-label { color: #000 !important; border-top: 1px solid #000 !important; font-size: 7.5px !important; padding-top: 2px !important; margin-top: 2px !important; border-style: dotted !important; }
+      .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #000 !important; border-radius: 0 !important; min-height: 60px !important; margin-right: 15px !important; margin-left: 10px !important; }
+      .sig-formal-box-huella { border: 1px solid #000 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
+      
+      .sig-formal-label { color: #000 !important; border: none !important; font-size: 7.5px !important; padding-top: 0 !important; margin-top: 2px !important; }
       .sig-formal-details { font-size: 9px !important; }
       .sig-formal-details td:first-child { color: #000 !important; width: 45px !important; }
       .sig-formal-details input { font-size: 9px !important; color: #000 !important; border-bottom: 1px dotted #000 !important; }
@@ -398,7 +402,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f1_m1" class="signature-trigger-box" onclick="abrirModalFirma('f1_m1')"><span id="lbl_f1_m1">📝 Firmar Encargado TI</span><img id="f1_m1" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -418,7 +422,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f2_m1" class="signature-trigger-box" onclick="abrirModalFirma('f2_m1')"><span id="lbl_f2_m1">📝 Firmar Empleado</span><img id="f2_m1" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -484,7 +488,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f3_m1" class="signature-trigger-box" onclick="abrirModalFirma('f3_m1')"><span id="lbl_f3_m1">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m1" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -504,7 +508,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f4_m1" class="signature-trigger-box" onclick="abrirModalFirma('f4_m1')"><span id="lbl_f4_m1">📝 Firmar Empleado (Devolución)</span><img id="f4_m1" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -656,7 +660,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f1_m2" class="signature-trigger-box" onclick="abrirModalFirma('f1_m2')"><span id="lbl_f1_m2">📝 Firmar Encargado TI</span><img id="f1_m2" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -676,7 +680,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f2_m2" class="signature-trigger-box" onclick="abrirModalFirma('f2_m2')"><span id="lbl_f2_m2">📝 Firmar Empleado</span><img id="f2_m2" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -750,7 +754,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f3_m2" class="signature-trigger-box" onclick="abrirModalFirma('f3_m2')"><span id="lbl_f3_m2">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m2" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -770,7 +774,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f4_m2" class="signature-trigger-box" onclick="abrirModalFirma('f4_m2')"><span id="lbl_f4_m2">📝 Firmar Empleado (Devolución)</span><img id="f4_m2" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -853,12 +857,8 @@
         
         <tr><td colspan="4" class="subhead">Especificaciones Técnicas e Identificadores</td></tr>
         <tr>
-          <td class="lbl">Color Terminal:</td><td><input type="text" data-spec="color_terminal"></td>
           <td class="lbl">Capacidad (ROM):</td><td><input type="text" data-spec="capacidad" ></td>
-        </tr>
-        <tr>
           <td class="lbl">Memoria RAM:</td><td><input type="text" data-spec="ram_movil" ></td>
-          <td class="lbl">Cód. Patrimonial:</td><td><textarea rows="1" data-spec="codigo_patrimonial" onchange="buscarEquipo(this.value)"></textarea></td>
         </tr>
 
         <tr><td colspan="4" class="subhead">Estado de Componentes y Operatividad</td></tr>
@@ -926,7 +926,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f1_m3" class="signature-trigger-box" onclick="abrirModalFirma('f1_m3')"><span id="lbl_f1_m3">📝 Firmar Encargado TI</span><img id="f1_m3" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -946,7 +946,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f2_m3" class="signature-trigger-box" onclick="abrirModalFirma('f2_m3')"><span id="lbl_f2_m3">📝 Firmar Empleado</span><img id="f2_m3" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -1019,7 +1019,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f3_m3" class="signature-trigger-box" onclick="abrirModalFirma('f3_m3')"><span id="lbl_f3_m3">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m3" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -1039,7 +1039,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f4_m3" class="signature-trigger-box" onclick="abrirModalFirma('f4_m3')"><span id="lbl_f4_m3">📝 Firmar Persona que Devuelve</span><img id="f4_m3" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -1122,19 +1122,8 @@
                 <label><input type="radio" name="tipo_sim_m4" data-spec="sim_esim" value="eSIM"> eSIM</label>
              </div>
           </td>
-          <td class="lbl">Tope de Consumo:</td>
-          <td>
-             <div style="display: flex; gap: 10px;">
-                <label><input type="radio" name="tope_m4" data-spec="tope_abierto" value="Abierto"> Abierto</label>
-                <label><input type="radio" name="tope_m4" data-spec="tope_cerrado" value="Cerrado"> Cerrado</label>
-             </div>
-          </td>
-        </tr>
-        <tr>
           <td class="lbl">Plan de Datos:</td>
           <td><input type="text" data-spec="plan_datos"></td>
-          <td class="lbl">PIN / PUK:</td>
-          <td><input type="text" data-spec="pin_puk"></td>
         </tr>
       </table>
 
@@ -1177,7 +1166,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f1_m4" class="signature-trigger-box" onclick="abrirModalFirma('f1_m4')"><span id="lbl_f1_m4">📝 Firmar Encargado TI</span><img id="f1_m4" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -1197,7 +1186,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f2_m4" class="signature-trigger-box" onclick="abrirModalFirma('f2_m4')"><span id="lbl_f2_m4">📝 Firmar Empleado</span><img id="f2_m4" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -1270,7 +1259,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f3_m4" class="signature-trigger-box" onclick="abrirModalFirma('f3_m4')"><span id="lbl_f3_m4">📝 Firmar Encargado TI (Retorno)</span><img id="f3_m4" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
@@ -1290,7 +1279,7 @@
                   <div class="sig-formal-row">
                     <div class="sig-formal-box-firma">
                       <div id="box_f4_m4" class="signature-trigger-box" onclick="abrirModalFirma('f4_m4')"><span id="lbl_f4_m4">📝 Firmar Persona que Devuelve</span><img id="f4_m4" class="signature-runtime-img" style="display:none;"></div>
-                      <div class="sig-formal-label">Firma</div>
+                      
                     </div>
                     <div class="sig-formal-box-huella">
                       <div class="huella-espacio"></div>
