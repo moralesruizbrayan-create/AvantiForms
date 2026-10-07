@@ -1069,3 +1069,156 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     letter-spacing: 0.05em;
     font-weight: 500;
 }
+
+/* =========================================
+   ESTILOS DE IMPRESIÓN / PRINT STYLES
+   ========================================= */
+
+@media print {
+    /* 1. Ocultar elementos irrelevantes para la impresión */
+    button, 
+    .btn-dash, 
+    .btn-scan, 
+    .btn-outline, 
+    .btn-danger,
+    .theme-toggle-btn, 
+    .user-controls,
+    .action-bar-container,
+    .mode-selector,
+    nav,
+    a[href]:after,
+    .no-print {
+        display: none !important;
+    }
+
+    /* 2. Forzar diseño a una única página A4 utilizando flexbox y vh */
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    body::before { display: none !important; }
+
+    /* 3. Contenedor del formulario: Flexbox expansivo y centrado simétrico */
+    .page-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important; /* Move padding to form-view */
+        box-shadow: none !important;
+        border: none !important;
+        background: #FFFFFF !important;
+        display: flex !important;
+        flex-direction: column !important;
+        box-sizing: border-box !important;
+    }
+    
+    .form-view.active {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        height: 100% !important;
+        width: 100% !important;
+        padding: 1.5cm 1.5cm !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 4. Forzar evitar quiebres de página en secciones principales */
+    .form-table,
+    .signature-section,
+    .compromiso-box,
+    .header-table {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+    }
+
+    /* 5. Mantener Branding Verde */
+    .header-table {
+        border-top: 5px solid #16A34A !important;
+        border-bottom: 2px solid #F59E0B !important;
+    }
+
+    h3 {
+        color: #16A34A !important;
+    }
+
+    /* Quitar sombras de las cajas */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* 6. Evitar impresión de dd/mm/aaaa en fechas vacías y estilos genéricos de inputs */
+    input[type="text"], input[type="date"], textarea {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        font-size: 11px !important;
+        color: #000 !important;
+        width: 100% !important;
+        font-family: inherit !important;
+        text-align: left !important;
+        vertical-align: middle !important;
+        overflow: visible !important;
+        white-space: pre-wrap !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+    }
+    textarea {
+        height: auto !important;
+        min-height: auto !important;
+        resize: none !important;
+        display: block !important;
+    }
+    textarea::-webkit-resizer { display: none !important; }
+    
+    input[type="date"]:not(.has-val) { color: transparent !important; }
+    input[type="date"]:not(.has-val)::-webkit-datetime-edit { color: transparent !important; }
+    input[type="date"]:not(.has-val)::-webkit-datetime-edit-text { color: transparent !important; }
+    input[type="date"]:not(.has-val)::-webkit-datetime-edit-fields-wrapper { color: transparent !important; }
+    input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
+    input[type="date"]::-webkit-inner-spin-button { display: none !important; }
+    
+    input[type="checkbox"], input[type="radio"] {
+        width: 12px !important;
+        height: 12px !important;
+        margin-right: 4px !important;
+        accent-color: #16A34A !important;
+    }
+    
+    /* Evitar que se impriman las cajas de evidencia fotográfica */
+    .evidencia-box, .evidencia-runtime-img { display: none !important; }
+
+    /* Firmas Formales en Impresión */
+    .sig-formal-table { margin-top: 15px !important; border: 2px solid #000 !important; }
+    .sig-formal-cell { border: 1px solid #000 !important; }
+    .sig-formal-cell:first-child { border-right: 1px solid #000 !important; }
+    .sig-formal-title { background: #F1F5F9 !important; color: #000 !important; border-bottom: 1px solid #000 !important; font-size: 10px !important; padding: 4px !important; }
+    .sig-formal-body { padding: 8px !important; }
+    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #000 !important; border-radius: 0 !important; min-height: 60px !important; margin-right: 15px !important; margin-left: 10px !important; }
+    .sig-formal-box-huella { border: 1px solid #000 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
+    .sig-formal-label { color: #000 !important; border: none !important; font-size: 7.5px !important; padding-top: 0 !important; margin-top: 2px !important; }
+    .sig-formal-details { font-size: 9px !important; }
+    .sig-formal-details td:first-child { color: #000 !important; width: 45px !important; font-weight: bold; }
+    .sig-formal-details input { font-size: 9px !important; color: #000 !important; border-bottom: 1px dotted #000 !important; }
+    .signature-trigger-box { border: none !important; background: transparent !important; height: 100% !important; min-height: 40px !important; margin: 0 !important; position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+    .signature-runtime-img { max-height: 50px !important; object-fit: contain !important; }
+    .signature-trigger-box span { display: none !important; }
+
+}
