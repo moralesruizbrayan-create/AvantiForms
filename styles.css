@@ -1121,13 +1121,14 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .page-container {
         width: 100vw !important;
         height: 100vh !important;
-        margin: 0 !important;
-        padding: 0 !important; /* Move padding to form-view */
+        margin: 0 auto !important;
+        padding: 0 !important;
         box-shadow: none !important;
         border: none !important;
         background: #FFFFFF !important;
         display: flex !important;
         flex-direction: column !important;
+        align-items: center !important;
         box-sizing: border-box !important;
     }
     
@@ -1137,7 +1138,9 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         justify-content: space-between !important;
         height: 100% !important;
         width: 100% !important;
-        padding: 0.5cm 1cm !important;
+        max-width: 21cm !important;
+        margin: 0 auto !important;
+        padding: 1.5cm 1cm 0.2cm 1cm !important;
         box-sizing: border-box !important;
     }
 
