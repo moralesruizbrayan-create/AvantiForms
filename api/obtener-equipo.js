@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   try {
     // 1. Buscamos en PCs (Haciendo cruce con el último detalle guardado)
     let qPc = await pool.query(`
-      SELECT 'PCs' as tipo_vista, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, p.codigo_patrimonial,
+      SELECT 'PCs' as tipo_vista, p.id_activo as codigo_activo, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, p.codigo_patrimonial,
              d.detalles_json, d.accesorios_json
       FROM pcs p
       LEFT JOIN detalle_acta_pc d ON p.id_activo = d.id_pc
@@ -29,11 +29,11 @@ export default async function handler(req, res) {
 
     // 2. Buscamos en Telefonos
     let qTef = await pool.query(`
-      SELECT 'telefonos' as tipo_vista, t.tipo_hardware as tipo_equipo, t.marca_modelo, t.numero_serie as nro_serie, NULL as codigo_patrimonial,
+      SELECT 'telefonos' as tipo_vista, t.id_activo as codigo_activo, t.tipo_hardware as tipo_equipo, t.marca_modelo, t.numero_serie as nro_serie, NULL as codigo_patrimonial,
              d.detalles_json, d.accesorios_json
       FROM tef t
       LEFT JOIN detalle_acta_tef d ON t.id_activo = d.id_tef
-      WHERE t.numero_serie ILIKE $1
+      WHERE t.numero_serie ILIKE $1 OR d.detalles_json::text ILIKE '%' || $1 || '%'
       ORDER BY d.id_acta DESC LIMIT 1
     `, [codigo.trim()]);
     
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
     // 3. Buscamos en Perifericos
     let qPeri = await pool.query(`
-      SELECT 'perifericos' as tipo_vista, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, NULL as codigo_patrimonial,
+      SELECT 'perifericos' as tipo_vista, p.id_activo as codigo_activo, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, NULL as codigo_patrimonial,
              d.detalles_json, d.accesorios_json
       FROM perifericos p
       LEFT JOIN detalle_acta_periferico d ON p.id_activo = d.id_periferico
