@@ -1137,7 +1137,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         justify-content: space-between !important;
         height: 100% !important;
         width: 100% !important;
-        padding: 1cm 1.2cm !important;
+        padding: 0.5cm 1cm !important;
         box-sizing: border-box !important;
     }
 
@@ -1227,7 +1227,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     /* 7. Escalar form view para caber en una cara */
     .form-view.modo-completo.active {
-        zoom: 0.70 !important;
+        zoom: 0.65 !important;
         transform: none !important;
         transform-origin: top center !important;
     }
@@ -1236,4 +1236,9 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         transform: none !important;
         transform-origin: top center !important;
     }
+
+    .form-table td { padding: 4px 8px !important; }
+    h3 { margin: 10px 0 4px 0 !important; }
+    .signature-section { gap: 15px !important; }
+    .sig-formal-table { margin-top: 10px !important; }
 }
