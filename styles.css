@@ -1227,13 +1227,13 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     /* 7. Escalar form view para caber en una cara */
     .form-view.modo-completo.active {
-        zoom: 0.77 !important;
-        transform: scale(0.95) !important;
+        zoom: 0.70 !important;
+        transform: none !important;
         transform-origin: top center !important;
     }
     .form-view.modo-entrega.active, .form-view.modo-devolucion.active {
-        zoom: 0.95 !important;
-        transform: scale(1) !important;
+        zoom: 0.88 !important;
+        transform: none !important;
         transform-origin: top center !important;
     }
 }
