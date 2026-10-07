@@ -18,8 +18,8 @@
       --border-focus: #333333;
       --text-bright: #ffffff;
       --text-muted: #a1a1aa;
-      --accent-green: #00c867;
-      --accent-green-hover: #00b05b;
+      --accent-green: #10B981;
+      --accent-green-hover: #059669;
     }
 
     body { 
@@ -57,18 +57,14 @@
     .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; height: auto !important; }
     .tabulator-tableholder { overflow-y: hidden !important; overflow-x: auto !important; height: auto !important; }
     
-    .tabulator-header { 
-        background-color: var(--surface-slate) !important; 
-        color: var(--text-muted) !important; 
-        border-bottom: 1px solid var(--border-subtle) !important; 
-    }
+    .tabulator-header { background-color: var(--surface-slate) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: 2px solid var(--accent-green) !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 16px 12px !important; }
     .tabulator-col-title { font-weight: 600 !important; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);}
     
     .tabulator-row { border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.15s ease; }
-    .tabulator-row.tabulator-row-odd { background-color: #131416 !important; }
-    .tabulator-row.tabulator-row-even { background-color: #0f0f11 !important; }
-    .tabulator-row:hover { background-color: #18181b !important; cursor: pointer; }
+    .tabulator-row.tabulator-row-odd { background-color: transparent !important; }
+    .tabulator-row.tabulator-row-even { background-color: rgba(255,255,255,0.02) !important; }
+    .tabulator-row:hover { background-color: rgba(16, 185, 129, 0.05) !important; cursor: pointer; }
     .tabulator-cell { border-right: none !important; padding: 18px 16px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
     /* VISTA MVIL PREMIUM */

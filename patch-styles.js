@@ -1,103 +1,37 @@
-const fs = require('fs');
-const path = require('path');
+﻿const fs = require('fs');
+let css = fs.readFileSync('styles.css', 'utf8');
 
-const cssPath = path.join(__dirname, 'styles.css');
-let css = fs.readFileSync(cssPath, 'utf8');
+// 1. Update body inside print
+css = css.replace(/body\s*\{([^}]*print-color-adjust:\s*exact;[^}]*)\}/, (match, inner) => {
+    if (inner.includes('max-height: 100vh')) return match;
+    return `body {${inner}\n        max-height: 100vh !important;\n        overflow: hidden !important;\n    }`;
+});
 
-// Replace the buggy @media print at the bottom
-const buggyPrintRegex = /@media print\s*\{[\s\S]*?(?=\n\n|\n$)/g;
+// 2. Update .form-view.active padding
+css = css.replace(/\.form-view\.active\s*\{([^}]*)padding:\s*1\.5cm\s+1\.5cm\s*!important;([^}]*)\}/, (match, before, after) => {
+    return `.form-view.active {${before}padding: 1cm 1.2cm !important;${after}}`;
+});
 
-css = css.replace(/@media print\s*\{[\s\S]*\}\s*$/, `
-@media print {
-    /* 1. Ocultar elementos irrelevantes para la impresión */
-    button, 
-    .btn-dash, 
-    .btn-scan, 
-    .btn-outline, 
-    .btn-danger,
-    .theme-toggle-btn, 
-    .user-controls,
-    .action-bar-container,
-    .mode-selector,
-    nav,
-    a[href]:after,
-    .no-print {
-        display: none !important;
+// 3. Add scaling rules
+if (!css.includes('.form-view.modo-completo.active {')) {
+    const zoomRules = `
+    /* 7. Escalar form view para caber en una cara */
+    .form-view.modo-completo.active {
+        zoom: 0.77 !important;
+        transform: scale(0.95) !important;
+        transform-origin: top center !important;
     }
-
-    /* 2. Forzar diseño a una única página A4 utilizando flexbox y vh */
-    @page {
-        size: A4 portrait;
-        margin: 0;
+    .form-view.modo-entrega.active, .form-view.modo-devolucion.active {
+        zoom: 0.95 !important;
+        transform: scale(1) !important;
+        transform-origin: top center !important;
     }
-
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-        background: #FFFFFF !important;
-        color: #000000 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-    
-    body::before { display: none !important; }
-
-    /* 3. Contenedor del formulario: Flexbox expansivo y centrado simétrico */
-    .page-container {
-        width: 100vw !important;
-        height: 100vh !important;
-        margin: 0 !important;
-        padding: 0 !important; /* Move padding to form-view */
-        box-shadow: none !important;
-        border: none !important;
-        background: #FFFFFF !important;
-        display: flex !important;
-        flex-direction: column !important;
-        box-sizing: border-box !important;
-    }
-    
-    .form-view.active {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        height: 100% !important;
-        width: 100% !important;
-        padding: 1.5cm 1.5cm !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 4. Forzar evitar quiebres de página en secciones principales */
-    .form-table,
-    .signature-section,
-    .compromiso-box,
-    .header-table {
-        page-break-inside: avoid !important;
-        page-break-after: auto !important;
-    }
-
-    /* 5. Mantener Branding Verde */
-    .header-table {
-        border-top: 5px solid #16A34A !important;
-        border-bottom: 2px solid #F59E0B !important;
-    }
-
-    h3 {
-        color: #16A34A !important;
-    }
-
-    /* Quitar sombras de las cajas */
-    * {
-        box-shadow: none !important;
-        text-shadow: none !important;
+`;
+    const lastBraceIndex = css.lastIndexOf('}');
+    if (lastBraceIndex !== -1) {
+        css = css.substring(0, lastBraceIndex) + zoomRules + css.substring(lastBraceIndex);
     }
 }
-`);
 
-fs.writeFileSync(cssPath, css);
-console.log('styles.css patched successfully.');
+fs.writeFileSync('styles.css', css, 'utf8');
+console.log('styles.css updated successfully');
