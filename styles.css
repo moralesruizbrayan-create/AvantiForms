@@ -1104,7 +1104,10 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         color: #334155 !important;
         width: 100vw !important;
         height: 100vh !important;
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         max-height: 100vh !important;
@@ -1115,7 +1118,6 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     /* 3. Contenedor del formulario: Flexbox expansivo y centrado simétrico */
     .page-container {
-        position: relative !important;
         width: 100vw !important;
         height: 100vh !important;
         margin: 0 !important;
@@ -1123,9 +1125,10 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         box-shadow: none !important;
         border: none !important;
         background: #FFFFFF !important;
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
         box-sizing: border-box !important;
-        overflow: hidden !important;
     }
     
     .form-view.active {
@@ -1136,8 +1139,10 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         width: 100% !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 1.5cm 1cm 0.2cm 1cm !important;
+        padding: 1.5cm 1.5cm 0.5cm 1.5cm !important;
         box-sizing: border-box !important;
+        /* Global scale down in standard way */
+        font-size: 8.5px !important; 
     }
 
     /* 4. Forzar evitar quiebres de página en secciones principales */
@@ -1170,7 +1175,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
-        font-size: 11px !important;
+        font-size: 8.5px !important;
         color: #334155 !important;
         width: 100% !important;
         font-family: inherit !important;
@@ -1211,14 +1216,14 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .sig-formal-table { margin-top: 15px !important; border: 1px solid #cbd5e1 !important; }
     .sig-formal-cell { border: 1px solid #cbd5e1 !important; }
     .sig-formal-cell:first-child { border-right: 1px solid #cbd5e1 !important; }
-    .sig-formal-title { background: #f8fafc !important; color: #16a34a !important; border-bottom: 1px solid #cbd5e1 !important; font-size: 10px !important; padding: 4px !important; }
+    .sig-formal-title { background: #f8fafc !important; color: #16a34a !important; border-bottom: 1px solid #cbd5e1 !important; font-size: 8px !important; padding: 4px !important; }
     .sig-formal-body { padding: 8px !important; }
-    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0 !important; min-height: 60px !important; margin-right: 15px !important; margin-left: 10px !important; }
+    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0 !important; min-height: 45px !important; margin-right: 15px !important; margin-left: 10px !important; }
     .sig-formal-box-huella { border: 1px solid #cbd5e1 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
-    .sig-formal-label { color: #334155 !important; border: none !important; font-size: 7.5px !important; padding-top: 0 !important; margin-top: 2px !important; }
-    .sig-formal-details { font-size: 9px !important; }
+    .sig-formal-label { color: #334155 !important; border: none !important; font-size: 6.5px !important; padding-top: 0 !important; margin-top: 2px !important; }
+    .sig-formal-details { font-size: 6.5px !important; }
     .sig-formal-details td:first-child { color: #334155 !important; width: 45px !important; font-weight: bold; }
-    .sig-formal-details input { font-size: 9px !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
+    .sig-formal-details input { font-size: 6.5px !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
     .signature-trigger-box { border: none !important; background: transparent !important; height: 100% !important; min-height: 40px !important; margin: 0 !important; position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
     .signature-runtime-img { max-height: 50px !important; object-fit: contain !important; }
     .signature-trigger-box span { display: none !important; }
@@ -1226,36 +1231,28 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     /* 7. Escalar form view para caber en una cara */
     .form-view.modo-completo.active {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 320mm !important;
-        height: 450mm !important;
-        min-width: 320mm !important;
+        width: 100% !important;
+        height: 100% !important;
         max-width: none !important;
         max-height: none !important;
         zoom: 1 !important;
-        transform: scale(0.65) !important;
-        transform-origin: top left !important;
+        transform: none !important;
         margin: 0 !important;
+        position: relative !important;
     }
     .form-view.modo-entrega.active, .form-view.modo-devolucion.active {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 236mm !important;
-        height: 333mm !important;
-        min-width: 236mm !important;
+        width: 100% !important;
+        height: 100% !important;
         max-width: none !important;
         max-height: none !important;
         zoom: 1 !important;
-        transform: scale(0.88) !important;
-        transform-origin: top left !important;
+        transform: none !important;
         margin: 0 !important;
+        position: relative !important;
     }
 
-    .form-table td { padding: 4px 8px !important; }
-    h3 { margin: 10px 0 4px 0 !important; }
-    .signature-section { gap: 15px !important; }
+    .form-table td { padding: 3px 6px !important; }
+    h3 { margin: 6px 0 2px 0 !important; font-size: 11px !important; }
+    .signature-section { gap: 10px !important; }
     .sig-formal-table { margin-top: 10px !important; }
 }
