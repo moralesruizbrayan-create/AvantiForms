@@ -1104,13 +1104,9 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         color: #334155 !important;
         width: 100vw !important;
         height: 100vh !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
+        display: block !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
-    
         max-height: 100vh !important;
         overflow: hidden !important;
     }
@@ -1121,14 +1117,12 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .page-container {
         width: 100vw !important;
         height: 100vh !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         padding: 0 !important;
         box-shadow: none !important;
         border: none !important;
         background: #FFFFFF !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
+        display: block !important;
         box-sizing: border-box !important;
     }
     
@@ -1139,7 +1133,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         height: 100% !important;
         width: 100% !important;
         max-width: none !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         padding: 2.3cm 1.5cm 1cm 1.5cm !important;
         box-sizing: border-box !important;
     }
@@ -1230,18 +1224,22 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     /* 7. Escalar form view para caber en una cara */
     .form-view.modo-completo.active {
-        width: 153.84% !important; /* 100 / 0.65 */
+        width: 153.84% !important;
+        height: 153.84% !important;
         max-width: none !important;
-        zoom: 0.65 !important;
-        transform: none !important;
-        transform-origin: top center !important;
+        max-height: none !important;
+        zoom: 1 !important;
+        transform: scale(0.65) !important;
+        transform-origin: top left !important;
     }
     .form-view.modo-entrega.active, .form-view.modo-devolucion.active {
-        width: 113.63% !important; /* 100 / 0.88 */
+        width: 113.63% !important;
+        height: 113.63% !important;
         max-width: none !important;
-        zoom: 0.88 !important;
-        transform: none !important;
-        transform-origin: top center !important;
+        max-height: none !important;
+        zoom: 1 !important;
+        transform: scale(0.88) !important;
+        transform-origin: top left !important;
     }
 
     .form-table td { padding: 4px 8px !important; }
