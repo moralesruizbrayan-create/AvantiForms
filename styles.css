@@ -1224,8 +1224,8 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     /* 7. Escalar form view para caber en una cara */
     .form-view.modo-completo.active {
-        width: 153.84% !important;
-        height: 152% !important;
+        width: 320mm !important;
+        height: 450mm !important;
         max-width: none !important;
         max-height: none !important;
         zoom: 0.65 !important;
@@ -1233,8 +1233,8 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         margin: 0 !important;
     }
     .form-view.modo-entrega.active, .form-view.modo-devolucion.active {
-        width: 113.63% !important;
-        height: 112% !important;
+        width: 236mm !important;
+        height: 333mm !important;
         max-width: none !important;
         max-height: none !important;
         zoom: 0.88 !important;
