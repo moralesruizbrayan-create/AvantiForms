@@ -1101,7 +1101,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         margin: 0 !important;
         padding: 0 !important;
         background: #FFFFFF !important;
-        color: #000000 !important;
+        color: #334155 !important;
         width: 100vw !important;
         height: 100vh !important;
         display: flex !important;
@@ -1172,7 +1172,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         border: none !important;
         padding: 0 !important;
         font-size: 11px !important;
-        color: #000 !important;
+        color: #334155 !important;
         width: 100% !important;
         font-family: inherit !important;
         text-align: left !important;
@@ -1209,17 +1209,17 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .evidencia-box, .evidencia-runtime-img { display: none !important; }
 
     /* Firmas Formales en Impresión */
-    .sig-formal-table { margin-top: 15px !important; border: 2px solid #000 !important; }
-    .sig-formal-cell { border: 1px solid #000 !important; }
-    .sig-formal-cell:first-child { border-right: 1px solid #000 !important; }
-    .sig-formal-title { background: #F1F5F9 !important; color: #000 !important; border-bottom: 1px solid #000 !important; font-size: 10px !important; padding: 4px !important; }
+    .sig-formal-table { margin-top: 15px !important; border: 1px solid #cbd5e1 !important; }
+    .sig-formal-cell { border: 1px solid #cbd5e1 !important; }
+    .sig-formal-cell:first-child { border-right: 1px solid #cbd5e1 !important; }
+    .sig-formal-title { background: #f8fafc !important; color: #16a34a !important; border-bottom: 1px solid #cbd5e1 !important; font-size: 10px !important; padding: 4px !important; }
     .sig-formal-body { padding: 8px !important; }
-    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #000 !important; border-radius: 0 !important; min-height: 60px !important; margin-right: 15px !important; margin-left: 10px !important; }
-    .sig-formal-box-huella { border: 1px solid #000 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
-    .sig-formal-label { color: #000 !important; border: none !important; font-size: 7.5px !important; padding-top: 0 !important; margin-top: 2px !important; }
+    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0 !important; min-height: 60px !important; margin-right: 15px !important; margin-left: 10px !important; }
+    .sig-formal-box-huella { border: 1px solid #cbd5e1 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
+    .sig-formal-label { color: #334155 !important; border: none !important; font-size: 7.5px !important; padding-top: 0 !important; margin-top: 2px !important; }
     .sig-formal-details { font-size: 9px !important; }
-    .sig-formal-details td:first-child { color: #000 !important; width: 45px !important; font-weight: bold; }
-    .sig-formal-details input { font-size: 9px !important; color: #000 !important; border-bottom: 1px dotted #000 !important; }
+    .sig-formal-details td:first-child { color: #334155 !important; width: 45px !important; font-weight: bold; }
+    .sig-formal-details input { font-size: 9px !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
     .signature-trigger-box { border: none !important; background: transparent !important; height: 100% !important; min-height: 40px !important; margin: 0 !important; position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
     .signature-runtime-img { max-height: 50px !important; object-fit: contain !important; }
     .signature-trigger-box span { display: none !important; }
