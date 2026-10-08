@@ -1139,7 +1139,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         width: 100% !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 1cm 1.5cm 0.2cm 1.5cm !important;
+        padding: 0.7cm 1.5cm 0.1cm 1.5cm !important;
         box-sizing: border-box !important;
         /* Global scale down in standard way */
         font-size: 6px !important; 
@@ -1215,9 +1215,9 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .sig-formal-table { margin-top: 15px !important; border: 1px solid #cbd5e1 !important; }
     .sig-formal-cell { border: 1px solid #cbd5e1 !important; }
     .sig-formal-cell:first-child { border-right: 1px solid #cbd5e1 !important; }
-    .sig-formal-title { background: #f8fafc !important; color: #16a34a !important; border-bottom: 1px solid #cbd5e1 !important; font-size: 7px !important; padding: 4px !important; }
+    .sig-formal-title { background: #f8fafc !important; color: #16a34a !important; border-bottom: 1px solid #cbd5e1 !important; font-size: 6.8px !important; padding: 4px !important; }
     .sig-formal-body { padding: 8px !important; }
-    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0 !important; min-height: 35px !important; margin-right: 15px !important; margin-left: 10px !important; }
+    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #cbd5e1 !important; border-radius: 0 !important; min-height: 25px !important; margin-right: 15px !important; margin-left: 10px !important; }
     .sig-formal-box-huella { border: 1px solid #cbd5e1 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
     .sig-formal-label { color: #334155 !important; border: none !important; font-size: 6px !important; padding-top: 0 !important; margin-top: 2px !important; }
     .sig-formal-details { font-size: 6px !important; }
@@ -1250,8 +1250,8 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         position: relative !important;
     }
 
-    .form-table td { padding: 2px 4px !important; }
-    h3 { margin: 3px 0 1px 0 !important; font-size: 9px !important; }
-    .signature-section { gap: 5px !important; }
+    .form-table td { padding: 1.5px 3px !important; }
+    h3 { margin: 1px 0 0px 0 !important; font-size: 9px !important; }
+    .signature-section { gap: 3px !important; }
     .sig-formal-table { margin-top: 10px !important; }
 }
