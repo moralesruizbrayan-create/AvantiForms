@@ -1680,7 +1680,7 @@
           val = el.hasAttribute('value') && el.value !== 'on' ? el.value : (el.nextSibling ? el.nextSibling.textContent.trim() : 'true');
         }
         
-        if(['codigo_patrimonial', 'codigo_activo', 'tipo_equipo', 'tipo_periferico', 'marca_modelo', 'nro_serie', 'nro_telefono', 'serie_sim', 'operador', 'procesador', 'ram', 'disco_duro', 'color_terminal', 'capacidad', 'entradas_video', 'pulgadas_tamano'].includes(key)) {
+        if(['codigo_patrimonial', 'codigo_activo', 'tipo_equipo', 'tipo_periferico', 'marca_modelo', 'nro_serie', 'nro_telefono', 'serie_sim', 'operador', 'procesador', 'ram', 'disco_duro', 'color_terminal', 'capacidad', 'entradas_video', 'pulgadas_tamano', 'imei_1', 'imei_2', 'imei', 'mac', 'sn'].includes(key)) {
           payload.equipo[key] = val;
         } else if(key.startsWith('acc_') || key.startsWith('cable_') || key === 'adaptador_voltaje') {
           payload.detalles.accesorios[key] = val;
