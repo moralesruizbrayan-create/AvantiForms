@@ -1115,7 +1115,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        align-items: center !important;
+        align-items: stretch !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         max-height: 100% !important;
@@ -1135,7 +1135,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         background: #FFFFFF !important;
         display: flex !important;
         flex-direction: column !important;
-        align-items: center !important;
+        align-items: stretch !important;
         box-sizing: border-box !important;
     }
     
