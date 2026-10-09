@@ -1182,7 +1182,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
-        font-size: 7.5px !important; font-weight: 600 !important;
+        font-size: 6px !important; font-weight: normal !important;
         color: #334155 !important;
         width: 100% !important;
         font-family: inherit !important;
@@ -1229,7 +1229,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .sig-formal-label { color: #334155 !important; border: none !important; font-size: 6px !important; padding-top: 0 !important; margin-top: 2px !important; }
     .sig-formal-details { font-size: 6px !important; }
     .sig-formal-details td:first-child { color: #334155 !important; width: 45px !important; font-weight: bold; }
-    .sig-formal-details input { font-size: 7.5px !important; font-weight: 600 !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
+    .sig-formal-details input { font-size: 6px !important; font-weight: normal !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
     .signature-trigger-box { border: none !important; background: transparent !important; height: 100% !important; min-height: 40px !important; margin: 0 !important; position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
     .signature-runtime-img { max-height: 50px !important; object-fit: contain !important; }
     .signature-trigger-box span { display: none !important; }
@@ -1259,7 +1259,9 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 
     .form-table td { padding: 1.5px 2px !important; border-color: #cbd5e1 !important; color: #334155 !important; font-size: 6px !important; line-height: 1.1 !important; }
     .form-table { font-size: 6px !important; line-height: 1.1 !important; }
+    .form-table span, .form-table label { font-size: inherit !important; }
     .form-table th { border-color: #cbd5e1 !important; background-color: #f8fafc !important; color: #334155 !important; }
+    .form-table td.subhead { font-size: 6.5px !important; color: #16A34A !important; font-weight: 700 !important; text-transform: uppercase !important; border-bottom: 1px solid #16A34A !important; padding-top: 4px !important; padding-bottom: 2px !important; }
     h3 { margin: 1px 0 !important; font-size: 7.5px !important; }
     .signature-section { gap: 3px !important; }
     
