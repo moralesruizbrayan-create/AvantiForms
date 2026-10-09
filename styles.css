@@ -1182,7 +1182,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
-        font-size: 6px !important;
+        font-size: 7.5px !important; font-weight: 600 !important;
         color: #334155 !important;
         width: 100% !important;
         font-family: inherit !important;
@@ -1222,14 +1222,14 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .sig-formal-table { margin-top: 5px !important; border: none !important; width: 100% !important; border-spacing: 20px 0 !important; border-collapse: separate !important; }
     .sig-formal-cell { border: none !important; }
     .sig-formal-cell:first-child { border: none !important; }
-    .sig-formal-title { background: transparent !important; color: #16a34a !important; border: none !important; font-size: 6.5px !important; padding: 2px !important; text-align: center; text-transform: uppercase; font-weight: 800; }
+    .sig-formal-title { background: transparent !important; color: #16a34a !important; border: none !important; font-size: 7.5px !important; font-weight: 600 !important; padding: 2px !important; text-align: center; text-transform: uppercase; font-weight: 800; }
     .sig-formal-body { padding: 4px !important; }
     .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #334155 !important; border-radius: 0 !important; min-height: 25px !important; margin: 0 10px !important; }
     .sig-formal-box-huella { border: 1px solid #cbd5e1 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
     .sig-formal-label { color: #334155 !important; border: none !important; font-size: 6px !important; padding-top: 0 !important; margin-top: 2px !important; }
     .sig-formal-details { font-size: 6px !important; }
     .sig-formal-details td:first-child { color: #334155 !important; width: 45px !important; font-weight: bold; }
-    .sig-formal-details input { font-size: 6px !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
+    .sig-formal-details input { font-size: 7.5px !important; font-weight: 600 !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
     .signature-trigger-box { border: none !important; background: transparent !important; height: 100% !important; min-height: 40px !important; margin: 0 !important; position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
     .signature-runtime-img { max-height: 50px !important; object-fit: contain !important; }
     .signature-trigger-box span { display: none !important; }
@@ -1257,7 +1257,8 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         position: relative !important;
     }
 
-    .form-table td { padding: 1px 2px !important; border-color: #cbd5e1 !important; color: #334155 !important; }
+    .form-table td { padding: 1.5px 2px !important; border-color: #cbd5e1 !important; color: #334155 !important; font-size: 6px !important; line-height: 1.1 !important; }
+    .form-table { font-size: 6px !important; line-height: 1.1 !important; }
     .form-table th { border-color: #cbd5e1 !important; background-color: #f8fafc !important; color: #334155 !important; }
     h3 { margin: 1px 0 !important; font-size: 7.5px !important; }
     .signature-section { gap: 3px !important; }
