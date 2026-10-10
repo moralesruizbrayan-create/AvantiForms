@@ -401,12 +401,19 @@
     });
 
     function actualizarFiltros() {
-
-      tablaInventario.setFilter([
-        { field: "computador", type: "like", value: document.getElementById("filtro-computador").value },
-        { field: "nombre_empleado", type: "like", value: document.getElementById("filtro-usuario").value },
-        { field: "categoria", type: "like", value: categoriaActual }
-      ]);
+      let filtros = [];
+      const valComp = document.getElementById("filtro-computador").value.trim();
+      const valUsu = document.getElementById("filtro-usuario").value.trim();
+      
+      if(valComp) filtros.push({ field: "computador", type: "like", value: valComp });
+      if(valUsu) filtros.push({ field: "nombre_empleado", type: "like", value: valUsu });
+      if(categoriaActual) filtros.push({ field: "categoria", type: "like", value: categoriaActual });
+      
+      if(filtros.length > 0) {
+        tablaInventario.setFilter(filtros);
+      } else {
+        tablaInventario.clearFilter();
+      }
     }
 
     document.getElementById("filtro-computador").addEventListener("keyup", actualizarFiltros);
