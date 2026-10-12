@@ -95,7 +95,10 @@
     .tabulator-cell { border-right: none !important; padding: 12px 14px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
     /* Paginador Fluent 2 */
-    .tabulator-footer { 
+    .tabulator, .tabulator .tabulator-footer {
+        width: 100% !important;
+    }
+    .tabulator .tabulator-footer { 
         background-color: #202020 !important; 
         border-top: 1px solid var(--border-subtle) !important; 
         color: var(--text-muted) !important; 
@@ -104,19 +107,33 @@
         align-items: center !important;
         justify-content: space-between !important;
         flex-wrap: wrap !important;
-        gap: 10px !important;
+        gap: 12px !important;
     }
-    .tabulator-footer .tabulator-paginator {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 4px !important;
-    }
-    .tabulator-footer .tabulator-counter {
+    .tabulator .tabulator-footer .tabulator-counter {
         font-size: 12px !important;
         color: var(--text-muted) !important;
         font-weight: 500 !important;
+        margin-right: auto !important;
+        padding-right: 14px !important;
+        white-space: nowrap !important;
+        float: none !important;
     }
-    .tabulator-footer .tabulator-page-size { 
+    .tabulator .tabulator-footer .tabulator-paginator {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        float: none !important;
+        flex-wrap: wrap !important;
+    }
+    .tabulator .tabulator-footer .tabulator-paginator label {
+        font-size: 12px !important;
+        color: var(--text-muted) !important;
+        font-weight: 500 !important;
+        margin-left: 10px !important;
+        margin-right: 6px !important;
+        white-space: nowrap !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page-size { 
         background-color: #2b2b2b !important; 
         border: 1px solid var(--border-subtle) !important; 
         color: var(--text-bright) !important; 
@@ -124,54 +141,56 @@
         padding: 4px 8px !important; 
         font-size: 12px !important;
         outline: none !important; 
+        margin-right: 8px !important;
+        cursor: pointer !important;
         transition: border 0.15s ease !important;
     }
-    .tabulator-footer .tabulator-page-size:focus { 
+    .tabulator .tabulator-footer .tabulator-page-size:focus { 
         border-color: var(--accent-green-vibrant) !important; 
     }
-    .tabulator-footer .tabulator-page { 
+    .tabulator .tabulator-footer .tabulator-page { 
         background: #2b2b2b !important; 
         border: 1px solid #383838 !important; 
         color: #d1d1d1 !important; 
         border-radius: 4px !important; 
         min-width: 32px !important;
         height: 30px !important;
-        padding: 0 10px !important; 
+        padding: 0 8px !important; 
         margin: 0 !important;
-        font-size: 12px !important;
-        font-weight: 500 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         cursor: pointer !important;
         transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1) !important;
+        user-select: none !important;
     }
-    .tabulator-footer .tabulator-page:hover:not([disabled]) { 
+    .tabulator .tabulator-footer .tabulator-page:hover:not([disabled]) { 
         background: #383838 !important; 
         border-color: #484848 !important; 
         color: #ffffff !important; 
     }
-    .tabulator-footer .tabulator-page.active { 
+    .tabulator .tabulator-footer .tabulator-page.active { 
         background: var(--accent-green) !important; 
         color: #ffffff !important; 
         border-color: var(--accent-green) !important; 
-        font-weight: 600 !important; 
+        font-weight: 700 !important; 
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
     }
-    .tabulator-footer .tabulator-page[disabled] { 
-        opacity: 0.35 !important; 
+    .tabulator .tabulator-footer .tabulator-page[disabled] { 
+        opacity: 0.4 !important; 
         cursor: not-allowed !important; 
-        background: rgba(255, 255, 255, 0.02) !important;
-        border-color: transparent !important;
-        color: #666666 !important;
+        background: #252525 !important;
+        border-color: #333333 !important;
+        color: #777777 !important;
     }
-    .tabulator-footer .tabulator-page[data-page="first"],
-    .tabulator-footer .tabulator-page[data-page="prev"],
-    .tabulator-footer .tabulator-page[data-page="next"],
-    .tabulator-footer .tabulator-page[data-page="last"] {
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.03em !important;
+    .tabulator .tabulator-footer .tabulator-page[data-page="first"],
+    .tabulator .tabulator-footer .tabulator-page[data-page="prev"],
+    .tabulator .tabulator-footer .tabulator-page[data-page="next"],
+    .tabulator .tabulator-footer .tabulator-page[data-page="last"] {
+        font-size: 13px !important;
+        font-weight: 700 !important;
     }
 
     /* BOTONES ACCIÓN EN TABLA FLUENT 2 */
@@ -502,6 +521,22 @@
           paginationSizeSelector: [25, 50, 100],
           paginationCounter: function(pageSize, currentRow, currentPage, totalRows, totalPages) {
             return `Página ${currentPage} de ${totalPages} (${totalRows} registros)`;
+          },
+          locale: "es",
+          langs: {
+            "es": {
+              "pagination": {
+                "page_size": "Registros:",
+                "first": "«",
+                "first_title": "Primera Página",
+                "last": "»",
+                "last_title": "Última Página",
+                "prev": "‹",
+                "prev_title": "Página Anterior",
+                "next": "›",
+                "next_title": "Página Siguiente",
+              }
+            }
           },
           columnDefaults: { vertAlign: "middle" },
           columns: cols
