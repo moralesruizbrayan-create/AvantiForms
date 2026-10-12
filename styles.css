@@ -1213,9 +1213,9 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         width: 100% !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 0.5cm 1.5cm 0.1cm 1.5cm !important;
+        padding: 0.35cm 1.2cm 0.1cm 1.2cm !important;
         box-sizing: border-box !important;
-        font-size: 5.5px !important; 
+        font-size: 7.5px !important; 
     }
 
     /* 4. Forzar evitar quiebres de página en secciones principales */
@@ -1227,14 +1227,41 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         page-break-after: auto !important;
     }
 
-    /* 5. Mantener Branding Verde */
+    /* 5. Mantener Branding Verde y Título */
     .header-table {
-        border-top: 5px solid #16A34A !important;
+        border-top: 4px solid #16A34A !important;
         border-bottom: 2px solid #F59E0B !important;
+        margin-bottom: 4px !important;
+    }
+
+    .header-logo {
+        padding: 2px 6px !important;
+    }
+
+    .header-logo img {
+        max-height: 36px !important;
+        width: auto !important;
+    }
+
+    .header-titles {
+        padding: 3px 8px !important;
+    }
+
+    .header-titles h1 {
+        font-size: 13.5px !important;
+        line-height: 1.15 !important;
+        margin: 0 !important;
+        color: #16A34A !important;
+        white-space: nowrap !important;
     }
 
     h3 {
         color: #16A34A !important;
+        margin: 2px 0 1px 0 !important;
+        font-size: 9.5px !important;
+        line-height: 1.2 !important;
+        letter-spacing: 0.3px !important;
+        white-space: nowrap !important;
     }
 
     /* Quitar sombras de las cajas */
@@ -1243,12 +1270,30 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         text-shadow: none !important;
     }
 
-    /* 6. Evitar impresión de dd/mm/aaaa en fechas vacías y estilos genéricos de inputs */
-    input[type="text"], input[type="date"], textarea {
+    /* 6. Evitar impresión de dd/mm/aaaa en fechas vacías y estilos de inputs (+2px: 8px) */
+    input[type="text"], input[type="date"], select {
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
-        font-size: 6px !important; font-weight: normal !important;
+        font-size: 8px !important;
+        font-weight: normal !important;
+        color: #334155 !important;
+        width: 100% !important;
+        font-family: inherit !important;
+        text-align: left !important;
+        vertical-align: middle !important;
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        line-height: 1.15 !important;
+        height: auto !important;
+    }
+    textarea {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        font-size: 8px !important;
+        font-weight: normal !important;
         color: #334155 !important;
         width: 100% !important;
         font-family: inherit !important;
@@ -1259,12 +1304,15 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         word-break: normal !important;
-    }
-    textarea {
+        line-height: 1.15 !important;
         height: auto !important;
         min-height: auto !important;
         resize: none !important;
         display: block !important;
+    }
+    textarea[rows="1"] {
+        white-space: nowrap !important;
+        overflow: hidden !important;
     }
     textarea::-webkit-resizer { display: none !important; }
     
@@ -1276,30 +1324,127 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     input[type="date"]::-webkit-inner-spin-button { display: none !important; }
     
     input[type="checkbox"], input[type="radio"] {
-        width: 8px !important; height: 8px !important;
-        margin-right: 4px !important;
+        width: 9px !important;
+        height: 9px !important;
+        margin-right: 3px !important;
         accent-color: #16A34A !important;
+        vertical-align: middle !important;
+    }
+
+    .inline-flex {
+        font-size: 8px !important;
+        line-height: 1.15 !important;
+        white-space: nowrap !important;
+        margin-right: 8px !important;
+        margin-bottom: 1px !important;
     }
     
     /* Evitar que se impriman las cajas de evidencia fotográfica */
     .evidencia-box, .evidencia-runtime-img { display: none !important; }
 
-    /* Firmas Formales en Impresión */
-    .sig-formal-table { margin-top: 5px !important; border: none !important; width: 100% !important; border-spacing: 20px 0 !important; border-collapse: separate !important; }
+    /* Compromiso de Responsabilidad (+2px: 7.5px) */
+    .compromiso-box {
+        font-size: 7.5px !important;
+        line-height: 1.2 !important;
+        padding: 3px 6px !important;
+        margin-top: 2px !important;
+        margin-bottom: 2px !important;
+        border-left: 3px solid #16A34A !important;
+        border-top: 1px solid #cbd5e1 !important;
+        border-right: 1px solid #cbd5e1 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        background: #f8fafc !important;
+        color: #475569 !important;
+    }
+
+    /* Firmas Formales en Impresión (+2px: 9.5px títulos, 8px etiquetas y detalles) */
+    .sig-formal-table {
+        margin-top: 3px !important;
+        border: none !important;
+        width: 100% !important;
+        border-spacing: 16px 0 !important;
+        border-collapse: separate !important;
+    }
     .sig-formal-cell { border: none !important; }
     .sig-formal-cell:first-child { border: none !important; }
-    .sig-formal-title { background: transparent !important; color: #16a34a !important; border: none !important; font-size: 7.5px !important; font-weight: 600 !important; padding: 2px !important; text-align: center; text-transform: uppercase; font-weight: 800; }
-    .sig-formal-body { padding: 4px !important; }
-    .sig-formal-box-firma { border: none !important; border-bottom: 1px solid #334155 !important; border-radius: 0 !important; min-height: 25px !important; margin: 0 10px !important; }
-    .sig-formal-box-huella { border: 1px solid #cbd5e1 !important; border-radius: 0 !important; width: 16mm !important; height: 22mm !important; min-height: 22mm !important; }
-    .sig-formal-label { color: #334155 !important; border: none !important; font-size: 6px !important; padding-top: 0 !important; margin-top: 2px !important; }
-    .sig-formal-details { font-size: 6px !important; }
-    .sig-formal-details td:first-child { color: #334155 !important; width: 45px !important; font-weight: bold; }
-    .sig-formal-details input { font-size: 6px !important; font-weight: normal !important; color: #334155 !important; border-bottom: 1px dashed #cbd5e1 !important; }
-    .signature-trigger-box { border: none !important; background: transparent !important; height: 100% !important; min-height: 40px !important; margin: 0 !important; position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
-    .signature-runtime-img { max-height: 50px !important; object-fit: contain !important; }
+    .sig-formal-title {
+        background: transparent !important;
+        color: #16a34a !important;
+        border: none !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        padding: 1px 2px !important;
+        text-align: center;
+        text-transform: uppercase;
+        white-space: nowrap !important;
+    }
+    .sig-formal-body { padding: 3px !important; }
+    .sig-formal-box-firma {
+        border: none !important;
+        border-bottom: 1px solid #334155 !important;
+        border-radius: 0 !important;
+        min-height: 24px !important;
+        margin: 0 8px !important;
+    }
+    .sig-formal-box-huella {
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 0 !important;
+        width: 14mm !important;
+        height: 18mm !important;
+        min-height: 18mm !important;
+    }
+    .sig-formal-label {
+        color: #334155 !important;
+        border: none !important;
+        font-size: 8px !important;
+        font-weight: 600 !important;
+        padding-top: 0 !important;
+        margin-top: 1px !important;
+        white-space: nowrap !important;
+    }
+    .sig-formal-details {
+        font-size: 8px !important;
+        line-height: 1.15 !important;
+    }
+    .sig-formal-details td { padding: 1px 0 !important; }
+    .sig-formal-details td:first-child {
+        color: #334155 !important;
+        width: 45px !important;
+        font-weight: bold !important;
+        font-size: 8px !important;
+        white-space: nowrap !important;
+    }
+    .sig-formal-details input {
+        font-size: 8px !important;
+        font-weight: normal !important;
+        color: #334155 !important;
+        border-bottom: 1px dashed #cbd5e1 !important;
+        white-space: nowrap !important;
+    }
+    .signature-trigger-box {
+        border: none !important;
+        background: transparent !important;
+        height: 100% !important;
+        min-height: 35px !important;
+        margin: 0 !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .signature-runtime-img {
+        max-height: 40px !important;
+        object-fit: contain !important;
+    }
     .signature-trigger-box span { display: none !important; }
-
+    .signature-section {
+        gap: 4px !important;
+        margin-top: 3px !important;
+        margin-bottom: 1px !important;
+    }
 
     /* 7. Escalar form view para caber en una cara */
     .form-view.modo-completo.active {
@@ -1323,12 +1468,56 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
         position: relative !important;
     }
 
-    .form-table td { padding: 1.5px 2px !important; border-color: #cbd5e1 !important; color: #334155 !important; font-size: 6px !important; line-height: 1.1 !important; }
-    .form-table { font-size: 6px !important; line-height: 1.1 !important; }
-    .form-table span, .form-table label { font-size: inherit !important; }
-    .form-table th { border-color: #cbd5e1 !important; background-color: #f8fafc !important; color: #334155 !important; }
-    .form-table td.subhead { font-size: 6.5px !important; color: #16A34A !important; font-weight: 700 !important; text-transform: uppercase !important; border-bottom: 1px solid #16A34A !important; padding-top: 4px !important; padding-bottom: 2px !important; }
-    h3 { margin: 1px 0 !important; font-size: 7.5px !important; }
-    .signature-section { gap: 3px !important; }
-    
+    /* Tablas del formulario (+2px: 8px base, 8.5px subhead) */
+    .form-table {
+        font-size: 8px !important;
+        line-height: 1.15 !important;
+        margin-bottom: 2px !important;
+    }
+    .form-table td {
+        padding: 1px 3px !important;
+        border-color: #cbd5e1 !important;
+        color: #334155 !important;
+        font-size: 8px !important;
+        line-height: 1.15 !important;
+        vertical-align: middle !important;
+    }
+    .form-table td.lbl {
+        font-size: 8px !important;
+        font-weight: 700 !important;
+        color: #475569 !important;
+        white-space: nowrap !important;
+        line-height: 1.15 !important;
+    }
+    .form-table span, .form-table label {
+        font-size: inherit !important;
+        line-height: inherit !important;
+    }
+    .form-table th {
+        border-color: #cbd5e1 !important;
+        background-color: #f8fafc !important;
+        color: #334155 !important;
+        font-size: 8px !important;
+    }
+    .form-table td.subhead {
+        font-size: 8.5px !important;
+        color: #16A34A !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        border-bottom: 1px solid #16A34A !important;
+        padding-top: 2.5px !important;
+        padding-bottom: 1px !important;
+        line-height: 1.15 !important;
+        white-space: nowrap !important;
+    }
+    .form-table div[style*="display: flex"] {
+        gap: 6px !important;
+        white-space: nowrap !important;
+    }
+    .sec-devolucion > div[style*="margin-top: 30px"],
+    .sec-devolucion > div:first-child {
+        margin-top: 4px !important;
+        margin-bottom: 2px !important;
+        padding-bottom: 2px !important;
+    }
 }
