@@ -135,60 +135,96 @@
         background-color: #202020 !important; 
         border-top: 1px solid var(--border-subtle) !important; 
         color: var(--text-muted) !important; 
-        padding: 10px 16px !important;
+        padding: 12px 18px !important;
+        box-sizing: border-box !important;
+    }
+    .tabulator .tabulator-footer .tabulator-footer-contents {
         display: flex !important;
+        flex-direction: row !important;
         align-items: center !important;
         justify-content: space-between !important;
+        width: 100% !important;
+        gap: 16px !important;
+        padding: 0 !important;
         flex-wrap: wrap !important;
-        gap: 12px !important;
     }
+    /* Zona Izquierda: Contador y Estado */
+    .tabulator .tabulator-footer .tabulator-page-counter,
     .tabulator .tabulator-footer .tabulator-counter {
-        font-size: 12px !important;
-        color: var(--text-muted) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 12.5px !important;
+        color: #94a3b8 !important;
         font-weight: 500 !important;
         margin-right: auto !important;
-        padding-right: 14px !important;
         white-space: nowrap !important;
         float: none !important;
     }
+    /* Zona Derecha: Paginador */
     .tabulator .tabulator-footer .tabulator-paginator {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        justify-content: flex-end !important;
+        gap: 10px !important;
+        margin-left: auto !important;
         float: none !important;
         flex-wrap: wrap !important;
     }
     .tabulator .tabulator-footer .tabulator-paginator label {
         font-size: 12px !important;
-        color: var(--text-muted) !important;
+        color: #94a3b8 !important;
         font-weight: 500 !important;
-        margin-left: 10px !important;
-        margin-right: 6px !important;
+        margin: 0 !important;
         white-space: nowrap !important;
     }
+    /* Selector de Registros por Página */
     .tabulator .tabulator-footer .tabulator-page-size { 
         background-color: #2b2b2b !important; 
-        border: 1px solid var(--border-subtle) !important; 
-        color: var(--text-bright) !important; 
+        border: 1px solid #3d3d3d !important; 
+        color: #ffffff !important; 
         border-radius: 4px !important; 
-        padding: 4px 8px !important; 
+        padding: 0 28px 0 10px !important; 
+        height: 32px !important;
         font-size: 12px !important;
+        font-weight: 500 !important;
         outline: none !important; 
-        margin-right: 8px !important;
         cursor: pointer !important;
-        transition: border 0.15s ease !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 8px center !important;
+        background-size: 13px !important;
+        transition: border-color 0.15s ease, background-color 0.15s ease !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page-size:hover { 
+        border-color: #525252 !important;
+        background-color: #333333 !important;
     }
     .tabulator .tabulator-footer .tabulator-page-size:focus { 
-        border-color: var(--accent-green-vibrant) !important; 
+        border-color: #10b981 !important; 
+        box-shadow: 0 0 0 1px #10b981 !important;
     }
+    /* Grupo de Botones de Página */
+    .tabulator .tabulator-footer .tabulator-paginator .tabulator-pages {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        margin-left: 8px !important;
+        padding-left: 12px !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    /* Botones de Navegación */
     .tabulator .tabulator-footer .tabulator-page { 
         background: #2b2b2b !important; 
         border: 1px solid #383838 !important; 
         color: #d1d1d1 !important; 
         border-radius: 4px !important; 
+        width: 32px !important;
         min-width: 32px !important;
-        height: 30px !important;
-        padding: 0 8px !important; 
+        height: 32px !important;
+        padding: 0 !important; 
         margin: 0 !important;
         font-size: 13px !important;
         font-weight: 600 !important;
@@ -198,32 +234,40 @@
         cursor: pointer !important;
         transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1) !important;
         user-select: none !important;
+        box-sizing: border-box !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page svg {
+        width: 14px !important;
+        height: 14px !important;
+        stroke-width: 2.5 !important;
+        pointer-events: none !important;
+        display: block !important;
     }
     .tabulator .tabulator-footer .tabulator-page:hover:not([disabled]) { 
         background: #383838 !important; 
-        border-color: #484848 !important; 
+        border-color: #525252 !important; 
         color: #ffffff !important; 
+        transform: translateY(-1px) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page:active:not([disabled]) {
+        transform: scale(0.97) !important;
     }
     .tabulator .tabulator-footer .tabulator-page.active { 
         background: var(--accent-green) !important; 
         color: #ffffff !important; 
-        border-color: var(--accent-green) !important; 
+        border-color: var(--accent-green-vibrant) !important; 
         font-weight: 700 !important; 
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+        box-shadow: 0 2px 6px rgba(16, 124, 65, 0.4) !important;
     }
     .tabulator .tabulator-footer .tabulator-page[disabled] { 
-        opacity: 0.4 !important; 
+        opacity: 1 !important; 
         cursor: not-allowed !important; 
-        background: #252525 !important;
-        border-color: #333333 !important;
-        color: #777777 !important;
-    }
-    .tabulator .tabulator-footer .tabulator-page[data-page="first"],
-    .tabulator .tabulator-footer .tabulator-page[data-page="prev"],
-    .tabulator .tabulator-footer .tabulator-page[data-page="next"],
-    .tabulator .tabulator-footer .tabulator-page[data-page="last"] {
-        font-size: 13px !important;
-        font-weight: 700 !important;
+        background: #242424 !important;
+        border-color: #303030 !important;
+        color: #555a64 !important;
+        box-shadow: none !important;
+        transform: none !important;
     }
 
     /* Fluent Status Badges */
@@ -481,21 +525,26 @@
           paginationSize: 50,
           paginationSizeSelector: [25, 50, 100],
           paginationCounter: function(pageSize, currentRow, currentPage, totalRows, totalPages) {
-            return `Página ${currentPage} de ${totalPages} (${totalRows} registros)`;
+            return `<div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
+              <span>Página <strong class="text-white">${currentPage}</strong> de <strong class="text-white">${totalPages}</strong></span>
+              <span class="text-slate-600">·</span>
+              <span><strong class="text-emerald-400 font-semibold">${totalRows}</strong> registros</span>
+            </div>`;
           },
           locale: "es",
           langs: {
             "es": {
               "pagination": {
-                "page_size": "Registros:",
-                "first": "«",
+                "page_size": "Registros por página:",
+                "first": `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>`,
                 "first_title": "Primera Página",
-                "last": "»",
-                "last_title": "Última Página",
-                "prev": "‹",
+                "prev": `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>`,
                 "prev_title": "Página Anterior",
-                "next": "›",
+                "next": `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>`,
                 "next_title": "Página Siguiente",
+                "last": `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>`,
+                "last_title": "Última Página",
               }
             }
           },
