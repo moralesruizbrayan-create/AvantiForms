@@ -1,11 +1,6 @@
-const { Pool } = require('pg');
+const { getPool } = require('./db');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Evitar bloqueos de CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -21,7 +16,7 @@ export default async function handler(req, res) {
         }
 
         // Solicitamos un cliente dedicado para hacer una Transacción segura
-        const client = await pool.connect();
+        const client = await getPool().connect();
 
         try {
             // Iniciamos la transacción

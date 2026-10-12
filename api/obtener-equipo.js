@@ -1,20 +1,15 @@
-const { Pool } = require('pg');
+const { getPool } = require('./db');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
 
   if (req.method !== 'GET') return res.status(405).json({ error: 'Usa GET' });
   
   const { codigo } = req.query;
   if (!codigo || codigo.trim() === '') return res.status(400).json({ error: 'Código vacío' });
 
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-
   try {
+    const pool = getPool();
+
     // 1. Buscamos en PCs (Haciendo cruce con el último detalle guardado)
     let qPc = await pool.query(`
       SELECT 'PCs' as tipo_vista, p.id_activo as codigo_activo, p.tipo_hardware as tipo_equipo, p.marca_modelo, p.numero_serie as nro_serie, p.codigo_patrimonial,
@@ -67,7 +62,5 @@ export default async function handler(req, res) {
 
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
-  } finally {
-    await pool.end();
   }
 }

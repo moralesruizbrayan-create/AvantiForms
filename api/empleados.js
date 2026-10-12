@@ -1,17 +1,10 @@
-const { Pool } = require('pg');
+const { getPool } = require('./db');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     try {
-        if (!process.env.DATABASE_URL) {
-            throw new Error("No se encontró DATABASE_URL en Vercel.");
-        }
+        const pool = getPool();
 
         // --- OBTENER EMPLEADOS ---
         if (req.method === 'GET') {

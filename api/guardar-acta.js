@@ -1,17 +1,13 @@
-const { Pool } = require('pg');
+const { getPool } = require('./db');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Asegurar que solo acepte peticiones POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido. Usa POST.' });
   }
   
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const pool = getPool();
+  let client;
   
   try {
     const { 
@@ -45,8 +41,9 @@ export default async function handler(req, res) {
         if (nuevoEstado === 'RETIRADO') nuevoEstado = 'SUSPENDIDA';
     }
 
-    // Iniciar Transacción Segura en Base de Datos
-    await pool.query('BEGIN'); 
+    // Iniciar Transacción Segura en Base de Datos con Cliente Dedicado
+    client = await pool.connect();
+    await client.query('BEGIN'); 
     
     // -----------------------------------------------------
     // 2. CREAR O ACTUALIZAR EQUIPO EN EL INVENTARIO (UPSERT)
@@ -63,12 +60,12 @@ export default async function handler(req, res) {
         let checkRes = { rows: [] };
         if (nro_serie !== '' || (hasCodPatrimonial && cod_patrimonial !== '')) {
             if (hasCodPatrimonial) {
-                checkRes = await pool.query(
+                checkRes = await client.query(
                     `SELECT ${idCol} FROM ${tabla} WHERE (numero_serie = $1 AND numero_serie != '') OR (codigo_patrimonial = $2 AND codigo_patrimonial != '') LIMIT 1`,
                     [nro_serie, cod_patrimonial]
                 );
             } else {
-                checkRes = await pool.query(
+                checkRes = await client.query(
                     `SELECT ${idCol} FROM ${tabla} WHERE (numero_serie = $1 AND numero_serie != '') LIMIT 1`,
                     [nro_serie]
                 );
@@ -77,20 +74,20 @@ export default async function handler(req, res) {
 
         if (checkRes.rows.length > 0) {
             idActivo = checkRes.rows[0][idCol];
-            await pool.query(
+            await client.query(
                 `UPDATE ${tabla} SET estado_operativo = $1, marca_modelo = $2, tipo_hardware = $3 WHERE ${idCol} = $4`,
                 [nuevoEstado, equipo.marca_modelo, equipo.tipo_equipo, idActivo]
             );
         } else {
             if (hasCodPatrimonial) {
-                const insRes = await pool.query(
+                const insRes = await client.query(
                     `INSERT INTO ${tabla} (numero_serie, codigo_patrimonial, tipo_hardware, marca_modelo, estado_operativo) 
                      VALUES ($1, $2, $3, $4, $5) RETURNING ${idCol}`,
                     [nro_serie, cod_patrimonial, equipo.tipo_equipo, equipo.marca_modelo, nuevoEstado]
                 );
                 idActivo = insRes.rows[0][idCol];
             } else {
-                const insRes = await pool.query(
+                const insRes = await client.query(
                     `INSERT INTO ${tabla} (numero_serie, tipo_hardware, marca_modelo, estado_operativo) 
                      VALUES ($1, $2, $3, $4) RETURNING ${idCol}`,
                     [nro_serie, equipo.tipo_equipo, equipo.marca_modelo, nuevoEstado]
@@ -112,7 +109,7 @@ export default async function handler(req, res) {
         
         let checkRes = { rows: [] };
         if (nro_tel !== '' || sim !== '') {
-             checkRes = await pool.query(
+             checkRes = await client.query(
                 `SELECT id_linea FROM lineas_moviles WHERE (numero_telefono = $1 AND numero_telefono != '') OR (iccid_sim = $2 AND iccid_sim != '') LIMIT 1`, 
                 [nro_tel, sim]
              );
@@ -120,9 +117,9 @@ export default async function handler(req, res) {
         
         if (checkRes.rows.length > 0) {
             idActivo = checkRes.rows[0].id_linea;
-            await pool.query(`UPDATE lineas_moviles SET estado_linea = $1, operador = $2 WHERE id_linea = $3`, [nuevoEstado, equipo.operador, idActivo]);
+            await client.query(`UPDATE lineas_moviles SET estado_linea = $1, operador = $2 WHERE id_linea = $3`, [nuevoEstado, equipo.operador, idActivo]);
         } else {
-            const insRes = await pool.query(`INSERT INTO lineas_moviles (numero_telefono, iccid_sim, operador, estado_linea) VALUES ($1, $2, $3, $4) RETURNING id_linea`, [nro_tel, sim, equipo.operador, nuevoEstado]);
+            const insRes = await client.query(`INSERT INTO lineas_moviles (numero_telefono, iccid_sim, operador, estado_linea) VALUES ($1, $2, $3, $4) RETURNING id_linea`, [nro_tel, sim, equipo.operador, nuevoEstado]);
             idActivo = insRes.rows[0].id_linea;
         }
     }
@@ -133,16 +130,16 @@ export default async function handler(req, res) {
     let idEmpleado = null;
     let dni = empleado.dni_empleado || 'SIN-DNI';
     
-    const checkEmp = await pool.query(`SELECT id_empleado FROM empleados WHERE dni = $1 LIMIT 1`, [dni]);
+    const checkEmp = await client.query(`SELECT id_empleado FROM empleados WHERE dni = $1 LIMIT 1`, [dni]);
     
     if (checkEmp.rows.length > 0) {
         idEmpleado = checkEmp.rows[0].id_empleado;
-        await pool.query(
+        await client.query(
             `UPDATE empleados SET nombre_completo = $1, cargo = $2, area = $3, correo_corp = $4, centro_costo = $5 WHERE id_empleado = $6`,
             [empleado.nombre_empleado, empleado.cargo_empleado, empleado.area_empleado, empleado.correo_corp, empleado.centro_costo, idEmpleado]
         );
     } else {
-        const empRes = await pool.query(
+        const empRes = await client.query(
             `INSERT INTO empleados (dni, nombre_completo, cargo, area, correo_corp, centro_costo) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_empleado`,
             [dni, empleado.nombre_empleado, empleado.cargo_empleado, empleado.area_empleado, empleado.correo_corp, empleado.centro_costo]
         );
@@ -156,7 +153,7 @@ export default async function handler(req, res) {
     let dbCategoria = categoria_acta;
     if(categoria_acta === 'material_informatico') dbCategoria = 'PCs';
 
-    const actaRes = await pool.query(
+    const actaRes = await client.query(
         `INSERT INTO actas_asignacion (
             categoria_acta,
             id_empleado, 
@@ -193,36 +190,40 @@ export default async function handler(req, res) {
 
     if (idActivo) {
         if (categoria_acta === 'material_informatico' || categoria_acta === 'PCs') {
-            await pool.query(
+            await client.query(
                 `INSERT INTO detalle_acta_pc (id_acta, id_pc, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
                 [idActa, idActivo, jsonDetalles, jsonAccesorios]
             );
         } else if (categoria_acta === 'telefonos') {
-            await pool.query(
+            await client.query(
                 `INSERT INTO detalle_acta_tef (id_acta, id_tef, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
                 [idActa, idActivo, jsonDetalles, jsonAccesorios]
             );
         } else if (categoria_acta === 'perifericos') {
-            await pool.query(
+            await client.query(
                 `INSERT INTO detalle_acta_periferico (id_acta, id_periferico, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
                 [idActa, idActivo, jsonDetalles, jsonAccesorios]
             );
         } else if (categoria_acta === 'lineas') {
-            await pool.query(
+            await client.query(
                 `INSERT INTO detalle_acta_linea (id_acta, id_linea, detalles_json, accesorios_json) VALUES ($1, $2, $3, $4)`,
                 [idActa, idActivo, jsonDetalles, jsonAccesorios]
             );
         }
     }
 
-    await pool.query('COMMIT');
+    await client.query('COMMIT');
     res.status(200).json({ success: true, message: 'Acta y equipo registrados exitosamente.' });
     
   } catch (error) {
-    await pool.query('ROLLBACK');
+    if (client) {
+      await client.query('ROLLBACK');
+    }
     console.error('Error SQL:', error);
     res.status(500).json({ success: false, error: error.message });
   } finally {
-    await pool.end();
+    if (client) {
+      client.release();
+    }
   }
 }

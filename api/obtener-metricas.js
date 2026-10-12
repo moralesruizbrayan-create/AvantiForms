@@ -1,11 +1,6 @@
-const { Pool } = require('pg');
+const { getPool } = require('./db');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Evitar bloqueos de CORS si la API falla
   res.setHeader('Access-Control-Allow-Origin', '*');
   
@@ -113,7 +108,7 @@ export default async function handler(req, res) {
       LEFT JOIN empleados e ON a.id_empleado = e.id_empleado
     `;
     
-    const { rows } = await pool.query(query);
+    const { rows } = await getPool().query(query);
 
     const parseJson = (val) => (typeof val === 'string' ? JSON.parse(val || '{}') : (val || {}));
     const flatRows = rows.map(r => ({

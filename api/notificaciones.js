@@ -1,11 +1,6 @@
-const { Pool } = require('pg');
+const { getPool } = require('./db');
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     const { method } = req;
     
     // Suponiendo que pasas el ID del usuario como query parameter o en el body
@@ -16,6 +11,8 @@ export default async function handler(req, res) {
     }
 
     try {
+        const pool = getPool();
+
         if (method === 'GET') {
             // Obtener las últimas 20 notificaciones
             const query = `
