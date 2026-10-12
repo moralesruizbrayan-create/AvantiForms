@@ -11,7 +11,6 @@
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
 
   <style>
-
     :root {
       --bg-deep: #1f1f1f;
       --surface-slate: #2b2b2b;
@@ -40,24 +39,60 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.35);
     }
     
+    /* Inputs Fluent 2 */
     .neo-input { 
-        background-color: #333333 !important; 
-        border: 1px solid var(--border-focus) !important; 
+        background-color: #2b2b2b !important; 
+        border: 1px solid var(--border-subtle) !important; 
         border-bottom: 2px solid transparent !important;
         border-radius: 4px !important;
         color: #ffffff !important; 
+        height: 38px !important;
+        font-size: 13px !important;
         transition: all 0.15s ease-in-out; 
     }
     .neo-input:hover { 
         border-color: #555555 !important;
-        background-color: #383838 !important; 
+        background-color: #333333 !important; 
     }
     .neo-input:focus { 
-        border-color: var(--border-focus) !important;
+        border-color: var(--border-subtle) !important;
         border-bottom: 2px solid var(--accent-green-vibrant) !important; 
-        background-color: #383838 !important; 
+        background-color: #333333 !important; 
         outline: none; 
         box-shadow: none !important; 
+    }
+
+    /* Fluent 2 Pivot Bar */
+    .fluent-pivot-bar {
+        border-bottom: 1px solid var(--border-subtle);
+        display: flex;
+        gap: 2px;
+        overflow-x: auto;
+    }
+    .tab-btn {
+        padding: 10px 18px;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        border-radius: 4px 4px 0 0;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .tab-btn:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.04);
+    }
+    .tab-btn.active {
+        color: #ffffff;
+        font-weight: 600;
+        border-bottom: 2px solid var(--accent-green-vibrant);
+        background-color: rgba(255, 255, 255, 0.03);
     }
 
     /* CORE: TABULATOR (Fluent DetailsList) */
@@ -65,15 +100,22 @@
     .tabulator { border: none !important; background-color: transparent !important; font-size: 13px; height: auto !important; }
     .tabulator-tableholder { overflow-y: hidden !important; overflow-x: auto !important; height: auto !important; }
     
-    .tabulator-header { background-color: #252526 !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
+    .tabulator-header { background-color: #202020 !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 14px !important; }
     .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { border-bottom: 1px solid #333333 !important; transition: background-color 0.1s ease; }
+    .tabulator-row { 
+        border-bottom: 1px solid #303030 !important; 
+        transition: background-color 0.1s ease, box-shadow 0.1s ease !important; 
+    }
     .tabulator-row.tabulator-row-odd { background-color: transparent !important; }
-    .tabulator-row.tabulator-row-even { background-color: rgba(255,255,255,0.015) !important; }
-    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; cursor: pointer; }
-    .tabulator-cell { border-right: none !important; padding: 14px 14px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
+    .tabulator-row.tabulator-row-even { background-color: rgba(255, 255, 255, 0.012) !important; }
+    .tabulator-row:hover { 
+        background-color: rgba(255, 255, 255, 0.04) !important; 
+        box-shadow: inset 3px 0 0 0 var(--accent-green-vibrant) !important; 
+        cursor: pointer; 
+    }
+    .tabulator-cell { border-right: none !important; padding: 12px 14px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
     /* VISTA MÓVIL FLUENT */
     .tabulator-row .tabulator-responsive-collapse { background-color: #252526 !important; padding: 16px !important; border-bottom: 1px solid var(--border-subtle) !important; }
@@ -85,13 +127,85 @@
     .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type { font-size: 13.5px !important; width: 100% !important; padding: 0 !important; }
     .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type > div { justify-content: flex-start !important; text-align: left !important; }
 
-    /* Paginador Fluent */
-    .tabulator-footer { background-color: #252526 !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 12px 16px !important;}
-    .tabulator-footer .tabulator-page-size { background-color: #333333; border: 1px solid var(--border-focus); color: var(--text-bright); border-radius: 4px; padding: 5px 10px; outline: none; transition: border 0.2s;}
-    .tabulator-footer .tabulator-page-size:focus { border-color: var(--accent-green-vibrant); }
-    .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 4px; margin: 0 2px; padding: 5px 10px !important; transition: all 0.15s; font-weight: 500;}
-    .tabulator-footer .tabulator-page:hover { background: rgba(255,255,255,0.06) !important; color: var(--text-bright) !important; }
-    .tabulator-footer .tabulator-page.active { background: var(--accent-green) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; font-weight: 600; }
+    /* Paginador Fluent 2 */
+    .tabulator-footer { 
+        background-color: #202020 !important; 
+        border-top: 1px solid var(--border-subtle) !important; 
+        color: var(--text-muted) !important; 
+        padding: 10px 16px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+    .tabulator-footer .tabulator-paginator {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+    .tabulator-footer .tabulator-counter {
+        font-size: 12px !important;
+        color: var(--text-muted) !important;
+        font-weight: 500 !important;
+    }
+    .tabulator-footer .tabulator-page-size { 
+        background-color: #2b2b2b !important; 
+        border: 1px solid var(--border-subtle) !important; 
+        color: var(--text-bright) !important; 
+        border-radius: 4px !important; 
+        padding: 4px 8px !important; 
+        font-size: 12px !important;
+        outline: none !important; 
+        transition: border 0.15s ease !important;
+    }
+    .tabulator-footer .tabulator-page-size:focus { 
+        border-color: var(--accent-green-vibrant) !important; 
+    }
+    .tabulator-footer .tabulator-page { 
+        background: #2b2b2b !important; 
+        border: 1px solid #383838 !important; 
+        color: #d1d1d1 !important; 
+        border-radius: 4px !important; 
+        min-width: 32px !important;
+        height: 30px !important;
+        padding: 0 10px !important; 
+        margin: 0 !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1) !important;
+    }
+    .tabulator-footer .tabulator-page:hover:not([disabled]) { 
+        background: #383838 !important; 
+        border-color: #484848 !important; 
+        color: #ffffff !important; 
+    }
+    .tabulator-footer .tabulator-page.active { 
+        background: var(--accent-green) !important; 
+        color: #ffffff !important; 
+        border-color: var(--accent-green) !important; 
+        font-weight: 600 !important; 
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+    }
+    .tabulator-footer .tabulator-page[disabled] { 
+        opacity: 0.35 !important; 
+        cursor: not-allowed !important; 
+        background: rgba(255, 255, 255, 0.02) !important;
+        border-color: transparent !important;
+        color: #666666 !important;
+    }
+    .tabulator-footer .tabulator-page[data-page="first"],
+    .tabulator-footer .tabulator-page[data-page="prev"],
+    .tabulator-footer .tabulator-page[data-page="next"],
+    .tabulator-footer .tabulator-page[data-page="last"] {
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.03em !important;
+    }
 
     /* Fluent Status Badges */
     .tab-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -103,13 +217,71 @@
     .t-stk { background-color: rgba(0, 120, 212, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #60a5fa; }
     .t-stk::before { background-color: #38BDF8; }
 
-    /* Botones Acciones Fluent */
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 4px; border: 1px solid transparent; background-color: transparent; color: var(--text-muted); transition: all 0.12s ease; cursor: pointer; }
+    /* Fluent Category Badges */
+    .cat-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 10.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    }
+    .cat-badge-pc {
+        background-color: rgba(14, 165, 233, 0.12);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+    .cat-badge-tel {
+        background-color: rgba(20, 184, 166, 0.12);
+        color: #2dd4bf;
+        border: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .cat-badge-peri {
+        background-color: rgba(168, 85, 247, 0.12);
+        color: #c084fc;
+        border: 1px solid rgba(192, 132, 252, 0.25);
+    }
+    .cat-badge-linea {
+        background-color: rgba(245, 158, 11, 0.12);
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.25);
+    }
+
+    /* Botones Acciones Fluent 2 */
+    .action-btn { 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        width: 32px; 
+        height: 32px; 
+        border-radius: 4px; 
+        border: 1px solid rgba(255, 255, 255, 0.08); 
+        background-color: rgba(255, 255, 255, 0.03); 
+        color: var(--text-muted); 
+        transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1); 
+        cursor: pointer; 
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
     .action-btn svg { width: 16px; height: 16px; }
-    .btn-pdf:hover { color: #34d399; background-color: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.25); }
-    .btn-evi:hover { color: #60a5fa; background-color: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.25); }
-    .btn-del:hover { color: #f87171; background-color: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.25); }
-    .btn-disabled { color: #4a4a4a !important; cursor: not-allowed; opacity: 0.35; }
+    .action-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+    .btn-pdf:hover:not(:disabled) { color: #34d399; background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); }
+    .btn-evi:hover:not(:disabled) { color: #60a5fa; background-color: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); }
+    .btn-del:hover:not(:disabled) { color: #f87171; background-color: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.35); }
+    .btn-disabled, .action-btn:disabled { 
+        opacity: 0.25 !important; 
+        cursor: not-allowed !important; 
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
 
     /* Botones Principales Fluent */
     .btn-outline { 
@@ -119,8 +291,8 @@
         color: var(--text-bright); 
         transition: all 0.15s ease-in-out; 
     }
-    .btn-outline:hover { border-color: #666666; background-color: rgba(255, 255, 255, 0.09); }
-    .btn-outline:active { transform: scale(0.99); }
+    .btn-outline:hover { border-color: #666666; background-color: rgba(255, 255, 255, 0.09); transform: translateY(-1px); }
+    .btn-outline:active { transform: scale(0.98); }
 
     .btn-fluent-primary {
         background-color: var(--accent-green);
@@ -129,12 +301,15 @@
         color: #ffffff;
         font-weight: 600;
         transition: all 0.15s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     .btn-fluent-primary:hover {
         background-color: var(--accent-green-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     }
     .btn-fluent-primary:active {
-        transform: scale(0.99);
+        transform: scale(0.98);
     }
 
     /* Custom Scrollbar */
@@ -145,7 +320,6 @@
 
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
   </style>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 </head>
@@ -156,8 +330,8 @@
     <!-- HEADER PRINCIPAL -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-5 neo-panel gap-4">
       <div class="flex items-center gap-4">
-        <div class="p-2 bg-white rounded border border-slate-300 shadow-sm flex items-center justify-center h-12 w-12 shrink-0">
-          <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo" class="w-full h-full object-contain">
+        <div class="p-2 bg-[#252526] rounded border border-[var(--border-subtle)] shadow-sm flex items-center justify-center h-12 w-12 shrink-0">
+          <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo" class="w-full h-full object-contain rounded">
         </div>
         <div>
           <h1 class="text-xl font-bold tracking-tight text-[var(--text-bright)]">Control de TI</h1>
@@ -177,13 +351,13 @@
       </div>
     </div>
 
-    <!-- TABS DE CATEGORÍA (FLUENT PIVOT) -->
-    <div class="flex border-b border-[var(--border-subtle)] overflow-x-auto hide-scrollbar gap-1 mb-5">
-        <button class="tab-btn active px-5 py-3 font-semibold text-xs border-b-2 border-[#10b981] text-white whitespace-nowrap transition-colors" data-categoria="">TODOS</button>
-        <button class="tab-btn px-5 py-3 font-semibold text-xs border-b-2 border-transparent text-[var(--text-muted)] hover:text-white hover:bg-white/[0.03] whitespace-nowrap transition-colors" data-categoria="PCs">PCS</button>
-        <button class="tab-btn px-5 py-3 font-semibold text-xs border-b-2 border-transparent text-[var(--text-muted)] hover:text-white hover:bg-white/[0.03] whitespace-nowrap transition-colors" data-categoria="Teléfono Móvil">TELÉFONOS MÓVILES</button>
-        <button class="tab-btn px-5 py-3 font-semibold text-xs border-b-2 border-transparent text-[var(--text-muted)] hover:text-white hover:bg-white/[0.03] whitespace-nowrap transition-colors" data-categoria="Periférico">PERIFÉRICOS</button>
-        <button class="tab-btn px-5 py-3 font-semibold text-xs border-b-2 border-transparent text-[var(--text-muted)] hover:text-white hover:bg-white/[0.03] whitespace-nowrap transition-colors" data-categoria="Línea Móvil">LÍNEAS MÓVILES</button>
+    <!-- TABS DE CATEGORÍA (FLUENT 2 PIVOT) -->
+    <div class="fluent-pivot-bar mb-5">
+        <button class="tab-btn active" data-categoria="">Todos</button>
+        <button class="tab-btn" data-categoria="PCs">PCs</button>
+        <button class="tab-btn" data-categoria="Teléfono Móvil">Teléfonos Móviles</button>
+        <button class="tab-btn" data-categoria="Periférico">Periféricos</button>
+        <button class="tab-btn" data-categoria="Línea Móvil">Líneas Móviles</button>
     </div>
 
     <!-- PANEL DE FILTROS -->
@@ -285,16 +459,17 @@
           layout: "fitColumns", 
           responsiveLayout: "collapse",
           pagination: "local",
-          paginationSize: 50, /* 50 Registros por página predefinido */
-          paginationSizeSelector: [10, 25, 50, 100],
-          
-          /* Encuadre Vertical estricto */
+          paginationSize: 50,
+          paginationSizeSelector: [25, 50, 100],
+          paginationCounter: function(pageSize, currentRow, currentPage, totalRows, totalPages) {
+            return `Página ${currentPage} de ${totalPages} (${totalRows} registros)`;
+          },
           columnDefaults: { vertAlign: "middle" },
           
           columns: [
             {
               title: "Acciones", 
-              minWidth: 120, /* Ancho optimizado para evitar colapso de "Estado" */
+              minWidth: 120,
               hozAlign: "center", headerHozAlign: "center", headerSort: false,
               formatter: function(cell) {
                 const row = cell.getRow().getData();
@@ -328,8 +503,15 @@
               }
             },
             { 
-              title: "Categoría", field: "categoria", minWidth: 110, hozAlign: "center", headerHozAlign: "center",
-              formatter: cell => `<div class="flex justify-center w-full"><span class="inline-flex items-center px-3 py-1.5 rounded-lg text-[10.5px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-sm">${cell.getValue()}</span></div>` 
+              title: "Categoría", field: "categoria", minWidth: 120, hozAlign: "center", headerHozAlign: "center",
+              formatter: function(cell) {
+                const val = cell.getValue() || "";
+                let cls = "cat-badge-pc";
+                if (val.includes("Teléfono")) cls = "cat-badge-tel";
+                else if (val.includes("Periférico")) cls = "cat-badge-peri";
+                else if (val.includes("Línea")) cls = "cat-badge-linea";
+                return `<div class="flex justify-center w-full"><span class="cat-badge ${cls}">${val}</span></div>`;
+              }
             },
             { 
               /* Textos Justificados/Alineados a la izquierda */
@@ -389,22 +571,13 @@
       } catch(e) { alert("❌ Error de red."); }
     }
 
-    
     let categoriaActual = "";
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        // Remover active de todos
-        document.querySelectorAll('.tab-btn').forEach(b => {
-          b.classList.remove('active', 'border-[#10B981]', 'text-[#10B981]');
-          b.classList.add('border-transparent', 'text-[var(--text-muted)]');
-        });
-        
-        // Agregar active al clickeado
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         const target = e.currentTarget;
-        target.classList.remove('border-transparent', 'text-[var(--text-muted)]');
-        target.classList.add('active', 'border-[#10B981]', 'text-[#10B981]');
-        
+        target.classList.add('active');
         categoriaActual = target.getAttribute('data-categoria');
         actualizarFiltros();
       });
@@ -441,16 +614,9 @@
       document.getElementById("filtro-computador").value = ""; 
       document.getElementById("filtro-usuario").value = ""; 
       
-      // Reiniciar tabs a "Todos"
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.remove('active', 'border-[#10B981]', 'text-[#10B981]');
-        b.classList.add('border-transparent', 'text-[var(--text-muted)]');
-      });
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       const tabTodos = document.querySelector('.tab-btn[data-categoria=""]');
-      if(tabTodos) {
-        tabTodos.classList.remove('border-transparent', 'text-[var(--text-muted)]');
-        tabTodos.classList.add('active', 'border-[#10B981]', 'text-[#10B981]');
-      }
+      if(tabTodos) tabTodos.classList.add('active');
       categoriaActual = "";
       tablaInventario.clearFilter();
     });
