@@ -3,55 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso - Agrícola Avanti</title>
+  <title>Acceso TI - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
-    .bg-pattern { background-image: url('/AVANTI%20LOGO%20(1).jpeg'); background-repeat: no-repeat; background-position: center; background-size: 800px; opacity: 0.03; position: fixed; inset: 0; z-index: -1; }
-    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    :root {
+      --fluent-bg: #1f1f1f;
+      --fluent-card: #2b2b2b;
+      --fluent-input: #333333;
+      --fluent-stroke: #3f3f3f;
+      --fluent-stroke-focus: #555555;
+      --fluent-accent: #107c41;
+      --fluent-accent-hover: #0f6b38;
+      --fluent-accent-vibrant: #10b981;
+      --fluent-text: #ffffff;
+      --fluent-text-sec: #adadad;
+    }
+
+    body { 
+      font-family: "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
+      background-color: var(--fluent-bg);
+      color: var(--fluent-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .fluent-acrylic {
+      background: rgba(43, 43, 43, 0.94);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--fluent-stroke);
+      border-radius: 8px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .fluent-input {
+      background-color: var(--fluent-input);
+      border: 1px solid var(--fluent-stroke);
+      border-radius: 4px;
+      color: #ffffff;
+      transition: all 0.15s ease-in-out;
+      border-bottom: 2px solid transparent;
+    }
+    .fluent-input:hover {
+      border-color: var(--fluent-stroke-focus);
+      background-color: #383838;
+    }
+    .fluent-input:focus {
+      background-color: #383838;
+      outline: none;
+      border-color: var(--fluent-stroke);
+      border-bottom: 2px solid var(--fluent-accent-vibrant);
+    }
+
+    .fluent-btn-primary {
+      background-color: var(--fluent-accent);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      color: #ffffff;
+      font-weight: 600;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .fluent-btn-primary:hover {
+      background-color: var(--fluent-accent-hover);
+    }
+    .fluent-btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .fluent-btn-subtle {
+      color: var(--fluent-accent-vibrant);
+      transition: color 0.15s ease;
+    }
+    .fluent-btn-subtle:hover {
+      color: #34d399;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-pattern"></div>
-
-  <div class="glass-card w-full max-w-md p-8 rounded-2xl shadow-xl border border-gray-100 relative z-10">
-    <div class="text-center mb-8">
-      <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Avanti" class="w-20 mx-auto mb-4 mix-blend-multiply">
-      <h1 class="text-2xl font-bold text-slate-800 tracking-tight" id="form-title">Iniciar Sesión</h1>
-      <p class="text-sm text-slate-500 mt-1">Portal de Gestión de Actas TI</p>
+  
+  <div class="fluent-acrylic w-full max-w-md p-8 relative z-10">
+    <div class="flex items-center gap-4 mb-8 pb-6 border-b border-[var(--fluent-stroke)]">
+      <div class="p-2.5 bg-white rounded-md shadow-sm flex items-center justify-center h-12 w-12 shrink-0">
+        <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Avanti" class="w-full h-full object-contain">
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white" id="form-title">Autenticación de Operador</h1>
+        <p class="text-xs text-[var(--fluent-text-sec)] mt-0.5">Gestión y Control de Infraestructura TI</p>
+      </div>
     </div>
 
-    <!-- FORMULARIO LOGIN / REGISTRO -->
+    <!-- FORMULARIO LOGIN / REGISTRO (SIN PLACEHOLDERS) -->
     <form id="auth-form" class="space-y-5">
       <div id="name-field" class="hidden">
-        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Nombre Completo</label>
-        <input type="text" id="nombre" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:outline-none transition">
+        <label class="block text-xs font-semibold text-[var(--fluent-text-sec)] uppercase tracking-wide mb-1.5" for="nombre">Nombre Completo</label>
+        <input type="text" id="nombre" class="fluent-input w-full px-3.5 py-2.5 text-sm">
       </div>
       
       <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Correo Electrónico</label>
-        <input type="email" id="correo" required class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:outline-none transition" placeholder="admin@agricolaavanti.pe">
+        <label class="block text-xs font-semibold text-[var(--fluent-text-sec)] uppercase tracking-wide mb-1.5" for="correo">Correo Electrónico Corporativo</label>
+        <input type="email" id="correo" required class="fluent-input w-full px-3.5 py-2.5 text-sm">
       </div>
 
       <div>
-        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Contraseña</label>
-        <input type="password" id="password" required class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:outline-none transition" placeholder="••••••••">
+        <label class="block text-xs font-semibold text-[var(--fluent-text-sec)] uppercase tracking-wide mb-1.5" for="password">Contraseña de Seguridad</label>
+        <input type="password" id="password" required class="fluent-input w-full px-3.5 py-2.5 text-sm">
       </div>
 
-      <button type="submit" id="submit-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg text-sm transition shadow-md">
-        Entrar al Sistema
+      <button type="submit" id="submit-btn" class="fluent-btn-primary w-full py-2.5 text-sm">
+        Iniciar Sesión
       </button>
     </form>
 
-    <div class="mt-6 text-center">
-      <button type="button" id="toggle-mode" class="text-sm text-green-600 hover:text-green-800 font-medium transition">
-        ¿No tienes cuenta? Regístrate aquí
+    <div class="mt-6 pt-4 border-t border-[var(--fluent-stroke)] text-center">
+      <button type="button" id="toggle-mode" class="fluent-btn-subtle text-xs font-medium">
+        Registrar nuevo operador administrativo
       </button>
     </div>
     
-    <div id="error-msg" class="hidden mt-4 text-xs font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-100 text-center"></div>
+    <div id="error-msg" class="hidden mt-4 text-xs font-medium text-red-400 bg-red-950/40 p-3 rounded border border-red-800/60 text-center"></div>
   </div>
 
   <script>
@@ -68,16 +138,16 @@
 
     toggleBtn.addEventListener('click', () => {
       isLogin = !isLogin;
-      title.innerText = isLogin ? 'Iniciar Sesión' : 'Crear Cuenta Administrador';
-      submitBtn.innerText = isLogin ? 'Entrar al Sistema' : 'Registrar Cuenta';
-      toggleBtn.innerText = isLogin ? '¿No tienes cuenta? Regístrate aquí' : '¿Ya tienes cuenta? Inicia sesión';
+      title.innerText = isLogin ? 'Autenticación de Operador' : 'Registro de Operador TI';
+      submitBtn.innerText = isLogin ? 'Iniciar Sesión' : 'Registrar Cuenta';
+      toggleBtn.innerText = isLogin ? 'Registrar nuevo operador administrativo' : 'Volver a Iniciar Sesión';
       nameField.classList.toggle('hidden', isLogin);
       errorMsg.classList.add('hidden');
     });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      submitBtn.innerText = "⏳ Procesando...";
+      submitBtn.innerText = "Verificando...";
       errorMsg.classList.add('hidden');
 
       const payload = {
@@ -100,18 +170,18 @@
             localStorage.setItem('avanti_user', JSON.stringify(data.user));
             window.location.href = 'index.html';
           } else {
-            alert("Cuenta creada. Ahora inicia sesión.");
-            toggleBtn.click(); // Volver a login
+            alert("Cuenta registrada correctamente. Procede a iniciar sesión.");
+            toggleBtn.click();
           }
         } else {
-          errorMsg.innerText = data.error;
+          errorMsg.innerText = data.error || data.message || "Credenciales incorrectas.";
           errorMsg.classList.remove('hidden');
         }
       } catch (err) {
-        errorMsg.innerText = "Error de conexión al servidor.";
+        errorMsg.innerText = "Error de comunicación con el servidor.";
         errorMsg.classList.remove('hidden');
       } finally {
-        submitBtn.innerText = isLogin ? 'Entrar al Sistema' : 'Registrar Cuenta';
+        submitBtn.innerText = isLogin ? 'Iniciar Sesión' : 'Registrar Cuenta';
       }
     });
   </script>

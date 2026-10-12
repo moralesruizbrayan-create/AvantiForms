@@ -1,33 +1,39 @@
 /* =========================================
-   1. VARIABLES GLOBALES Y TEMAS
+   1. VARIABLES GLOBALES Y TEMAS (FLUENT UI)
    ========================================= */
 :root {
-    /* Colores corporativos fijos */
-    --avanti-green: #00c867;
-    --avanti-green-hover: #00b05b;
-    --avanti-blue: #2563eb;
-    --avanti-blue-hover: #1d4ed8;
-    --transition: 0.3s ease;
+    /* Colores corporativos Microsoft / Avanti */
+    --avanti-green: #107c41;
+    --avanti-green-hover: #0f6b38;
+    --avanti-green-vibrant: #10b981;
+    --avanti-blue: #0078d4;
+    --avanti-blue-hover: #106ebe;
+    --transition: 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+    --font-fluent: "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
 
-/* TEMA CLARO (Para el Dashboard si usan el botón de cambiar tema) */
+/* TEMA CLARO FLUENT (Para el Dashboard si usan el botón de cambiar tema) */
 :root {
-    --bg-main: #f3f4f6;
+    --bg-main: #f5f5f5;
     --card-bg: #ffffff;
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
-    --border-color: #e5e7eb;
-    --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --surface-subtle: #f0f0f0;
+    --text-primary: #242424;
+    --text-secondary: #616161;
+    --border-color: #e0e0e0;
+    --border-hover: #c7c7c7;
+    --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* TEMA OSCURO (Por defecto para el Dashboard) */
+/* TEMA OSCURO FLUENT 2 (Por defecto para el Dashboard) */
 body.dark-theme {
-    --bg-main: #0a0a0c;
-    --card-bg: linear-gradient(145deg, #16161a, #0f0f12);
+    --bg-main: #1f1f1f;
+    --card-bg: #2b2b2b;
+    --surface-subtle: #333333;
     --text-primary: #ffffff;
-    --text-secondary: #a1a1aa;
-    --border-color: rgba(255, 255, 255, 0.05);
-    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --text-secondary: #adadad;
+    --border-color: #383838;
+    --border-hover: #484848;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* =========================================
@@ -37,7 +43,8 @@ body.dark-theme {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-fluent);
+    -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -71,11 +78,12 @@ body {
 }
 
 .logo-dashboard {
-    width: 45px !important;
-    height: 45px !important;
-    min-width: 45px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     object-fit: cover;
 }
 
@@ -252,25 +260,25 @@ body {
 }
 
 /* =========================================
-   5. ESTILOS DEL DASHBOARD
+   5. ESTILOS DEL DASHBOARD (FLUENT UI)
    ========================================= */
 .dashboard-container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 32px 20px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
 }
 
-/* Header Dashboard */
+/* Header Dashboard Fluent */
 .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: var(--card-bg);
-    padding: 20px 30px;
-    border-radius: 20px;
+    padding: 16px 24px;
+    border-radius: 6px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
 }
@@ -278,21 +286,26 @@ body {
 .logo-title-group {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
 }
 
-.brand h2 { font-size: 1.4rem; }
+.brand h2 { 
+    font-size: 1.25rem; 
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
 .subtitle {
     color: var(--text-secondary);
-    font-size: 0.85rem;
-    margin-top: 4px;
+    font-size: 0.8rem;
+    margin-top: 3px;
     display: flex;
     align-items: center;
     gap: 6px;
+    font-weight: 500;
 }
 .dot {
-    width: 8px; height: 8px;
-    background-color: var(--avanti-green);
+    width: 6px; height: 6px;
+    background-color: var(--avanti-green-vibrant);
     border-radius: 50%;
     display: inline-block;
 }
@@ -300,59 +313,79 @@ body {
 .user-controls {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-/* Grid de Tarjetas (Módulos) */
+/* Grid de Tarjetas (Módulos) Fluent */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
 }
 
 .card-modulo {
     background: var(--card-bg);
-    padding: 25px;
-    border-radius: 24px;
+    padding: 20px;
+    border-radius: 6px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
-    transition: transform 0.2s;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .card-modulo:hover {
-    transform: translateY(-5px);
-    border-color: rgba(0, 200, 103, 0.3);
+    background: var(--surface-subtle);
+    border-color: var(--avanti-green-vibrant);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 .card-header-flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
 }
 
 .icon-container {
     font-size: 1.2rem;
-    background: rgba(0, 200, 103, 0.1);
-    color: var(--text-primary);
-    width: 45px; height: 45px;
+    background: rgba(16, 124, 65, 0.12);
+    color: var(--avanti-green-vibrant);
+    width: 40px; height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(16, 124, 65, 0.25);
 }
 
-.arrow-icon { color: var(--text-secondary); }
+.arrow-icon { 
+    color: var(--text-secondary); 
+    font-size: 14px;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+.card-modulo:hover .arrow-icon {
+    color: var(--avanti-green-vibrant);
+    transform: translateX(3px);
+}
 
-.card-modulo h3 { font-size: 1.05rem; margin-bottom: 8px; }
-.card-modulo p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; }
+.card-modulo h3 { 
+    font-size: 0.95rem; 
+    font-weight: 600;
+    margin-bottom: 4px; 
+    color: var(--text-primary);
+}
+.card-modulo p { 
+    color: var(--text-secondary); 
+    font-size: 0.8rem; 
+    line-height: 1.4; 
+}
 
-/* Banners Inferiores */
+/* Banners Inferiores Fluent */
 .banners-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
 .banner-modulo {
@@ -360,26 +393,38 @@ body {
     justify-content: space-between;
     align-items: center;
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 24px;
+    padding: 20px 24px;
+    border-radius: 6px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.banner-modulo:hover {
+    background: var(--surface-subtle);
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .banner-content {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
 }
 
 .icon-large {
-    font-size: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 16px;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
 }
 
-.banner-text h3 { font-size: 1.3rem; margin-bottom: 5px; }
+.banner-text h3 { 
+    font-size: 1.05rem; 
+    font-weight: 600;
+    margin-bottom: 2px; 
+}
 .banner-text p { color: var(--text-secondary); font-size: 0.95rem; }
 
 /* =========================================
@@ -864,52 +909,52 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 }
 
 /* =========================================
-   DASHBOARD PRO STYLES (Update)
+   DASHBOARD PRO STYLES (FLUENT UI)
    ========================================= */
 .user-controls {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-/* User Badge Pro */
+/* User Badge Pro Fluent */
 .user-badge-pro {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(30, 41, 59, 0.5); /* slate-800/50 */
-    border: 1px solid #334155; /* slate-700 */
-    padding: 6px 12px;
-    border-radius: 50px;
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-color);
+    padding: 4px 12px;
+    border-radius: 4px;
 }
 
 .avatar-circle {
-    width: 32px;
-    height: 32px;
-    background: rgba(16, 185, 129, 0.1);
-    color: #10B981;
-    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    background: rgba(16, 124, 65, 0.15);
+    color: var(--avanti-green-vibrant);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 124, 65, 0.25);
 }
 
 .avatar-circle svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .status-dot {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 8px;
-    height: 8px;
-    background-color: #10B981;
+    bottom: -1px;
+    right: -1px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--avanti-green-vibrant);
     border-radius: 50%;
-    border: 2px solid #0f0f12;
+    border: 1.5px solid var(--card-bg);
 }
 
 .user-info {
@@ -918,152 +963,173 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
 }
 
 .user-role {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #f8fafc;
+    color: var(--text-primary);
     line-height: 1.1;
 }
 
 .user-status {
     font-size: 0.7rem;
-    color: #10B981;
+    color: var(--avanti-green-vibrant);
     line-height: 1.1;
+    font-weight: 500;
 }
 
-/* Pro Buttons */
+/* Pro Buttons (Fluent Command & Action Buttons) */
 .btn-dashboard-primary {
-    background: #10B981;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
+    background: var(--avanti-green);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s ease;
-    display: flex;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .btn-dashboard-primary:hover {
-    background: #059669;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    background: var(--avanti-green-hover);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+.btn-dashboard-primary:active {
+    transform: scale(0.99);
 }
 
 .btn-dashboard-secondary {
-    background: #1e293b;
-    color: #cbd5e1;
-    border: 1px solid #334155;
-    padding: 8px 16px;
-    border-radius: 6px;
+    background: var(--surface-subtle);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: 0.2s ease;
-    display: flex;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 .btn-dashboard-secondary:hover {
-    background: #334155;
-    color: #f1f5f9;
+    background: #383838;
+    border-color: var(--border-hover);
+}
+.btn-dashboard-secondary:active {
+    transform: scale(0.99);
 }
 
 .btn-dashboard-logout {
     background: transparent;
-    color: #64748b;
+    color: var(--text-secondary);
     border: 1px solid transparent;
-    padding: 8px 16px;
-    border-radius: 6px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: all 0.15s ease;
 }
 .btn-dashboard-logout:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.25);
 }
 
-/* Pro Cards */
+/* Pro Cards (Fluent Grid Cards) */
 .pro-card {
-    background: #161b22;
-    border: 1px solid #1e293b;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     padding: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow-soft);
 }
 
 .pro-card:hover {
-    border-color: rgba(16, 185, 129, 0.4);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(16, 185, 129, 0.1);
+    background: var(--surface-subtle);
+    border-color: var(--avanti-green-vibrant);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 .pro-card h3 {
-    margin-top: 15px;
-    margin-bottom: 0;
-    font-size: 1.1rem;
-    color: #e2e8f0;
+    margin-top: 14px;
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
-/* Icon Containers SVG */
+/* Icon Containers SVG Fluent */
 .icon-container-pro {
-    width: 48px;
-    height: 48px;
-    background: rgba(16, 185, 129, 0.1);
-    color: #10B981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    background: rgba(16, 124, 65, 0.12);
+    color: var(--avanti-green-vibrant);
+    border: 1px solid rgba(16, 124, 65, 0.25);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .icon-large-pro {
-    width: 64px;
-    height: 64px;
-    background: rgba(16, 185, 129, 0.1);
-    color: #10B981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    background: rgba(16, 124, 65, 0.12);
+    color: var(--avanti-green-vibrant);
+    border: 1px solid rgba(16, 124, 65, 0.25);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Banner Pro */
+/* Banner Pro Fluent */
 .banner-pro {
-    background: #161b22;
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 25px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 20px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow-soft);
 }
 
 .banner-pro:hover {
-    border-color: rgba(16, 185, 129, 0.4);
+    background: var(--surface-subtle);
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .banner-pro .banner-content {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
 }
 
 .banner-pro h3 {
     margin: 0;
-    font-size: 1.3rem;
-    color: #f8fafc;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 .tech-label {
-    font-size: 0.8rem;
-    color: #64748b;
-    margin-top: 5px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 3px;
     margin-bottom: 0;
     text-transform: uppercase;
     letter-spacing: 0.05em;

@@ -10,21 +10,22 @@
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
 
   <style>
-
     :root {
-      --bg-deep: #0a0a0c;
-      --surface-slate: #131416;
-      --border-subtle: #222222;
-      --border-focus: #333333;
+      --bg-deep: #1f1f1f;
+      --surface-slate: #2b2b2b;
+      --surface-elevated: #333333;
+      --border-subtle: #383838;
+      --border-focus: #484848;
       --text-bright: #ffffff;
-      --text-muted: #a1a1aa;
-      --accent-green: #10B981;
-      --accent-green-hover: #059669;
+      --text-muted: #adadad;
+      --accent-green: #107c41;
+      --accent-green-hover: #0f6b38;
+      --accent-green-vibrant: #10b981;
     }
 
     body { 
         background-color: var(--bg-deep); 
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+        font-family: "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
         color: var(--text-bright); 
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
@@ -33,98 +34,95 @@
     .neo-panel { 
         background-color: var(--surface-slate); 
         border: 1px solid var(--border-subtle); 
-        border-radius: 16px; 
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        border-radius: 6px; 
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.35);
     }
     
-    /* Inputs de Alta Definicin (input-pro) */
+    /* Inputs Fluent */
     .neo-input { 
-        background-color: transparent !important; 
+        background-color: #333333 !important; 
         border: 1px solid var(--border-focus) !important; 
-        color: #F8FAFC !important; 
+        border-bottom: 2px solid transparent !important;
+        border-radius: 4px !important;
+        color: #ffffff !important; 
         transition: all 0.15s ease-in-out; 
     }
-    .neo-input:hover { border-color: #3f3f46 !important; }
+    .neo-input:hover { 
+        border-color: #555555 !important;
+        background-color: #383838 !important; 
+    }
     .neo-input:focus { 
-        border-color: var(--accent-green) !important; 
-        background-color: #18181b !important; 
+        border-color: var(--border-focus) !important;
+        border-bottom: 2px solid var(--accent-green-vibrant) !important; 
+        background-color: #383838 !important; 
         outline: none; 
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); 
+        box-shadow: none !important; 
     }
 
-    /* CORE: TABULATOR Y SCROLL (Vercel Aesthetic) */
-    .tabulator-table { background-color: #131416 !important; }
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 14px; height: auto !important; }
+    /* CORE: TABULATOR (Fluent DetailsList) */
+    .tabulator-table { background-color: #2b2b2b !important; }
+    .tabulator { border: none !important; background-color: transparent !important; font-size: 13px; height: auto !important; }
     .tabulator-tableholder { overflow-y: hidden !important; overflow-x: auto !important; height: auto !important; }
     
-    .tabulator-header { background-color: var(--surface-slate) !important; color: var(--text-muted) !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: 2px solid var(--accent-green) !important; }
-    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 16px 12px !important; }
-    .tabulator-col-title { font-weight: 600 !important; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);}
+    .tabulator-header { background-color: #252526 !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
+    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 14px !important; }
+    .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
     
-    .tabulator-row { border-bottom: 1px solid var(--border-subtle) !important; transition: background-color 0.15s ease; }
+    .tabulator-row { border-bottom: 1px solid #333333 !important; transition: background-color 0.1s ease; }
     .tabulator-row.tabulator-row-odd { background-color: transparent !important; }
-    .tabulator-row.tabulator-row-even { background-color: rgba(255,255,255,0.02) !important; }
-    .tabulator-row:hover { background-color: rgba(16, 185, 129, 0.05) !important; cursor: pointer; }
-    .tabulator-cell { border-right: none !important; padding: 18px 16px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
+    .tabulator-row.tabulator-row-even { background-color: rgba(255,255,255,0.015) !important; }
+    .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; cursor: pointer; }
+    .tabulator-cell { border-right: none !important; padding: 14px 14px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
-    /* VISTA MVIL PREMIUM */
-    .tabulator-row .tabulator-responsive-collapse { background-color: var(--surface-slate) !important; padding: 20px !important; border-bottom: 1px solid var(--border-subtle) !important; }
-    .tabulator-row .tabulator-responsive-collapse table { width: 100%; display: block; }
-    .tabulator-row .tabulator-responsive-collapse table tbody { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-    .tabulator-row .tabulator-responsive-collapse table tr { display: flex; flex-direction: column; background: var(--surface-slate); padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle); }
-    .tabulator-row .tabulator-responsive-collapse table tr td { border: none !important; padding: 0 !important; display: block; text-align: left !important; }
-    .tabulator-row .tabulator-responsive-collapse table tr td:first-of-type { font-size: 11px !important; color: var(--text-muted) !important; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; background: transparent !important; width: 100% !important; border: none !important; }
-    .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type { font-size: 14px !important; width: 100% !important; padding: 0 !important; }
-    .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type > div { justify-content: flex-start !important; text-align: left !important; }
+    /* Paginador Fluent */
+    .tabulator-footer { background-color: #252526 !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 12px 16px !important;}
+    .tabulator-footer .tabulator-page-size { background-color: #333333; border: 1px solid var(--border-focus); color: var(--text-bright); border-radius: 4px; padding: 5px 10px; outline: none; transition: border 0.2s;}
+    .tabulator-footer .tabulator-page-size:focus { border-color: var(--accent-green-vibrant); }
+    .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 4px; margin: 0 2px; padding: 5px 10px !important; transition: all 0.15s; font-weight: 500;}
+    .tabulator-footer .tabulator-page:hover { background: rgba(255,255,255,0.06) !important; color: var(--text-bright) !important; }
+    .tabulator-footer .tabulator-page.active { background: var(--accent-green) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; font-weight: 600; }
 
-    .tabulator-footer { background-color: var(--surface-slate) !important; border-top: 1px solid var(--border-subtle) !important; color: var(--text-muted) !important; padding: 16px !important;}
-    .tabulator-footer .tabulator-page-size { background-color: transparent; border: 1px solid var(--border-focus); color: var(--text-bright); border-radius: 8px; padding: 6px 12px; outline: none; transition: border 0.2s;}
-    .tabulator-footer .tabulator-page-size:focus { border-color: var(--accent-green); }
-    .tabulator-footer .tabulator-page { background: transparent !important; border: 1px solid transparent !important; color: var(--text-muted) !important; border-radius: 8px; margin: 0 4px; padding: 6px 12px !important; transition: all 0.2s; font-weight: 500;}
-    .tabulator-footer .tabulator-page:hover { background: #1a1a1c !important; color: var(--text-bright) !important; }
-    .tabulator-footer .tabulator-page.active { background: var(--accent-green) !important; color: white !important; border: 1px solid transparent !important; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
-
-    /* BOTONES ACCIN EN TABLA */
-    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid transparent; background: transparent; color: var(--text-muted); transition: all 0.15s ease; cursor: pointer; }
-    .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.1); border-color: rgba(248, 113, 113, 0.2); }
-    .btn-edit:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
+    /* BOTONES ACCIÓN EN TABLA */
+    .action-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 4px; border: 1px solid transparent; background: transparent; color: var(--text-muted); transition: all 0.12s ease; cursor: pointer; }
+    .btn-del:hover { color: #F87171; background-color: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.25); }
+    .btn-edit:hover { color: #38BDF8; background-color: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.25); }
     
-    /* BOTONES PRINCIPALES */
+    /* BOTONES PRINCIPALES FLUENT */
     .btn-primary { 
         background-color: var(--accent-green); 
         color: #fff; 
-        border: 1px solid transparent; 
+        border: 1px solid rgba(255, 255, 255, 0.1); 
+        border-radius: 4px;
         transition: all 0.15s ease-in-out; 
-        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    .btn-primary:hover { background-color: var(--accent-green-hover); box-shadow: 0 6px 8px -1px rgba(16, 185, 129, 0.4); }
-    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:hover { background-color: var(--accent-green-hover); }
+    .btn-primary:active { transform: scale(0.99); }
     
     .btn-outline { 
-        background-color: transparent; 
+        background-color: rgba(255, 255, 255, 0.05); 
         border: 1px solid var(--border-focus); 
+        border-radius: 4px;
         color: var(--text-bright); 
         transition: all 0.15s ease-in-out; 
     }
-    .btn-outline:hover { border-color: var(--text-muted); background-color: rgba(255, 255, 255, 0.05); }
-    .btn-outline:active { transform: scale(0.98); }
+    .btn-outline:hover { border-color: #666666; background-color: rgba(255, 255, 255, 0.09); }
+    .btn-outline:active { transform: scale(0.99); }
 
-  
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; border: 2px solid var(--bg-deep); }
-    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
-
+    ::-webkit-scrollbar-thumb { background: #383838; border-radius: 4px; border: 2px solid var(--bg-deep); }
+    ::-webkit-scrollbar-thumb:hover { background: #484848; }
   </style>
 </head>
 <body class="p-4 md:p-8">
 
   <div class="max-w-[1200px] mx-auto space-y-6">
     <!-- HEADER PRINCIPAL -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 neo-panel gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-5 neo-panel gap-4">
       <div class="flex items-center gap-5">
-        <div class="p-3.5 bg-[var(--surface-slate)] rounded-xl border border-[var(--border-subtle)] shadow-sm flex items-center justify-center">
+        <div class="p-3.5 bg-[var(--surface-slate)] rounded border border-[var(--border-subtle)] shadow-sm flex items-center justify-center">
           <svg class="w-7 h-7 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
         <div>
@@ -138,11 +136,11 @@
       </div>
       
       <div class="flex w-full md:w-auto gap-3 shrink-0">
-        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2.5 px-6 rounded-lg text-sm transition">
+        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2.5 px-6 rounded text-sm transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Volver
         </button>
-        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-semibold py-2.5 px-6 rounded-lg text-sm transition">
+        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-semibold py-2.5 px-6 rounded text-sm transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Añadir Empleado
         </button>
@@ -150,17 +148,17 @@
     </div>
 
     <!-- PANEL DE FILTROS -->
-    <div class="p-6 neo-panel flex flex-col md:flex-row gap-5 items-end mt-6 mb-6">
+    <div class="p-5 neo-panel flex flex-col md:flex-row gap-4 items-end mt-5 mb-5">
         <div class="w-full flex-1">
             <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Búsqueda Global</label>
             <div class="relative">
                 <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="global-search" placeholder="Buscar por DNI, nombre, cargo..." class="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm neo-input focus:ring-0">
+                <input type="text" id="global-search"  class="w-full pl-10 pr-4 py-2.5 rounded text-sm neo-input focus:ring-0">
             </div>
         </div>
         <div class="w-full sm:w-64">
             <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Filtrar por Área</label>
-            <select id="area-filter" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input focus:ring-0">
+            <select id="area-filter" class="w-full px-4 py-2.5 rounded text-sm neo-input focus:ring-0">
                 <option value="">Todas las Áreas</option>
                 <option value="Administración">Administración</option>
                 <option value="Contabilidad">Contabilidad</option>
@@ -192,34 +190,34 @@
         <div class="grid grid-cols-2 gap-5">
           <div>
             <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">DNI *</label>
-            <input type="text" id="emp-dni" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
+            <input type="text" id="emp-dni" required class="w-full px-4 py-2.5 rounded text-sm neo-input">
           </div>
           <div>
             <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Centro Costo</label>
-            <input type="text" id="emp-cc" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
+            <input type="text" id="emp-cc" class="w-full px-4 py-2.5 rounded text-sm neo-input">
           </div>
         </div>
         <div>
           <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Nombre Completo *</label>
-          <input type="text" id="emp-nombre" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
+          <input type="text" id="emp-nombre" required class="w-full px-4 py-2.5 rounded text-sm neo-input">
         </div>
         <div class="grid grid-cols-2 gap-5">
           <div>
             <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Área / Departamento *</label>
-            <input type="text" id="emp-area" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
+            <input type="text" id="emp-area" required class="w-full px-4 py-2.5 rounded text-sm neo-input">
           </div>
           <div>
             <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Cargo / Puesto *</label>
-            <input type="text" id="emp-cargo" required class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
+            <input type="text" id="emp-cargo" required class="w-full px-4 py-2.5 rounded text-sm neo-input">
           </div>
         </div>
         <div>
           <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">Correo Corporativo</label>
-          <input type="email" id="emp-correo" class="w-full px-4 py-2.5 rounded-lg text-sm neo-input">
+          <input type="email" id="emp-correo" class="w-full px-4 py-2.5 rounded text-sm neo-input">
         </div>
         <div class="pt-5 flex justify-end gap-3 border-t border-[var(--border-focus)] mt-4">
-          <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="btn-outline px-5 py-2.5 rounded-lg font-medium text-sm">Cancelar</button>
-          <button type="submit" id="btn-save-emp" class="btn-primary px-5 py-2.5 rounded-lg font-medium text-sm">Guardar Empleado</button>
+          <button type="button" onclick="document.getElementById('modal-empleado').classList.add('hidden')" class="btn-outline px-5 py-2.5 rounded font-medium text-sm">Cancelar</button>
+          <button type="submit" id="btn-save-emp" class="btn-primary px-5 py-2.5 rounded font-medium text-sm">Guardar Empleado</button>
         </div>
       </form>
     </div>
@@ -269,7 +267,7 @@
                     : '<span class="bg-gray-500/10 text-gray-400 border border-gray-500/20 px-2 py-0.5 rounded text-xs font-semibold">DEVUELTO</span>';
                 
                 html += `
-                <div class="bg-[var(--surface-slate)] border border-[var(--border-focus)] p-4 rounded-lg flex flex-col gap-2">
+                <div class="bg-[var(--surface-slate)] border border-[var(--border-focus)] p-4 rounded flex flex-col gap-2">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="font-semibold text-white text-sm">${a.categoria}</p>
