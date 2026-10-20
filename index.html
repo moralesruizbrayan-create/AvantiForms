@@ -6,38 +6,82 @@
   <title>Portal TI - Agrícola Avanti S.A.C.</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark-theme', 'dark-mode');
+      } else {
+        document.documentElement.classList.add('dark-theme', 'dark-mode');
+      }
+    })();
+  </script>
   <style>
+    :root, body:not(.dark-theme):not(.dark-mode) {
+      --canvas-bg: #f4f5f7;
+      --brand-panel-bg: #ffffff;
+      --brand-panel-text: #0f172a;
+      --brand-panel-border: #e2e8f0;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --card-title: #0f172a;
+      --input-bg: #f8fafc;
+      --input-border: #cbd5e1;
+      --input-text: #0f172a;
+      --label-color: #475569;
+      --text-muted: #64748b;
+      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    html.dark-theme, body.dark-theme,
+    html.dark-mode, body.dark-mode {
+      --canvas-bg: #121314;
+      --brand-panel-bg: #181b1e;
+      --brand-panel-text: #ffffff;
+      --brand-panel-border: #282c30;
+      --card-bg: #1a1c1e;
+      --card-border: #2b2e32;
+      --card-title: #ffffff;
+      --input-bg: #222528;
+      --input-border: #3d4248;
+      --input-text: #ffffff;
+      --label-color: #94a3b8;
+      --text-muted: #64748b;
+      --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.4);
+    }
+
     body { 
       font-family: "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
       -webkit-font-smoothing: antialiased;
+      background-color: var(--canvas-bg);
+      color: var(--brand-panel-text);
+      transition: background-color 0.18s ease, color 0.18s ease;
     }
-    .bg-canvas-dark { background-color: #1f1f1f; }
     
     /* Tarjeta Fluent Elevada */
     .card-login {
-      background-color: #2b2b2b;
-      border: 1px solid #383838;
-      border-radius: 6px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 2px rgba(0, 0, 0, 0.2);
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.18s ease;
     }
     
     /* Inputs Fluent */
     .input-pro {
-      background-color: #333333;
-      border: 1px solid #484848;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
       border-bottom: 2px solid transparent;
       border-radius: 4px;
-      color: #ffffff;
+      color: var(--input-text);
       transition: all 0.15s ease-in-out;
     }
     .input-pro:hover {
-      border-color: #555555;
-      background-color: #383838;
+      border-color: #10b981;
     }
     .input-pro:focus {
-      border-color: #484848;
+      border-color: var(--input-border);
       border-bottom: 2px solid #10b981;
-      background-color: #383838;
       outline: none;
       box-shadow: none;
     }
@@ -47,8 +91,8 @@
     .input-pro:-webkit-autofill:hover, 
     .input-pro:-webkit-autofill:focus, 
     .input-pro:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 30px #333333 inset !important;
-        -webkit-text-fill-color: #ffffff !important;
+        -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+        -webkit-text-fill-color: var(--input-text) !important;
         transition: background-color 5000s ease-in-out 0s;
     }
 
@@ -88,14 +132,22 @@
     }
   </script>
 </head>
-<body class="min-h-screen flex flex-col lg:flex-row bg-canvas-dark text-slate-100 antialiased selection:bg-emerald-500 selection:text-white">
+<body class="min-h-screen flex flex-col lg:flex-row antialiased selection:bg-emerald-500 selection:text-white">
+
+  <!-- BOTÓN DE TEMA EN LOGIN -->
+  <div class="fixed top-4 right-4 z-50">
+    <button id="themeToggle" class="flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-semibold border transition cursor-pointer shadow-sm" style="background: var(--card-bg); border-color: var(--card-border); color: var(--card-title);" aria-label="Cambiar Tema" title="Cambiar Tema">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+      <span>Claro</span>
+    </button>
+  </div>
 
   <!-- ====================================================
        PANEL IZQUIERDO: BRANDING MINIMALISTA Y EQUILIBRADO
        ==================================================== -->
-  <div class="lg:w-1/2 bg-slate-50 text-slate-900 flex flex-col justify-between p-10 sm:p-16 lg:p-24 border-r border-slate-200">
+  <div class="lg:w-1/2 flex flex-col justify-between p-10 sm:p-16 lg:p-24 border-r" style="background-color: var(--brand-panel-bg); color: var(--brand-panel-text); border-color: var(--brand-panel-border);">
     
-    <!-- CONTENIDO AGRUPADO CON JERARQUÍA -->
+    <!-- CONTENIDO AGRUPADO CON JERARQUÍA (Ley de Hick) -->
     <div class="my-auto max-w-lg">
       <!-- Logo integrado al bloque de marca -->
       <div class="mb-8">
@@ -105,25 +157,25 @@
       </div>
 
       <!-- Badge de Estado TI -->
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white border border-slate-200 text-slate-700 text-xs font-semibold mb-6 shadow-sm">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/90 border border-slate-200 text-slate-800 text-xs font-semibold mb-6 shadow-sm">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         <span>Área de Soporte TI</span>
       </div>
 
       <!-- Título y Empresa -->
-      <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-black tracking-tight text-slate-900 leading-[1.12]">
+      <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-black tracking-tight leading-[1.12]" style="color: var(--brand-panel-text);">
         Sistema de Control de Activos y Actas TI
       </h1>
       
-      <p class="text-base font-bold text-emerald-700 mt-3 tracking-wide">
+      <p class="text-base font-bold text-emerald-600 mt-3 tracking-wide">
         Agrícola Avanti S.A.C.
       </p>
     </div>
 
     <!-- PIE DE PÁGINA LIMPIO -->
-    <div class="pt-8 flex items-center justify-between text-xs text-slate-500 font-mono">
+    <div class="pt-8 flex items-center justify-between text-xs text-[var(--text-muted)] font-mono">
       <span>© 2026 Agrícola Avanti S.A.C.</span>
-      <span class="px-2.5 py-0.5 rounded bg-white border border-slate-200 font-bold text-slate-700">v2.0</span>
+      <span class="px-2.5 py-0.5 rounded bg-white/90 border border-slate-200 font-bold text-slate-800">v2.0</span>
     </div>
   </div>
 
@@ -135,30 +187,32 @@
       
       <!-- TÍTULO -->
       <div class="mb-6">
-        <h2 id="formTitle" class="text-2xl font-bold text-white tracking-tight">
+        <h2 id="formTitle" class="text-2xl font-bold tracking-tight" style="color: var(--card-title);">
           Iniciar Sesión
         </h2>
       </div>
 
-      <!-- FORMULARIO 1: LOGIN -->
+      <!-- FORMULARIO 1: LOGIN (SIN PLACEHOLDERS) -->
       <form id="loginForm" class="space-y-4">
         <div>
-          <label for="loginEmail" class="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+          <label for="loginEmail" class="block text-[11px] font-bold mb-1.5 uppercase tracking-wider" style="color: var(--label-color);">
             Correo
           </label>
           <input type="email" id="loginEmail" required autofocus 
+                 aria-label="Correo electrónico corporativo"
                  class="w-full px-3.5 py-2.5 rounded text-sm input-pro font-medium">
         </div>
 
         <div>
-          <label for="loginPassword" class="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+          <label for="loginPassword" class="block text-[11px] font-bold mb-1.5 uppercase tracking-wider" style="color: var(--label-color);">
             Contraseña
           </label>
           <div class="relative">
             <input type="password" id="loginPassword" required 
+                   aria-label="Contraseña"
                    class="w-full pl-3.5 pr-10 py-2.5 rounded text-sm input-pro font-medium">
-            <button type="button" onclick="togglePass('loginPassword', this)" 
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition cursor-pointer">
+            <button type="button" onclick="togglePass('loginPassword', this)" aria-label="Mostrar u ocultar contraseña"
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-emerald-500 transition cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
             </button>
           </div>
@@ -166,7 +220,7 @@
 
         <div class="flex items-center pt-1">
           <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
-          <label for="rememberMe" class="ml-2 text-xs text-slate-300 font-medium select-none cursor-pointer">Recordar sesión</label>
+          <label for="rememberMe" class="ml-2 text-xs font-medium select-none cursor-pointer" style="color: var(--label-color);">Recordar sesión</label>
         </div>
 
         <button type="submit" id="btnSubmit"
@@ -174,38 +228,41 @@
           <span>Ingresar al Portal</span>
         </button>
 
-        <p class="text-center text-xs text-slate-400 pt-4">
-          ¿No tienes cuenta? <a href="#" id="btnIrRegistro" class="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2">Regístrate</a>
+        <p class="text-center text-xs text-[var(--text-muted)] pt-4">
+          ¿No tienes cuenta? <a href="#" id="btnIrRegistro" class="text-emerald-500 hover:text-emerald-400 font-semibold underline underline-offset-2">Regístrate</a>
         </p>
       </form>
 
-      <!-- FORMULARIO 2: REGISTRO -->
+      <!-- FORMULARIO 2: REGISTRO (SIN PLACEHOLDERS) -->
       <form id="registerForm" class="space-y-4 hidden">
         <div>
-          <label for="regName" class="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+          <label for="regName" class="block text-[11px] font-bold mb-1.5 uppercase tracking-wider" style="color: var(--label-color);">
             Nombre Completo
           </label>
           <input type="text" id="regName" required 
+                 aria-label="Nombre y Apellidos completos"
                  class="w-full px-3.5 py-2.5 rounded text-sm input-pro font-medium">
         </div>
 
         <div>
-          <label for="regEmail" class="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+          <label for="regEmail" class="block text-[11px] font-bold mb-1.5 uppercase tracking-wider" style="color: var(--label-color);">
             Correo
           </label>
           <input type="email" id="regEmail" required 
+                 aria-label="Correo corporativo"
                  class="w-full px-3.5 py-2.5 rounded text-sm input-pro font-medium">
         </div>
 
         <div>
-          <label for="regPassword" class="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wider">
+          <label for="regPassword" class="block text-[11px] font-bold mb-1.5 uppercase tracking-wider" style="color: var(--label-color);">
             Contraseña
           </label>
           <div class="relative">
             <input type="password" id="regPassword" required 
-                 class="w-full pl-3.5 pr-10 py-2.5 rounded text-sm input-pro font-medium">
-            <button type="button" onclick="togglePass('regPassword', this)" 
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition cursor-pointer">
+                   aria-label="Contraseña nueva"
+                   class="w-full pl-3.5 pr-10 py-2.5 rounded text-sm input-pro font-medium">
+            <button type="button" onclick="togglePass('regPassword', this)" aria-label="Mostrar u ocultar contraseña"
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-emerald-500 transition cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
             </button>
           </div>
@@ -216,8 +273,8 @@
           <span>Crear Cuenta</span>
         </button>
 
-        <p class="text-center text-xs text-slate-400 pt-4">
-          ¿Ya tienes cuenta? <a href="#" id="btnIrLogin" class="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2">Inicia sesión</a>
+        <p class="text-center text-xs text-[var(--text-muted)] pt-4">
+          ¿Ya tienes cuenta? <a href="#" id="btnIrLogin" class="text-emerald-500 hover:text-emerald-400 font-semibold underline underline-offset-2">Inicia sesión</a>
         </p>
       </form>
 
@@ -225,11 +282,12 @@
   </div>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="toastNotification" class="toast-notification hidden">
+  <div id="toastNotification" class="toast-notification hidden" role="alert">
     <span class="toast-icon">⚠️</span>
     <span id="toastMessage">Error message</span>
   </div>
 
+  <script src="app.js"></script>
   <script>
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');

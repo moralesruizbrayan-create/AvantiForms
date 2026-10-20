@@ -5,29 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reportería e Inventario - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark-theme', 'dark-mode');
+      } else {
+        document.documentElement.classList.add('dark-theme', 'dark-mode');
+      }
+    })();
+  </script>
 
   <style>
-    :root {
-      --bg-deep: #1f1f1f;
-      --surface-slate: #2b2b2b;
-      --surface-elevated: #333333;
-      --border-subtle: #383838;
-      --border-focus: #484848;
-      --text-bright: #ffffff;
-      --text-muted: #adadad;
+    :root, body:not(.dark-theme):not(.dark-mode) {
+      --bg-deep: #f4f5f7;
+      --surface-slate: #ffffff;
+      --surface-elevated: #f8fafc;
+      --border-subtle: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --text-bright: #0f172a;
+      --text-muted: #475569;
       --accent-green: #107c41;
       --accent-green-hover: #0f6b38;
       --accent-green-vibrant: #10b981;
+      --input-bg-neo: #ffffff;
+    }
+
+    html.dark-theme, body.dark-theme,
+    html.dark-mode, body.dark-mode {
+      --bg-deep: #121314;
+      --surface-slate: #1a1c1e;
+      --surface-elevated: #222528;
+      --border-subtle: #2b2e32;
+      --border-focus: #3d4248;
+      --text-bright: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-green: #107c41;
+      --accent-green-hover: #0f6b38;
+      --accent-green-vibrant: #10b981;
+      --input-bg-neo: #1f2225;
     }
 
     body { 
         background-color: var(--bg-deep); 
         font-family: "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
         color: var(--text-bright); 
+        transition: background-color 0.18s ease, color 0.18s ease;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
     }
@@ -401,13 +429,16 @@
           <p class="text-xs font-normal mt-0.5 text-[var(--text-muted)]">Gestión de inventario de activos e impresión de actas</p>
         </div>
       </div>
-      <div class="flex w-full md:w-auto gap-2.5 shrink-0">
-
-        <button id="btn-export-excel" class="flex-1 md:flex-none flex items-center justify-center gap-2 font-semibold py-2 px-4 rounded text-xs transition bg-[#107c41] text-white hover:bg-[#0f6b38] border border-white/10 shadow-sm">
+      <div class="flex w-full md:w-auto gap-2.5 shrink-0 items-center flex-wrap">
+        <button id="themeToggle" class="btn-outline font-semibold py-2 px-3.5 rounded text-xs transition flex items-center gap-2 cursor-pointer" type="button" aria-label="Cambiar Tema">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <span>Claro</span>
+        </button>
+        <button id="btn-export-excel" class="flex-1 md:flex-none flex items-center justify-center gap-2 font-semibold py-2 px-4 rounded text-xs transition bg-[#107c41] text-white hover:bg-[#0f6b38] border border-white/10 shadow-sm cursor-pointer" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           Exportar Excel
         </button>
-        <button class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2 px-4 rounded text-xs transition" onclick="location.href='dashboard.html'">
+        <button class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2 px-4 rounded text-xs transition cursor-pointer" onclick="location.href='dashboard.html'" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Volver
         </button>
@@ -427,27 +458,27 @@
     <div class="p-5 neo-panel">
       <div class="flex flex-col lg:flex-row gap-4 items-end">
         <div class="flex-1 w-full">
-          <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Código o Serie</label>
+          <label for="filtro-computador" class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Código o Serie</label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg class="w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
-            <input type="text" id="filtro-computador" class="w-full rounded pl-9 pr-3.5 py-2 text-xs neo-input">
+            <input type="text" id="filtro-computador" aria-label="Filtrar por código patrimonial o serie" class="w-full rounded pl-9 pr-3.5 py-2 text-xs neo-input">
           </div>
         </div>
         
         <div class="flex-1 w-full">
-          <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Empleado Asignado</label>
+          <label for="filtro-usuario" class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Empleado Asignado</label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg class="w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
             </div>
-            <input type="text" id="filtro-usuario" class="w-full rounded pl-9 pr-3.5 py-2 text-xs neo-input">
+            <input type="text" id="filtro-usuario" aria-label="Filtrar por nombre de empleado asignado" class="w-full rounded pl-9 pr-3.5 py-2 text-xs neo-input">
           </div>
         </div>
 
         <div class="w-full lg:w-auto mt-2 lg:mt-0">
-          <button id="btn-limpiar" class="flex items-center justify-center w-full lg:w-auto btn-outline font-semibold py-2 px-5 rounded text-xs transition">
+          <button id="btn-limpiar" class="flex items-center justify-center w-full lg:w-auto btn-outline font-semibold py-2 px-5 rounded text-xs transition cursor-pointer" type="button" aria-label="Resetear todos los filtros">
             Resetear Filtros
           </button>
         </div>
@@ -455,7 +486,7 @@
     </div>
 
     <!-- CONTENEDOR DEL GRID -->
-    <div class="neo-panel overflow-hidden p-0 border border-[var(--border-focus)]">
+    <div class="neo-panel overflow-hidden p-0 border border-[var(--border-subtle)]">
       <div id="inventario-grid" class="w-full"></div>
     </div>
 
@@ -505,7 +536,12 @@
     const iconTrash = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
 
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('inventario-grid').innerHTML = "<div class='flex flex-col items-center justify-center p-16 text-[var(--text-muted)]'><svg class='animate-spin h-8 w-8 mb-4 text-[#10B981]' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'><circle class='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' stroke-width='4'></circle><path class='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path></svg><p class='font-medium'>Sincronizando con la Base de Datos...</p></div>";
+      const grid = document.getElementById('inventario-grid');
+      if (grid) {
+        grid.innerHTML = (typeof createTableSkeleton === 'function') 
+          ? createTableSkeleton(8, 6) 
+          : '<div class="fluent-skeleton" style="width:100%;height:350px;"></div>';
+      }
 
       try {
         const response = await fetch('/api/obtener-metricas');

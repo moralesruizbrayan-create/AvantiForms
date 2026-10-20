@@ -6,19 +6,29 @@
   <title>Portal de Actas - Agrícola Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark-theme', 'dark-mode');
+      } else {
+        document.documentElement.classList.add('dark-theme', 'dark-mode');
+      }
+    })();
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-    :root { 
-      --bg-color: #F8FAFC; 
-      --text-color: #334155; 
-      --text-secondary: #64748B; 
+    :root, body:not(.dark-theme):not(.dark-mode) { 
+      --bg-color: #F4F5F7; 
+      --text-color: #0F172A; 
+      --text-secondary: #475569; 
       --card-bg: #FFFFFF; 
       --border-color: #E2E8F0; 
-      --input-bg: #F8FAFC; 
+      --input-bg: #FFFFFF; 
       --input-border: #CBD5E1; 
       --lbl-bg: #F8FAFC; 
       --subhead-bg: #F1F5F9; 
@@ -28,10 +38,19 @@
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
     }
     
-    body.dark-mode { 
-      --bg-color: #0F172A; --text-color: #F8FAFC; --text-secondary: #94A3B8; --card-bg: #1E293B; 
-      --border-color: #334155; --input-bg: #0F172A; --input-border: #475569; --lbl-bg: #1E293B; 
-      --subhead-bg: #334155; --modal-overlay: rgba(0, 0, 0, 0.85); --watermark-opacity: 0.01; 
+    html.dark-theme, body.dark-theme,
+    html.dark-mode, body.dark-mode { 
+      --bg-color: #121314; 
+      --text-color: #F8FAFC; 
+      --text-secondary: #94A3B8; 
+      --card-bg: #1A1C1E; 
+      --border-color: #2B2E32; 
+      --input-bg: #1F2225; 
+      --input-border: #3D4248; 
+      --lbl-bg: #222528; 
+      --subhead-bg: #2B2E32; 
+      --modal-overlay: rgba(0, 0, 0, 0.85); 
+      --watermark-opacity: 0.01; 
     }
     
     * { box-sizing: border-box; }
@@ -166,15 +185,22 @@
 </head>
 <body class="light-mode">
 
-  <button class="theme-toggle-btn no-print" onclick="document.body.classList.toggle('dark-mode')" aria-label="Cambiar Tema">
+  <button class="theme-toggle-btn no-print" onclick="toggleTheme()" aria-label="Cambiar Tema">
     <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
   </button>
   <div id="custom_toast" class="custom-toast no-print"><span id="toast_message"></span></div>
 
   <div class="action-bar-container max-w-[820px] mx-auto mb-6 p-4 md:p-5 rounded-xl shadow-sm border flex flex-col md:flex-row justify-between items-center gap-4 no-print">
-    <button type="button" onclick="location.href='index.html'" class="btn-dash w-full md:w-auto md:w-11 md:h-11 flex items-center justify-center font-medium p-2.5 rounded-lg transition duration-200 shadow-sm cursor-pointer" title="Volver al Dashboard">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-    </button>
+    <div class="flex items-center gap-2 w-full md:w-auto">
+      <button type="button" onclick="location.href='dashboard.html'" class="btn-dash flex items-center justify-center font-medium py-2.5 px-4 rounded-lg transition duration-200 shadow-sm cursor-pointer gap-2" title="Volver al Dashboard">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        <span>Volver</span>
+      </button>
+      <button type="button" id="themeToggle" class="btn-dash flex items-center justify-center font-medium py-2.5 px-4 rounded-lg transition duration-200 shadow-sm cursor-pointer gap-2" title="Cambiar Tema" aria-label="Cambiar Tema">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        <span>Claro</span>
+      </button>
+    </div>
     <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
       <button type="button" onclick="procesarGuardadoBaseDatos(this)" class="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition duration-200 shadow-sm border-none cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg> Guardar
@@ -1360,6 +1386,11 @@
         if (!codigo || codigo.trim() === '') return;
         
         mostrarNotificacionToast("🔍 Buscando equipo en la Base de Datos...", true);
+        const activeForm = document.querySelector('.form-view.active');
+        const specFields = activeForm ? activeForm.querySelectorAll('input[data-spec]:not([type="checkbox"]):not([type="radio"]), textarea[data-spec]') : [];
+        specFields.forEach(el => {
+            if (!el.value) el.classList.add('fluent-skeleton');
+        });
         
         try {
             const res = await fetch(`/api/obtener-equipo?codigo=${encodeURIComponent(codigo.trim())}`);
@@ -1367,12 +1398,14 @@
             
             if (res.ok && data.success) {
                 autocompletarFormulario(data.equipo);
-                mostrarNotificacionToast("✅ Equipo encontrado y autocompletado", true);
+                mostrarNotificacionToast("✓ Equipo encontrado y autocompletado", true);
             } else {
                 mostrarNotificacionToast("⚠️ El código no está registrado en el inventario", false);
             }
         } catch (err) {
-            mostrarNotificacionToast("❌ Error de conexión al buscar", false);
+            mostrarNotificacionToast("⚠️ Error de conexión al buscar", false);
+        } finally {
+            specFields.forEach(el => el.classList.remove('fluent-skeleton'));
         }
     }
 
@@ -1737,5 +1770,6 @@
   });
 
     </script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -5,22 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Directorio de Personal - Avanti</title>
   <link rel="icon" type="image/jpeg" href="/AVANTI%20LOGO%20(1).jpeg">
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark-theme', 'dark-mode');
+      } else {
+        document.documentElement.classList.add('dark-theme', 'dark-mode');
+      }
+    })();
+  </script>
 
   <style>
-    :root {
-      --bg-deep: #1f1f1f;
-      --surface-slate: #2b2b2b;
-      --surface-elevated: #333333;
-      --border-subtle: #383838;
-      --border-focus: #484848;
-      --text-bright: #ffffff;
-      --text-muted: #adadad;
+    :root, body:not(.dark-theme):not(.dark-mode) {
+      --bg-deep: #f4f5f7;
+      --surface-slate: #ffffff;
+      --surface-elevated: #f8fafc;
+      --border-subtle: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --text-bright: #0f172a;
+      --text-muted: #475569;
       --accent-green: #107c41;
       --accent-green-hover: #0f6b38;
       --accent-green-vibrant: #10b981;
+      --input-bg-neo: #ffffff;
+    }
+
+    html.dark-theme, body.dark-theme,
+    html.dark-mode, body.dark-mode {
+      --bg-deep: #121314;
+      --surface-slate: #1a1c1e;
+      --surface-elevated: #222528;
+      --border-subtle: #2b2e32;
+      --border-focus: #3d4248;
+      --text-bright: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-green: #107c41;
+      --accent-green-hover: #0f6b38;
+      --accent-green-vibrant: #10b981;
+      --input-bg-neo: #1f2225;
     }
 
     body { 
@@ -29,34 +56,35 @@
         color: var(--text-bright); 
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
+        transition: background-color 0.18s ease, color 0.18s ease;
     }
     
     .neo-panel { 
         background-color: var(--surface-slate); 
         border: 1px solid var(--border-subtle); 
-        border-radius: 6px; 
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.35);
+        border-radius: 8px; 
+        box-shadow: var(--shadow-soft, 0 4px 12px rgba(0, 0, 0, 0.1));
     }
     
     /* Inputs Fluent 2 */
     .neo-input { 
-        background-color: #2b2b2b !important; 
+        background-color: var(--input-bg-neo) !important; 
         border: 1px solid var(--border-subtle) !important; 
         border-bottom: 2px solid transparent !important;
         border-radius: 4px !important;
-        color: #ffffff !important; 
+        color: var(--text-bright) !important; 
         height: 38px !important;
         font-size: 13px !important;
         transition: all 0.15s ease-in-out; 
     }
     .neo-input:hover { 
-        border-color: #555555 !important;
-        background-color: #333333 !important; 
+        border-color: var(--border-focus) !important;
+        background-color: var(--surface-elevated) !important; 
     }
     .neo-input:focus { 
         border-color: var(--border-subtle) !important;
         border-bottom: 2px solid var(--accent-green-vibrant) !important; 
-        background-color: #333333 !important; 
+        background-color: var(--surface-elevated) !important; 
         outline: none; 
         box-shadow: none !important; 
     }
@@ -64,7 +92,7 @@
     select.neo-input {
         appearance: none;
         -webkit-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23adadad' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 12px center;
         background-size: 14px;
@@ -73,22 +101,23 @@
     }
 
     /* CORE: TABULATOR (Fluent DetailsList) */
-    .tabulator-table { background-color: #2b2b2b !important; }
+    .tabulator-table { background-color: var(--surface-slate) !important; }
     .tabulator { border: none !important; background-color: transparent !important; font-size: 13px; height: auto !important; }
     .tabulator-tableholder { overflow-y: hidden !important; overflow-x: auto !important; height: auto !important; }
     
-    .tabulator-header { background-color: #202020 !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
+    .tabulator-header { background-color: var(--surface-elevated) !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 14px !important; }
     .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
     
     .tabulator-row { 
-        border-bottom: 1px solid #303030 !important; 
+        border-bottom: 1px solid var(--border-subtle) !important; 
+        background-color: var(--surface-slate) !important;
         transition: background-color 0.1s ease, box-shadow 0.1s ease !important; 
     }
-    .tabulator-row.tabulator-row-odd { background-color: transparent !important; }
-    .tabulator-row.tabulator-row-even { background-color: rgba(255,255,255,0.012) !important; }
+    .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; }
+    .tabulator-row.tabulator-row-even { background-color: var(--surface-elevated) !important; }
     .tabulator-row:hover { 
-        background-color: rgba(255, 255, 255, 0.04) !important; 
+        background-color: var(--surface-elevated) !important; 
         box-shadow: inset 3px 0 0 0 var(--accent-green-vibrant) !important; 
         cursor: pointer; 
     }
@@ -99,7 +128,7 @@
         width: 100% !important;
     }
     .tabulator .tabulator-footer { 
-        background-color: #202020 !important; 
+        background-color: var(--surface-elevated) !important; 
         border-top: 1px solid var(--border-subtle) !important; 
         color: var(--text-muted) !important; 
         padding: 12px 18px !important;
@@ -122,12 +151,81 @@
         align-items: center !important;
         gap: 8px !important;
         font-size: 12.5px !important;
-        color: #94a3b8 !important;
+        color: var(--text-muted) !important;
         font-weight: 500 !important;
         margin-right: auto !important;
         white-space: nowrap !important;
         float: none !important;
     }
+    /* Zona Derecha: Paginador */
+    .tabulator .tabulator-footer .tabulator-paginator {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 10px !important;
+        margin-left: auto !important;
+        float: none !important;
+        flex-wrap: wrap !important;
+    }
+    .tabulator .tabulator-footer .tabulator-paginator label {
+        font-size: 12px !important;
+        color: var(--text-muted) !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+    /* Selector de Registros por Página */
+    .tabulator .tabulator-footer .tabulator-page-size { 
+        background-color: var(--surface-slate) !important; 
+        border: 1px solid var(--border-subtle) !important; 
+        color: var(--text-bright) !important; 
+        border-radius: 4px !important; 
+        padding: 0 28px 0 10px !important; 
+        height: 32px !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        outline: none !important; 
+        cursor: pointer !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 8px center !important;
+        background-size: 13px !important;
+        transition: border-color 0.15s ease, background-color 0.15s ease !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page-size:hover { 
+        border-color: var(--border-focus) !important;
+        background-color: var(--surface-elevated) !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page-size:focus { 
+        border-color: var(--accent-green-vibrant) !important; 
+        box-shadow: 0 0 0 1px var(--accent-green-vibrant) !important;
+    }
+    /* Grupo de Botones de Página */
+    .tabulator .tabulator-footer .tabulator-paginator .tabulator-pages {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        margin-left: 8px !important;
+        padding-left: 12px !important;
+        border-left: 1px solid var(--border-subtle) !important;
+    }
+    /* Botones de Navegación */
+    .tabulator .tabulator-footer .tabulator-page { 
+        background: var(--surface-slate) !important; 
+        border: 1px solid var(--border-subtle) !important; 
+        color: var(--text-bright) !important; 
+        border-radius: 4px !important; 
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important; 
+        margin: 0 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        display: inline-flex !important;
+        align-items: center !important;
     /* Zona Derecha: Paginador */
     .tabulator .tabulator-footer .tabulator-paginator {
         display: inline-flex !important;
@@ -280,20 +378,24 @@
     .btn-primary:active { transform: scale(0.98); }
     
     .btn-outline { 
-        background-color: rgba(255, 255, 255, 0.05); 
-        border: 1px solid var(--border-focus); 
+        background-color: var(--surface-slate); 
+        border: 1px solid var(--border-subtle); 
         border-radius: 4px;
         color: var(--text-bright); 
         transition: all 0.15s ease-in-out; 
     }
-    .btn-outline:hover { border-color: #666666; background-color: rgba(255, 255, 255, 0.09); transform: translateY(-1px); }
+    .btn-outline:hover { 
+        border-color: var(--border-focus); 
+        background-color: var(--surface-elevated); 
+        transform: translateY(-1px); 
+    }
     .btn-outline:active { transform: scale(0.98); }
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: #383838; border-radius: 4px; border: 2px solid var(--bg-deep); }
-    ::-webkit-scrollbar-thumb:hover { background: #484848; }
+    ::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 4px; border: 2px solid var(--bg-deep); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-focus); }
   </style>
 </head>
 <body class="p-4 md:p-8">
@@ -315,12 +417,16 @@
         </div>
       </div>
       
-      <div class="flex w-full md:w-auto gap-3 shrink-0">
-        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2.5 px-6 rounded text-sm transition">
+      <div class="flex w-full md:w-auto gap-3 shrink-0 items-center flex-wrap">
+        <button id="themeToggle" class="btn-outline font-semibold py-2.5 px-4 rounded text-sm transition flex items-center gap-2 cursor-pointer" type="button" aria-label="Cambiar Tema">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <span>Claro</span>
+        </button>
+        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2.5 px-5 rounded text-sm transition cursor-pointer" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Volver
         </button>
-        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-semibold py-2.5 px-6 rounded text-sm transition">
+        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-semibold py-2.5 px-5 rounded text-sm transition cursor-pointer" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Añadir Empleado
         </button>
@@ -330,15 +436,15 @@
     <!-- PANEL DE FILTROS -->
     <div class="p-5 neo-panel flex flex-col md:flex-row gap-4 items-end mt-5 mb-5">
         <div class="w-full flex-1">
-            <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Búsqueda Global</label>
+            <label for="global-search" class="block text-[11px] font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">Búsqueda Global</label>
             <div class="relative">
                 <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="global-search"  class="w-full pl-10 pr-4 py-2.5 rounded text-sm neo-input focus:ring-0">
+                <input type="text" id="global-search" aria-label="Buscar empleados por nombre, DNI, área o correo" class="w-full pl-10 pr-4 py-2.5 rounded text-sm neo-input focus:ring-0">
             </div>
         </div>
         <div class="w-full sm:w-64">
-            <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Filtrar por Área</label>
-            <select id="area-filter" class="w-full px-4 py-2.5 rounded text-sm neo-input focus:ring-0">
+            <label for="area-filter" class="block text-[11px] font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">Filtrar por Área</label>
+            <select id="area-filter" aria-label="Filtrar empleados por departamento" class="w-full px-4 py-2.5 rounded text-sm neo-input focus:ring-0">
                 <option value="">Todas las Áreas</option>
                 <option value="Administración">Administración</option>
                 <option value="Contabilidad">Contabilidad</option>
@@ -502,6 +608,18 @@
     }
 
     async function cargarEmpleados() {
+      const gridContainer = document.getElementById('empleados-grid');
+      const counterEl = document.getElementById('record-counter');
+
+      if (gridContainer && !tablaEmpleados) {
+        gridContainer.innerHTML = (typeof createTableSkeleton === 'function')
+          ? createTableSkeleton(8, 5)
+          : '<div class="fluent-skeleton" style="width:100%;height:320px;"></div>';
+      }
+      if (counterEl) {
+        counterEl.innerHTML = '<span class="fluent-skeleton fluent-skeleton-pill" style="display:inline-block;width:100px;height:14px;vertical-align:middle;"></span>';
+      }
+
       try {
         const res = await fetch('/api/empleados');
         const data = await res.json();
