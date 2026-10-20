@@ -123,28 +123,101 @@
         background-color: rgba(125, 125, 125, 0.05);
     }
 
-    /* CORE: TABULATOR (Fluent DetailsList) */
-    .tabulator-table { background-color: var(--surface-slate) !important; }
-    .tabulator { border: none !important; background-color: transparent !important; font-size: 13px; height: auto !important; }
-    .tabulator-tableholder { overflow-y: hidden !important; overflow-x: auto !important; height: auto !important; }
+    /* CORE: TABULATOR (Fluent 2 DetailsList) */
+    .tabulator { 
+        border: none !important; 
+        background-color: transparent !important; 
+        font-size: 13px !important; 
+        height: auto !important; 
+    }
+    .tabulator-table { 
+        background-color: var(--surface-slate) !important; 
+        width: 100% !important;
+    }
+    .tabulator-tableholder { 
+        overflow-y: hidden !important; 
+        overflow-x: auto !important; 
+        height: auto !important; 
+        background-color: transparent !important;
+    }
     
-    .tabulator-header { background-color: var(--surface-elevated) !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
-    .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 14px !important; }
-    .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+    /* Header Fluent 2 */
+    .tabulator-header { 
+        background-color: var(--surface-elevated) !important; 
+        border-bottom: 2px solid var(--border-subtle) !important; 
+        border-top: none !important; 
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+    }
+    .tabulator-col { 
+        background-color: transparent !important; 
+        border-right: 1px solid rgba(255, 255, 255, 0.04) !important; 
+        padding: 13px 14px !important; 
+    }
+    body:not(.dark-theme):not(.dark-mode) .tabulator-col {
+        border-right: 1px solid rgba(0, 0, 0, 0.04) !important;
+    }
+    .tabulator-col-title { 
+        color: var(--text-bright) !important; 
+        opacity: 0.9 !important;
+        font-weight: 700 !important; 
+        font-size: 11.5px !important; 
+        letter-spacing: 0.06em !important; 
+        text-transform: uppercase !important; 
+    }
+    .tabulator-col:hover {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+    }
     
+    /* Rows & Alternating Zebra Striping */
     .tabulator-row { 
         border-bottom: 1px solid var(--border-subtle) !important; 
         background-color: var(--surface-slate) !important;
-        transition: background-color 0.1s ease, box-shadow 0.1s ease !important; 
+        transition: background-color 0.12s ease, box-shadow 0.12s ease !important; 
     }
-    .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; }
-    .tabulator-row.tabulator-row-even { background-color: var(--surface-elevated) !important; }
+    .tabulator-row.tabulator-row-odd { 
+        background-color: var(--surface-slate) !important; 
+    }
+    .tabulator-row.tabulator-row-even { 
+        background-color: rgba(255, 255, 255, 0.02) !important; 
+    }
+    body:not(.dark-theme):not(.dark-mode) .tabulator-row.tabulator-row-even {
+        background-color: rgba(0, 0, 0, 0.02) !important;
+    }
     .tabulator-row:hover { 
         background-color: var(--surface-elevated) !important; 
-        box-shadow: inset 3px 0 0 0 var(--accent-green-vibrant) !important; 
+        box-shadow: inset 3.5px 0 0 0 var(--accent-green-vibrant) !important; 
         cursor: pointer; 
     }
-    .tabulator-cell { border-right: none !important; padding: 12px 14px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
+    .tabulator-cell { 
+        border-right: none !important; 
+        padding: 12px 14px !important; 
+        vertical-align: middle !important; 
+        color: var(--text-bright) !important;
+    }
+
+    /* Hardware & ID Code Tag */
+    .fluent-code-tag {
+        font-family: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--text-bright);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-subtle);
+        padding: 2.5px 8px;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+    body:not(.dark-theme):not(.dark-mode) .fluent-code-tag {
+        background: #f1f5f9;
+        color: #0f172a;
+        border-color: #cbd5e1;
+    }
     
     /* VISTA MÓVIL FLUENT */
     .tabulator-row .tabulator-responsive-collapse { background-color: var(--surface-elevated) !important; padding: 16px !important; border-bottom: 1px solid var(--border-subtle) !important; }
@@ -300,47 +373,65 @@
     }
 
     /* Fluent Status Badges */
-    .tab-badge { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-    .tab-badge::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .t-op { background-color: rgba(16, 124, 65, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; }
-    .t-op::before { background-color: #10B981; }
-    .t-ret { background-color: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
-    .t-ret::before { background-color: #EF4444; }
-    .t-stk { background-color: rgba(0, 120, 212, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #60a5fa; }
-    .t-stk::before { background-color: #38BDF8; }
+    .tab-badge { 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        gap: 6px; 
+        padding: 3px 11px; 
+        border-radius: 12px; 
+        font-size: 11px; 
+        font-weight: 600; 
+        text-transform: uppercase; 
+        letter-spacing: 0.04em; 
+    }
+    .tab-badge::before { 
+        content: ""; 
+        display: inline-block; 
+        width: 6px; 
+        height: 6px; 
+        border-radius: 50%; 
+        flex-shrink: 0; 
+    }
+    .t-op { background-color: rgba(16, 124, 65, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; }
+    .t-op::before { background-color: #10B981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
+    .t-ret { background-color: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171; }
+    .t-ret::before { background-color: #EF4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+    .t-stk { background-color: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #60a5fa; }
+    .t-stk::before { background-color: #38BDF8; box-shadow: 0 0 6px rgba(56, 189, 248, 0.6); }
 
     /* Fluent Category Badges */
     .cat-badge {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 3px 10px;
-        border-radius: 4px;
-        font-size: 10.5px;
+        padding: 3px 12px;
+        border-radius: 12px;
+        font-size: 11px;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+        line-height: 1.2;
     }
     .cat-badge-pc {
-        background-color: rgba(14, 165, 233, 0.12);
+        background-color: rgba(14, 165, 233, 0.15);
         color: #38bdf8;
-        border: 1px solid rgba(56, 189, 248, 0.25);
+        border: 1px solid rgba(56, 189, 248, 0.35);
     }
     .cat-badge-tel {
-        background-color: rgba(20, 184, 166, 0.12);
+        background-color: rgba(20, 184, 166, 0.15);
         color: #2dd4bf;
-        border: 1px solid rgba(45, 212, 191, 0.25);
+        border: 1px solid rgba(45, 212, 191, 0.35);
     }
     .cat-badge-peri {
-        background-color: rgba(168, 85, 247, 0.12);
+        background-color: rgba(168, 85, 247, 0.15);
         color: #c084fc;
-        border: 1px solid rgba(192, 132, 252, 0.25);
+        border: 1px solid rgba(192, 132, 252, 0.35);
     }
     .cat-badge-linea {
-        background-color: rgba(245, 158, 11, 0.12);
+        background-color: rgba(245, 158, 11, 0.15);
         color: #fbbf24;
-        border: 1px solid rgba(251, 191, 36, 0.25);
+        border: 1px solid rgba(251, 191, 36, 0.35);
     }
 
     /* Botones Acciones Fluent 2 */
@@ -350,25 +441,29 @@
         justify-content: center; 
         width: 32px; 
         height: 32px; 
-        border-radius: 4px; 
+        border-radius: 6px; 
         border: 1px solid var(--border-subtle); 
         background-color: var(--surface-slate); 
         color: var(--text-muted); 
         transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1); 
         cursor: pointer; 
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
     }
-    .action-btn svg { width: 16px; height: 16px; }
+    .action-btn svg { width: 15px; height: 15px; }
     .action-btn:hover:not(:disabled) {
         transform: translateY(-1px);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
     }
-    .btn-pdf:hover:not(:disabled) { color: #34d399; background-color: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); }
-    .btn-evi:hover:not(:disabled) { color: #60a5fa; background-color: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); }
-    .btn-del:hover:not(:disabled) { color: #f87171; background-color: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.35); }
+    .action-btn:active:not(:disabled) {
+        transform: scale(0.96);
+    }
+    .btn-pdf:hover:not(:disabled) { color: #34d399; background-color: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.45); }
+    .btn-evi:hover:not(:disabled) { color: #38bdf8; background-color: rgba(56, 189, 248, 0.18); border-color: rgba(56, 189, 248, 0.45); }
+    .btn-del:hover:not(:disabled) { color: #f87171; background-color: rgba(239, 68, 68, 0.18); border-color: rgba(239, 68, 68, 0.45); }
     .btn-disabled, .action-btn:disabled { 
         opacity: 0.25 !important; 
         cursor: not-allowed !important; 
+        pointer-events: none !important;
         background: transparent !important;
         border-color: transparent !important;
         box-shadow: none !important;
@@ -589,23 +684,23 @@
           columns: [
             {
               title: "Acciones", 
-              minWidth: 120,
+              width: 125, minWidth: 125,
               hozAlign: "center", headerHozAlign: "center", headerSort: false,
               formatter: function(cell) {
                 const row = cell.getRow().getData();
-                let html = '<div class="flex items-center justify-center gap-2 w-full">';
+                let html = '<div class="flex items-center justify-center gap-1.5 w-full">';
                 
-                if(row.id_acta) html += `<button class='action-btn btn-pdf' title='Ver Acta PDF'>${iconPDF}</button>`;
-                else html += `<button class='action-btn btn-disabled' disabled>${iconPDF}</button>`;
+                if(row.id_acta) html += `<button class='action-btn btn-pdf' title='Ver Acta PDF' aria-label='Ver Acta PDF'>${iconPDF}</button>`;
+                else html += `<button class='action-btn btn-disabled' disabled aria-label='Sin Acta PDF'>${iconPDF}</button>`;
 
                 if ((row.evidencia_entrega && row.evidencia_entrega.length > 50) || (row.evidencia_devolucion && row.evidencia_devolucion.length > 50)) {
-                  html += `<button class='action-btn btn-evi' title='Ver Evidencia Fotográfica'>${iconCamera}</button>`;
+                  html += `<button class='action-btn btn-evi' title='Ver Evidencia Fotográfica' aria-label='Ver Evidencia Fotográfica'>${iconCamera}</button>`;
                 } else {
-                  html += `<button class='action-btn btn-disabled' disabled>${iconCamera}</button>`;
+                  html += `<button class='action-btn btn-disabled' disabled aria-label='Sin Evidencia Fotográfica'>${iconCamera}</button>`;
                 }
 
-                if(isGuest) html += `<button class='action-btn btn-disabled' title='Acceso Denegado' disabled>${iconTrash}</button>`;
-                else html += `<button class='action-btn btn-del' title='Eliminar de Base de Datos'>${iconTrash}</button>`;
+                if(isGuest) html += `<button class='action-btn btn-disabled' title='Acceso Denegado' disabled aria-label='Acceso Denegado'>${iconTrash}</button>`;
+                else html += `<button class='action-btn btn-del' title='Eliminar de Base de Datos' aria-label='Eliminar de Base de Datos'>${iconTrash}</button>`;
 
                 html += '</div>';
                 return html;
@@ -623,7 +718,7 @@
               }
             },
             { 
-              title: "Categoría", field: "categoria", minWidth: 120, hozAlign: "center", headerHozAlign: "center",
+              title: "Categoría", field: "categoria", width: 130, minWidth: 130, hozAlign: "center", headerHozAlign: "center",
               formatter: function(cell) {
                 const val = cell.getValue() || "";
                 let cls = "cat-badge-pc";
@@ -634,36 +729,46 @@
               }
             },
             { 
-              /* Textos Justificados/Alineados a la izquierda */
               title: "Empleado", field: "nombre_empleado", minWidth: 240, hozAlign: "left", headerHozAlign: "left",
               formatter: function(cell) {
                 let name = cell.getValue();
                 let email = cell.getRow().getData().correo_corp || "Sin correo asignado";
-                if(!name) return `<div class="w-full flex flex-col justify-center h-full text-left"><span class="italic text-[var(--text-muted)] font-light">No asignado</span></div>`;
-                return `<div class="w-full flex flex-col justify-center h-full text-left"><div class="font-medium text-[var(--text-bright)] tracking-wide whitespace-normal break-words leading-relaxed text-justify">${name}</div><div class="text-xs mt-1 text-[var(--text-muted)] font-light break-words">${email}</div></div>`;
+                if(!name) return `<div class="w-full flex flex-col justify-center h-full text-left"><span class="italic text-[var(--text-muted)] font-light text-xs">No asignado</span></div>`;
+                return `<div class="w-full flex flex-col justify-center h-full text-left">
+                  <div class="font-semibold text-[var(--text-bright)] text-sm tracking-normal text-left">${name}</div>
+                  <div class="text-xs mt-0.5 text-[var(--text-muted)] text-left">${email}</div>
+                </div>`;
               }
             },
             { 
               title: "Departamento", field: "area", minWidth: 140, hozAlign: "left", headerHozAlign: "left",
-              formatter: cell => `<div class="w-full flex items-center h-full text-left text-[var(--text-bright)] whitespace-normal break-words leading-relaxed text-justify">${cell.getValue() || "-"}</div>` 
+              formatter: cell => `<div class="w-full flex items-center h-full text-left text-xs font-medium text-[var(--text-bright)] tracking-normal">${cell.getValue() || "-"}</div>` 
             },
             { 
-              title: "CPU", field: "computador", minWidth: 120, hozAlign: "center", headerHozAlign: "center",
-              formatter: cell => `<div class="w-full flex items-center justify-center h-full text-[var(--text-muted)] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
+              title: "CPU", field: "computador", width: 120, minWidth: 120, hozAlign: "center", headerHozAlign: "center",
+              formatter: cell => {
+                const val = cell.getValue();
+                if (!val || val === "-") return `<span class="text-[var(--text-muted)]">-</span>`;
+                return `<div class="flex items-center justify-center w-full h-full"><span class="fluent-code-tag">${val}</span></div>`;
+              }
             },
             { 
-              title: "Nº Serie", field: "numero_serie", minWidth: 120, hozAlign: "center", headerHozAlign: "center",
-              formatter: cell => `<div class="w-full flex items-center justify-center h-full text-[var(--text-muted)] font-mono text-xs whitespace-normal break-words">${cell.getValue() || "-"}</div>` 
+              title: "Nº Serie", field: "numero_serie", width: 130, minWidth: 130, hozAlign: "center", headerHozAlign: "center",
+              formatter: cell => {
+                const val = cell.getValue();
+                if (!val || val === "-") return `<span class="text-[var(--text-muted)]">-</span>`;
+                return `<div class="flex items-center justify-center w-full h-full"><span class="fluent-code-tag">${val}</span></div>`;
+              }
             },
             { 
               title: "Marca y Modelo", field: "marca_modelo", minWidth: 200, hozAlign: "left", headerHozAlign: "left",
               formatter: function(cell) {
                 let text = cell.getValue();
-                return text ? `<div class="w-full flex items-center h-full text-left text-[var(--text-bright)] whitespace-normal break-words leading-relaxed text-justify">${text}</div>` : `<div class="w-full text-left">-</div>`;
+                return text ? `<div class="w-full flex items-center h-full text-left text-xs font-medium text-[var(--text-bright)] tracking-normal">${text}</div>` : `<div class="w-full text-left text-[var(--text-muted)]">-</div>`;
               }
             },
             { 
-              title: "Estado", field: "estado_operativo", minWidth: 120, hozAlign: "center", headerHozAlign: "center",
+              title: "Estado", field: "estado_operativo", width: 120, minWidth: 120, hozAlign: "center", headerHozAlign: "center",
               formatter: function(cell) {
                 const val = cell.getValue();
                 let badge = "";
