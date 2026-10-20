@@ -375,11 +375,12 @@ body.dashboard-body {
     max-width: 1240px;
     width: 100%;
     margin: 0 auto;
-    padding: 28px 24px 36px;
+    padding: 24px 24px 20px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
     flex: 1;
+    justify-content: center;
     box-sizing: border-box;
 }
 
@@ -389,7 +390,7 @@ body.dashboard-body {
     justify-content: space-between;
     align-items: center;
     background: var(--card-bg);
-    padding: 16px 24px;
+    padding: 14px 22px;
     border-radius: 8px;
     box-shadow: var(--shadow-soft);
     border: 1px solid var(--border-color);
@@ -405,12 +406,12 @@ body.dashboard-body {
 .logo-title-group {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
 }
 
 .logo-dashboard {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
@@ -419,12 +420,15 @@ body.dashboard-body {
     padding: 2px;
 }
 
+.top-header-title,
+.top-header .brand-title,
 .brand-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     margin: 0;
     letter-spacing: -0.01em;
+    line-height: 1.2;
 }
 
 .subtitle {
@@ -518,146 +522,11 @@ body:not(.dark-theme) .user-status {
     color: var(--avanti-green);
 }
 
-/* 2. Banner de Bienvenida / Hero Strip */
-.dashboard-hero-card {
-    background: linear-gradient(135deg, var(--card-bg) 0%, var(--surface-subtle) 100%);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 18px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    box-shadow: var(--shadow-soft);
-    position: relative;
-    overflow: hidden;
-}
-
-.dashboard-hero-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3.5px;
-    height: 100%;
-    background: var(--avanti-green-vibrant);
-}
-
-.hero-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.hero-avatar-badge {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    background: rgba(16, 185, 129, 0.12);
-    border: 1px solid rgba(16, 185, 129, 0.25);
-    color: var(--avanti-green-vibrant);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-body:not(.dark-theme) .hero-avatar-badge {
-    background: rgba(16, 124, 65, 0.08);
-    color: var(--avanti-green);
-    border-color: rgba(16, 124, 65, 0.2);
-}
-
-.hero-greeting {
-    display: flex;
-    flex-direction: column;
-}
-
-.hero-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0;
-    letter-spacing: -0.01em;
-}
-
-.hero-subtitle {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    margin: 3px 0 0;
-    line-height: 1.4;
-}
-
-.hero-stats {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-shrink: 0;
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.stat-number {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1;
-}
-
-.stat-label {
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-weight: 600;
-    margin-top: 2px;
-}
-
-.stat-badge-online {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 3px 10px;
-    border-radius: 12px;
-    background: rgba(16, 185, 129, 0.12);
-    border: 1px solid rgba(16, 185, 129, 0.25);
-    color: var(--avanti-green-vibrant);
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.stat-divider {
-    width: 1px;
-    height: 28px;
-    background: var(--border-color);
-}
-
-@media (max-width: 768px) {
-    .dashboard-hero-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-    .hero-stats {
-        width: 100%;
-        justify-content: space-between;
-        padding-top: 14px;
-        border-top: 1px solid var(--border-color);
-    }
-    .stat-item {
-        align-items: flex-start;
-    }
-}
-
-/* 3. Encabezados de Sección (Jerarquía Visual / Ley de Hick) */
+/* 2. Encabezados de Sección y Estructura Principal */
 .dashboard-main-content {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 20px;
 }
 
 .dashboard-section {
@@ -668,16 +537,16 @@ body:not(.dark-theme) .hero-avatar-badge {
 .fluent-section-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 14px;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 .fluent-section-title {
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     margin: 0;
     display: flex;
     align-items: center;
@@ -688,13 +557,7 @@ body:not(.dark-theme) .hero-avatar-badge {
     color: var(--avanti-green-vibrant);
 }
 
-.fluent-section-subtitle {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin: 3px 0 0;
-}
-
-/* 4. Grid de Tarjetas de Actas (4 Columnas) */
+/* 3. Grid de Tarjetas de Actas (4 Columnas) */
 .modules-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -715,7 +578,7 @@ body:not(.dark-theme) .hero-avatar-badge {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 22px 20px;
+    padding: 18px 18px;
     cursor: pointer;
     transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1),
                 background-color 0.15s ease,
@@ -727,7 +590,7 @@ body:not(.dark-theme) .hero-avatar-badge {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 164px;
+    min-height: 136px;
     box-sizing: border-box;
 }
 
@@ -833,11 +696,11 @@ body:not(.dark-theme) .icon-container-pro {
     font-weight: 600;
 }
 
-/* 5. Sección de Administración (2 Columnas Equilibradas) */
+/* 4. Sección de Administración (2 Columnas Horizontales Equilibradas) */
 .admin-modules-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 16px;
 }
 @media (max-width: 800px) {
     .admin-modules-grid {
@@ -849,11 +712,11 @@ body:not(.dark-theme) .icon-container-pro {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 24px;
+    padding: 14px 20px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    gap: 18px;
+    gap: 16px;
     box-shadow: var(--shadow-soft);
     transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1),
                 background-color 0.15s ease,
@@ -861,6 +724,8 @@ body:not(.dark-theme) .icon-container-pro {
                 box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
+    min-height: 72px;
+    box-sizing: border-box;
 }
 
 .admin-card-pro::before {
@@ -868,8 +733,8 @@ body:not(.dark-theme) .icon-container-pro {
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
     width: 3.5px;
-    height: 100%;
     background: var(--avanti-green-vibrant);
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -893,15 +758,15 @@ body:not(.dark-theme) .admin-card-pro:hover::before {
     background: var(--avanti-green);
 }
 
-.admin-card-top {
+.admin-card-left {
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
+    align-items: center;
+    gap: 14px;
 }
 
 .icon-large-pro {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     border-radius: 8px;
     background: rgba(16, 124, 65, 0.1);
     border: 1px solid rgba(16, 185, 129, 0.2);
@@ -919,44 +784,36 @@ body:not(.dark-theme) .icon-large-pro {
 }
 
 .admin-card-info {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.admin-badge-category {
-    display: inline-block;
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: var(--avanti-green-vibrant);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 4px;
-}
-
-body:not(.dark-theme) .admin-badge-category {
-    color: var(--avanti-green);
-}
-
-.admin-card-info h3 {
+.admin-card-title {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.02rem;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.25;
 }
 
-.admin-card-desc {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    margin: 6px 0 0;
-    line-height: 1.45;
-}
-
 .admin-card-action {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    padding-top: 14px;
-    border-top: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .admin-card-pro {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .admin-card-action {
+        width: 100%;
+    }
+    .admin-card-action .btn-dashboard-primary {
+        width: 100%;
+    }
 }
 
 /* 6. Footer del Dashboard (Ancla de Encuadre) */
@@ -1363,7 +1220,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     mix-blend-mode: multiply; /* Removes white background seamlessly */
 }
 
-.brand-title {
+.split-left .brand-title {
     font-size: 2.2rem;
     font-weight: 800;
     line-height: 1.2;
@@ -1505,7 +1362,7 @@ button { cursor: pointer; border: none; font-weight: 600; transition: var(--tran
     .mobile-footer {
         display: block;
     }
-    .brand-title {
+    .split-left .brand-title {
         font-size: 1.8rem;
     }
 }
