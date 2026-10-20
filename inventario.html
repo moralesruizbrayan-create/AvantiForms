@@ -69,23 +69,23 @@
     
     /* Inputs Fluent 2 */
     .neo-input { 
-        background-color: #2b2b2b !important; 
+        background-color: var(--input-bg-neo) !important; 
         border: 1px solid var(--border-subtle) !important; 
         border-bottom: 2px solid transparent !important;
         border-radius: 4px !important;
-        color: #ffffff !important; 
+        color: var(--text-bright) !important; 
         height: 38px !important;
         font-size: 13px !important;
         transition: all 0.15s ease-in-out; 
     }
     .neo-input:hover { 
-        border-color: #555555 !important;
-        background-color: #333333 !important; 
+        border-color: var(--border-focus) !important;
+        background-color: var(--surface-elevated) !important; 
     }
     .neo-input:focus { 
         border-color: var(--border-subtle) !important;
         border-bottom: 2px solid var(--accent-green-vibrant) !important; 
-        background-color: #333333 !important; 
+        background-color: var(--surface-slate) !important; 
         outline: none; 
         box-shadow: none !important; 
     }
@@ -113,43 +113,44 @@
         letter-spacing: 0.04em;
     }
     .tab-btn:hover {
-        color: #ffffff;
-        background-color: rgba(255, 255, 255, 0.04);
+        color: var(--text-bright);
+        background-color: rgba(125, 125, 125, 0.08);
     }
     .tab-btn.active {
-        color: #ffffff;
+        color: var(--text-bright);
         font-weight: 600;
         border-bottom: 2px solid var(--accent-green-vibrant);
-        background-color: rgba(255, 255, 255, 0.03);
+        background-color: rgba(125, 125, 125, 0.05);
     }
 
     /* CORE: TABULATOR (Fluent DetailsList) */
-    .tabulator-table { background-color: #2b2b2b !important; }
+    .tabulator-table { background-color: var(--surface-slate) !important; }
     .tabulator { border: none !important; background-color: transparent !important; font-size: 13px; height: auto !important; }
     .tabulator-tableholder { overflow-y: hidden !important; overflow-x: auto !important; height: auto !important; }
     
-    .tabulator-header { background-color: #202020 !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
+    .tabulator-header { background-color: var(--surface-elevated) !important; border-bottom: 1px solid var(--border-subtle) !important; border-top: none !important; }
     .tabulator-col { background-color: transparent !important; border-right: none !important; padding: 12px 14px !important; }
     .tabulator-col-title { color: var(--text-muted) !important; font-weight: 600 !important; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
     
     .tabulator-row { 
-        border-bottom: 1px solid #303030 !important; 
+        border-bottom: 1px solid var(--border-subtle) !important; 
+        background-color: var(--surface-slate) !important;
         transition: background-color 0.1s ease, box-shadow 0.1s ease !important; 
     }
-    .tabulator-row.tabulator-row-odd { background-color: transparent !important; }
-    .tabulator-row.tabulator-row-even { background-color: rgba(255, 255, 255, 0.012) !important; }
+    .tabulator-row.tabulator-row-odd { background-color: var(--surface-slate) !important; }
+    .tabulator-row.tabulator-row-even { background-color: var(--surface-elevated) !important; }
     .tabulator-row:hover { 
-        background-color: rgba(255, 255, 255, 0.04) !important; 
+        background-color: var(--surface-elevated) !important; 
         box-shadow: inset 3px 0 0 0 var(--accent-green-vibrant) !important; 
         cursor: pointer; 
     }
     .tabulator-cell { border-right: none !important; padding: 12px 14px !important; vertical-align: middle !important; color: var(--text-bright) !important;}
     
     /* VISTA MÓVIL FLUENT */
-    .tabulator-row .tabulator-responsive-collapse { background-color: #252526 !important; padding: 16px !important; border-bottom: 1px solid var(--border-subtle) !important; }
+    .tabulator-row .tabulator-responsive-collapse { background-color: var(--surface-elevated) !important; padding: 16px !important; border-bottom: 1px solid var(--border-subtle) !important; }
     .tabulator-row .tabulator-responsive-collapse table { width: 100%; display: block; }
     .tabulator-row .tabulator-responsive-collapse table tbody { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-    .tabulator-row .tabulator-responsive-collapse table tr { display: flex; flex-direction: column; background: #2b2b2b; padding: 12px; border-radius: 6px; border: 1px solid var(--border-subtle); }
+    .tabulator-row .tabulator-responsive-collapse table tr { display: flex; flex-direction: column; background: var(--surface-slate); padding: 12px; border-radius: 6px; border: 1px solid var(--border-subtle); }
     .tabulator-row .tabulator-responsive-collapse table tr td { border: none !important; padding: 0 !important; display: block; text-align: left !important; }
     .tabulator-row .tabulator-responsive-collapse table tr td:first-of-type { font-size: 11px !important; color: var(--text-muted) !important; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; background: transparent !important; width: 100% !important; border: none !important; }
     .tabulator-row .tabulator-responsive-collapse table tr td:last-of-type { font-size: 13.5px !important; width: 100% !important; padding: 0 !important; }
@@ -160,7 +161,7 @@
         width: 100% !important;
     }
     .tabulator .tabulator-footer { 
-        background-color: #202020 !important; 
+        background-color: var(--surface-elevated) !important; 
         border-top: 1px solid var(--border-subtle) !important; 
         color: var(--text-muted) !important; 
         padding: 12px 18px !important;
@@ -183,7 +184,7 @@
         align-items: center !important;
         gap: 8px !important;
         font-size: 12.5px !important;
-        color: #94a3b8 !important;
+        color: var(--text-muted) !important;
         font-weight: 500 !important;
         margin-right: auto !important;
         white-space: nowrap !important;
@@ -201,16 +202,16 @@
     }
     .tabulator .tabulator-footer .tabulator-paginator label {
         font-size: 12px !important;
-        color: #94a3b8 !important;
+        color: var(--text-muted) !important;
         font-weight: 500 !important;
         margin: 0 !important;
         white-space: nowrap !important;
     }
     /* Selector de Registros por Página */
     .tabulator .tabulator-footer .tabulator-page-size { 
-        background-color: #2b2b2b !important; 
-        border: 1px solid #3d3d3d !important; 
-        color: #ffffff !important; 
+        background-color: var(--surface-slate) !important; 
+        border: 1px solid var(--border-subtle) !important; 
+        color: var(--text-bright) !important; 
         border-radius: 4px !important; 
         padding: 0 28px 0 10px !important; 
         height: 32px !important;
@@ -227,12 +228,12 @@
         transition: border-color 0.15s ease, background-color 0.15s ease !important;
     }
     .tabulator .tabulator-footer .tabulator-page-size:hover { 
-        border-color: #525252 !important;
-        background-color: #333333 !important;
+        border-color: var(--border-focus) !important;
+        background-color: var(--surface-elevated) !important;
     }
     .tabulator .tabulator-footer .tabulator-page-size:focus { 
-        border-color: #10b981 !important; 
-        box-shadow: 0 0 0 1px #10b981 !important;
+        border-color: var(--accent-green-vibrant) !important; 
+        box-shadow: 0 0 0 1px var(--accent-green-vibrant) !important;
     }
     /* Grupo de Botones de Página */
     .tabulator .tabulator-footer .tabulator-paginator .tabulator-pages {
@@ -241,13 +242,13 @@
         gap: 5px !important;
         margin-left: 8px !important;
         padding-left: 12px !important;
-        border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-left: 1px solid var(--border-subtle) !important;
     }
     /* Botones de Navegación */
     .tabulator .tabulator-footer .tabulator-page { 
-        background: #2b2b2b !important; 
-        border: 1px solid #383838 !important; 
-        color: #d1d1d1 !important; 
+        background: var(--surface-slate) !important; 
+        border: 1px solid var(--border-subtle) !important; 
+        color: var(--text-bright) !important; 
         border-radius: 4px !important; 
         width: 32px !important;
         min-width: 32px !important;
@@ -272,11 +273,11 @@
         display: block !important;
     }
     .tabulator .tabulator-footer .tabulator-page:hover:not([disabled]) { 
-        background: #383838 !important; 
-        border-color: #525252 !important; 
-        color: #ffffff !important; 
+        background: var(--surface-elevated) !important; 
+        border-color: var(--accent-green-vibrant) !important; 
+        color: var(--accent-green-vibrant) !important; 
         transform: translateY(-1px) !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
     }
     .tabulator .tabulator-footer .tabulator-page:active:not([disabled]) {
         transform: scale(0.97) !important;
@@ -289,11 +290,11 @@
         box-shadow: 0 2px 6px rgba(16, 124, 65, 0.4) !important;
     }
     .tabulator .tabulator-footer .tabulator-page[disabled] { 
-        opacity: 1 !important; 
+        opacity: 0.45 !important; 
         cursor: not-allowed !important; 
-        background: #242424 !important;
-        border-color: #303030 !important;
-        color: #555a64 !important;
+        background: var(--surface-slate) !important;
+        border-color: var(--border-subtle) !important;
+        color: var(--text-muted) !important;
         box-shadow: none !important;
         transform: none !important;
     }
@@ -350,12 +351,12 @@
         width: 32px; 
         height: 32px; 
         border-radius: 4px; 
-        border: 1px solid rgba(255, 255, 255, 0.08); 
-        background-color: rgba(255, 255, 255, 0.03); 
+        border: 1px solid var(--border-subtle); 
+        background-color: var(--surface-slate); 
         color: var(--text-muted); 
         transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1); 
         cursor: pointer; 
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
     .action-btn svg { width: 16px; height: 16px; }
     .action-btn:hover:not(:disabled) {
@@ -430,15 +431,14 @@
         </div>
       </div>
       <div class="flex w-full md:w-auto gap-2.5 shrink-0 items-center flex-wrap">
-        <button id="themeToggle" class="btn-outline font-semibold py-2 px-3.5 rounded text-xs transition flex items-center gap-2 cursor-pointer" type="button" aria-label="Cambiar Tema">
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-          <span>Claro</span>
+        <button id="themeToggle" class="btn-fluent-icon" type="button" aria-label="Cambiar Tema" title="Cambiar Tema">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
         </button>
-        <button id="btn-export-excel" class="flex-1 md:flex-none flex items-center justify-center gap-2 font-semibold py-2 px-4 rounded text-xs transition bg-[#107c41] text-white hover:bg-[#0f6b38] border border-white/10 shadow-sm cursor-pointer" type="button">
+        <button id="btn-export-excel" class="btn-primary" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           Exportar Excel
         </button>
-        <button class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2 px-4 rounded text-xs transition cursor-pointer" onclick="location.href='dashboard.html'" type="button">
+        <button class="btn-outline" onclick="location.href='dashboard.html'" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Volver
         </button>

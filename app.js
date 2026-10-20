@@ -24,19 +24,13 @@ function applyTheme(theme) {
         root.style.colorScheme = 'light';
     }
 
-    // Actualizar todos los botones de tema en la interfaz
+    // Actualizar todos los botones de tema en la interfaz (SOLO ICONO, NUNCA TEXTO)
     const toggles = document.querySelectorAll('#themeToggle, .theme-toggle-btn, [data-theme-toggle]');
     toggles.forEach(btn => {
-        const textSpan = btn.querySelector('span');
         btn.setAttribute('aria-label', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
         btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
         btn.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-
-        if (textSpan) {
-            btn.innerHTML = `${isDark ? SUN_ICON : MOON_ICON} <span>${isDark ? 'Claro' : 'Oscuro'}</span>`;
-        } else {
-            btn.innerHTML = isDark ? SUN_ICON : MOON_ICON;
-        }
+        btn.innerHTML = isDark ? SUN_ICON : MOON_ICON;
     });
 
     // Disparar evento para componentes que requieran repintado

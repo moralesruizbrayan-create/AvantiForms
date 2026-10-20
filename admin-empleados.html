@@ -226,75 +226,6 @@
         font-weight: 600 !important;
         display: inline-flex !important;
         align-items: center !important;
-    /* Zona Derecha: Paginador */
-    .tabulator .tabulator-footer .tabulator-paginator {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
-        gap: 10px !important;
-        margin-left: auto !important;
-        float: none !important;
-        flex-wrap: wrap !important;
-    }
-    .tabulator .tabulator-footer .tabulator-paginator label {
-        font-size: 12px !important;
-        color: #94a3b8 !important;
-        font-weight: 500 !important;
-        margin: 0 !important;
-        white-space: nowrap !important;
-    }
-    /* Selector de Registros por Página */
-    .tabulator .tabulator-footer .tabulator-page-size { 
-        background-color: #2b2b2b !important; 
-        border: 1px solid #3d3d3d !important; 
-        color: #ffffff !important; 
-        border-radius: 4px !important; 
-        padding: 0 28px 0 10px !important; 
-        height: 32px !important;
-        font-size: 12px !important;
-        font-weight: 500 !important;
-        outline: none !important; 
-        cursor: pointer !important;
-        appearance: none !important;
-        -webkit-appearance: none !important;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: right 8px center !important;
-        background-size: 13px !important;
-        transition: border-color 0.15s ease, background-color 0.15s ease !important;
-    }
-    .tabulator .tabulator-footer .tabulator-page-size:hover { 
-        border-color: #525252 !important;
-        background-color: #333333 !important;
-    }
-    .tabulator .tabulator-footer .tabulator-page-size:focus { 
-        border-color: #10b981 !important; 
-        box-shadow: 0 0 0 1px #10b981 !important;
-    }
-    /* Grupo de Botones de Página */
-    .tabulator .tabulator-footer .tabulator-paginator .tabulator-pages {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
-        margin-left: 8px !important;
-        padding-left: 12px !important;
-        border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-    /* Botones de Navegación */
-    .tabulator .tabulator-footer .tabulator-page { 
-        background: #2b2b2b !important; 
-        border: 1px solid #383838 !important; 
-        color: #d1d1d1 !important; 
-        border-radius: 4px !important; 
-        width: 32px !important;
-        min-width: 32px !important;
-        height: 32px !important;
-        padding: 0 !important; 
-        margin: 0 !important;
-        font-size: 13px !important;
-        font-weight: 600 !important;
-        display: inline-flex !important;
-        align-items: center !important;
         justify-content: center !important;
         cursor: pointer !important;
         transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1) !important;
@@ -309,11 +240,11 @@
         display: block !important;
     }
     .tabulator .tabulator-footer .tabulator-page:hover:not([disabled]) { 
-        background: #383838 !important; 
-        border-color: #525252 !important; 
-        color: #ffffff !important; 
+        background: var(--surface-elevated) !important; 
+        border-color: var(--accent-green-vibrant) !important; 
+        color: var(--accent-green-vibrant) !important; 
         transform: translateY(-1px) !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
     }
     .tabulator .tabulator-footer .tabulator-page:active:not([disabled]) {
         transform: scale(0.97) !important;
@@ -326,11 +257,11 @@
         box-shadow: 0 2px 6px rgba(16, 124, 65, 0.4) !important;
     }
     .tabulator .tabulator-footer .tabulator-page[disabled] { 
-        opacity: 1 !important; 
+        opacity: 0.45 !important; 
         cursor: not-allowed !important; 
-        background: #242424 !important;
-        border-color: #303030 !important;
-        color: #555a64 !important;
+        background: var(--surface-slate) !important;
+        border-color: var(--border-subtle) !important;
+        color: var(--text-muted) !important;
         box-shadow: none !important;
         transform: none !important;
     }
@@ -343,12 +274,12 @@
         width: 32px; 
         height: 32px; 
         border-radius: 4px; 
-        border: 1px solid rgba(255, 255, 255, 0.08); 
-        background: rgba(255, 255, 255, 0.03); 
-        color: #adadad; 
+        border: 1px solid var(--border-subtle); 
+        background: var(--surface-slate); 
+        color: var(--text-muted); 
         transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1); 
         cursor: pointer; 
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
     .action-btn:hover {
         transform: translateY(-1px);
@@ -418,15 +349,14 @@
       </div>
       
       <div class="flex w-full md:w-auto gap-3 shrink-0 items-center flex-wrap">
-        <button id="themeToggle" class="btn-outline font-semibold py-2.5 px-4 rounded text-sm transition flex items-center gap-2 cursor-pointer" type="button" aria-label="Cambiar Tema">
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-          <span>Claro</span>
+        <button id="themeToggle" class="btn-fluent-icon" type="button" aria-label="Cambiar Tema" title="Cambiar Tema">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
         </button>
-        <button onclick="location.href='dashboard.html'" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-outline font-semibold py-2.5 px-5 rounded text-sm transition cursor-pointer" type="button">
+        <button onclick="location.href='dashboard.html'" class="btn-outline" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Volver
         </button>
-        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="flex-1 md:flex-none flex items-center justify-center gap-2 btn-primary font-semibold py-2.5 px-5 rounded text-sm transition cursor-pointer" type="button">
+        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="btn-primary" type="button">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Añadir Empleado
         </button>
@@ -472,7 +402,7 @@
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <form id="form-empleado" class="p-6 space-y-5 bg-[#1a1a1c]">
+      <form id="form-empleado" class="p-6 space-y-5 bg-[var(--surface-slate)]">
         <div class="grid grid-cols-2 gap-5">
           <div>
             <label class="block text-xs font-semibold uppercase mb-1.5 text-[var(--text-muted)]">DNI *</label>
