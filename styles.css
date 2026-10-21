@@ -2393,6 +2393,11 @@ body:not(.dark-theme) .m365-status-chip {
     gap: 4px;
     overflow-x: auto;
     margin-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.m365-pivot-bar::-webkit-scrollbar {
+    display: none;
 }
 .m365-pivot-tab {
     padding: 8px 16px;
@@ -2452,7 +2457,143 @@ body:not(.dark-theme) .m365-pivot-tab.active {
     margin: 0 0 16px;
 }
 
-/* 8. Micro-animaciones (150ms-250ms) y Soporte prefers-reduced-motion */
+/* 8. Adaptabilidad Móvil para M365 (Suite Bar, Command Bar, Grillas y Dashboard) */
+@media (max-width: 640px) {
+    /* Suite Bar Móvil */
+    .m365-suite-bar {
+        padding: 6px 10px;
+        min-height: 44px;
+    }
+    .m365-suite-left {
+        gap: 6px;
+        min-width: 0;
+        flex: 1;
+    }
+    .m365-suite-brand {
+        min-width: 0;
+        gap: 8px;
+    }
+    .m365-suite-logo {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+    }
+    .m365-suite-title {
+        font-size: 12.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .m365-suite-subtitle {
+        display: none !important;
+    }
+    .m365-suite-right {
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    .user-badge-pro {
+        padding: 0 6px;
+        height: 32px;
+        gap: 0;
+    }
+    .user-badge-pro .user-info {
+        display: none !important;
+    }
+    .btn-dashboard-logout {
+        padding: 0 8px;
+        height: 32px;
+    }
+    .btn-dashboard-logout span {
+        display: none !important;
+    }
+
+    /* Command Bar Móvil */
+    .m365-command-bar {
+        padding: 6px;
+        gap: 6px;
+    }
+    .m365-command-group {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 6px;
+    }
+    .m365-command-item {
+        flex: 1 1 auto;
+        justify-content: center;
+        font-size: 12px;
+        height: 34px;
+        padding: 0 10px;
+    }
+
+    /* Pivot Tabs Móvil */
+    .m365-pivot-bar {
+        gap: 2px;
+        margin-bottom: 12px;
+    }
+    .m365-pivot-tab {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    /* Paginador Tabulator Móvil */
+    .tabulator .tabulator-footer {
+        padding: 10px 8px !important;
+    }
+    .tabulator .tabulator-footer .tabulator-footer-contents {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page-counter,
+    .tabulator .tabulator-footer .tabulator-counter {
+        margin: 0 auto !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 11.5px !important;
+        white-space: normal !important;
+    }
+    .tabulator .tabulator-footer .tabulator-paginator {
+        margin: 0 auto !important;
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+    .tabulator .tabulator-footer .tabulator-paginator .tabulator-pages {
+        margin-left: 4px !important;
+        padding-left: 6px !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page {
+        width: 28px !important;
+        min-width: 28px !important;
+        height: 28px !important;
+        font-size: 12px !important;
+    }
+    .tabulator .tabulator-footer .tabulator-page-size {
+        height: 28px !important;
+        font-size: 11.5px !important;
+        padding: 0 22px 0 6px !important;
+    }
+
+    /* Dashboard Container Móvil */
+    .dashboard-container {
+        padding: 12px 12px 16px;
+        gap: 16px;
+    }
+    .dashboard-main-content {
+        gap: 16px;
+    }
+    .fluent-section-header {
+        margin-bottom: 8px;
+    }
+    .card-modulo.pro-card {
+        padding: 14px 14px;
+        min-height: 100px;
+    }
+    .card-title {
+        font-size: 0.95rem;
+    }
+}
+
+/* 9. Micro-animaciones (150ms-250ms) y Soporte prefers-reduced-motion */
 * {
     transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
 }
