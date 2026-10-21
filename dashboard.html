@@ -21,20 +21,33 @@
 <body class="dark-theme dashboard-body"> 
     
     <div class="dashboard-container">
-        <!-- Encabezado Principal Fluent UI -->
-        <header class="top-header" role="banner">
-            <div class="brand">
-                <div class="logo-title-group">
-                    <img src="AVANTI LOGO (1).jpeg" alt="Logo Agrícola Avanti" class="logo-dashboard">
+        <!-- Encabezado Principal Microsoft 365 Admin Center / Fluent UI -->
+        <header class="m365-suite-bar" role="banner">
+            <div class="m365-suite-left">
+                <button class="m365-waffle-btn" type="button" aria-label="Selector de aplicaciones" title="Aplicaciones TI" onclick="location.href='dashboard.html'">
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <circle cx="2" cy="2" r="1.5"/>
+                        <circle cx="8" cy="2" r="1.5"/>
+                        <circle cx="14" cy="2" r="1.5"/>
+                        <circle cx="2" cy="8" r="1.5"/>
+                        <circle cx="8" cy="8" r="1.5"/>
+                        <circle cx="14" cy="8" r="1.5"/>
+                        <circle cx="2" cy="14" r="1.5"/>
+                        <circle cx="8" cy="14" r="1.5"/>
+                        <circle cx="14" cy="14" r="1.5"/>
+                    </svg>
+                </button>
+                <div class="m365-suite-brand">
+                    <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Agrícola Avanti" class="m365-suite-logo">
                     <div>
-                        <h1 class="top-header-title">Portal de Gestión de Actas</h1>
-                        <p class="subtitle"><span class="dot" aria-hidden="true"></span> Soporte TI · Agrícola Avanti S.A.C.</p>
+                        <h1 class="m365-suite-title">Centro de Administración de TI</h1>
+                        <p class="m365-suite-subtitle">Agrícola Avanti S.A.C. · Portal de Gestión de Actas e Inventario</p>
                     </div>
                 </div>
             </div>
-            <div class="user-controls" role="toolbar" aria-label="Controles de usuario y tema">
+            <div class="m365-suite-right" role="toolbar" aria-label="Controles de usuario y tema">
                 <button id="themeToggle" class="btn-fluent-icon" type="button" aria-label="Cambiar Tema" title="Cambiar Tema">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </button>
                 <div class="user-badge-pro" role="status" aria-label="Estado del usuario">
                     <div class="avatar-circle" aria-hidden="true">
@@ -54,6 +67,30 @@
                 </button>
             </div>
         </header>
+
+        <!-- M365 Command Bar en Dashboard -->
+        <div class="m365-command-bar" role="toolbar" aria-label="Acciones rápidas">
+            <div class="m365-command-group">
+                <button onclick="window.location.href='gestion-actas.html?vista=material_informatico'" class="m365-command-item m365-command-primary" type="button" aria-label="Nueva Acta de Equipos Informáticos">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <span>Nueva Acta</span>
+                </button>
+                <button onclick="window.location.href='inventario.html'" class="m365-command-item" type="button" aria-label="Abrir Inventario General">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    <span>Inventario de Activos</span>
+                </button>
+                <button onclick="window.location.href='admin-empleados.html'" class="m365-command-item" type="button" aria-label="Abrir Directorio de Personal">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span>Directorio de Empleados</span>
+                </button>
+            </div>
+            <div class="m365-command-group">
+                <span class="m365-status-chip">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
+                    <span>Sistema Operativo</span>
+                </span>
+            </div>
+        </div>
 
         <main class="dashboard-main-content">
             <!-- Sección 1: Emisión de Actas de Entrega / Devolución -->

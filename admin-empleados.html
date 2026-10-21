@@ -408,50 +408,101 @@
 </head>
 <body class="p-4 md:p-8">
 
-  <div class="max-w-[1200px] mx-auto space-y-6">
-    <!-- HEADER PRINCIPAL -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-5 neo-panel gap-4">
-      <div class="flex items-center gap-5">
-        <div class="p-3.5 bg-[var(--surface-slate)] rounded border border-[var(--border-subtle)] shadow-sm flex items-center justify-center">
-          <svg class="w-7 h-7 text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-        </div>
-        <div>
-          <h1 class="text-2xl font-extrabold tracking-tight text-[var(--text-bright)]">Directorio de Personal</h1>
-          <p class="text-sm font-medium mt-1 text-[var(--text-muted)]">Gestión de empleados para asignación de equipos</p>
-          <div class="flex items-center gap-2 mt-2.5">
-            <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <p id="record-counter" class="text-[11px] font-bold text-[#10B981] uppercase tracking-wider">Cargando...</p>
+  <div class="max-w-[1240px] mx-auto space-y-4">
+    <!-- M365 SUITE BAR -->
+    <header class="m365-suite-bar" role="banner">
+      <div class="m365-suite-left">
+        <button class="m365-waffle-btn" type="button" aria-label="Selector de aplicaciones" title="Aplicaciones TI" onclick="location.href='dashboard.html'">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <circle cx="2" cy="2" r="1.5"/>
+            <circle cx="8" cy="2" r="1.5"/>
+            <circle cx="14" cy="2" r="1.5"/>
+            <circle cx="2" cy="8" r="1.5"/>
+            <circle cx="8" cy="8" r="1.5"/>
+            <circle cx="14" cy="8" r="1.5"/>
+            <circle cx="2" cy="14" r="1.5"/>
+            <circle cx="8" cy="14" r="1.5"/>
+            <circle cx="14" cy="14" r="1.5"/>
+          </svg>
+        </button>
+        <div class="m365-suite-brand">
+          <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Agrícola Avanti" class="m365-suite-logo">
+          <div>
+            <h1 class="m365-suite-title">Centro de Administración de TI</h1>
+            <p class="m365-suite-subtitle">Agrícola Avanti S.A.C. · Directorio de Personal</p>
           </div>
         </div>
       </div>
-      
-      <div class="flex w-full md:w-auto gap-3 shrink-0 items-center flex-wrap">
+      <div class="m365-suite-right">
         <button id="themeToggle" class="btn-fluent-icon" type="button" aria-label="Cambiar Tema" title="Cambiar Tema">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
         </button>
-        <button onclick="location.href='dashboard.html'" class="btn-outline" type="button">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-          Volver
+        <div class="user-badge-pro" role="status" aria-label="Estado del usuario">
+          <div class="avatar-circle" aria-hidden="true">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+            <span class="status-dot"></span>
+          </div>
+          <div class="user-info">
+            <span class="user-role">Soporte TI</span>
+            <span class="user-status">En línea</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- M365 BREADCRUMB Y TITULO DE PAGINA -->
+    <div class="m365-page-header">
+      <nav class="m365-breadcrumb" aria-label="Ruta de navegación">
+        <a href="dashboard.html" class="m365-breadcrumb-item">Inicio</a>
+        <span class="m365-breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="m365-breadcrumb-item">Usuarios y Colaboradores</span>
+        <span class="m365-breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="m365-breadcrumb-current" aria-current="page">Directorio de Personal</span>
+      </nav>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="m365-page-title">Directorio de Personal</h2>
+          <p class="m365-page-subtitle">Gestión centralizada del padrón de colaboradores para la asignación y custodia de equipamiento TI.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
+          <span id="record-counter" class="text-xs font-semibold text-[var(--accent-green-vibrant)] uppercase tracking-wider">Cargando registros...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- M365 COMMAND BAR -->
+    <div class="m365-command-bar" role="toolbar" aria-label="Comandos del directorio">
+      <div class="m365-command-group">
+        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="m365-command-item m365-command-primary" type="button" aria-label="Añadir nuevo empleado">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          <span>Añadir Empleado</span>
         </button>
-        <button id="btn-add-empleado" onclick="abrirModalNuevo()" class="btn-primary" type="button">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-          Añadir Empleado
+        <button onclick="exportarCSV()" class="m365-command-item" type="button" aria-label="Exportar directorio a CSV">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Exportar a CSV</span>
+        </button>
+      </div>
+      <div class="m365-command-group">
+        <button onclick="location.href='dashboard.html'" class="m365-command-item" type="button" aria-label="Volver al panel principal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          <span>Volver al Panel</span>
         </button>
       </div>
     </div>
 
-    <!-- PANEL DE FILTROS -->
-    <div class="p-5 neo-panel flex flex-col md:flex-row gap-4 items-end mt-5 mb-5">
+    <!-- PANEL DE FILTROS COMPACTO -->
+    <div class="p-4 neo-panel flex flex-col md:flex-row gap-4 items-end">
         <div class="w-full flex-1">
-            <label for="global-search" class="block text-[11px] font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">Búsqueda Global</label>
+            <label for="global-search" class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Búsqueda Global</label>
             <div class="relative">
-                <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" id="global-search" aria-label="Buscar empleados por nombre, DNI, área o correo" class="w-full pl-10 pr-4 py-2.5 rounded text-sm neo-input focus:ring-0">
+                <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="global-search" aria-label="Buscar empleados por nombre, DNI, área o correo" class="w-full pl-10 pr-4 py-2 rounded text-xs neo-input">
             </div>
         </div>
         <div class="w-full sm:w-64">
-            <label for="area-filter" class="block text-[11px] font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">Filtrar por Área</label>
-            <select id="area-filter" aria-label="Filtrar empleados por departamento" class="w-full px-4 py-2.5 rounded text-sm neo-input focus:ring-0">
+            <label for="area-filter" class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Filtrar por Área</label>
+            <select id="area-filter" aria-label="Filtrar empleados por departamento" class="w-full px-4 py-2 rounded text-xs neo-input">
                 <option value="">Todas las Áreas</option>
                 <option value="Administración">Administración</option>
                 <option value="Contabilidad">Contabilidad</option>
@@ -706,12 +757,21 @@
           pagination: "local",
           paginationSize: 50,
           paginationSizeSelector: [25, 50, 100],
+          placeholder: `<div class='m365-empty-state'>
+            <svg class='m365-empty-icon' fill='none' stroke='currentColor' viewBox='0 0 24 24' aria-hidden='true'>
+              <path stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'></path>
+            </svg>
+            <h3 class='m365-empty-title'>No se encontraron colaboradores</h3>
+            <p class='m365-empty-desc'>No hay colaboradores que coincidan con los criterios de búsqueda o departamento seleccionado.</p>
+          </div>`,
           paginationCounter: function(pageSize, currentRow, currentPage, totalRows, totalPages) {
-            return `<div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
-              <span>Página <strong class="text-white">${currentPage}</strong> de <strong class="text-white">${totalPages}</strong></span>
-              <span class="text-slate-600">·</span>
-              <span><strong class="text-emerald-400 font-semibold">${totalRows}</strong> registros</span>
+            const startRow = totalRows === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+            const endRow = Math.min(currentPage * pageSize, totalRows);
+            return `<div class="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" aria-hidden="true"></span>
+              <span>Mostrando <strong class="text-[var(--text-bright)] font-semibold">${startRow}-${endRow}</strong> de <strong class="text-[var(--text-bright)] font-semibold">${totalRows}</strong> colaboradores</span>
+              <span class="text-slate-500">·</span>
+              <span>Página <strong class="text-[var(--text-bright)] font-semibold">${currentPage}</strong> de <strong class="text-[var(--text-bright)] font-semibold">${totalPages}</strong></span>
             </div>`;
           },
           locale: "es",

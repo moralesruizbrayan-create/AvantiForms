@@ -2156,3 +2156,312 @@ body:not(.dark-theme):not(.dark-mode) .fluent-code-tag {
     padding: 0 28px 0 10px !important;
     height: 32px !important;
 }
+
+/* =========================================
+   MICROSOFT 365 ADMIN CENTER DESIGN SYSTEM
+   ========================================= */
+
+/* 1. M365 Suite Bar (Top Bar) */
+.m365-suite-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    box-shadow: var(--shadow-soft);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.m365-suite-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.m365-waffle-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+.m365-waffle-btn:hover {
+    background-color: var(--surface-subtle);
+    border-color: var(--border-color);
+}
+.m365-waffle-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.m365-suite-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.m365-suite-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    object-fit: contain;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 1px;
+}
+
+.m365-suite-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.m365-suite-subtitle {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    margin: 2px 0 0;
+}
+
+.m365-suite-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* 2. M365 Command Bar */
+.m365-command-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 42px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 4px 8px;
+    box-shadow: var(--shadow-soft);
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.m365-command-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.m365-command-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-primary);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    user-select: none;
+    text-decoration: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+.m365-command-item svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+.m365-command-item:hover {
+    background-color: var(--surface-subtle);
+    border-color: var(--border-color);
+    color: var(--avanti-green-vibrant);
+    transform: translateY(-1px);
+}
+body:not(.dark-theme) .m365-command-item:hover {
+    color: var(--avanti-green);
+}
+.m365-command-item:active {
+    transform: scale(0.98);
+}
+
+.m365-command-primary {
+    background-color: var(--avanti-green) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+.m365-command-primary:hover {
+    background-color: var(--avanti-green-hover) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(16, 124, 65, 0.35) !important;
+}
+
+.m365-command-divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--border-color);
+    margin: 0 4px;
+}
+
+/* 3. M365 Breadcrumbs */
+.m365-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+.m365-breadcrumb-item {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+.m365-breadcrumb-item:hover {
+    color: var(--avanti-green-vibrant);
+}
+.m365-breadcrumb-current {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+.m365-breadcrumb-sep {
+    color: var(--border-hover);
+    font-size: 11px;
+}
+
+/* 4. M365 Page Header */
+.m365-page-header {
+    margin-bottom: 12px;
+}
+.m365-page-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+.m365-page-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 3px 0 0;
+}
+
+/* 5. M365 Status Chip */
+.m365-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    color: var(--avanti-green-vibrant);
+}
+body:not(.dark-theme) .m365-status-chip {
+    color: var(--avanti-green);
+    background: rgba(16, 124, 65, 0.08);
+    border-color: rgba(16, 124, 65, 0.2);
+}
+
+/* 6. M365 Pivot Tabs */
+.m365-pivot-bar {
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+}
+.m365-pivot-tab {
+    padding: 8px 16px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-bottom: 2.5px solid transparent;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+.m365-pivot-tab:hover {
+    color: var(--text-primary);
+    background-color: var(--surface-subtle);
+}
+.m365-pivot-tab.active {
+    color: var(--text-primary);
+    font-weight: 700;
+    border-bottom-color: var(--avanti-green-vibrant);
+    background-color: transparent;
+}
+body:not(.dark-theme) .m365-pivot-tab.active {
+    border-bottom-color: var(--avanti-green);
+}
+
+/* 7. M365 Empty State */
+.m365-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    background-color: var(--card-bg);
+}
+.m365-empty-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+.m365-empty-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 6px;
+}
+.m365-empty-desc {
+    font-size: 12.5px;
+    max-width: 360px;
+    margin: 0 0 16px;
+}
+
+/* 8. Micro-animaciones (150ms-250ms) y Soporte prefers-reduced-motion */
+* {
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

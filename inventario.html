@@ -512,45 +512,101 @@
 </head>
 <body class="p-4 md:p-8">
 
-  <div class="max-w-[1400px] mx-auto space-y-6">
+  <div class="max-w-[1400px] mx-auto space-y-4">
     
-    <!-- HEADER PRINCIPAL -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-5 neo-panel gap-4">
-      <div class="flex items-center gap-4">
-        <div class="p-2 bg-[#252526] rounded border border-[var(--border-subtle)] shadow-sm flex items-center justify-center h-12 w-12 shrink-0">
-          <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo" class="w-full h-full object-contain rounded">
-        </div>
-        <div>
-          <h1 class="text-xl font-bold tracking-tight text-[var(--text-bright)]">Control de TI</h1>
-          <p class="text-xs font-normal mt-0.5 text-[var(--text-muted)]">Gestión de inventario de activos e impresión de actas</p>
+    <!-- M365 SUITE BAR -->
+    <header class="m365-suite-bar" role="banner">
+      <div class="m365-suite-left">
+        <button class="m365-waffle-btn" type="button" aria-label="Selector de aplicaciones" title="Aplicaciones TI" onclick="location.href='dashboard.html'">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <circle cx="2" cy="2" r="1.5"/>
+            <circle cx="8" cy="2" r="1.5"/>
+            <circle cx="14" cy="2" r="1.5"/>
+            <circle cx="2" cy="8" r="1.5"/>
+            <circle cx="8" cy="8" r="1.5"/>
+            <circle cx="14" cy="8" r="1.5"/>
+            <circle cx="2" cy="14" r="1.5"/>
+            <circle cx="8" cy="14" r="1.5"/>
+            <circle cx="14" cy="14" r="1.5"/>
+          </svg>
+        </button>
+        <div class="m365-suite-brand">
+          <img src="/AVANTI%20LOGO%20(1).jpeg" alt="Logo Agrícola Avanti" class="m365-suite-logo">
+          <div>
+            <h1 class="m365-suite-title">Centro de Administración de TI</h1>
+            <p class="m365-suite-subtitle">Agrícola Avanti S.A.C. · Portal de Actas e Inventario</p>
+          </div>
         </div>
       </div>
-      <div class="flex w-full md:w-auto gap-2.5 shrink-0 items-center flex-wrap">
+      <div class="m365-suite-right">
         <button id="themeToggle" class="btn-fluent-icon" type="button" aria-label="Cambiar Tema" title="Cambiar Tema">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
         </button>
-        <button id="btn-export-excel" class="btn-primary" type="button">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          Exportar Excel
+        <div class="user-badge-pro" role="status" aria-label="Estado del usuario">
+          <div class="avatar-circle" aria-hidden="true">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+            <span class="status-dot"></span>
+          </div>
+          <div class="user-info">
+            <span class="user-role">Soporte TI</span>
+            <span class="user-status">En línea</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- M365 BREADCRUMB Y TITULO DE PAGINA -->
+    <div class="m365-page-header">
+      <nav class="m365-breadcrumb" aria-label="Ruta de navegación">
+        <a href="dashboard.html" class="m365-breadcrumb-item">Inicio</a>
+        <span class="m365-breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="m365-breadcrumb-item">Dispositivos y Activos</span>
+        <span class="m365-breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="m365-breadcrumb-current" aria-current="page">Inventario General</span>
+      </nav>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="m365-page-title">Inventario General de Activos TI</h2>
+          <p class="m365-page-subtitle">Supervisión integral de endpoints, periféricos, telecomunicaciones y actas digitales de entrega.</p>
+        </div>
+        <span class="m365-status-chip">
+          <span class="status-pulse-dot" aria-hidden="true"></span>
+          Base de Datos Sincronizada
+        </span>
+      </div>
+    </div>
+
+    <!-- M365 COMMAND BAR -->
+    <div class="m365-command-bar" role="toolbar" aria-label="Comandos de inventario">
+      <div class="m365-command-group">
+        <button id="btn-export-excel" class="m365-command-item m365-command-primary" type="button" aria-label="Exportar datos a Excel">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Exportar a Excel</span>
         </button>
-        <button class="btn-outline" onclick="location.href='dashboard.html'" type="button">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-          Volver
+        <button id="btn-limpiar" class="m365-command-item" type="button" aria-label="Restablecer filtros">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span>Restablecer Filtros</span>
+        </button>
+      </div>
+      <div class="m365-command-group">
+        <button onclick="location.href='dashboard.html'" class="m365-command-item" type="button" aria-label="Volver al panel principal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          <span>Volver al Panel</span>
         </button>
       </div>
     </div>
 
-    <!-- TABS DE CATEGORÍA (FLUENT 2 PIVOT) -->
-    <div class="fluent-pivot-bar mb-5">
-        <button class="tab-btn active" data-categoria="">Todos</button>
-        <button class="tab-btn" data-categoria="PCs">PCs</button>
-        <button class="tab-btn" data-categoria="Teléfono Móvil">Teléfonos Móviles</button>
-        <button class="tab-btn" data-categoria="Periférico">Periféricos</button>
-        <button class="tab-btn" data-categoria="Línea Móvil">Líneas Móviles</button>
+    <!-- M365 PIVOT TABS (CATEGORÍAS) -->
+    <div class="m365-pivot-bar" role="tablist" aria-label="Categorías de equipamiento">
+      <button class="m365-pivot-tab active tab-btn" data-categoria="" role="tab" aria-selected="true">Todos</button>
+      <button class="m365-pivot-tab tab-btn" data-categoria="PCs" role="tab" aria-selected="false">PCs y Laptops</button>
+      <button class="m365-pivot-tab tab-btn" data-categoria="Teléfono Móvil" role="tab" aria-selected="false">Teléfonos Móviles</button>
+      <button class="m365-pivot-tab tab-btn" data-categoria="Periférico" role="tab" aria-selected="false">Periféricos & Monitores</button>
+      <button class="m365-pivot-tab tab-btn" data-categoria="Línea Móvil" role="tab" aria-selected="false">Líneas Móviles</button>
     </div>
 
     <!-- PANEL DE FILTROS -->
-    <div class="p-5 neo-panel">
+    <div class="p-4 neo-panel">
       <div class="flex flex-col lg:flex-row gap-4 items-end">
         <div class="flex-1 w-full">
           <label for="filtro-computador" class="block text-xs font-semibold uppercase tracking-wider mb-1.5 text-[var(--text-muted)]">Código o Serie</label>
@@ -570,12 +626,6 @@
             </div>
             <input type="text" id="filtro-usuario" aria-label="Filtrar por nombre de empleado asignado" class="w-full rounded pl-9 pr-3.5 py-2 text-xs neo-input">
           </div>
-        </div>
-
-        <div class="w-full lg:w-auto mt-2 lg:mt-0">
-          <button id="btn-limpiar" class="flex items-center justify-center w-full lg:w-auto btn-outline font-semibold py-2 px-5 rounded text-xs transition cursor-pointer" type="button" aria-label="Resetear todos los filtros">
-            Resetear Filtros
-          </button>
         </div>
       </div>
     </div>
@@ -655,12 +705,21 @@
           pagination: "local",
           paginationSize: 50,
           paginationSizeSelector: [25, 50, 100],
+          placeholder: `<div class='m365-empty-state'>
+            <svg class='m365-empty-icon' fill='none' stroke='currentColor' viewBox='0 0 24 24' aria-hidden='true'>
+              <path stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4'></path>
+            </svg>
+            <h3 class='m365-empty-title'>No se encontraron registros</h3>
+            <p class='m365-empty-desc'>No hay activos que coincidan con los criterios de búsqueda o categoría seleccionada.</p>
+          </div>`,
           paginationCounter: function(pageSize, currentRow, currentPage, totalRows, totalPages) {
-            return `<div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
-              <span>Página <strong class="text-white">${currentPage}</strong> de <strong class="text-white">${totalPages}</strong></span>
-              <span class="text-slate-600">·</span>
-              <span><strong class="text-emerald-400 font-semibold">${totalRows}</strong> registros</span>
+            const startRow = totalRows === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+            const endRow = Math.min(currentPage * pageSize, totalRows);
+            return `<div class="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" aria-hidden="true"></span>
+              <span>Mostrando <strong class="text-[var(--text-bright)] font-semibold">${startRow}-${endRow}</strong> de <strong class="text-[var(--text-bright)] font-semibold">${totalRows}</strong> registros</span>
+              <span class="text-slate-500">·</span>
+              <span>Página <strong class="text-[var(--text-bright)] font-semibold">${currentPage}</strong> de <strong class="text-[var(--text-bright)] font-semibold">${totalPages}</strong></span>
             </div>`;
           },
           locale: "es",
