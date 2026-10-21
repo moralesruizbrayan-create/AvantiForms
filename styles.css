@@ -590,7 +590,7 @@ body:not(.dark-theme) .user-status {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 136px;
+    min-height: 114px;
     box-sizing: border-box;
 }
 
