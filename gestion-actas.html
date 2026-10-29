@@ -32,7 +32,7 @@
       --input-border: #CBD5E1; 
       --lbl-bg: #F8FAFC; 
       --subhead-bg: #F1F5F9; 
-      --modal-overlay: rgba(15, 23, 42, 0.7); 
+      --modal-overlay: rgba(0, 0, 0, 0.6); 
       --watermark-opacity: 0.02; 
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
@@ -40,15 +40,15 @@
     
     html.dark-theme, body.dark-theme,
     html.dark-mode, body.dark-mode { 
-      --bg-color: #121314; 
-      --text-color: #F8FAFC; 
-      --text-secondary: #94A3B8; 
-      --card-bg: #1A1C1E; 
-      --border-color: #2B2E32; 
-      --input-bg: #1F2225; 
-      --input-border: #3D4248; 
-      --lbl-bg: #222528; 
-      --subhead-bg: #2B2E32; 
+      --bg-color: #101010; 
+      --text-color: #ffffff; 
+      --text-secondary: #a3a3a3; 
+      --card-bg: #181818; 
+      --border-color: #282828; 
+      --input-bg: #1c1c1c; 
+      --input-border: #383838; 
+      --lbl-bg: #202020; 
+      --subhead-bg: #262626; 
       --modal-overlay: rgba(0, 0, 0, 0.85); 
       --watermark-opacity: 0.01; 
     }
@@ -615,7 +615,7 @@
       </div>
 
       <div class="sec-devolucion" style="display:none;">
-        <div style="border-top: 2px dashed #94A3B8; margin: 5px 0;"></div>
+        <div style="border-top: 2px dashed var(--border-color); margin: 5px 0;"></div>
         <h3>5. Control de Devolución:</h3>
         <table class="form-table">
           <tr><td class="lbl">Fecha Devolución:</td><td><input type="date" data-field="fecha_devolucion"></td><td class="lbl">Destino Equipo:</td><td>

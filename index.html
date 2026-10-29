@@ -35,19 +35,19 @@
 
     html.dark-theme, body.dark-theme,
     html.dark-mode, body.dark-mode {
-      --canvas-bg: #121314;
-      --brand-panel-bg: #181b1e;
+      --canvas-bg: #101010;
+      --brand-panel-bg: #181818;
       --brand-panel-text: #ffffff;
-      --brand-panel-border: #282c30;
-      --card-bg: #1a1c1e;
-      --card-border: #2b2e32;
+      --brand-panel-border: #282828;
+      --card-bg: #181818;
+      --card-border: #282828;
       --card-title: #ffffff;
-      --input-bg: #222528;
-      --input-border: #3d4248;
+      --input-bg: #202020;
+      --input-border: #383838;
       --input-text: #ffffff;
-      --label-color: #94a3b8;
-      --text-muted: #64748b;
-      --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.4);
+      --label-color: #a3a3a3;
+      --text-muted: #737373;
+      --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 2px rgba(0, 0, 0, 0.6);
     }
 
     body { 
@@ -211,14 +211,14 @@
                    aria-label="Contraseña"
                    class="w-full pl-3.5 pr-10 py-2.5 rounded text-sm input-pro font-medium">
             <button type="button" onclick="togglePass('loginPassword', this)" aria-label="Mostrar u ocultar contraseña"
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-emerald-500 transition cursor-pointer">
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-emerald-500 transition cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
             </button>
           </div>
         </div>
 
         <div class="flex items-center pt-1">
-          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-[#202020] border-[#383838] cursor-pointer">
           <label for="rememberMe" class="ml-2 text-xs font-medium select-none cursor-pointer" style="color: var(--label-color);">Recordar sesión</label>
         </div>
 
@@ -261,7 +261,7 @@
                    aria-label="Contraseña nueva"
                    class="w-full pl-3.5 pr-10 py-2.5 rounded text-sm input-pro font-medium">
             <button type="button" onclick="togglePass('regPassword', this)" aria-label="Mostrar u ocultar contraseña"
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-emerald-500 transition cursor-pointer">
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-emerald-500 transition cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
             </button>
           </div>
